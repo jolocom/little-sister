@@ -47,10 +47,18 @@
     "yarn": "^1.5.1"
   },
   "scripts": {
-    "android": "haul start --platform android",
-    "ios": "haul start --platform ios",
-    "test": "node node_modules/jest/bin/jest.js",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/smartwallet/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
+    "bundle:android": "haul start --platform android",
+    "bundle:ios": "haul start --platform ios",
+    "install:android": "cd android && ./gradlew installDebug",
+    "install:ios": "echo 'Installing for ios not implemented yet.'",
+    "run:android": "adb shell am start -n com.jolocomwallet.debug/com.jolocomwallet.MainActivity",
+    "run:ios": "echo 'Running for ios not implemented yet.'",
+    "clean:node": "rm -rf node_modules",
+    "clean:android": "cd android && ./gradlew clean",
+    "clean:ios": "echo 'Cleaning for ios not implemented yet.'",
+    "clean:all": "yarn run clean:ios && yarn run clean:android && yarn run clean:node",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/smartwallet/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
+    "test": "node node_modules/jest/bin/jest.js"
   },
   "jest": {
     "setupFiles": [
