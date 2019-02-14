@@ -37,7 +37,7 @@ yarn bundle:android
 # Install and run app on a connected device or simulator in one go. Use a second shell for this.
 yarn install:android && yarn run:android
 ```
-In case you encounter connectivity errors to haul, restart it with the first command.
+In case you encounter connectivity errors to haul, restart it with the first command or start the app manually after haul.
 
 #### iOS
 
