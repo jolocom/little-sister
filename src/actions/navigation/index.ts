@@ -3,7 +3,7 @@ import {
   NavigationNavigateActionPayload
 } from "react-navigation"
 import { AnyAction, Dispatch } from "redux"
-import { interactionHandlerActions, paymentActions } from "src/actions/"
+import { interactionHandlerActions } from "src/actions/"
 import { setDid, toggleLoading } from "../account"
 import { BackendMiddleware } from "src/backendMiddleware"
 import { instantiateIdentityWallet } from "src/lib/util"
@@ -55,11 +55,6 @@ export const handleDeepLink = (url: string) => {
       } catch (err) {
         dispatch(showErrorScreen(new Error('Not able to process request from third party app')))
       }
-    }
-
-    // TODO: remove after demo case
-    if (routeName === 'demoPayment') {
-      dispatch(paymentActions.consumeDemoPaymentRequest(params))
     }
   }
 }

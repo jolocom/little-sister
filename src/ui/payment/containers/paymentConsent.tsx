@@ -37,7 +37,7 @@ const mapStateToProps = (state: any) => {
 
 const mapDispatchToProps = (dispatch: Function) => {
   return {
-    confirmPaymentRequest: () => dispatch(paymentActions.sendDemoPaymentResponse()),
+    confirmPaymentRequest: () => dispatch(paymentActions.sendPaymentResponse()),
     cancelPaymentRequest: () => dispatch(paymentActions.cancelPaymentRequest())
   }
 }

@@ -126,11 +126,11 @@ interface AttributeSummary {
 
 export const consumeCredentialRequest = (decodedCredentialRequest: JSONWebToken<CredentialRequest>) => {
   return async (dispatch: Dispatch<AnyAction>, getState: Function, backendMiddleware: BackendMiddleware) => {
-    const { storageLib } = backendMiddleware
+    const { storageLib, identityWallet } = backendMiddleware
     const { did } = getState().account.did.toJS()
 
     try {
-      // await identityWallet.validateJWT(decodedCredentialRequest)
+      await identityWallet.validateJWT(decodedCredentialRequest)
       const requestedTypes = decodedCredentialRequest.interactionToken.requestedCredentialTypes
       const attributesForType = await Promise.all<AttributeSummary>(requestedTypes.map(storageLib.get.attributesByType))
 
