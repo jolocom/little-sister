@@ -27,15 +27,17 @@ yarn install
 
 #### Android
 
-Please set up an Android development environment. 
+Please set up an Android development environment.
 
 Then:
 
 ```bash
-# Bundle app with haul and start development server.
+# 1. Bundle app with haul and start development server.
 yarn bundle:android
-# Install and run app on a connected device or simulator in one go. Use a second shell for this.
+# 2a. Install and run app on a connected device or simulator in one go. Use a second shell for this.
 yarn install:android && yarn run:android
+# 2b. As alternative use:
+react-native run-android
 ```
 In case you encounter connectivity errors to haul, restart it with the first command or start the app manually after haul.
 
