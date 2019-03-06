@@ -27,7 +27,8 @@ yarn install
 
 #### Android
 
-Please set up an Android development environment.
+Please set up an android development environment and install the required SDKs.
+Set the path to the SDK in ```android/local.properties``` and ```export``` it to the environment variable ```ANDROID_HOME```, if that was not already done.
 
 Then:
 
