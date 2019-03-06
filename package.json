@@ -51,7 +51,7 @@
     "bundle:ios": "haul start --platform ios",
     "install:android": "cd android && ./gradlew installDebug",
     "install:ios": "echo 'Installing for ios not implemented yet.'",
-    "run:android": "adb shell am start -n com.jolocomwallet.debug/com.jolocomwallet.MainActivity",
+    "run:android": "adb shell am start -n com.jolocomwallet/com.jolocomwallet.MainActivity",
     "run:ios": "echo 'Running for ios not implemented yet.'",
     "clean:node": "rm -rf node_modules",
     "clean:android": "cd android && ./gradlew clean",
