@@ -8312,6 +8312,11 @@ react-native-camera@^1.1.1:
     lodash "^4.17.4"
     prop-types "^15.5.10"
 
+react-native-clean-project@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-clean-project/-/react-native-clean-project-3.0.1.tgz#c4bd5fca7f108a8384c1efa7ac47d38888a17842"
+  integrity sha512-dYNyA/Ef05Emm1KVrtTRAMgwc9xkLm7c19zc9/WqzADnyvtxhbKBdOvceW7d4TkCyYFcBa69S20C9ZErbpa69w==
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"

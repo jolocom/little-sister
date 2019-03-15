@@ -34,6 +34,7 @@
     "mockdate": "^2.0.2",
     "prettier": "^1.15.3",
     "react-dom": "^16.3.0",
+    "react-native-clean-project": "^3.0.1",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.2.0",
     "redux-mock-store": "^1.5.1",
@@ -54,8 +55,8 @@
     "run:ios": "echo 'Running for ios not implemented yet.'",
     "clean:node": "rm -rf node_modules",
     "clean:android": "cd android && ./gradlew clean",
-    "clean:ios": "echo 'Cleaning for ios not implemented yet.'",
-    "clean:all": "yarn run clean:ios && yarn run clean:android && yarn run clean:node",
+    "clean:ios": "cd ios && xcodebuild clean",
+    "clean:all": "react-native-clean-project",
     "build:ios": "haul bundle --entry-file='index.js' --bundle-output='./ios/smartwallet/main.jsbundle' --minify=false --dev=false --platform='ios' --assets-dest='./ios'",
     "test": "node node_modules/jest/bin/jest.js"
   },
