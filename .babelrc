@@ -1,14 +1,14 @@
 {
-  "presets": ["react-native"],
-  "plugins": [
-    ["babel-plugin-inline-import", {
-      "extensions": [
-        ".xml",
-        ".svg"
-      ]
-    }],
-    ["react-native-platform-specific-extensions", {
-      "extensions": ["ts"]
-    }]
-  ]
+    "presets": ["react-native"],
+    "plugins": [
+        ["babel-plugin-inline-import", {
+            "extensions": [
+                ".xml",
+                ".svg"
+            ]
+        }],
+        ["react-native-platform-specific-extensions", {
+            "extensions": ["ts"]
+        }]
+    ]
 }
