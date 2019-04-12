@@ -25,9 +25,9 @@ export const consumeAuthenticationRequest = (
   getState: Function,
   backendMiddleware: BackendMiddleware,
 ) => {
-  const { identityWallet } = backendMiddleware
+  const { identityWallet, registry } = backendMiddleware
   try {
-    await identityWallet.validateJWT(authenticationRequest)
+    await identityWallet.validateJWT(authenticationRequest, undefined, registry)
     const authenticationDetails: StateAuthenticationRequestSummary = {
       requester: authenticationRequest.issuer,
       callbackURL: authenticationRequest.interactionToken.callbackURL,

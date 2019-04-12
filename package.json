@@ -114,6 +114,7 @@
     "ethereumjs-wallet": "^0.6.0",
     "i18n-js": "^3.1.0",
     "jolocom-lib": "^2.4.3",
+    "jolocom-lib-stax-connector": "^0.3.1",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "react": "16.2.0",
