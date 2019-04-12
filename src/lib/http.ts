@@ -1,8 +1,4 @@
-type HttpAgent = {
-  getRequest<T>(endpoint: string): Promise<T>
-  postRequest<T>(endpoint: string, headers: any, data: any): Promise<T>
-  headRequest(endpoint: string): Promise<{ status: number }>
-}
+import {HttpAgent} from 'jolocom-lib-stax-connector/js/types'
 
 enum HttpMethods {
   GET = 'GET',
@@ -19,7 +15,7 @@ export const httpAgent: HttpAgent = {
   headRequest(endpoint: string) {
     return fetch(endpoint, {
       method: HttpMethods.HEAD,
-    }).then(res => res.json())
+    })
   },
   postRequest<T>(endpoint: string, headers: any = {}, data: any): Promise<T> {
     return fetch(endpoint, {

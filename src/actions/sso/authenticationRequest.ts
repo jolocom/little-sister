@@ -24,9 +24,9 @@ export const consumeAuthenticationRequest = (
   getState: Function,
   backendMiddleware: BackendMiddleware,
 ) => {
-  const { identityWallet } = backendMiddleware
+  const { identityWallet, registry } = backendMiddleware
   try {
-    await identityWallet.validateJWT(authenticationRequest)
+    await identityWallet.validateJWT(authenticationRequest, undefined, registry)
     const authenticationDetails: StateAuthenticationRequestSummary = {
       requester: authenticationRequest.issuer,
       callbackURL: authenticationRequest.interactionToken.callbackURL,
@@ -40,7 +40,7 @@ export const consumeAuthenticationRequest = (
       }),
     )
   } catch (err) {
-    dispatch(showErrorScreen(new Error('Authentication request failed.')))
+    dispatch(showErrorScreen(err))
   }
 }
 

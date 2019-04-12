@@ -8,10 +8,17 @@ import { ConnectionOptions } from 'typeorm/browser'
 import { SoftwareKeyProvider } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
 import { IRegistry } from 'jolocom-lib/js/registries/types'
 import { createJolocomRegistry } from 'jolocom-lib/js/registries/jolocomRegistry'
-import { IpfsCustomConnector } from './lib/ipfs'
-import {jolocomContractsAdapter} from 'jolocom-lib/js/contracts/contractsAdapter'
-import {jolocomEthereumResolver} from 'jolocom-lib/js/ethereum/ethereum'
-import {jolocomContractsGateway} from 'jolocom-lib/js/contracts/contractsGateway'
+import {
+  getStaxConfiguredContractsConnector,
+  getStaxConfiguredContractsGateway,
+  getStaxConfiguredStorageConnector,
+} from 'jolocom-lib-stax-connector'
+import { ContractsAdapter } from 'jolocom-lib/js/contracts/contractsAdapter'
+import { httpAgent } from './lib/http'
+
+export const staxDeployment = ''
+const contractAddress = ''
+const staxChainId = 0
 
 export class BackendMiddleware {
   identityWallet!: IdentityWallet
@@ -30,15 +37,22 @@ export class BackendMiddleware {
     this.encryptionLib = new EncryptionLib()
     this.keyChainLib = new KeyChain()
     this.registry = createJolocomRegistry({
-      ipfsConnector: new IpfsCustomConnector({
-        host: 'ipfs.jolocom.com',
-        port: 443,
-        protocol: 'https',
-      }),
-      ethereumConnector: jolocomEthereumResolver,
+      ethereumConnector: getStaxConfiguredContractsConnector(
+        staxDeployment,
+        contractAddress,
+        httpAgent,
+      ),
+      ipfsConnector: getStaxConfiguredStorageConnector(
+        staxDeployment,
+        httpAgent,
+      ),
       contracts: {
-        adapter: jolocomContractsAdapter,
-        gateway: jolocomContractsGateway,
+        gateway: getStaxConfiguredContractsGateway(
+          staxDeployment,
+          staxChainId,
+          httpAgent,
+        ),
+        adapter: new ContractsAdapter(staxChainId),
       },
     })
   }
@@ -54,3 +68,4 @@ export class BackendMiddleware {
     })
   }
 }
+
