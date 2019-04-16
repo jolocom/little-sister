@@ -34,7 +34,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>4</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
 	<key>LSRequiresIPhoneOS</key>
@@ -64,8 +64,14 @@
 	<string>Required by a dependency, not used by us</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Camera is used only for scanning a QR code in order to use single sign-on solution.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Required by a dependency, not used by us</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Required by a dependency, not used by us</string>
+	<key>NSLocationUsageDescription</key>
+	<string>Required by a dependency, not used by us</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>Required by a dependency, not used by us</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Required by a dependency, not used by us</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
