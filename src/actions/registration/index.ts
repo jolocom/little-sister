@@ -91,8 +91,8 @@ export const createIdentity = (encodedEntropy: string) => async (
       }),
     )
 
-    const fuelingTxHash = await fuelAddress(staxDeployment + 'payment/fueling', ethAddr, httpAgent)
-    await awaitPaymentTxConfirmation(staxDeployment + 'payment', fuelingTxHash, httpAgent)
+    const fuelingTxHash = await fuelAddress(staxDeployment + '/payment/fueling', ethAddr, httpAgent)
+    await awaitPaymentTxConfirmation(staxDeployment + '/payment', fuelingTxHash, httpAgent)
 
     dispatch(setLoadingMsg(loading.loadingStages[2]))
     const identityWallet = await registry.create(userVault, password)
