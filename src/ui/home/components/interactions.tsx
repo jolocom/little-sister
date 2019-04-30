@@ -1,9 +1,11 @@
 import React from 'react'
-import { View, StyleSheet, Text, ScrollView } from 'react-native'
+import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-import I18n from 'src/locales/i18n'
-import { SectionClaimCard, ClaimCard } from 'src/ui/structure/claimCard'
+// import I18n from 'src/locales/i18n'
+import { SectionClaimCard } from 'src/ui/structure/claimCard'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+const Carousel = require('react-native-snap-carousel').default
+const Pagination = require('react-native-snap-carousel').Pagination
 
 interface Props {}
 
@@ -11,6 +13,7 @@ interface Document {
   details: {
     type: string
     id_number: string
+    [key: string]: string
   }
   valid_until: Date | undefined
   issuer: string
@@ -28,6 +31,16 @@ const demoDocuments: Document[] = [
       type: 'A-kaart',
     },
     valid_until: new Date(Date.parse('2020-04-29')),
+  },
+  {
+    issuer: 'did:jolo:zz9xx8dd7vv6',
+    details: {
+      id_number: 'D3M0002',
+      type: 'Digital ID Card',
+      gender: 'male',
+      birth_place: 'berlin',
+    },
+    valid_until: new Date(Date.parse('2024-05-14')),
   },
 ]
 
@@ -57,29 +70,43 @@ const debug = {
 const documentCardStyles = StyleSheet.create({
   container: {
     ...debug,
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingTop: 20,
     width: '100%',
   },
   card: {
     ...debug,
-    backgroundColor: 'aliceblue',
+    height: 176,
+    backgroundColor: JolocomTheme.primaryColorSand,
+    borderColor: 'rgb(233, 233, 233)',
     borderWidth: 1,
     borderRadius: 10,
     width: '100%',
-    padding: 15,
+    paddingVertical: 16,
   },
   documentType: {
+    paddingHorizontal: 15,
     fontSize: 28,
     fontFamily: JolocomTheme.contentFontFamily,
   },
   documentNumber: {
+    paddingHorizontal: 15,
     fontSize: 17,
     fontFamily: JolocomTheme.contentFontFamily,
   },
-  validity: {
+  validityContainer: {
     flexDirection: 'row',
     color: 'red',
-    marginTop: 20,
+    marginTop: 'auto',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    width: '100%',
+    height: 50,
+    paddingHorizontal: 15,
+  },
+  validityText: {
+    marginLeft: 5,
+    fontSize: 17,
   },
 })
 
@@ -92,10 +119,10 @@ export const DocumentCard: React.SFC<DocumentCardProps> = props => (
       <Text style={documentCardStyles.documentNumber}>
         {props.document.details.id_number}
       </Text>
-      <View style={documentCardStyles.validity}>
-        <Icon size={15} name="check-all" />
+      <View style={documentCardStyles.validityContainer}>
+        <Icon size={17} name="check-all" />
         {props.document.valid_until && (
-          <Text>
+          <Text style={documentCardStyles.validityText}>
             Valid until {props.document.valid_until.toLocaleDateString('en-GB')}
           </Text>
         )}
@@ -105,28 +132,56 @@ export const DocumentCard: React.SFC<DocumentCardProps> = props => (
 )
 
 export class InteractionsComponent extends React.Component<Props> {
+  state = {
+    activeDocument: 0,
+  }
+
+  renderDocument = ({ item }: { item: Document }) => {
+    return <DocumentCard document={item} />
+  }
+
   render() {
+    const viewWidth: number = Dimensions.get('window').width
+    const { activeDocument } = this.state
+
     return (
       <View style={styles.mainContainer}>
-        <DocumentCard document={demoDocuments[0]} />
+        <View>
+          <Carousel
+            data={demoDocuments}
+            renderItem={this.renderDocument}
+            lockScrollWhileSnapping
+            lockScrollTimeoutDuration={1000}
+            sliderWidth={viewWidth}
+            itemWidth={viewWidth}
+            layout={'default'}
+            onSnapToItem={(index: number) =>
+              this.setState({ activeDocument: index })
+            }
+          />
+          <Pagination
+            dotsLength={demoDocuments.length}
+            activeDotIndex={activeDocument}
+          />
+        </View>
         <ScrollView style={{ width: '100%' }}>
           <Text style={styles.sectionHeader}>Issued by</Text>
           {/* Make new component for this? */}
           <SectionClaimCard
             title=""
-            primaryText={demoDocuments[0].issuer}
+            primaryText={demoDocuments[activeDocument].issuer}
             secondaryText="https://www.theissuer.com"
             leftIcon={
               <Icon size={20} name="account-card-details" color="grey" />
             }
-            rightIcon={<Icon size={20} name="chevron-down" color="grey" />}
+            rightIcon={<Icon size={25} name="chevron-down" color="grey" />}
           />
           <Text style={styles.sectionHeader}>Details</Text>
           {/* Make titles dependent on something else, light grey instead of black */}
-          {Object.keys(demoDocuments[0].details).map(key => (
+          {Object.keys(demoDocuments[activeDocument].details).map(key => (
             <SectionClaimCard
               title={key}
-              primaryText={demoDocuments[0].details[key]}
+              primaryText={demoDocuments[activeDocument].details[key]}
               leftIcon={
                 <Icon size={20} name="checkbox-blank" color="lightgrey" />
               }
