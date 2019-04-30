@@ -146,7 +146,7 @@ export const SectionClaimCard: React.SFC<SectionClaimCardProps> = props => {
     },
     containerStyleWrapperDefault: {
       paddingTop: '5%',
-      marginTop: '1%',
+      marginTop: 1,
     },
   })
 
