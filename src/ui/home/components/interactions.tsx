@@ -1,5 +1,14 @@
 import React from 'react'
-import { View, StyleSheet, Text, ScrollView, Dimensions } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  ScrollView,
+  Dimensions,
+  Animated,
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+} from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 // import I18n from 'src/locales/i18n'
 import { SectionClaimCard } from 'src/ui/structure/claimCard'
@@ -131,13 +140,70 @@ export const DocumentCard: React.SFC<DocumentCardProps> = props => (
   </View>
 )
 
+const collapsedDocCardStyles = StyleSheet.create({
+  container: {
+    paddingTop: 20,
+    paddingHorizontal: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  card: {
+    backgroundColor: JolocomTheme.primaryColorWhite,
+    width: 101,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'grey',
+    height: 64,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    backgroundColor: JolocomTheme.primaryColorGrey,
+    width: 42,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+})
+
+export const CollapsedDocumentCard = props => (
+  <View style={collapsedDocCardStyles.container}>
+    <View style={collapsedDocCardStyles.card}>
+      <View style={collapsedDocCardStyles.icon}>
+        <Icon size={20} name="checkbox-multiple-blank" />
+      </View>
+    </View>
+  </View>
+)
+
 export class InteractionsComponent extends React.Component<Props> {
   state = {
     activeDocument: 0,
+    documentCollapsed: false,
   }
 
-  renderDocument = ({ item }: { item: Document }) => {
-    return <DocumentCard document={item} />
+  handleScroll = (
+    event: NativeSyntheticEvent<NativeScrollEvent> | undefined,
+  ) => {
+    let documentCollapsed = false
+    if (event.nativeEvent.contentOffset.y > 100) {
+      console.log('should collapse')
+      documentCollapsed = true
+    }
+    this.setState({ documentCollapsed })
+  }
+
+  renderItem = ({ item }: { item: Document }) => {
+    return this.state.documentCollapsed ? (
+      <CollapsedDocumentCard document={item} />
+    ) : (
+      <DocumentCard document={item} />
+    )
+  }
+
+  handleSnap = (index: number) => {
+    // reset position etc.
+    this.setState({ activeDocument: index })
   }
 
   render() {
@@ -149,14 +215,14 @@ export class InteractionsComponent extends React.Component<Props> {
         <View>
           <Carousel
             data={demoDocuments}
-            renderItem={this.renderDocument}
+            renderItem={this.renderItem}
             lockScrollWhileSnapping
             lockScrollTimeoutDuration={1000}
             sliderWidth={viewWidth}
-            itemWidth={viewWidth}
+            itemWidth={viewWidth - 30}
             layout={'default'}
             onSnapToItem={(index: number) =>
-              this.setState({ activeDocument: index })
+              this.setState({ activeDocument: index, documentCollapsed: false })
             }
           />
           <Pagination
@@ -164,7 +230,7 @@ export class InteractionsComponent extends React.Component<Props> {
             activeDotIndex={activeDocument}
           />
         </View>
-        <ScrollView style={{ width: '100%' }}>
+        <ScrollView style={{ width: '100%' }} onScroll={this.handleScroll}>
           <Text style={styles.sectionHeader}>Issued by</Text>
           {/* Make new component for this? */}
           <SectionClaimCard
