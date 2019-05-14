@@ -5,13 +5,11 @@ import {
   Text,
   ScrollView,
   Dimensions,
-  Animated,
   NativeScrollEvent,
   NativeSyntheticEvent,
 } from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-// import I18n from 'src/locales/i18n'
-import { SectionClaimCard } from 'src/ui/structure/claimCard'
+import I18n from 'src/locales/i18n'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 const Carousel = require('react-native-snap-carousel').default
 const Pagination = require('react-native-snap-carousel').Pagination
@@ -52,24 +50,6 @@ const demoDocuments: Document[] = [
     valid_until: new Date(Date.parse('2024-05-14')),
   },
 ]
-
-const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-  },
-  sectionHeader: {
-    marginTop: 20,
-    height: 26,
-    fontSize: 17,
-    fontFamily: JolocomTheme.contentFontFamily,
-    color: 'grey',
-    paddingHorizontal: 16,
-  },
-  issuedByContainer: {
-    marginBottom: 0,
-    padding: 20,
-  },
-})
 
 const debug = {
   // borderColor: 'red',
@@ -119,7 +99,9 @@ const documentCardStyles = StyleSheet.create({
   },
 })
 
-export const DocumentCard: React.SFC<DocumentCardProps> = props => (
+export const DocumentCard: React.SFC<DocumentCardProps> = (
+  props,
+): JSX.Element => (
   <View style={documentCardStyles.container}>
     <View style={documentCardStyles.card}>
       <Text style={documentCardStyles.documentType}>
@@ -166,7 +148,7 @@ const collapsedDocCardStyles = StyleSheet.create({
   },
 })
 
-export const CollapsedDocumentCard = props => (
+export const CollapsedDocumentCard = (props): JSX.Element => (
   <View style={collapsedDocCardStyles.container}>
     <View style={collapsedDocCardStyles.card}>
       <View style={collapsedDocCardStyles.icon}>
@@ -176,24 +158,100 @@ export const CollapsedDocumentCard = props => (
   </View>
 )
 
+const issuerCardStyles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    backgroundColor: JolocomTheme.primaryColorWhite,
+    paddingVertical: 18,
+    paddingLeft: 15,
+    paddingRight: 30,
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    borderColor: '#ececec',
+  },
+  icon: {
+    width: 42,
+    height: 42,
+  },
+  textContainer: {
+    marginLeft: 16,
+  },
+  text: {
+    fontSize: 17,
+    color: JolocomTheme.primaryColorPurple,
+    fontFamily: JolocomTheme.contentFontFamily,
+  },
+})
+
+const IssuerCard = (props): JSX.Element => {
+  return (
+    <View style={issuerCardStyles.container}>
+      {/* TODO: Add support for icon */}
+      <View style={issuerCardStyles.textContainer}>
+        <Text
+          style={JolocomTheme.textStyles.light.textDisplayField}
+          numberOfLines={1}
+        >
+          {I18n.t('Name of issuer')}
+        </Text>
+        <Text style={issuerCardStyles.text} numberOfLines={1}>
+          {props.issuer}
+        </Text>
+      </View>
+    </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+  },
+  sectionHeader: {
+    marginTop: 20,
+    fontSize: 17,
+    fontFamily: JolocomTheme.contentFontFamily,
+    color: 'rgba(0,0,0,0.4)',
+    paddingHorizontal: 16,
+    marginBottom: 10,
+    paddingLeft: 16,
+  },
+  claimsList: {
+    borderTopWidth: 1,
+    borderTopColor: '#ececec',
+  },
+  claimCard: {
+    backgroundColor: JolocomTheme.primaryColorWhite,
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderColor: '#ececec',
+  },
+  claimCardTextContainer: {
+    paddingHorizontal: 30,
+  },
+  claimCardTitle: {
+    color: 'rgba(0, 0, 0, 0.4)',
+    fontSize: 17,
+    fontFamily: JolocomTheme.contentFontFamily,
+  },
+})
+
 export class InteractionsComponent extends React.Component<Props> {
-  state = {
+  public state = {
     activeDocument: 0,
     documentCollapsed: false,
   }
 
-  handleScroll = (
+  private handleScroll = (
     event: NativeSyntheticEvent<NativeScrollEvent> | undefined,
   ) => {
     let documentCollapsed = false
     if (event.nativeEvent.contentOffset.y > 100) {
-      console.log('should collapse')
       documentCollapsed = true
     }
     this.setState({ documentCollapsed })
   }
 
-  renderItem = ({ item }: { item: Document }) => {
+  private renderItem = ({ item }: { item: Document }) => {
     return this.state.documentCollapsed ? (
       <CollapsedDocumentCard document={item} />
     ) : (
@@ -201,12 +259,7 @@ export class InteractionsComponent extends React.Component<Props> {
     )
   }
 
-  handleSnap = (index: number) => {
-    // reset position etc.
-    this.setState({ activeDocument: index })
-  }
-
-  render() {
+  public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
     const { activeDocument } = this.state
 
@@ -232,26 +285,19 @@ export class InteractionsComponent extends React.Component<Props> {
         </View>
         <ScrollView style={{ width: '100%' }} onScroll={this.handleScroll}>
           <Text style={styles.sectionHeader}>Issued by</Text>
-          {/* Make new component for this? */}
-          <SectionClaimCard
-            title=""
-            primaryText={demoDocuments[activeDocument].issuer}
-            secondaryText="https://www.theissuer.com"
-            leftIcon={
-              <Icon size={20} name="account-card-details" color="grey" />
-            }
-            rightIcon={<Icon size={25} name="chevron-down" color="grey" />}
-          />
+          <IssuerCard issuer={demoDocuments[activeDocument].issuer} />
+
           <Text style={styles.sectionHeader}>Details</Text>
-          {/* Make titles dependent on something else, light grey instead of black */}
           {Object.keys(demoDocuments[activeDocument].details).map(key => (
-            <SectionClaimCard
-              title={key}
-              primaryText={demoDocuments[activeDocument].details[key]}
-              leftIcon={
-                <Icon size={20} name="checkbox-blank" color="lightgrey" />
-              }
-            />
+            <View key={key} style={styles.claimCard}>
+              <View style={styles.claimCardTextContainer}>
+                {/* TODO: Capitalize key? */}
+                <Text style={styles.claimCardTitle}>{key}</Text>
+                <Text style={JolocomTheme.textStyles.light.textDisplayField}>
+                  {demoDocuments[activeDocument].details[key]}
+                </Text>
+              </View>
+            </View>
           ))}
         </ScrollView>
       </View>
