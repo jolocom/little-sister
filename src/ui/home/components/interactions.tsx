@@ -245,7 +245,7 @@ export class InteractionsComponent extends React.Component<Props> {
     event: NativeSyntheticEvent<NativeScrollEvent> | undefined,
   ) => {
     let documentCollapsed = false
-    if (event.nativeEvent.contentOffset.y > 100) {
+    if (event && event.nativeEvent.contentOffset.y > 5) {
       documentCollapsed = true
     }
     this.setState({ documentCollapsed })
