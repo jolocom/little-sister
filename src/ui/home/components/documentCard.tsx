@@ -39,7 +39,6 @@ const styles = StyleSheet.create({
   },
   validityContainer: {
     flexDirection: 'row',
-    color: 'red',
     marginTop: 'auto',
     alignItems: 'center',
     backgroundColor: 'white',
