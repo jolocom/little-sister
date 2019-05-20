@@ -13,6 +13,7 @@ import {
   Document,
   DocumentCard,
 } from 'src/ui/home/components/documentCard'
+import { DocumentViewToggle } from 'src/ui/home/components/documentViewToggle'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import I18n from 'src/locales/i18n'
 const Carousel = require('react-native-snap-carousel').default
@@ -192,7 +193,7 @@ export class InteractionsComponent extends React.Component<Props> {
 
   private renderItem = ({ item }: { item: Document }) => {
     return this.state.documentCollapsed ? (
-      <CollapsedDocumentCard document={item} />
+      <CollapsedDocumentCard />
     ) : (
       <DocumentCard document={item} />
     )
@@ -204,6 +205,10 @@ export class InteractionsComponent extends React.Component<Props> {
 
     return (
       <View style={styles.mainContainer}>
+        <DocumentViewToggle
+          showingExpired={showingExpired}
+          handlePress={() => this.setState({ showingExpired: !showingExpired })}
+        />
         <View>
           <Carousel
             data={demoDocuments}
