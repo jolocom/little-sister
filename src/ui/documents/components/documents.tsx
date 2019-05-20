@@ -12,8 +12,8 @@ import {
   CollapsedDocumentCard,
   Document,
   DocumentCard,
-} from 'src/ui/home/components/documentCard'
-import { DocumentViewToggle } from 'src/ui/home/components/documentViewToggle'
+} from 'src/ui/documents/components/documentCard'
+import { DocumentViewToggle } from 'src/ui/documents/components/documentViewToggle'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import I18n from 'src/locales/i18n'
 import { ExpiredDocumentsOverview } from './expiredDocumentsOverview'
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export class InteractionsComponent extends React.Component<Props> {
+export class DocumentsComponent extends React.Component<Props> {
   public state = {
     activeDocument: 0,
     documentCollapsed: false,

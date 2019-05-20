@@ -1,6 +1,7 @@
 import { Platform } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
-import { Claims, Interactions, Records, ClaimDetails } from 'src/ui/home/'
+import { Claims, Records, ClaimDetails } from 'src/ui/home/'
+import { Documents } from 'src/ui/documents'
 import { Landing } from 'src/ui/landing/'
 import { PaymentConsent } from 'src/ui/payment'
 import { SeedPhrase, Loading, Entropy } from 'src/ui/registration/'
@@ -89,7 +90,7 @@ export const BottomNavRoutes = TabNavigator(
       }),
     },
     [routeList.Documents]: {
-      screen: Interactions,
+      screen: Documents,
       navigationOptions: () => ({
         ...commonNavigationOptions,
         headerTitle: I18n.t('Documents'),

@@ -1,5 +1,5 @@
 import React from 'react'
-import { InteractionsComponent } from 'src/ui/home/components/interactions'
+import { DocumentsComponent } from 'src/ui/documents/components/documents'
 import { connect } from 'react-redux'
 import { navigationActions, ssoActions } from 'src/actions'
 import { RootState } from 'src/reducers/'
@@ -15,11 +15,11 @@ interface Props extends ConnectProps {}
 
 interface State {}
 
-export class InteractionsContainer extends React.Component<Props, State> {
+export class DocumentsContainer extends React.Component<Props, State> {
   state = {}
 
   render() {
-    return <InteractionsComponent />
+    return <DocumentsComponent />
   }
 }
 
@@ -33,7 +33,7 @@ const mapDispatchToProps = (dispatch: Function) => ({
     ),
 })
 
-export const Interactions = connect(
+export const Documents = connect(
   mapStateToProps,
   mapDispatchToProps,
-)(InteractionsContainer)
+)(DocumentsContainer)
