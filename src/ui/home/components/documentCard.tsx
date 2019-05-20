@@ -18,11 +18,6 @@ interface DocumentCardProps {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    width: '100%',
-  },
   card: {
     height: 176,
     backgroundColor: JolocomTheme.primaryColorSand,
@@ -61,31 +56,23 @@ const styles = StyleSheet.create({
 export const DocumentCard: React.SFC<DocumentCardProps> = (
   props,
 ): JSX.Element => (
-  <View style={styles.container}>
-    <View style={styles.card}>
-      <Text style={styles.documentType}>{props.document.details.type}</Text>
-      <Text style={styles.documentNumber}>
-        {props.document.details.id_number}
-      </Text>
-      <View style={styles.validityContainer}>
-        <Icon size={17} name="check-all" />
-        {props.document.valid_until && (
-          <Text style={styles.validityText}>
-            Valid until {props.document.valid_until.toLocaleDateString('en-GB')}
-          </Text>
-        )}
-      </View>
+  <View style={styles.card}>
+    <Text style={styles.documentType}>{props.document.details.type}</Text>
+    <Text style={styles.documentNumber}>
+      {props.document.details.id_number}
+    </Text>
+    <View style={styles.validityContainer}>
+      <Icon size={17} name="check-all" />
+      {props.document.valid_until && (
+        <Text style={styles.validityText}>
+          Valid until {props.document.valid_until.toLocaleDateString('en-GB')}
+        </Text>
+      )}
     </View>
   </View>
 )
 
 const collapsedDocCardStyles = StyleSheet.create({
-  container: {
-    paddingTop: 20,
-    paddingHorizontal: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   card: {
     backgroundColor: JolocomTheme.primaryColorWhite,
     width: 101,
@@ -106,11 +93,9 @@ const collapsedDocCardStyles = StyleSheet.create({
 })
 
 export const CollapsedDocumentCard = (): JSX.Element => (
-  <View style={collapsedDocCardStyles.container}>
-    <View style={collapsedDocCardStyles.card}>
-      <View style={collapsedDocCardStyles.icon}>
-        <Icon size={20} name="checkbox-multiple-blank" />
-      </View>
+  <View style={collapsedDocCardStyles.card}>
+    <View style={collapsedDocCardStyles.icon}>
+      <Icon size={20} name="checkbox-multiple-blank" />
     </View>
   </View>
 )

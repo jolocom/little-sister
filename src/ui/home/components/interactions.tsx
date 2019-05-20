@@ -146,6 +146,11 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
   },
+  topContainer: {
+    paddingTop: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sectionHeader: {
     marginTop: 20,
     fontSize: 17,
@@ -192,13 +197,15 @@ export class InteractionsComponent extends React.Component<Props> {
     this.setState({ documentCollapsed })
   }
 
-  private renderItem = ({ item }: { item: Document }) => {
-    return this.state.documentCollapsed ? (
-      <CollapsedDocumentCard />
-    ) : (
-      <DocumentCard document={item} />
-    )
-  }
+  private renderItem = ({ item }: { item: Document }) => (
+    <View style={styles.topContainer}>
+      {this.state.documentCollapsed ? (
+        <CollapsedDocumentCard />
+      ) : (
+        <DocumentCard document={item} />
+      )}
+    </View>
+  )
 
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
