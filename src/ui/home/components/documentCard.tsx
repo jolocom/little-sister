@@ -20,7 +20,7 @@ interface DocumentCardProps {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: 15,
     width: '100%',
   },
   card: {

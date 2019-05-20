@@ -16,6 +16,7 @@ import {
 import { DocumentViewToggle } from 'src/ui/home/components/documentViewToggle'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import I18n from 'src/locales/i18n'
+import { ExpiredDocumentsOverview } from './expiredDocumentsOverview'
 const Carousel = require('react-native-snap-carousel').default
 const Pagination = require('react-native-snap-carousel').Pagination
 
@@ -209,41 +210,52 @@ export class InteractionsComponent extends React.Component<Props> {
           showingExpired={showingExpired}
           handlePress={() => this.setState({ showingExpired: !showingExpired })}
         />
-        <View>
-          <Carousel
-            data={demoDocuments}
-            renderItem={this.renderItem}
-            lockScrollWhileSnapping
-            lockScrollTimeoutDuration={1000}
-            sliderWidth={viewWidth}
-            itemWidth={viewWidth}
-            layout={'default'}
-            onSnapToItem={(index: number) =>
-              this.setState({ activeDocument: index, documentCollapsed: false })
-            }
-          />
-          <Pagination
-            dotsLength={demoDocuments.length}
-            activeDotIndex={activeDocument}
-          />
-        </View>
-        <ScrollView style={{ width: '100%' }} onScroll={this.handleScroll}>
-          <Text style={styles.sectionHeader}>Issued by</Text>
-          <IssuerCard issuer={demoDocuments[activeDocument].issuer} />
-
-          <Text style={styles.sectionHeader}>Details</Text>
-          {Object.keys(demoDocuments[activeDocument].details).map(key => (
-            <View key={key} style={styles.claimCard}>
-              <View style={styles.claimCardTextContainer}>
-                {/* TODO: Capitalize key? */}
-                <Text style={styles.claimCardTitle}>{key}</Text>
-                <Text style={JolocomTheme.textStyles.light.textDisplayField}>
-                  {demoDocuments[activeDocument].details[key]}
-                </Text>
-              </View>
+        {showingExpired ? (
+          <ExpiredDocumentsOverview documents={demoDocuments} />
+        ) : (
+          <React.Fragment>
+            <View>
+              <Carousel
+                data={demoDocuments}
+                renderItem={this.renderItem}
+                lockScrollWhileSnapping
+                lockScrollTimeoutDuration={1000}
+                sliderWidth={viewWidth}
+                itemWidth={viewWidth}
+                layout={'default'}
+                onSnapToItem={(index: number) =>
+                  this.setState({
+                    activeDocument: index,
+                    documentCollapsed: false,
+                  })
+                }
+              />
+              <Pagination
+                dotsLength={demoDocuments.length}
+                activeDotIndex={activeDocument}
+              />
             </View>
-          ))}
-        </ScrollView>
+            <ScrollView style={{ width: '100%' }} onScroll={this.handleScroll}>
+              <Text style={styles.sectionHeader}>Issued by</Text>
+              <IssuerCard issuer={demoDocuments[activeDocument].issuer} />
+
+              <Text style={styles.sectionHeader}>Details</Text>
+              {Object.keys(demoDocuments[activeDocument].details).map(key => (
+                <View key={key} style={styles.claimCard}>
+                  <View style={styles.claimCardTextContainer}>
+                    {/* TODO: Capitalize key? */}
+                    <Text style={styles.claimCardTitle}>{key}</Text>
+                    <Text
+                      style={JolocomTheme.textStyles.light.textDisplayField}
+                    >
+                      {demoDocuments[activeDocument].details[key]}
+                    </Text>
+                  </View>
+                </View>
+              ))}
+            </ScrollView>
+          </React.Fragment>
+        )}
       </View>
     )
   }
