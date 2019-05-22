@@ -3,7 +3,6 @@ import {
   View,
   StyleSheet,
   Text,
-  ScrollView,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -17,6 +16,7 @@ import { DocumentViewToggle } from 'src/ui/documents/components/documentViewTogg
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import I18n from 'src/locales/i18n'
 import { ExpiredDocumentsOverview } from './expiredDocumentsOverview'
+import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
 const Pagination = require('react-native-snap-carousel').Pagination
 
@@ -123,7 +123,7 @@ const issuerCardStyles = StyleSheet.create({
   },
 })
 
-const IssuerCard = (props): JSX.Element => {
+export const IssuerCard = ({ issuer }: { issuer: string }): JSX.Element => {
   return (
     <View style={issuerCardStyles.container}>
       {/* TODO: Add support for icon */}
@@ -135,7 +135,7 @@ const IssuerCard = (props): JSX.Element => {
           {I18n.t('Name of issuer')}
         </Text>
         <Text style={issuerCardStyles.text} numberOfLines={1}>
-          {props.issuer}
+          {issuer}
         </Text>
       </View>
     </View>
@@ -242,25 +242,10 @@ export class DocumentsComponent extends React.Component<Props> {
                 activeDotIndex={activeDocument}
               />
             </View>
-            <ScrollView style={{ width: '100%' }} onScroll={this.handleScroll}>
-              <Text style={styles.sectionHeader}>Issued by</Text>
-              <IssuerCard issuer={demoDocuments[activeDocument].issuer} />
-
-              <Text style={styles.sectionHeader}>Details</Text>
-              {Object.keys(demoDocuments[activeDocument].details).map(key => (
-                <View key={key} style={styles.claimCard}>
-                  <View style={styles.claimCardTextContainer}>
-                    {/* TODO: Capitalize key? */}
-                    <Text style={styles.claimCardTitle}>{key}</Text>
-                    <Text
-                      style={JolocomTheme.textStyles.light.textDisplayField}
-                    >
-                      {demoDocuments[activeDocument].details[key]}
-                    </Text>
-                  </View>
-                </View>
-              ))}
-            </ScrollView>
+            <DocumentDetails
+              document={demoDocuments[activeDocument]}
+              onScroll={this.handleScroll}
+            />
           </React.Fragment>
         )}
       </View>
