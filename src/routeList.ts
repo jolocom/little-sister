@@ -20,4 +20,5 @@ export enum routeList {
   ClaimDetails = 'ClaimDetails',
 
   Exception = 'Exception',
+  ExpiredDetails = 'ExpiredDetails',
 }

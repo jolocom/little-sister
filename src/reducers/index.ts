@@ -16,7 +16,7 @@ export const rootReducer = combineReducers({
   registration: registrationReducer,
   navigation: navigationReducer,
   sso: ssoReducer,
-  document: documentsReducer,
+  documents: documentsReducer,
 })
 
 export interface RootState {

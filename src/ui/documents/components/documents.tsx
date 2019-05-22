@@ -15,12 +15,15 @@ import {
 import { DocumentViewToggle } from 'src/ui/documents/components/documentViewToggle'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import I18n from 'src/locales/i18n'
-import { ExpiredDocumentsOverview } from './expiredDocumentsOverview'
+import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
 const Pagination = require('react-native-snap-carousel').Pagination
 
-interface Props {}
+interface Props {
+  // selectedExpiredDocument: Document | {}
+  openExpiredDetails: (document: Document) => void
+}
 
 const demoDocuments: Document[] = [
   // {
@@ -210,6 +213,12 @@ export class DocumentsComponent extends React.Component<Props> {
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
     const { activeDocument, showingExpired } = this.state
+    const {
+      // selectedExpiredDocument,
+      // setExpiredDocument,
+      // clearExpiredDocument,
+      openExpiredDetails,
+    } = this.props
 
     return (
       <View style={styles.mainContainer}>
@@ -218,7 +227,10 @@ export class DocumentsComponent extends React.Component<Props> {
           handlePress={() => this.setState({ showingExpired: !showingExpired })}
         />
         {showingExpired ? (
-          <ExpiredDocumentsOverview documents={demoDocuments} />
+          <ExpiredDocumentsOverview
+            documents={demoDocuments}
+            openExpiredDetails={openExpiredDetails}
+          />
         ) : (
           <React.Fragment>
             <View>
