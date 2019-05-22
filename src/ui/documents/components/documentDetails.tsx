@@ -7,7 +7,7 @@ import {
   NativeSyntheticEvent,
   NativeScrollEvent,
 } from 'react-native'
-import { IssuerCard } from './documents'
+import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { Document } from './documentCard'
 

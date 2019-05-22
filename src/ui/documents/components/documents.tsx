@@ -2,7 +2,6 @@ import React from 'react'
 import {
   View,
   StyleSheet,
-  Text,
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
@@ -13,136 +12,15 @@ import {
   DocumentCard,
 } from 'src/ui/documents/components/documentCard'
 import { DocumentViewToggle } from 'src/ui/documents/components/documentViewToggle'
-import { JolocomTheme } from 'src/styles/jolocom-theme'
-import I18n from 'src/locales/i18n'
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
 const Pagination = require('react-native-snap-carousel').Pagination
+import { demoDocuments } from '../TEST'
 
 interface Props {
   // selectedExpiredDocument: Document | {}
   openExpiredDetails: (document: Document) => void
-}
-
-const demoDocuments: Document[] = [
-  // {
-  //   issuer: 'did:jolo:aa1bb2cc3dd4',
-  //   details: {
-  //     id_number: 'T3ST0001',
-  //     type: 'A-kaart',
-  //   },
-  //   valid_until: new Date(Date.parse('2020-04-29')),
-  // },
-  // {
-  //   issuer: 'did:jolo:aa1bb2cc3dd4',
-  //   details: {
-  //     id_number: 'T3ST0001',
-  //     type: 'A-kaart',
-  //   },
-  //   valid_until: new Date(Date.parse('2020-04-29')),
-  // },
-  // {
-  //   issuer: 'did:jolo:aa1bb2cc3dd4',
-  //   details: {
-  //     id_number: 'T3ST0001',
-  //     type: 'A-kaart',
-  //   },
-  //   valid_until: new Date(Date.parse('2020-04-29')),
-  // },
-  // {
-  //   issuer: 'did:jolo:aa1bb2cc3dd4',
-  //   details: {
-  //     id_number: 'T3ST0001',
-  //     type: 'A-kaart',
-  //   },
-  //   valid_until: new Date(Date.parse('2020-04-29')),
-  // },
-  // {
-  //   issuer: 'did:jolo:aa1bb2cc3dd4',
-  //   details: {
-  //     id_number: 'T3ST0001',
-  //     type: 'A-kaart',
-  //   },
-  //   valid_until: new Date(Date.parse('2020-04-29')),
-  // },
-  {
-    issuer: 'did:jolo:aa1bb2cc3dd4',
-    details: {
-      id_number: 'T3ST0001',
-      type: 'A-kaart',
-    },
-    valid_until: new Date(Date.parse('2020-04-29')),
-  },
-  {
-    issuer: 'did:jolo:zz9xx8dd7vv6',
-    details: {
-      id_number: 'D3M0002',
-      type: 'Digital ID Card',
-      gender: 'male',
-      birth_place: 'berlin',
-    },
-    valid_until: new Date(Date.parse('2024-05-14')),
-  },
-  {
-    issuer: 'did:jolo:asdqw1321',
-    details: {
-      id_number: 'N0TR34L',
-      type: 'Digital Passport',
-      gender: 'male',
-      birth_place: 'berlin',
-    },
-    valid_until: new Date(Date.parse('2016-03-12')),
-  },
-]
-
-const debug = {
-  // borderColor: 'red',
-  // borderWidth: 1,
-}
-
-const issuerCardStyles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    backgroundColor: JolocomTheme.primaryColorWhite,
-    paddingVertical: 18,
-    paddingLeft: 15,
-    paddingRight: 30,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-    borderColor: '#ececec',
-  },
-  icon: {
-    width: 42,
-    height: 42,
-  },
-  textContainer: {
-    marginLeft: 16,
-  },
-  text: {
-    fontSize: 17,
-    color: JolocomTheme.primaryColorPurple,
-    fontFamily: JolocomTheme.contentFontFamily,
-  },
-})
-
-export const IssuerCard = ({ issuer }: { issuer: string }): JSX.Element => {
-  return (
-    <View style={issuerCardStyles.container}>
-      {/* TODO: Add support for icon */}
-      <View style={issuerCardStyles.textContainer}>
-        <Text
-          style={JolocomTheme.textStyles.light.textDisplayField}
-          numberOfLines={1}
-        >
-          {I18n.t('Name of issuer')}
-        </Text>
-        <Text style={issuerCardStyles.text} numberOfLines={1}>
-          {issuer}
-        </Text>
-      </View>
-    </View>
-  )
 }
 
 const styles = StyleSheet.create({
@@ -153,33 +31,6 @@ const styles = StyleSheet.create({
     paddingTop: 15,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  sectionHeader: {
-    marginTop: 20,
-    fontSize: 17,
-    fontFamily: JolocomTheme.contentFontFamily,
-    color: 'rgba(0,0,0,0.4)',
-    paddingHorizontal: 16,
-    marginBottom: 10,
-    paddingLeft: 16,
-  },
-  claimsList: {
-    borderTopWidth: 1,
-    borderTopColor: '#ececec',
-  },
-  claimCard: {
-    backgroundColor: JolocomTheme.primaryColorWhite,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderColor: '#ececec',
-  },
-  claimCardTextContainer: {
-    paddingHorizontal: 30,
-  },
-  claimCardTitle: {
-    color: 'rgba(0, 0, 0, 0.4)',
-    fontSize: 17,
-    fontFamily: JolocomTheme.contentFontFamily,
   },
 })
 
