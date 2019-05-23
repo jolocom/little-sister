@@ -10,17 +10,21 @@ export interface DocumentViewToggleProps {
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 10,
+    paddingHorizontal: 15,
+  },
+  bar: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 5,
     flexDirection: 'row',
     alignItems: 'baseline',
     justifyContent: 'center',
     borderRadius: 4,
   },
-  containerValid: {
+  barValid: {
     backgroundColor: 'rgba(233, 239, 221, 0.57)',
   },
-  containerExpired: {
+  barExpired: {
     backgroundColor: 'rgba(255, 222, 188, 0.25)',
   },
   icon: {
@@ -46,25 +50,26 @@ const styles = StyleSheet.create({
 
 export const DocumentViewToggle: React.SFC<DocumentViewToggleProps> = (
   props,
-): JSX.Element =>
-  props.showingValid ? (
-    <TouchableWithoutFeedback onPress={props.handlePress}>
-      <View style={[styles.container, styles.containerValid]}>
-        <Icon style={styles.icon} size={17} name="check-all" />
-        <Text style={styles.text}>
-          Showing valid.{' '}
-          <Text style={styles.underline}>Tap to show expired.</Text>
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  ) : (
-    <TouchableWithoutFeedback onPress={props.handlePress}>
-      <View style={[styles.container, styles.containerExpired]}>
-        <Icon style={styles.icon} size={17} name="alert-circle-outline" />
-        <Text style={styles.text}>
-          Showing expired.{' '}
-          <Text style={styles.underline}>Tap to show valid.</Text>
-        </Text>
-      </View>
-    </TouchableWithoutFeedback>
-  )
+): JSX.Element => (
+  <TouchableWithoutFeedback onPress={props.handlePress}>
+    <View style={styles.container}>
+      {props.showingValid ? (
+        <View style={[styles.bar, styles.barValid]}>
+          <Icon style={styles.icon} size={17} name="check-all" />
+          <Text style={styles.text}>
+            Showing valid.{' '}
+            <Text style={styles.underline}>Tap to show expired.</Text>
+          </Text>
+        </View>
+      ) : (
+        <View style={[styles.bar, styles.barExpired]}>
+          <Icon style={styles.icon} size={17} name="alert-circle-outline" />
+          <Text style={styles.text}>
+            Showing expired.{' '}
+            <Text style={styles.underline}>Tap to show valid.</Text>
+          </Text>
+        </View>
+      )}
+    </View>
+  </TouchableWithoutFeedback>
+)
