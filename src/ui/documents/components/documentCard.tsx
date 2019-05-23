@@ -1,16 +1,16 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, ImageBackground } from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Color } from 'csstype'
+import { DocumentValiditySummary } from './documentValidity'
 
 export interface Document {
   details: {
     type: string
-    id_number?: string
+    idNumber?: string
     [key: string]: any
   }
-  valid_until: Date | undefined
+  expiryDate: Date | undefined
   issuer: string
   background: {
     color?: Color
@@ -93,14 +93,11 @@ export const DocumentCard: React.SFC<DocumentCardProps> = (
     <View style={styles.cardContent}>
       <Text style={styles.documentType}>{props.document.details.type}</Text>
       <Text style={styles.documentNumber}>
-        {props.document.details.id_number}
+        {props.document.details.idNumber}
       </Text>
       <View style={styles.validityContainer}>
-        <Icon size={17} name="check-all" />
-        {props.document.valid_until && (
-          <Text style={styles.validityText}>
-            Valid until {props.document.valid_until.toLocaleDateString('en-GB')}
-          </Text>
+        {props.document.expiryDate && (
+          <DocumentValiditySummary expiryDate={props.document.expiryDate} />
         )}
         {props.document.icon ? (
           <Image source={{ uri: props.document.icon }} style={styles.icon} />
