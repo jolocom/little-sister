@@ -14,6 +14,7 @@ const initialState: DocumentsState = {
       id_number: '',
       type: '',
     },
+    background: {},
   },
 }
 

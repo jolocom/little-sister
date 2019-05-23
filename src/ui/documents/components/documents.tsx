@@ -54,7 +54,7 @@ export class DocumentsComponent extends React.Component<Props> {
   private renderItem = ({ item }: { item: Document }) => (
     <View style={styles.topContainer}>
       {this.state.documentCollapsed ? (
-        <CollapsedDocumentCard />
+        <CollapsedDocumentCard document={item} />
       ) : (
         <DocumentCard document={item} />
       )}
