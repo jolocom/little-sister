@@ -4,6 +4,9 @@ import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { Color } from 'csstype'
 import { DocumentValiditySummary } from './documentValidity'
 
+export const DOCUMENT_CARD_WIDTH = 276
+export const COLLAPSED_DOC_CARD_WIDTH = 101
+
 export interface Document {
   details: {
     type: string
@@ -32,7 +35,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgb(255, 222, 188)',
     borderWidth: 2,
     borderRadius: 10,
-    width: 276,
+    width: DOCUMENT_CARD_WIDTH,
     overflow: 'hidden',
   },
   cardBack: {
@@ -112,7 +115,7 @@ export const DocumentCard: React.SFC<DocumentCardProps> = (
 const collapsedDocCardStyles = StyleSheet.create({
   card: {
     backgroundColor: JolocomTheme.primaryColorWhite,
-    width: 101,
+    width: COLLAPSED_DOC_CARD_WIDTH,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: 'rgb(255, 222, 188)',

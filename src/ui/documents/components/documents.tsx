@@ -11,12 +11,13 @@ import {
   CollapsedDocumentCard,
   Document,
   DocumentCard,
+  DOCUMENT_CARD_WIDTH,
+  COLLAPSED_DOC_CARD_WIDTH,
 } from 'src/ui/documents/components/documentCard'
 import { DocumentViewToggle } from 'src/ui/documents/components/documentViewToggle'
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
-const Pagination = require('react-native-snap-carousel').Pagination
 import { demoDocuments } from '../TEST'
 
 interface Props {
@@ -28,7 +29,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   topContainer: {
-    paddingTop: 15,
+    paddingVertical: 15,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -51,19 +52,16 @@ export class DocumentsComponent extends React.Component<Props> {
     this.setState({ documentCollapsed })
   }
 
-  private renderItem = ({ item }: { item: Document }) => (
-    <View style={styles.topContainer}>
-      {this.state.documentCollapsed ? (
-        <CollapsedDocumentCard document={item} />
-      ) : (
-        <DocumentCard document={item} />
-      )}
-    </View>
-  )
+  private renderItem = ({ item }: { item: Document }) =>
+    this.state.documentCollapsed ? (
+      <CollapsedDocumentCard document={item} />
+    ) : (
+      <DocumentCard document={item} />
+    )
 
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
-    const { activeDocument, showingExpired } = this.state
+    const { activeDocument, showingExpired, documentCollapsed } = this.state
     const { openExpiredDetails } = this.props
 
     return (
@@ -79,14 +77,18 @@ export class DocumentsComponent extends React.Component<Props> {
           />
         ) : (
           <React.Fragment>
-            <View>
+            <View style={styles.topContainer}>
               <Carousel
                 data={demoDocuments}
                 renderItem={this.renderItem}
                 lockScrollWhileSnapping
                 lockScrollTimeoutDuration={1000}
                 sliderWidth={viewWidth}
-                itemWidth={viewWidth}
+                itemWidth={
+                  documentCollapsed
+                    ? COLLAPSED_DOC_CARD_WIDTH
+                    : DOCUMENT_CARD_WIDTH
+                }
                 layout={'default'}
                 onSnapToItem={(index: number) => {
                   this.setState({
@@ -94,10 +96,6 @@ export class DocumentsComponent extends React.Component<Props> {
                   })
                   this.ScrollViewRef.scrollTo({ x: 0, y: 0, animated: true })
                 }}
-              />
-              <Pagination
-                dotsLength={demoDocuments.length}
-                activeDotIndex={activeDocument}
               />
             </View>
             <ScrollView
