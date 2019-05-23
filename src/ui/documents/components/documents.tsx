@@ -1,18 +1,9 @@
 import React from 'react'
+import { View, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import {
-  View,
-  StyleSheet,
-  Dimensions,
-  NativeScrollEvent,
-  NativeSyntheticEvent,
-  ScrollView,
-} from 'react-native'
-import {
-  CollapsedDocumentCard,
   Document,
   DocumentCard,
   DOCUMENT_CARD_WIDTH,
-  COLLAPSED_DOC_CARD_WIDTH,
 } from 'src/ui/documents/components/documentCard'
 import { DocumentViewToggle } from 'src/ui/documents/components/documentViewToggle'
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
@@ -22,6 +13,11 @@ import { demoDocuments } from '../TEST'
 
 interface Props {
   openExpiredDetails: (document: Document) => void
+}
+
+interface State {
+  activeDocumentIndex: number
+  showingValid: boolean
 }
 
 const styles = StyleSheet.create({
@@ -35,71 +31,57 @@ const styles = StyleSheet.create({
   },
 })
 
-export class DocumentsComponent extends React.Component<Props> {
+export class DocumentsComponent extends React.Component<Props, State> {
   public state = {
-    activeDocument: 0,
-    documentCollapsed: false,
+    activeDocumentIndex: 0,
     showingValid: true,
   }
 
-  private handleScroll = (
-    event: NativeSyntheticEvent<NativeScrollEvent> | undefined,
-  ) => {
-    let documentCollapsed = false
-    if (event && event.nativeEvent.contentOffset.y > 5) {
-      documentCollapsed = true
-    }
-    this.setState({ documentCollapsed })
+  private handleTouch = () => {
+    this.setState((prevState: State) => ({
+      showingValid: !prevState.showingValid,
+      activeDocumentIndex: 0,
+    }))
   }
 
-  private renderItem = ({ item }: { item: Document }) =>
-    this.state.documentCollapsed ? (
-      <CollapsedDocumentCard document={item} />
-    ) : (
-      <DocumentCard document={item} />
-    )
+  private renderItem = ({ item }: { item: Document }) => (
+    <DocumentCard document={item} />
+  )
 
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
-    const { activeDocument, showingValid, documentCollapsed } = this.state
+    const { activeDocumentIndex, showingValid } = this.state
     const { openExpiredDetails } = this.props
 
     return (
       <View style={styles.mainContainer}>
         <DocumentViewToggle
           showingValid={showingValid}
-          handlePress={() => this.setState({ showingValid: !showingValid })}
+          onTouch={this.handleTouch}
         />
         {showingValid ? (
           <React.Fragment>
-            <View style={styles.topContainer}>
+            <ScrollView
+              scrollEventThrottle={16}
+              // to give a scroll animation upon changing card
+              ref={ref => (this.ScrollViewRef = ref)}
+            >
               <Carousel
                 data={demoDocuments}
                 renderItem={this.renderItem}
                 lockScrollWhileSnapping
                 lockScrollTimeoutDuration={1000}
                 sliderWidth={viewWidth}
-                itemWidth={
-                  documentCollapsed
-                    ? COLLAPSED_DOC_CARD_WIDTH
-                    : DOCUMENT_CARD_WIDTH
-                }
+                itemWidth={DOCUMENT_CARD_WIDTH}
                 layout={'default'}
                 onSnapToItem={(index: number) => {
                   this.setState({
-                    activeDocument: index,
+                    activeDocumentIndex: index,
                   })
                   this.ScrollViewRef.scrollTo({ x: 0, y: 0, animated: true })
                 }}
               />
-            </View>
-            <ScrollView
-              onScroll={this.handleScroll}
-              scrollEventThrottle={16}
-              // to give a scroll animation upon changing card
-              ref={ref => (this.ScrollViewRef = ref)}
-            >
-              <DocumentDetails document={demoDocuments[activeDocument]} />
+              <DocumentDetails document={demoDocuments[activeDocumentIndex]} />
             </ScrollView>
           </React.Fragment>
         ) : (

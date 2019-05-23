@@ -9,6 +9,9 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    paddingBottom: 50,
+  },
   sectionHeader: {
     marginTop: 20,
     fontSize: 17,
@@ -37,7 +40,7 @@ const styles = StyleSheet.create({
 export const DocumentDetails: React.SFC<Props> = ({
   document,
 }): JSX.Element => (
-  <React.Fragment>
+  <View style={styles.container}>
     <Text style={styles.sectionHeader}>Issued by</Text>
     <IssuerCard issuer={document.issuer} />
 
@@ -53,5 +56,5 @@ export const DocumentDetails: React.SFC<Props> = ({
         </View>
       </View>
     ))}
-  </React.Fragment>
+  </View>
 )

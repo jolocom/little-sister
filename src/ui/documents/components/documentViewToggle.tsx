@@ -5,12 +5,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export interface DocumentViewToggleProps {
   showingValid: boolean
-  handlePress: () => void
+  onTouch: () => void
 }
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 10,
+    paddingVertical: 10,
     paddingHorizontal: 15,
   },
   bar: {
@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
 export const DocumentViewToggle: React.SFC<DocumentViewToggleProps> = (
   props,
 ): JSX.Element => (
-  <TouchableWithoutFeedback onPress={props.handlePress}>
+  <TouchableWithoutFeedback onPress={props.onTouch}>
     <View style={styles.container}>
       {props.showingValid ? (
         <View style={[styles.bar, styles.barValid]}>
