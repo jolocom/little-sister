@@ -72,7 +72,6 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     width: 42,
     height: 42,
-    backgroundColor: 'rgb(236, 236, 236)',
   },
 })
 

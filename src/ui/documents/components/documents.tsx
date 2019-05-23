@@ -5,6 +5,7 @@ import {
   Dimensions,
   NativeScrollEvent,
   NativeSyntheticEvent,
+  ScrollView,
 } from 'react-native'
 import {
   CollapsedDocumentCard,
@@ -19,7 +20,6 @@ const Pagination = require('react-native-snap-carousel').Pagination
 import { demoDocuments } from '../TEST'
 
 interface Props {
-  // selectedExpiredDocument: Document | {}
   openExpiredDetails: (document: Document) => void
 }
 
@@ -64,12 +64,7 @@ export class DocumentsComponent extends React.Component<Props> {
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
     const { activeDocument, showingExpired } = this.state
-    const {
-      // selectedExpiredDocument,
-      // setExpiredDocument,
-      // clearExpiredDocument,
-      openExpiredDetails,
-    } = this.props
+    const { openExpiredDetails } = this.props
 
     return (
       <View style={styles.mainContainer}>
@@ -93,22 +88,26 @@ export class DocumentsComponent extends React.Component<Props> {
                 sliderWidth={viewWidth}
                 itemWidth={viewWidth}
                 layout={'default'}
-                onSnapToItem={(index: number) =>
+                onSnapToItem={(index: number) => {
                   this.setState({
                     activeDocument: index,
-                    documentCollapsed: false,
                   })
-                }
+                  this.ScrollViewRef.scrollTo({ x: 0, y: 0, animated: true })
+                }}
               />
               <Pagination
                 dotsLength={demoDocuments.length}
                 activeDotIndex={activeDocument}
               />
             </View>
-            <DocumentDetails
-              document={demoDocuments[activeDocument]}
+            <ScrollView
               onScroll={this.handleScroll}
-            />
+              scrollEventThrottle={16}
+              // to give a scroll animation upon changing card
+              ref={ref => (this.ScrollViewRef = ref)}
+            >
+              <DocumentDetails document={demoDocuments[activeDocument]} />
+            </ScrollView>
           </React.Fragment>
         )}
       </View>

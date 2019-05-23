@@ -1,21 +1,11 @@
 import React from 'react'
-import {
-  ScrollView,
-  View,
-  Text,
-  StyleSheet,
-  NativeSyntheticEvent,
-  NativeScrollEvent,
-} from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { Document } from './documentCard'
 
 interface Props {
   document: Document
-  onScroll?: (
-    event?: NativeSyntheticEvent<NativeScrollEvent> | undefined,
-  ) => void | undefined
 }
 
 const styles = StyleSheet.create({
@@ -46,9 +36,8 @@ const styles = StyleSheet.create({
 
 export const DocumentDetails: React.SFC<Props> = ({
   document,
-  onScroll,
 }): JSX.Element => (
-  <ScrollView onScroll={onScroll} scrollEventThrottle={16}>
+  <React.Fragment>
     <Text style={styles.sectionHeader}>Issued by</Text>
     <IssuerCard issuer={document.issuer} />
 
@@ -64,5 +53,5 @@ export const DocumentDetails: React.SFC<Props> = ({
         </View>
       </View>
     ))}
-  </ScrollView>
+  </React.Fragment>
 )

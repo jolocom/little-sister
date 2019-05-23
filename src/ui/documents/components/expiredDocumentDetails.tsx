@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { View, StyleSheet, ScrollView } from 'react-native'
 import { DocumentCard, Document } from './documentCard'
 import { DocumentDetails } from './documentDetails'
 
@@ -25,6 +25,8 @@ export const ExpiredDocumentsDetailsComponent: React.SFC<Props> = ({
     <View style={styles.documentCardContainer}>
       <DocumentCard document={document} />
     </View>
-    <DocumentDetails document={document} />
+    <ScrollView>
+      <DocumentDetails document={document} />
+    </ScrollView>
   </View>
 )
