@@ -1,10 +1,10 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, TouchableWithoutFeedback } from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 export interface DocumentViewToggleProps {
-  showingExpired: boolean
+  showingValid: boolean
   handlePress: () => void
 }
 
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   containerExpired: {
     backgroundColor: 'rgba(255, 222, 188, 0.25)',
   },
-  iconValid: {
+  icon: {
     color: 'rgba(5, 5, 13, 0.48)',
     marginRight: 8,
   },
@@ -46,33 +46,25 @@ const styles = StyleSheet.create({
 
 export const DocumentViewToggle: React.SFC<DocumentViewToggleProps> = (
   props,
-): JSX.Element => {
-  if (!props.showingExpired) {
-    return (
-      <View
-        style={[styles.container, styles.containerValid]}
-        onTouchEnd={props.handlePress}
-      >
-        <Icon style={styles.iconValid} size={17} name="check-all" />
+): JSX.Element =>
+  props.showingValid ? (
+    <TouchableWithoutFeedback onPress={props.handlePress}>
+      <View style={[styles.container, styles.containerValid]}>
+        <Icon style={styles.icon} size={17} name="check-all" />
         <Text style={styles.text}>
           Showing valid.{' '}
           <Text style={styles.underline}>Tap to show expired.</Text>
         </Text>
       </View>
-    )
-  } else {
-    return (
-      <View
-        style={[styles.container, styles.containerExpired]}
-        onTouchEnd={props.handlePress}
-      >
-        {/* <Text style={styles.iconExpired}>!!</Text> */}
-        <Icon style={styles.iconValid} size={17} name="alert-circle-outline" />
+    </TouchableWithoutFeedback>
+  ) : (
+    <TouchableWithoutFeedback onPress={props.handlePress}>
+      <View style={[styles.container, styles.containerExpired]}>
+        <Icon style={styles.icon} size={17} name="alert-circle-outline" />
         <Text style={styles.text}>
           Showing expired.{' '}
           <Text style={styles.underline}>Tap to show valid.</Text>
         </Text>
       </View>
-    )
-  }
-}
+    </TouchableWithoutFeedback>
+  )

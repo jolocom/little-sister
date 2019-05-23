@@ -39,7 +39,7 @@ export class DocumentsComponent extends React.Component<Props> {
   public state = {
     activeDocument: 0,
     documentCollapsed: false,
-    showingExpired: false,
+    showingValid: true,
   }
 
   private handleScroll = (
@@ -61,21 +61,16 @@ export class DocumentsComponent extends React.Component<Props> {
 
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
-    const { activeDocument, showingExpired, documentCollapsed } = this.state
+    const { activeDocument, showingValid, documentCollapsed } = this.state
     const { openExpiredDetails } = this.props
 
     return (
       <View style={styles.mainContainer}>
         <DocumentViewToggle
-          showingExpired={showingExpired}
-          handlePress={() => this.setState({ showingExpired: !showingExpired })}
+          showingValid={showingValid}
+          handlePress={() => this.setState({ showingValid: !showingValid })}
         />
-        {showingExpired ? (
-          <ExpiredDocumentsOverview
-            documents={demoDocuments}
-            openExpiredDetails={openExpiredDetails}
-          />
-        ) : (
+        {showingValid ? (
           <React.Fragment>
             <View style={styles.topContainer}>
               <Carousel
@@ -107,6 +102,11 @@ export class DocumentsComponent extends React.Component<Props> {
               <DocumentDetails document={demoDocuments[activeDocument]} />
             </ScrollView>
           </React.Fragment>
+        ) : (
+          <ExpiredDocumentsOverview
+            documents={demoDocuments}
+            openExpiredDetails={openExpiredDetails}
+          />
         )}
       </View>
     )
