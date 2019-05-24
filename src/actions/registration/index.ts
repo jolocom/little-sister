@@ -1,10 +1,11 @@
 import { AnyAction, Dispatch } from 'redux'
-import { navigationActions, genericActions, accountActions } from 'src/actions/'
+import { navigationActions, genericActions } from 'src/actions/'
 import {BackendMiddleware, staxDeployment} from 'src/backendMiddleware'
 import { routeList } from 'src/routeList'
 import * as loading from 'src/actions/registration/loadingStages'
 import { setDid } from 'src/actions/account'
 import { JolocomLib } from 'jolocom-lib'
+import { publicKeyToAddress } from 'jolocom-lib/js/utils/helper'
 import { SoftwareKeyProvider } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
 import { awaitPaymentTxConfirmation, fuelAddress } from 'jolocom-lib-stax-connector/js/utils'
 import { httpAgent } from '../../lib/http'
@@ -67,17 +68,15 @@ export const createIdentity = (encodedEntropy: string) => async (
 
     dispatch(setLoadingMsg(loading.loadingStages[1]))
 
-    await JolocomLib.util.fuelKeyWithEther(
-      userVault.getPublicKey({
-        encryptionPass: password,
-        derivationPath: JolocomLib.KeyTypes.ethereumKey,
-      }),
-    )
+    const fuelingTxHash = await fuelAddress(staxDeployment + '/payment/fueling', publicKeyToAddress(userVault.getPublicKey({
+      encryptionPass: password,
+      derivationPath: JolocomLib.KeyTypes.ethereumKey
+    })), httpAgent)
 
-    const fuelingTxHash = await fuelAddress(staxDeployment + '/payment/fueling', ethAddr, httpAgent)
     await awaitPaymentTxConfirmation(staxDeployment + '/payment', fuelingTxHash, httpAgent)
 
     dispatch(setLoadingMsg(loading.loadingStages[2]))
+
     const identityWallet = await registry.create(userVault, password)
 
     const personaData = {

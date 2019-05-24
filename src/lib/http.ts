@@ -14,7 +14,7 @@ export const httpAgent: HttpAgent = {
   headRequest(endpoint: string) {
     return fetch(endpoint, {
       method: HttpMethods.HEAD,
-    }).then(res => res.json())
+    })
   },
   postRequest<T>(endpoint: string, headers: any = {}, data: any): Promise<T> {
     return fetch(endpoint, {
