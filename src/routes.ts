@@ -13,6 +13,7 @@ import { Settings } from 'src/ui/settings'
 import I18n from 'src/locales/i18n'
 import { QRScannerContainer } from 'src/ui/generic/qrcodeScanner'
 import { AuthenticationConsent } from 'src/ui/authentication'
+import { ExpiredDocumentsDetails } from './ui/documents/containers/expiredDocumentsDetails'
 import { routeList } from './routeList'
 
 import {
@@ -191,6 +192,10 @@ export const Routes = StackNavigator({
   },
   [routeList.ClaimDetails]: {
     screen: ClaimDetails,
+    navigationOptions: () => navOptScreenWCancel,
+  },
+  [routeList.ExpiredDetails]: {
+    screen: ExpiredDocumentsDetails,
     navigationOptions: () => navOptScreenWCancel,
   },
   [routeList.Exception]: { screen: Exception, navigationOptions },
