@@ -8,8 +8,9 @@ export interface DocumentsState {
 
 const initialState: DocumentsState = {
   selectedExpiredDocument: {
+    id: '',
     issuer: '',
-    expiryDate: undefined,
+    expires: undefined,
     details: {
       idNumber: '',
       type: '',

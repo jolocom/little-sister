@@ -13,8 +13,8 @@ export interface Document {
     documentNumber?: string
     [key: string]: any
   }
-  id?: string
-  expiryDate: Date | undefined
+  id: string
+  expires: Date | undefined
   issuer: string
   background?: {
     color?: Color
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 export const DocumentCard: React.SFC<DocumentCardProps> = ({
   document,
 }): JSX.Element => {
-  const { background, details, expiryDate, logo } = document
+  const { background, details, expires, logo } = document
   return (
     <View style={styles.card}>
       <ImageBackground
@@ -105,7 +105,7 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
         <Text style={styles.documentType}>{details.type}</Text>
         <Text style={styles.documentNumber}>{details.documentNumber}</Text>
         <View style={styles.validityContainer}>
-          {expiryDate && <DocumentValiditySummary expiryDate={expiryDate} />}
+          {expires && <DocumentValiditySummary expires={expires} />}
           {logo ? (
             <Image source={{ uri: logo.url }} style={styles.icon} />
           ) : (

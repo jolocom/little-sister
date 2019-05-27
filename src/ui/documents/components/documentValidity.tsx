@@ -6,7 +6,7 @@ import { JolocomTheme } from 'src/styles/jolocom-theme'
 const expiredIcon = require('src/resources/img/expired.png')
 
 interface Props {
-  expiryDate: Date
+  expires: Date
 }
 
 const styles = StyleSheet.create({
@@ -26,19 +26,19 @@ const styles = StyleSheet.create({
 export const DocumentValiditySummary: React.SFC<Props> = (
   props,
 ): JSX.Element => {
-  const isValid = compareDates(new Date(Date.now()), props.expiryDate) > 1
+  const isValid = compareDates(new Date(Date.now()), props.expires) > 1
   return isValid ? (
     <View style={styles.validityContainer}>
       <Icon size={17} name="check-all" />
       <Text style={styles.validityText}>
-        {`Valid until ${props.expiryDate.toLocaleDateString('en-gb')}`}
+        {`Valid until ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>
   ) : (
     <View style={styles.validityContainer}>
       <Image source={expiredIcon} style={{ width: 17, height: 17 }} />
       <Text style={styles.validityText}>
-        {`Expired on ${props.expiryDate.toLocaleDateString('en-gb')}`}
+        {`Expired on ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>
   )
