@@ -9,7 +9,8 @@ import { DocumentViewToggle } from 'src/ui/documents/components/documentViewTogg
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
-import { demoDocuments } from '../TEST'
+// import { demoDocuments } from '../TEST'
+import { JolocomTheme } from 'src/styles/jolocom-theme'
 
 interface Props {
   openExpiredDetails: (document: Document) => void
@@ -23,6 +24,7 @@ interface State {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
+    backgroundColor: JolocomTheme.primaryColorGrey,
   },
   topContainer: {
     paddingVertical: 15,
@@ -32,6 +34,8 @@ const styles = StyleSheet.create({
 })
 
 export class DocumentsComponent extends React.Component<Props, State> {
+  public ScrollViewRef: ScrollView | null = null
+
   public state = {
     activeDocumentIndex: 0,
     showingValid: true,
@@ -78,7 +82,9 @@ export class DocumentsComponent extends React.Component<Props, State> {
                   this.setState({
                     activeDocumentIndex: index,
                   })
-                  this.ScrollViewRef.scrollTo({ x: 0, y: 0, animated: true })
+                  if (this.ScrollViewRef) {
+                    this.ScrollViewRef.scrollTo({ x: 0, y: 0, animated: true })
+                  }
                 }}
               />
               <DocumentDetails document={demoDocuments[activeDocumentIndex]} />

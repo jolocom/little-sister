@@ -21,6 +21,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingLeft: 16,
   },
+  claimsContainer: {
+    borderTopWidth: 1,
+    borderColor: '#ececec',
+  },
   claimCard: {
     backgroundColor: JolocomTheme.primaryColorWhite,
     paddingVertical: 15,
@@ -45,16 +49,18 @@ export const DocumentDetails: React.SFC<Props> = ({
     <IssuerCard issuer={document.issuer} />
 
     <Text style={styles.sectionHeader}>Details</Text>
-    {Object.keys(document.details).map(key => (
-      <View key={key} style={styles.claimCard}>
-        <View style={styles.claimCardTextContainer}>
-          {/* TODO: Capitalize key? */}
-          <Text style={styles.claimCardTitle}>{key}</Text>
-          <Text style={JolocomTheme.textStyles.light.textDisplayField}>
-            {document.details[key]}
-          </Text>
+    <View style={styles.claimsContainer}>
+      {Object.keys(document.details).map(key => (
+        <View key={key} style={styles.claimCard}>
+          <View style={styles.claimCardTextContainer}>
+            {/* TODO: Capitalize key? */}
+            <Text style={styles.claimCardTitle}>{key}</Text>
+            <Text style={JolocomTheme.textStyles.light.textDisplayField}>
+              {document.details[key]}
+            </Text>
+          </View>
         </View>
-      </View>
-    ))}
+      ))}
+    </View>
   </View>
 )
