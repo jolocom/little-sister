@@ -196,7 +196,10 @@ export const Routes = StackNavigator({
   },
   [routeList.ExpiredDetails]: {
     screen: ExpiredDocumentsDetails,
-    navigationOptions: () => navOptScreenWCancel,
+    navigationOptions: () => ({
+      ...navOptScreenWCancel,
+      headerTitleStyle,
+    }),
   },
   [routeList.Exception]: { screen: Exception, navigationOptions },
 })
