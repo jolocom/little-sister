@@ -13,7 +13,6 @@ import { showErrorScreen } from 'src/actions/generic'
 import { getUiCredentialTypeByType } from 'src/lib/util'
 import { InteractionType } from 'jolocom-lib/js/interactionTokens/types'
 import { resetSelected } from '../account'
-import { CredentialOffer } from 'jolocom-lib/js/interactionTokens/credentialOffer'
 import { PaymentRequest } from 'jolocom-lib/js/interactionTokens/paymentRequest'
 import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
@@ -24,6 +23,8 @@ import { consumePaymentRequest } from './paymentRequest'
 import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { consumeAuthenticationRequest } from './authenticationRequest'
 import { AppError, ErrorCode } from 'src/lib/errors'
+import { CredentialOfferRequest } from 'jolocom-lib/js/interactionTokens/credentialOfferRequest'
+import { consumeCredentialOfferRequest } from './credentialOfferRequest'
 
 export const setCredentialRequest = (
   request: StateCredentialRequestSummary,
@@ -62,10 +63,10 @@ export const parseJWT = (encodedJwt: string) => async (
             CredentialRequest
           >),
         )
-      case InteractionType.CredentialOffer:
+      case InteractionType.CredentialOfferRequest:
         return dispatch(
           consumeCredentialOfferRequest(returnedDecodedJwt as JSONWebToken<
-            CredentialOffer
+            CredentialOfferRequest
           >),
         )
       case InteractionType.CredentialsReceive:
@@ -93,45 +94,6 @@ export const parseJWT = (encodedJwt: string) => async (
     dispatch(accountActions.toggleLoading(false))
     dispatch(setDeepLinkLoading(false))
     dispatch(showErrorScreen(new AppError(ErrorCode.ParseJWTFailed, err)))
-  }
-}
-
-export const consumeCredentialOfferRequest = (
-  credOfferRequest: JSONWebToken<CredentialOffer>,
-) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
-) => {
-  const { keyChainLib, identityWallet, registry } = backendMiddleware
-
-  try {
-    await identityWallet.validateJWT(credOfferRequest, undefined, registry)
-
-    const password = await keyChainLib.getPassword()
-    const credOfferResponse = await identityWallet.create.interactionTokens.response.offer(
-      {
-        callbackURL: credOfferRequest.interactionToken.callbackURL,
-        instant: credOfferRequest.interactionToken.instant,
-        requestedInput: {},
-      },
-      password,
-      credOfferRequest,
-    )
-
-    const res = await fetch(credOfferRequest.interactionToken.callbackURL, {
-      method: 'POST',
-      body: JSON.stringify({ token: credOfferResponse.encode() }),
-      headers: { 'Content-Type': 'application/json' },
-    }).then(body => body.json())
-
-    dispatch(parseJWT(res.token))
-  } catch (err) {
-    dispatch(accountActions.toggleLoading(false))
-    dispatch(setDeepLinkLoading(false))
-    dispatch(
-      showErrorScreen(new AppError(ErrorCode.CredentialOfferFailed, err)),
-    )
   }
 }
 

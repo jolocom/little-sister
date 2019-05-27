@@ -59,7 +59,7 @@ export const checkIdentityExists = () => async (
       pass: password,
     })
     // TODO: rework the seed param on lib, currently cleartext seed is being passed around. Bad.
-    const userVault = new JolocomLib.KeyProvider(
+    const userVault = JolocomLib.KeyProvider.fromSeed(
       Buffer.from(decryptedSeed, 'hex'),
       password,
     )
@@ -73,7 +73,11 @@ export const checkIdentityExists = () => async (
     if (err.message.indexOf('no such table') === 0) {
       return
     }
-    dispatch(genericActions.showErrorScreen(new AppError(ErrorCode.WalletInitFailed, err)))
+    dispatch(
+      genericActions.showErrorScreen(
+        new AppError(ErrorCode.WalletInitFailed, err),
+      ),
+    )
   }
 }
 
@@ -122,7 +126,11 @@ export const saveClaim = () => async (
       }),
     )
   } catch (err) {
-    dispatch(genericActions.showErrorScreen(new AppError(ErrorCode.SaveClaimFailed, err)))
+    dispatch(
+      genericActions.showErrorScreen(
+        new AppError(ErrorCode.SaveClaimFailed, err),
+      ),
+    )
   }
 }
 
@@ -144,7 +152,11 @@ export const saveExternalCredentials = () => async (
     await storageLib.store.verifiableCredential(externalCredentials[0])
     dispatch(cancelReceiving())
   } catch (err) {
-    dispatch(genericActions.showErrorScreen(new AppError(ErrorCode.SaveExternalCredentialFailed, err)))
+    dispatch(
+      genericActions.showErrorScreen(
+        new AppError(ErrorCode.SaveExternalCredentialFailed, err),
+      ),
+    )
   }
 }
 

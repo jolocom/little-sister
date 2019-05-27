@@ -5,7 +5,6 @@ import { routeList } from 'src/routeList'
 import * as loading from 'src/actions/registration/loadingStages'
 import { setDid } from 'src/actions/account'
 import { JolocomLib } from 'jolocom-lib'
-import { SoftwareKeyProvider } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
 const bip39 = require('bip39')
 import { generateSecureRandomBytes } from 'src/lib/util'
 import { AppError, ErrorCode } from 'src/lib/errors'
@@ -58,7 +57,7 @@ export const createIdentity = (encodedEntropy: string) => async (
     })
     const entropyData = { encryptedEntropy: encEntropy, timestamp: Date.now() }
     await storageLib.store.encryptedSeed(entropyData)
-    const userVault = new SoftwareKeyProvider(
+    const userVault = JolocomLib.KeyProvider.fromSeed(
       Buffer.from(encodedEntropy, 'hex'),
       password,
     )
