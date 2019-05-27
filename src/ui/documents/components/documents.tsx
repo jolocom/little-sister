@@ -9,7 +9,7 @@ import { DocumentViewToggle } from 'src/ui/documents/components/documentViewTogg
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
-// import { demoDocuments } from '../TEST'
+import { demoDocuments } from '../TEST'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 
 interface Props {

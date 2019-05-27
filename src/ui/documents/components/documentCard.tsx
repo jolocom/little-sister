@@ -10,18 +10,24 @@ export const COLLAPSED_DOC_CARD_WIDTH = 101
 export interface Document {
   details: {
     type: string
-    idNumber?: string
+    documentNumber?: string
     [key: string]: any
   }
+  id?: string
   expiryDate: Date | undefined
   issuer: string
-  background: {
+  background?: {
     color?: Color
     // should be a URL to the image
-    image?: string
+    url?: string
   }
   // should be a URL to the image
-  icon?: string
+  logo?: {
+    url: string
+  }
+  text?: {
+    color: string
+  }
 }
 
 interface DocumentCardProps {
@@ -78,39 +84,38 @@ const styles = StyleSheet.create({
   },
 })
 
-export const DocumentCard: React.SFC<DocumentCardProps> = (
-  props,
-): JSX.Element => (
-  <View style={styles.card}>
-    <ImageBackground
-      style={[
-        styles.cardBack,
-        {
-          backgroundColor: props.document.background.color || 'transparent',
-        },
-      ]}
-      source={{
-        uri: props.document.background.image,
-      }}
-    />
-    <View style={styles.cardContent}>
-      <Text style={styles.documentType}>{props.document.details.type}</Text>
-      <Text style={styles.documentNumber}>
-        {props.document.details.idNumber}
-      </Text>
-      <View style={styles.validityContainer}>
-        {props.document.expiryDate && (
-          <DocumentValiditySummary expiryDate={props.document.expiryDate} />
-        )}
-        {props.document.icon ? (
-          <Image source={{ uri: props.document.icon }} style={styles.icon} />
-        ) : (
-          <View style={[styles.icon, { backgroundColor: 'grey' }]} />
-        )}
+export const DocumentCard: React.SFC<DocumentCardProps> = ({
+  document,
+}): JSX.Element => {
+  const { background, details, expiryDate, logo } = document
+  return (
+    <View style={styles.card}>
+      <ImageBackground
+        style={[
+          styles.cardBack,
+          {
+            backgroundColor: (background && background.color) || 'transparent',
+          },
+        ]}
+        source={{
+          uri: background && background.url,
+        }}
+      />
+      <View style={styles.cardContent}>
+        <Text style={styles.documentType}>{details.type}</Text>
+        <Text style={styles.documentNumber}>{details.documentNumber}</Text>
+        <View style={styles.validityContainer}>
+          {expiryDate && <DocumentValiditySummary expiryDate={expiryDate} />}
+          {logo ? (
+            <Image source={{ uri: logo.url }} style={styles.icon} />
+          ) : (
+            <View style={[styles.icon, { backgroundColor: 'grey' }]} />
+          )}
+        </View>
       </View>
     </View>
-  </View>
-)
+  )
+}
 
 const collapsedDocCardStyles = StyleSheet.create({
   card: {
@@ -130,24 +135,22 @@ const collapsedDocCardStyles = StyleSheet.create({
   },
 })
 
-export const CollapsedDocumentCard = ({
+export const CollapsedDocumentCard: React.SFC<DocumentCardProps> = ({
   document,
-}: {
-  document: Document
-}): JSX.Element => (
-  <View
-    style={[
-      collapsedDocCardStyles.card,
-      { backgroundColor: document.background.color || 'white' },
-    ]}
-  >
-    {document.icon ? (
-      <Image
-        source={{ uri: document.icon }}
-        style={{ width: 42, height: 42 }}
-      />
-    ) : (
-      <View style={collapsedDocCardStyles.icon} />
-    )}
-  </View>
-)
+}): JSX.Element => {
+  const { background, logo } = document
+  return (
+    <View
+      style={[
+        collapsedDocCardStyles.card,
+        { backgroundColor: (background && background.color) || 'white' },
+      ]}
+    >
+      {logo ? (
+        <Image source={{ uri: logo.url }} style={{ width: 42, height: 42 }} />
+      ) : (
+        <View style={collapsedDocCardStyles.icon} />
+      )}
+    </View>
+  )
+}
