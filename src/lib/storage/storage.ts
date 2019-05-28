@@ -43,7 +43,7 @@ export class Storage {
     persona: this.storePersonaFromJSON.bind(this),
     encryptedSeed: this.storeEncryptedSeed.bind(this),
     credentialMetadata: (metadata: any) => this.createConnectionIfNeeded()
-    .then(() => storeCredentialMetadata(this.connection))
+    .then(() => storeCredentialMetadata(this.connection)(metadata))
   }
 
   public get = {
@@ -245,23 +245,25 @@ export type CredentialMetadataSummary = {
 }
 
 const storeCredentialMetadata = (connection: Connection) => (credentialMetadata: CredentialMetadataSummary) => {
-  const cacheEntry = plainToClass(CacheEntity, credentialMetadata)
+  const { issuer, type: credentialType } = credentialMetadata
 
-  const { issuer, type } = credentialMetadata
-  cacheEntry.key = buildMetadataKey(issuer, type)
+  const cacheEntry = plainToClass(CacheEntity, {
+    key: buildMetadataKey(issuer, credentialType),
+    value: credentialMetadata
+  })
 
   return connection.manager.save(cacheEntry)
 }
 
-const getMetadataForCredential = (connection: Connection) => async (credential: SignedCredential) => {
-  const entryKey = buildMetadataKey(credential.issuer, credential.type)
+const getMetadataForCredential = (connection: Connection) => async ({issuer, type: credentialType}: SignedCredential) => {
+  const entryKey = buildMetadataKey(issuer, credentialType)
   const [ entry ] = await connection.manager.findByIds(CacheEntity, [entryKey])
   return entry
 }
 
 const buildMetadataKey = (issuer: string, credentialType: string | Array<string>) : string => {
   if (typeof credentialType === 'string') {
-    return `${issuer}${type}`
+    return `${issuer}${credentialType}`
   }
 
   return `${issuer}${credentialType[credentialType.length - 1]}`

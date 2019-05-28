@@ -60,7 +60,6 @@ export const receiveExternalCredential = (
       throw new Error('Invalid credentials received')
     }
 
-    console.log(credentialOfferMetadata)
     if(credentialOfferMetadata && credentialOfferMetadata.length) {
       await Promise.all(credentialOfferMetadata.map(storageLib.store.credentialMetadata))
     }
