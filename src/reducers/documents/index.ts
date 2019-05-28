@@ -1,21 +1,22 @@
 import { AnyAction } from 'redux'
 import { SET_EXPIRED_DOC, CLEAR_EXPIRED_DOC } from 'src/actions/documents'
-import { Document } from 'src/ui/documents/components/documentCard'
+import { DecoratedClaims } from '../account'
 
 export interface DocumentsState {
-  selectedExpiredDocument: Document
+  selectedExpiredDocument: DecoratedClaims
 }
 
 const initialState: DocumentsState = {
   selectedExpiredDocument: {
+    credentialType: '',
+    subject: '',
     id: '',
     issuer: '',
     expires: undefined,
-    details: {
-      idNumber: '',
+    claimData: {
       type: '',
+      documentNumber: '',
     },
-    background: {},
   },
 }
 

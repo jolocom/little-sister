@@ -7,7 +7,6 @@ import { ClaimInterface } from 'cred-types-jolocom-core'
 
 export const DOCUMENT_CARD_HEIGHT = 176
 export const DOCUMENT_CARD_WIDTH = 276
-export const COLLAPSED_DOC_CARD_WIDTH = 101
 
 interface DocumentCardProps {
   document: DecoratedClaims
@@ -103,44 +102,3 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
     </View>
   )
 }
-
-// const collapsedDocCardStyles = StyleSheet.create({
-//   card: {
-//     backgroundColor: JolocomTheme.primaryColorWhite,
-//     width: COLLAPSED_DOC_CARD_WIDTH,
-//     borderRadius: 10,
-//     borderWidth: 1,
-//     borderColor: 'rgb(255, 222, 188)',
-//     height: 64,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   icon: {
-//     backgroundColor: JolocomTheme.primaryColorGrey,
-//     width: 42,
-//     height: 42,
-//   },
-// })
-
-// export const CollapsedDocumentCard: React.SFC<DocumentCardProps> = ({
-//   document,
-// }): JSX.Element => {
-//   const { renderInfo, expires } = document
-//   const { background = undefined, logo = undefined, text = undefined } =
-//     renderInfo || {}
-//   const claimData = document.claimData as ClaimInterface
-//   return (
-//     <View
-//       style={[
-//         collapsedDocCardStyles.card,
-//         { backgroundColor: (background && background.color) || 'white' },
-//       ]}
-//     >
-//       {logo ? (
-//         <Image source={{ uri: logo.url }} style={{ width: 42, height: 42 }} />
-//       ) : (
-//         <View style={collapsedDocCardStyles.icon} />
-//       )}
-//     </View>
-//   )
-// }
