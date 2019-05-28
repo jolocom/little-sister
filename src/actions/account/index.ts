@@ -1,6 +1,4 @@
-import { AnyAction, Dispatch } from 'redux'
 import { genericActions, navigationActions } from 'src/actions/'
-import { BackendMiddleware } from 'src/backendMiddleware'
 import { routeList } from 'src/routeList'
 import { DecoratedClaims, CategorizedClaims } from 'src/reducers/account'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
@@ -12,6 +10,7 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
+import {ThunkAction} from '../../store'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -38,10 +37,10 @@ export const toggleClaimsLoading = (value: boolean) => ({
   value,
 })
 
-export const checkIdentityExists = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const checkIdentityExists = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   try {
     const { keyChainLib, storageLib, encryptionLib } = backendMiddleware
@@ -81,8 +80,8 @@ export const checkIdentityExists = () => async (
   }
 }
 
-export const openClaimDetails = (claim: DecoratedClaims) => (
-  dispatch: Dispatch<AnyAction>,
+export const openClaimDetails = (claim: DecoratedClaims) : ThunkAction => (
+  dispatch,
 ) => {
   dispatch(setSelected(claim))
   dispatch(
@@ -92,10 +91,10 @@ export const openClaimDetails = (claim: DecoratedClaims) => (
   )
 }
 
-export const saveClaim = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const saveClaim = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet, storageLib, keyChainLib } = backendMiddleware
 
@@ -135,10 +134,10 @@ export const saveClaim = () => async (
 }
 
 // TODO Currently only rendering  / adding one
-export const saveExternalCredentials = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const saveExternalCredentials = () : ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { storageLib } = backendMiddleware
   const externalCredentials = getState().account.claims.toJS().pendingExternal
@@ -165,10 +164,10 @@ export const toggleLoading = (value: boolean) => ({
   value,
 })
 
-export const setClaimsForDid = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const setClaimsForDid = () : ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   dispatch(toggleClaimsLoading(true))
   const storageLib = backendMiddleware.storageLib

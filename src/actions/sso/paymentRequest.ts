@@ -1,6 +1,4 @@
 import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { Dispatch, AnyAction } from 'redux'
-import { BackendMiddleware } from 'src/backendMiddleware'
 import { navigationActions, ssoActions } from 'src/actions'
 import { routeList } from 'src/routeList'
 import { PaymentRequest } from 'jolocom-lib/js/interactionTokens/paymentRequest'
@@ -11,6 +9,7 @@ import { Linking } from 'react-native'
 import { cancelSSO, clearInteractionRequest } from 'src/actions/sso'
 import { JolocomRegistry } from 'jolocom-lib/js/registries/jolocomRegistry'
 import { AppError, ErrorCode } from 'src/lib/errors'
+import {ThunkAction} from '../../store'
 
 export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
   type: 'SET_PAYMENT_REQUEST',
@@ -19,10 +18,10 @@ export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
 
 export const consumePaymentRequest = (
   paymentRequest: JSONWebToken<PaymentRequest>,
-) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+) : ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet, registry } = backendMiddleware
 
@@ -55,10 +54,10 @@ export const consumePaymentRequest = (
   }
 }
 
-export const sendPaymentResponse = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const sendPaymentResponse = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet } = backendMiddleware
   const {

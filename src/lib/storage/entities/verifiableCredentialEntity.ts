@@ -3,7 +3,7 @@ import {
   Entity,
   Column,
   OneToMany,
-  ManyToOne,
+  ManyToOne
 } from 'typeorm/browser'
 import {
   PersonaEntity,
@@ -58,6 +58,7 @@ export class VerifiableCredentialEntity {
   @Expose()
   @ManyToOne(type => PersonaEntity, persona => persona.did)
   subject!: PersonaEntity
+
 
   @OneToMany(type => SignatureEntity, sig => sig.verifiableCredential, {
     cascade: true,

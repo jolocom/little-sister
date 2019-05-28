@@ -1,6 +1,4 @@
 import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { Dispatch, AnyAction } from 'redux'
-import { BackendMiddleware } from 'src/backendMiddleware'
 import { navigationActions, ssoActions } from 'src/actions'
 import { showErrorScreen } from 'src/actions/generic'
 import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
@@ -10,6 +8,7 @@ import { cancelSSO, clearInteractionRequest } from '.'
 import { Linking } from 'react-native'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
+import {ThunkAction} from '../../store'
 
 export const setAuthenticationRequest = (
   request: StateAuthenticationRequestSummary,
@@ -20,10 +19,10 @@ export const setAuthenticationRequest = (
 
 export const consumeAuthenticationRequest = (
   authenticationRequest: JSONWebToken<Authentication>,
-) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+) : ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet } = backendMiddleware
   try {
@@ -49,10 +48,10 @@ export const consumeAuthenticationRequest = (
   }
 }
 
-export const sendAuthenticationResponse = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const sendAuthenticationResponse = () : ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet } = backendMiddleware
   const { isDeepLinkInteraction } = getState().sso

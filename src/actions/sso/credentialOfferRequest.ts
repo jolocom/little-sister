@@ -2,19 +2,21 @@ import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { AppError, ErrorCode } from '../../lib/errors'
 import { showErrorScreen } from '../generic'
 import { CredentialOfferRequest } from 'jolocom-lib/js/interactionTokens/credentialOfferRequest'
-import { parseJWT, setDeepLinkLoading } from './index'
+import { receiveExternalCredential, setDeepLinkLoading } from './index'
 import { accountActions } from '../index'
-import { BackendMiddleware } from '../../backendMiddleware'
 import { isNil, all, map, compose, isEmpty } from 'ramda'
 import { httpAgent } from '../../lib/http'
-import { Dispatch, AnyAction } from 'redux'
+import { JolocomLib } from 'jolocom-lib'
+import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
+import {ThunkAction} from '../../store'
+import {CredentialMetadataSummary} from '../../lib/storage/storage'
 
 export const consumeCredentialOfferRequest = (
   credOfferRequest: JSONWebToken<CredentialOfferRequest>,
-) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  { keyChainLib, identityWallet, registry }: BackendMiddleware,
+) : ThunkAction => async (
+  dispatch ,
+  getState,
+  { keyChainLib, identityWallet, registry },
 ) => {
   try {
     await identityWallet.validateJWT(credOfferRequest, undefined, registry)
@@ -30,6 +32,17 @@ export const consumeCredentialOfferRequest = (
       type,
     }))
 
+    const selectedMetadata = interactionToken.offeredTypes.map<CredentialMetadataSummary>(type => {
+        return {
+          issuer: credOfferRequest.issuer,
+          type,
+          renderInfo: interactionToken.getRenderInfoForType(type) || {},
+          metadata: interactionToken.getMetadataForType(type) || {}
+
+        }
+    }
+    )
+
     const credOfferResponse = await identityWallet.create.interactionTokens.response.offer(
       { callbackURL, selectedCredentials },
       password,
@@ -39,12 +52,14 @@ export const consumeCredentialOfferRequest = (
     const res = await httpAgent.postRequest<{ token: string }>(
       callbackURL,
       { 'Content-Type': 'application/json' },
-      {token: credOfferResponse.encode()}
+      { token: credOfferResponse.encode() },
     )
-    console.log('Cred Offer response:', res)
-    console.log('Cred Offer response:', res.token)
 
-    dispatch(parseJWT(res.token))
+    const credentialReceive = JolocomLib.parse.interactionToken.fromJWT<
+      CredentialsReceive
+    >(res.token)
+
+    return dispatch(receiveExternalCredential(credentialReceive, selectedMetadata))
   } catch (err) {
     dispatch(accountActions.toggleLoading(false))
     dispatch(setDeepLinkLoading(false))

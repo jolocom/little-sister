@@ -13,6 +13,7 @@ import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/si
 import { cancelReceiving } from 'src/actions/sso'
 import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
 import { View } from 'react-native'
+import {ThunkDispatch} from '../../../store'
 
 interface ConnectProps {
   externalCredentials: SignedCredential[]
@@ -56,7 +57,7 @@ const mapStateToProps = (state: RootState) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: (action: Function) => void) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   saveExternalCredentials: () => dispatch(saveExternalCredentials()),
   goBack: () => dispatch(cancelReceiving()),
 })

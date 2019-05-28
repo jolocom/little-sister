@@ -1,23 +1,28 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 import { Container } from 'src/ui/structure'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { Button } from 'react-native-material-ui'
 import { QrScanEvent } from 'src/ui/generic/qrcodeScanner'
-import { ssoActions, navigationActions } from 'src/actions'
+import { navigationActions } from 'src/actions'
 import I18n from 'src/locales/i18n'
 import { LoadingSpinner } from './loadingSpinner'
+import {JolocomLib} from 'jolocom-lib'
+import {interactionHandlers} from '../../lib/storage/interactionTokens'
+import {AnyAction} from 'redux'
+import {ThunkAction, ThunkDispatch} from '../../store'
 const QRScanner = require('react-native-qrcode-scanner').default
 
 export interface QrScanEvent {
   data: string
 }
 
+
 interface Props {
   loading: boolean
-  onScannerSuccess: (e: QrScanEvent) => void
-  onScannerCancel: () => void
+  onScannerSuccess: (e: QrScanEvent) => ThunkAction
+  onScannerCancel: () => AnyAction
 }
 
 interface State {}
@@ -56,8 +61,16 @@ const mapStateToProps = (state: any) => ({
   loading: state.account.loading.toJS().loading,
 })
 
-const mapDispatchToProps = (dispatch: Function) => ({
-  onScannerSuccess: (e: QrScanEvent) => dispatch(ssoActions.parseJWT(e.data)),
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  onScannerSuccess: (e: QrScanEvent) => {
+    const interactionToken = JolocomLib.parse.interactionToken.fromJWT(e.data)
+    console.log(interactionToken)
+    const handler = interactionHandlers[interactionToken.interactionType]
+    // TODO: What if not present?
+    if (handler) {
+      return dispatch(handler(interactionToken))
+    }
+  },
   onScannerCancel: () => dispatch(navigationActions.goBack()),
 })
 
