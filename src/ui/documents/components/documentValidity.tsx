@@ -7,6 +7,7 @@ const expiredIcon = require('src/resources/img/expired.png')
 
 interface Props {
   expires: Date
+  color?: string
 }
 
 const styles = StyleSheet.create({
@@ -29,15 +30,15 @@ export const DocumentValiditySummary: React.SFC<Props> = (
   const isValid = compareDates(new Date(Date.now()), props.expires) > 1
   return isValid ? (
     <View style={styles.validityContainer}>
-      <Icon size={17} name="check-all" />
-      <Text style={styles.validityText}>
+      <Icon size={17} name="check-all" color={props.color} />
+      <Text style={[styles.validityText, { color: props.color }]}>
         {`Valid until ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>
   ) : (
     <View style={styles.validityContainer}>
       <Image source={expiredIcon} style={{ width: 17, height: 17 }} />
-      <Text style={styles.validityText}>
+      <Text style={[styles.validityText, { color: props.color }]}>
         {`Expired on ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>

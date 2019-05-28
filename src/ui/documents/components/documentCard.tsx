@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   card: {
     height: DOCUMENT_CARD_HEIGHT,
     backgroundColor: JolocomTheme.primaryColorWhite,
-    borderColor: 'rgb(255, 222, 188)',
+    borderColor: 'rgba(0, 0, 0, 0.09)',
     borderWidth: 2,
     borderRadius: 10,
     width: DOCUMENT_CARD_WIDTH,
@@ -71,7 +71,12 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
   const claimData = document.claimData as ClaimInterface
 
   return (
-    <View style={styles.card}>
+    <View
+      style={[
+        styles.card,
+        !background && { borderColor: 'rgb(255, 222, 188)' },
+      ]}
+    >
       <ImageBackground
         style={[
           styles.cardBack,
@@ -94,7 +99,12 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
           {claimData.documentNumber}
         </Text>
         <View style={styles.validityContainer}>
-          {expires && <DocumentValiditySummary expires={expires} />}
+          {expires && (
+            <DocumentValiditySummary
+              color={text && text.color}
+              expires={expires}
+            />
+          )}
           {logo ? (
             <Image source={{ uri: logo.url }} style={styles.icon} />
           ) : (
