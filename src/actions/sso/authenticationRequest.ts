@@ -8,7 +8,7 @@ import { cancelSSO, clearInteractionRequest } from '.'
 import { Linking } from 'react-native'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {ThunkAction} from '../../store'
+import { ThunkAction } from '../../store'
 
 export const setAuthenticationRequest = (
   request: StateAuthenticationRequestSummary,
@@ -19,11 +19,7 @@ export const setAuthenticationRequest = (
 
 export const consumeAuthenticationRequest = (
   authenticationRequest: JSONWebToken<Authentication>,
-) : ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
-) => {
+): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { identityWallet } = backendMiddleware
   try {
     await identityWallet.validateJWT(authenticationRequest)
@@ -48,7 +44,7 @@ export const consumeAuthenticationRequest = (
   }
 }
 
-export const sendAuthenticationResponse = () : ThunkAction => async (
+export const sendAuthenticationResponse = (): ThunkAction => async (
   dispatch,
   getState,
   backendMiddleware,

@@ -6,7 +6,7 @@ import { JolocomLib } from 'jolocom-lib'
 const bip39 = require('bip39')
 import { generateSecureRandomBytes } from 'src/lib/util'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {ThunkAction} from '../../store'
+import { ThunkAction } from '../../store'
 
 export const setLoadingMsg = (loadingMsg: string) => ({
   type: 'SET_LOADING_MSG',
@@ -37,7 +37,8 @@ export const startRegistration = (): ThunkAction => async (
   }
 }
 
-export const finishRegistration = () => navigationActions.navigatorReset({ routeName: routeList.Home })
+export const finishRegistration = () =>
+  navigationActions.navigatorReset({ routeName: routeList.Home })
 
 export const createIdentity = (encodedEntropy: string): ThunkAction => async (
   dispatch,

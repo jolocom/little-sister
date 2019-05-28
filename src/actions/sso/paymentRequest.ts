@@ -9,7 +9,7 @@ import { Linking } from 'react-native'
 import { cancelSSO, clearInteractionRequest } from 'src/actions/sso'
 import { JolocomRegistry } from 'jolocom-lib/js/registries/jolocomRegistry'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {ThunkAction} from '../../store'
+import { ThunkAction } from '../../store'
 
 export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
   type: 'SET_PAYMENT_REQUEST',
@@ -18,11 +18,7 @@ export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
 
 export const consumePaymentRequest = (
   paymentRequest: JSONWebToken<PaymentRequest>,
-) : ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
-) => {
+): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { identityWallet, registry } = backendMiddleware
 
   try {

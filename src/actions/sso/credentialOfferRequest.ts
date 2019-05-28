@@ -8,13 +8,13 @@ import { isNil, all, map, compose, isEmpty } from 'ramda'
 import { httpAgent } from '../../lib/http'
 import { JolocomLib } from 'jolocom-lib'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
-import {ThunkAction} from '../../store'
-import {CredentialMetadataSummary} from '../../lib/storage/storage'
+import { ThunkAction } from '../../store'
+import { CredentialMetadataSummary } from '../../lib/storage/storage'
 
 export const consumeCredentialOfferRequest = (
   credOfferRequest: JSONWebToken<CredentialOfferRequest>,
-) : ThunkAction => async (
-  dispatch ,
+): ThunkAction => async (
+  dispatch,
   getState,
   { keyChainLib, identityWallet, registry },
 ) => {
@@ -32,16 +32,16 @@ export const consumeCredentialOfferRequest = (
       type,
     }))
 
-    const selectedMetadata = interactionToken.offeredTypes.map<CredentialMetadataSummary>(type => {
-        return {
-          issuer: credOfferRequest.issuer,
-          type,
-          renderInfo: interactionToken.getRenderInfoForType(type) || {},
-          metadata: interactionToken.getMetadataForType(type) || {}
-
-        }
-    }
-    )
+    const selectedMetadata = interactionToken.offeredTypes.map<
+      CredentialMetadataSummary
+    >(type => {
+      return {
+        issuer: credOfferRequest.issuer,
+        type,
+        renderInfo: interactionToken.getRenderInfoForType(type) || {},
+        metadata: interactionToken.getMetadataForType(type) || {},
+      }
+    })
 
     const credOfferResponse = await identityWallet.create.interactionTokens.response.offer(
       { callbackURL, selectedCredentials },
@@ -59,7 +59,9 @@ export const consumeCredentialOfferRequest = (
       CredentialsReceive
     >(res.token)
 
-    return dispatch(receiveExternalCredential(credentialReceive, selectedMetadata))
+    return dispatch(
+      receiveExternalCredential(credentialReceive, selectedMetadata),
+    )
   } catch (err) {
     dispatch(accountActions.toggleLoading(false))
     dispatch(setDeepLinkLoading(false))

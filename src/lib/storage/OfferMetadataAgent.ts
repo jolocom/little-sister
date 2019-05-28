@@ -1,2 +1,1 @@
-export class OfferMetadataAgent {
-}
+export class OfferMetadataAgent {}

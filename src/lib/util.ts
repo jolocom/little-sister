@@ -7,6 +7,8 @@ import {
 import { BaseMetadata } from 'cred-types-jolocom-core'
 
 import { NativeModules } from 'react-native'
+import { DecoratedClaims } from '../reducers/account'
+import { equals } from 'ramda'
 // this comes from 'react-native-randombytes'
 const { RNRandomBytes } = NativeModules
 
@@ -30,15 +32,16 @@ export const getClaimMetadataByCredentialType = (
 export const getUiCredentialTypeByType = (type: string[]): string =>
   uiCredentialTypeByType[type[1]] || prepareLabel(type[1])
 
-export const getCredentialUiCategory = (type: string): string => {
+export const getCredentialUiCategory = ({
+  credentialType,
+}: DecoratedClaims): string => {
   const uiCategories = Object.keys(uiCategoryByCredentialType)
 
-  const category = uiCategories.find(uiCategory => {
-    const categoryDefinition = uiCategoryByCredentialType[uiCategory]
-    return categoryDefinition.some(entry => entry === type)
-  })
-
-  return category || Categories.Other
+  return (
+    uiCategories.find(uiCategory =>
+      uiCategoryByCredentialType[uiCategory].some(equals(credentialType)),
+    ) || Categories.Other
+  )
 }
 
 export const prepareLabel = (label: string): string => {

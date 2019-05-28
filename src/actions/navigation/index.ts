@@ -5,9 +5,9 @@ import {
 import { toggleLoading } from '../account'
 import { setDeepLinkLoading, toggleDeepLinkFlag } from '../sso'
 import { routeList } from 'src/routeList'
-import {JolocomLib} from 'jolocom-lib'
-import {interactionHandlers} from '../../lib/storage/interactionTokens'
-import {ThunkAction} from '../../store'
+import { JolocomLib } from 'jolocom-lib'
+import { interactionHandlers } from '../../lib/storage/interactionTokens'
+import { ThunkAction } from '../../store'
 
 export const navigate = (options: NavigationNavigateActionPayload) =>
   NavigationActions.navigate(options)

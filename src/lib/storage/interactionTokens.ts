@@ -1,21 +1,30 @@
-import {JSONWebToken, JWTEncodable} from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import {InteractionType} from 'jolocom-lib/js/interactionTokens/types'
-import {consumeCredentialRequest, receiveExternalCredential} from '../../actions/sso'
-import {consumeAuthenticationRequest} from '../../actions/sso/authenticationRequest'
-import {consumeCredentialOfferRequest} from '../../actions/sso/credentialOfferRequest'
-import {consumePaymentRequest} from '../../actions/sso/paymentRequest'
-import {ThunkAction} from '../../store'
+import {
+  JSONWebToken,
+  JWTEncodable,
+} from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import { InteractionType } from 'jolocom-lib/js/interactionTokens/types'
+import {
+  consumeCredentialRequest,
+  receiveExternalCredential,
+} from '../../actions/sso'
+import { consumeAuthenticationRequest } from '../../actions/sso/authenticationRequest'
+import { consumeCredentialOfferRequest } from '../../actions/sso/credentialOfferRequest'
+import { consumePaymentRequest } from '../../actions/sso/paymentRequest'
+import { ThunkAction } from '../../store'
 
 /**
  * @param Metadata should not need to be passed to credential receive because it comes from cred Offer
  * Furthermore, this only needs to be defined for requests
  */
 
-type InteractionTokenHandler <T extends JWTEncodable> = (token: JSONWebToken<T>) => ThunkAction
+type InteractionTokenHandler<T extends JWTEncodable> = (
+  token: JSONWebToken<T>,
+) => ThunkAction
 
-const buildHandler = <T extends JWTEncodable>(handler: InteractionTokenHandler<T>, expectedTokenType?: InteractionType) => (
-  interactionToken: JSONWebToken<T>,
-) => {
+const buildHandler = <T extends JWTEncodable>(
+  handler: InteractionTokenHandler<T>,
+  expectedTokenType?: InteractionType,
+) => (interactionToken: JSONWebToken<T>) => {
   if (
     expectedTokenType &&
     expectedTokenType !== interactionToken.interactionType
@@ -43,7 +52,7 @@ const credentialReceiveHandler = buildHandler(
 )
 const paymentRequestHandler = buildHandler(
   consumePaymentRequest,
-  InteractionType.PaymentRequest
+  InteractionType.PaymentRequest,
 )
 
 export const interactionHandlers = {
@@ -52,4 +61,4 @@ export const interactionHandlers = {
   [InteractionType.CredentialOfferRequest]: credentialOfferHandler,
   [InteractionType.CredentialsReceive]: credentialReceiveHandler,
   [InteractionType.PaymentRequest]: paymentRequestHandler,
-} as { [key in InteractionType]: InteractionTokenHandler<JWTEncodable>}
+} as { [key in InteractionType]: InteractionTokenHandler<JWTEncodable> }

@@ -10,7 +10,9 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {ThunkAction} from '../../store'
+import { ThunkAction } from '../../store'
+import { groupBy } from 'ramda'
+import { compose } from 'redux'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -80,9 +82,9 @@ export const checkIdentityExists = (): ThunkAction => async (
   }
 }
 
-export const openClaimDetails = (claim: DecoratedClaims) : ThunkAction => (
-  dispatch,
-) => {
+export const openClaimDetails = (
+  claim: DecoratedClaims,
+): ThunkAction => dispatch => {
   dispatch(setSelected(claim))
   dispatch(
     navigationActions.navigate({
@@ -134,7 +136,7 @@ export const saveClaim = (): ThunkAction => async (
 }
 
 // TODO Currently only rendering  / adding one
-export const saveExternalCredentials = () : ThunkAction => async (
+export const saveExternalCredentials = (): ThunkAction => async (
   dispatch,
   getState,
   backendMiddleware,
@@ -164,7 +166,7 @@ export const toggleLoading = (value: boolean) => ({
   value,
 })
 
-export const setClaimsForDid = () : ThunkAction => async (
+export const setClaimsForDid = (): ThunkAction => async (
   dispatch,
   getState,
   backendMiddleware,
@@ -173,6 +175,7 @@ export const setClaimsForDid = () : ThunkAction => async (
   const storageLib = backendMiddleware.storageLib
 
   const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
+
   const claims = prepareClaimsForState(
     verifiableCredentials,
   ) as CategorizedClaims
@@ -185,22 +188,11 @@ export const setClaimsForDid = () : ThunkAction => async (
   dispatch(toggleClaimsLoading(false))
 }
 
-const prepareClaimsForState = (credentials: SignedCredential[]) => {
-  const categorizedClaims = {}
-  const decoratedCredentials = convertToDecoratedClaim(credentials)
-
-  decoratedCredentials.forEach(decoratedCred => {
-    const uiCategory = getCredentialUiCategory(decoratedCred.credentialType)
-
-    try {
-      categorizedClaims[uiCategory].push(decoratedCred)
-    } catch (err) {
-      categorizedClaims[uiCategory] = [decoratedCred]
-    }
-  })
-
-  return categorizedClaims
-}
+const prepareClaimsForState = (credentials: SignedCredential[]) =>
+  compose(
+    groupBy(getCredentialUiCategory),
+    convertToDecoratedClaim,
+  )(credentials)
 
 // TODO Util, make subject mandatory
 export const convertToDecoratedClaim = (
