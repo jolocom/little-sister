@@ -11,7 +11,7 @@ import { MoreIcon } from 'src/resources'
 import { getCredentialIconByType } from 'src/resources/util'
 import { prepareLabel } from 'src/lib/util'
 import I18n from 'src/locales/i18n'
-import { getDocumentClaims } from 'src/utils/filterDocuments'
+import { getNonDocumentClaims } from 'src/utils/filterDocuments'
 const loaders = require('react-native-indicator')
 
 interface Props {
@@ -49,7 +49,7 @@ export class CredentialOverview extends React.Component<Props, State> {
       a.credentialType > b.credentialType ? 1 : -1,
     )
     if (category === 'Other') {
-      categorizedCredentials = getDocumentClaims(categorizedCredentials)
+      categorizedCredentials = getNonDocumentClaims(categorizedCredentials)
     }
 
     return categorizedCredentials.map((claim: DecoratedClaims, index) => {

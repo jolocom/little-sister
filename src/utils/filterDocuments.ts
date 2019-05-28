@@ -13,3 +13,9 @@ export function getDocumentClaims(
 ): DecoratedClaims[] {
   return claims.filter(claim => DOC_TYPES.includes(claim.credentialType))
 }
+
+export function getNonDocumentClaims(
+  claims: DecoratedClaims[],
+): DecoratedClaims[] {
+  return claims.filter(claim => DOC_TYPES.indexOf(claim.credentialType) < 0)
+}
