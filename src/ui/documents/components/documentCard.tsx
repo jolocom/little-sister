@@ -84,7 +84,10 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
         }}
       />
       <View style={styles.cardContent}>
-        <Text style={[styles.documentType, { color: text && text.color }]}>
+        <Text
+          numberOfLines={2}
+          style={[styles.documentType, { color: text && text.color }]}
+        >
           {claimData.type}
         </Text>
         <Text style={[styles.documentNumber, { color: text && text.color }]}>
