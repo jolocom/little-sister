@@ -19,6 +19,22 @@ export interface DecoratedClaims {
     | 'numeric'
     | 'email-address'
     | 'phone-pad'
+  renderInfo?: {
+    // TODO: convert to CredentialRenderTypes
+    renderAs?: string
+    background?: {
+      color?: string
+      url?: string
+    }
+    logo?: {
+      url: string
+    }
+    text?: {
+      color: string
+    }
+  }
+  // TODO: convert to CredentialOfferMetadata
+  metadata?: {}
 }
 
 export interface CategorizedClaims {
