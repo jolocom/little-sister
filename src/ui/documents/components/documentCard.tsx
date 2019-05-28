@@ -1,42 +1,21 @@
 import React from 'react'
 import { View, StyleSheet, Text, Image, ImageBackground } from 'react-native'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-import { Color } from 'csstype'
 import { DocumentValiditySummary } from './documentValidity'
+import { DecoratedClaims } from 'src/reducers/account'
+import { ClaimInterface } from 'cred-types-jolocom-core'
 
+export const DOCUMENT_CARD_HEIGHT = 176
 export const DOCUMENT_CARD_WIDTH = 276
 export const COLLAPSED_DOC_CARD_WIDTH = 101
 
-export interface Document {
-  details: {
-    type: string
-    documentNumber?: string
-    [key: string]: any
-  }
-  id: string
-  expires: Date | undefined
-  issuer: string
-  background?: {
-    color?: Color
-    // should be a URL to the image
-    url?: string
-  }
-  // should be a URL to the image
-  logo?: {
-    url: string
-  }
-  text?: {
-    color: string
-  }
-}
-
 interface DocumentCardProps {
-  document: Document
+  document: DecoratedClaims
 }
 
 const styles = StyleSheet.create({
   card: {
-    height: 176,
+    height: DOCUMENT_CARD_HEIGHT,
     backgroundColor: JolocomTheme.primaryColorWhite,
     borderColor: 'rgb(255, 222, 188)',
     borderWidth: 2,
@@ -87,7 +66,11 @@ const styles = StyleSheet.create({
 export const DocumentCard: React.SFC<DocumentCardProps> = ({
   document,
 }): JSX.Element => {
-  const { background, details, expires, logo } = document
+  const { renderInfo, expires } = document
+  const { background = undefined, logo = undefined, text = undefined } =
+    renderInfo || {}
+  const claimData = document.claimData as ClaimInterface
+
   return (
     <View style={styles.card}>
       <ImageBackground
@@ -102,8 +85,12 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
         }}
       />
       <View style={styles.cardContent}>
-        <Text style={styles.documentType}>{details.type}</Text>
-        <Text style={styles.documentNumber}>{details.documentNumber}</Text>
+        <Text style={[styles.documentType, { color: text && text.color }]}>
+          {claimData.type}
+        </Text>
+        <Text style={[styles.documentNumber, { color: text && text.color }]}>
+          {claimData.documentNumber}
+        </Text>
         <View style={styles.validityContainer}>
           {expires && <DocumentValiditySummary expires={expires} />}
           {logo ? (
@@ -117,40 +104,43 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
   )
 }
 
-const collapsedDocCardStyles = StyleSheet.create({
-  card: {
-    backgroundColor: JolocomTheme.primaryColorWhite,
-    width: COLLAPSED_DOC_CARD_WIDTH,
-    borderRadius: 10,
-    borderWidth: 1,
-    borderColor: 'rgb(255, 222, 188)',
-    height: 64,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  icon: {
-    backgroundColor: JolocomTheme.primaryColorGrey,
-    width: 42,
-    height: 42,
-  },
-})
+// const collapsedDocCardStyles = StyleSheet.create({
+//   card: {
+//     backgroundColor: JolocomTheme.primaryColorWhite,
+//     width: COLLAPSED_DOC_CARD_WIDTH,
+//     borderRadius: 10,
+//     borderWidth: 1,
+//     borderColor: 'rgb(255, 222, 188)',
+//     height: 64,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   icon: {
+//     backgroundColor: JolocomTheme.primaryColorGrey,
+//     width: 42,
+//     height: 42,
+//   },
+// })
 
-export const CollapsedDocumentCard: React.SFC<DocumentCardProps> = ({
-  document,
-}): JSX.Element => {
-  const { background, logo } = document
-  return (
-    <View
-      style={[
-        collapsedDocCardStyles.card,
-        { backgroundColor: (background && background.color) || 'white' },
-      ]}
-    >
-      {logo ? (
-        <Image source={{ uri: logo.url }} style={{ width: 42, height: 42 }} />
-      ) : (
-        <View style={collapsedDocCardStyles.icon} />
-      )}
-    </View>
-  )
-}
+// export const CollapsedDocumentCard: React.SFC<DocumentCardProps> = ({
+//   document,
+// }): JSX.Element => {
+//   const { renderInfo, expires } = document
+//   const { background = undefined, logo = undefined, text = undefined } =
+//     renderInfo || {}
+//   const claimData = document.claimData as ClaimInterface
+//   return (
+//     <View
+//       style={[
+//         collapsedDocCardStyles.card,
+//         { backgroundColor: (background && background.color) || 'white' },
+//       ]}
+//     >
+//       {logo ? (
+//         <Image source={{ uri: logo.url }} style={{ width: 42, height: 42 }} />
+//       ) : (
+//         <View style={collapsedDocCardStyles.icon} />
+//       )}
+//     </View>
+//   )
+// }

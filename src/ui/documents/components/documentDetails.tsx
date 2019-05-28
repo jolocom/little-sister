@@ -2,10 +2,10 @@ import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-import { Document } from './documentCard'
+import { DecoratedClaims } from 'src/reducers/account'
 
 interface Props {
-  document: Document
+  document: DecoratedClaims
 }
 
 const styles = StyleSheet.create({
@@ -50,13 +50,13 @@ export const DocumentDetails: React.SFC<Props> = ({
 
     <Text style={styles.sectionHeader}>Details</Text>
     <View style={styles.claimsContainer}>
-      {Object.keys(document.details).map(key => (
+      {Object.keys(document.claimData).map(key => (
         <View key={key} style={styles.claimCard}>
           <View style={styles.claimCardTextContainer}>
             {/* TODO: Capitalize key? */}
             <Text style={styles.claimCardTitle}>{key}</Text>
             <Text style={JolocomTheme.textStyles.light.textDisplayField}>
-              {document.details[key]}
+              {document.claimData[key]}
             </Text>
           </View>
         </View>

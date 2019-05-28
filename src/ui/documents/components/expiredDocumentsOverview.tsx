@@ -1,11 +1,12 @@
 import React from 'react'
 import { ScrollView, StyleSheet, TouchableOpacity } from 'react-native'
-import { DocumentCard, Document } from './documentCard'
+import { DocumentCard } from './documentCard'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { DecoratedClaims } from 'src/reducers/account'
 
 interface Props {
-  openExpiredDetails: (document: Document) => void
-  documents: Document[]
+  openExpiredDetails: (document: DecoratedClaims) => void
+  documents: DecoratedClaims[]
 }
 
 const styles = StyleSheet.create({

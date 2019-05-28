@@ -1,7 +1,6 @@
 import React from 'react'
 import { View, StyleSheet, Dimensions, ScrollView } from 'react-native'
 import {
-  Document,
   DocumentCard,
   DOCUMENT_CARD_WIDTH,
 } from 'src/ui/documents/components/documentCard'
@@ -9,11 +8,13 @@ import { DocumentViewToggle } from 'src/ui/documents/components/documentViewTogg
 import { ExpiredDocumentsOverview } from 'src/ui/documents/components/expiredDocumentsOverview'
 import { DocumentDetails } from './documentDetails'
 const Carousel = require('react-native-snap-carousel').default
-import { demoDocuments } from '../TEST'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
+import { DecoratedClaims } from 'src/reducers/account'
 
 interface Props {
-  openExpiredDetails: (document: Document) => void
+  openExpiredDetails: (document: DecoratedClaims) => void
+  expiredDocuments: DecoratedClaims[]
+  validDocuments: DecoratedClaims[]
 }
 
 interface State {
@@ -48,14 +49,14 @@ export class DocumentsComponent extends React.Component<Props, State> {
     }))
   }
 
-  private renderItem = ({ item }: { item: Document }) => (
+  private renderItem = ({ item }: { item: DecoratedClaims }) => (
     <DocumentCard document={item} />
   )
 
   public render(): JSX.Element {
     const viewWidth: number = Dimensions.get('window').width
     const { activeDocumentIndex, showingValid } = this.state
-    const { openExpiredDetails } = this.props
+    const { expiredDocuments, validDocuments, openExpiredDetails } = this.props
 
     return (
       <View style={styles.mainContainer}>
@@ -71,7 +72,7 @@ export class DocumentsComponent extends React.Component<Props, State> {
               ref={ref => (this.ScrollViewRef = ref)}
             >
               <Carousel
-                data={demoDocuments}
+                data={validDocuments}
                 renderItem={this.renderItem}
                 lockScrollWhileSnapping
                 lockScrollTimeoutDuration={1000}
@@ -87,12 +88,12 @@ export class DocumentsComponent extends React.Component<Props, State> {
                   }
                 }}
               />
-              <DocumentDetails document={demoDocuments[activeDocumentIndex]} />
+              <DocumentDetails document={validDocuments[activeDocumentIndex]} />
             </ScrollView>
           </React.Fragment>
         ) : (
           <ExpiredDocumentsOverview
-            documents={demoDocuments}
+            documents={expiredDocuments}
             openExpiredDetails={openExpiredDetails}
           />
         )}

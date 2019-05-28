@@ -1,12 +1,12 @@
 import React from 'react'
 import { ExpiredDocumentsDetailsComponent } from 'src/ui/documents/components/expiredDocumentDetails'
 import { connect } from 'react-redux'
-import { Document } from 'src/ui/documents/components/documentCard'
 import { RootState } from 'src/reducers/'
 import { NavigationScreenProps } from 'react-navigation'
+import { DecoratedClaims } from 'src/reducers/account'
 
 interface ConnectProps {
-  selectedExpiredDocument: Document
+  selectedExpiredDocument: DecoratedClaims
 }
 
 interface Props extends ConnectProps {

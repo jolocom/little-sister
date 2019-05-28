@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { View } from 'react-native'
-
 import { CredentialOverview } from '../components/credentialOverview'
 import { accountActions, ssoActions, navigationActions } from 'src/actions'
 import { ClaimsState } from 'src/reducers/account'
@@ -15,7 +14,7 @@ interface ConnectProps {
   openScanner: () => void
   parseJWT: (jwt: string) => void
   did: string
-  claims: ClaimsState
+  claimsState: ClaimsState
   loading: boolean
 }
 
@@ -27,13 +26,14 @@ export class ClaimsContainer extends React.Component<Props> {
   }
 
   render() {
+    const { did, loading, claimsState, openClaimDetails } = this.props
     return (
       <View style={{ flex: 1 }}>
         <CredentialOverview
-          did={this.props.did}
-          claimsState={this.props.claims}
-          loading={!!this.props.claims.loading}
-          onEdit={this.props.openClaimDetails}
+          did={did}
+          claimsToRender={claimsState.decoratedCredentials}
+          loading={!!loading}
+          onEdit={openClaimDetails}
         />
       </View>
     )
@@ -43,7 +43,7 @@ export class ClaimsContainer extends React.Component<Props> {
 // TODO nicer pattern for accessing state, perhaps immer or something easier to Type
 const mapStateToProps = (state: any) => ({
   did: state.account.did.toJS().did,
-  claims: state.account.claims.toJS(),
+  claimsState: state.account.claims.toJS(),
   loading: state.account.loading.toJS().loading,
 })
 

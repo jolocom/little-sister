@@ -1,10 +1,11 @@
 import React from 'react'
 import { View, StyleSheet, ScrollView } from 'react-native'
-import { DocumentCard, Document } from './documentCard'
+import { DocumentCard } from './documentCard'
 import { DocumentDetails } from './documentDetails'
+import { DecoratedClaims } from 'src/reducers/account'
 
 interface Props {
-  document: Document
+  document: DecoratedClaims
 }
 
 const styles = StyleSheet.create({
