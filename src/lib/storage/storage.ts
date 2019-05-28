@@ -3,7 +3,7 @@ import {
   ConnectionOptions,
   Connection,
 } from 'typeorm/browser'
-import { plainToClass } from 'class-transformer'
+import {classToPlain, plainToClass} from 'class-transformer'
 import {
   PersonaEntity,
   MasterKeyEntity,
@@ -264,10 +264,14 @@ const storeCredentialMetadata = (connection: Connection) => (
 const getMetadataForCredential = (connection: Connection) => async ({
   issuer,
   type: credentialType,
-}: SignedCredential) => {
+}: SignedCredential) : Promise<CredentialMetadataSummary>=> {
   const entryKey = buildMetadataKey(issuer, credentialType)
   const [entry] = await connection.manager.findByIds(CacheEntity, [entryKey])
-  return entry
+  if (!entry) {
+    return {} as CredentialMetadataSummary
+  }
+
+  return entry.value as any as CredentialMetadataSummary || {}
 }
 
 const buildMetadataKey = (

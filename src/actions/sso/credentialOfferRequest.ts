@@ -10,6 +10,7 @@ import { JolocomLib } from 'jolocom-lib'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
 import { ThunkAction } from '../../store'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
+import {keyIdToDid} from 'jolocom-lib/js/utils/helper'
 
 export const consumeCredentialOfferRequest = (
   credOfferRequest: JSONWebToken<CredentialOfferRequest>,
@@ -34,14 +35,12 @@ export const consumeCredentialOfferRequest = (
 
     const selectedMetadata = interactionToken.offeredTypes.map<
       CredentialMetadataSummary
-    >(type => {
-      return {
-        issuer: credOfferRequest.issuer,
+    >(type => ({
+        issuer: keyIdToDid(credOfferRequest.issuer),
         type,
         renderInfo: interactionToken.getRenderInfoForType(type) || {},
-        metadata: interactionToken.getMetadataForType(type) || {},
-      }
-    })
+        metadata: interactionToken.getMetadataForType(type) || {}
+    }))
 
     const credOfferResponse = await identityWallet.create.interactionTokens.response.offer(
       { callbackURL, selectedCredentials },

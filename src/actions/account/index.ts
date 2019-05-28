@@ -11,8 +11,9 @@ import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import { ThunkAction } from '../../store'
-import { groupBy } from 'ramda'
+import { groupBy, zipWith, mergeRight } from 'ramda'
 import { compose } from 'redux'
+import { CredentialMetadataSummary } from '../../lib/storage/storage'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -172,14 +173,20 @@ export const setClaimsForDid = (): ThunkAction => async (
   backendMiddleware,
 ) => {
   dispatch(toggleClaimsLoading(true))
-  const storageLib = backendMiddleware.storageLib
+  const { storageLib } = backendMiddleware
 
   const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
 
+  const credentialMetadata: CredentialMetadataSummary[] = await Promise.all(
+    verifiableCredentials.map(storageLib.get.credentialMetadata),
+  )
+
   const claims = prepareClaimsForState(
     verifiableCredentials,
+    credentialMetadata,
   ) as CategorizedClaims
 
+  console.log(claims)
   dispatch({
     type: 'SET_CLAIMS_FOR_DID',
     claims,
@@ -188,9 +195,13 @@ export const setClaimsForDid = (): ThunkAction => async (
   dispatch(toggleClaimsLoading(false))
 }
 
-const prepareClaimsForState = (credentials: SignedCredential[]) =>
+const prepareClaimsForState = (
+  credentials: SignedCredential[],
+  credentialMetadata: CredentialMetadataSummary[],
+) =>
   compose(
     groupBy(getCredentialUiCategory),
+    zipWith(mergeRight, credentialMetadata),
     convertToDecoratedClaim,
   )(credentials)
 
