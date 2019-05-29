@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, ScrollView } from 'react-native'
+import React, { SyntheticEvent } from 'react'
+import { StyleSheet, Text, ScrollView, NativeEventEmitter, NativeSyntheticEvent, NativeScrollEvent } from 'react-native'
 import { Container, Block } from 'src/ui/structure'
 import { CredentialCard } from './credentialCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
@@ -18,6 +18,7 @@ interface Props {
   loading: boolean
   onEdit: (claim: DecoratedClaims) => void
   did: string
+  scrollHideNav: (event?: NativeSyntheticEvent<NativeScrollEvent>) => void
 }
 
 interface State {}
@@ -101,6 +102,7 @@ export class CredentialOverview extends React.Component<Props, State> {
         <ScrollView
           style={scrollComponent}
           contentContainerStyle={loading ? scrollComponentLoading : {}}
+          onScroll={this.props.scrollHideNav}
         >
           {claimCategories.map(this.renderCredentialCategory)}
         </ScrollView>
