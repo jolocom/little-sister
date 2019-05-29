@@ -1,4 +1,5 @@
 import { DecoratedClaims } from 'src/reducers/account'
+import { compose, includes, or, equals, complement} from 'ramda'
 
 const DOC_TYPES = [
   'IdCard',
@@ -8,22 +9,13 @@ const DOC_TYPES = [
   'EventTicket',
 ]
 
-export function getDocumentClaims(
-  claims: DecoratedClaims[],
-): DecoratedClaims[] {
-  return claims.filter(
-    claim =>
-      DOC_TYPES.includes(claim.credentialType) ||
-      (claim.renderInfo && claim.renderInfo.renderAs === 'document'),
-  )
-}
+const isIncludedIn = <T>(list: T[]) => (element: T) => includes(element, list)
 
-export function getNonDocumentClaims(
-  claims: DecoratedClaims[],
-): DecoratedClaims[] {
-  return claims.filter(
-    claim =>
-      DOC_TYPES.indexOf(claim.credentialType) < 0 ||
-      (claim.renderInfo && claim.renderInfo.renderAs !== 'document'),
-  )
-}
+const isDocument = ({ credentialType, renderInfo = {} }: DecoratedClaims) =>
+  compose(
+    or(equals(renderInfo.renderAs, 'document')),
+    isIncludedIn(DOC_TYPES),
+  )(credentialType)
+
+export const getDocumentClaims = (claims: DecoratedClaims[]) => claims.filter(isDocument)
+export const getNonDocumentClaims = (claims: DecoratedClaims[]) => claims.filter(complement(isDocument))
