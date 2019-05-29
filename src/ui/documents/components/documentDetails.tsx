@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native'
 import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { DecoratedClaims } from 'src/reducers/account'
+import { prepareLabel } from 'src/lib/util'
 
 interface Props {
   document: DecoratedClaims
@@ -53,8 +54,7 @@ export const DocumentDetails: React.SFC<Props> = ({
       {Object.keys(document.claimData).map(key => (
         <View key={key} style={styles.claimCard}>
           <View style={styles.claimCardTextContainer}>
-            {/* TODO: Capitalize key? */}
-            <Text style={styles.claimCardTitle}>{key}</Text>
+            <Text style={styles.claimCardTitle}>{prepareLabel(key)}</Text>
             <Text style={JolocomTheme.textStyles.light.textDisplayField}>
               {document.claimData[key]}
             </Text>
