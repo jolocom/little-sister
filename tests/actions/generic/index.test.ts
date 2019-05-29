@@ -13,7 +13,7 @@ describe('Generic action creators', () => {
 
       const action = genericActions.showErrorScreen(mockError)
 
-      action(mockStore.dispatch)
+      mockStore.dispatch(action)
       expect(mockStore.getActions()).toMatchSnapshot()
     })
   })
