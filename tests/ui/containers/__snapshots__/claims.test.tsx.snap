@@ -9,7 +9,7 @@ exports[`Claims container correctly changes scanning to false when qr code scann
   }
 >
   <CredentialOverview
-    claimsState={Object {}}
+    claimsToRender={Object {}}
     loading={false}
   />
 </Component>
@@ -24,7 +24,7 @@ exports[`Claims container correctly changes scanning to true when qr code scanne
   }
 >
   <CredentialOverview
-    claimsState={Object {}}
+    claimsToRender={Object {}}
     loading={false}
   />
 </Component>
@@ -39,7 +39,7 @@ exports[`Claims container mounts correctly and matches the snapshot 1`] = `
   }
 >
   <CredentialOverview
-    claimsState={Object {}}
+    claimsToRender={Object {}}
     loading={false}
   />
 </Component>

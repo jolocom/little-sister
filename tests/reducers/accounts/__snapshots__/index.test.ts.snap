@@ -60,7 +60,110 @@ Object {
           "subject": "",
         },
       ],
-      "Other": Immutable.List [],
+      "Other": Immutable.List [
+        Immutable.Map {
+          "id": "9001",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "IdCard",
+          "claimData": Immutable.Map {
+            "type": "ID Card (Avalon demo)",
+            "idNumber": "4LW4YSW4TCH3D",
+          },
+          "subject": "did:demo:0001",
+          "expires": 2024-07-12T00:00:00.000Z,
+          "renderInfo": Immutable.Map {
+            "logo": Immutable.Map {
+              "url": "https://botm-municipal-demo.jolocom.com/static/images/Bitmap.png",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9002",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "DrivingLicense",
+          "claimData": Immutable.Map {
+            "type": "Drivers License (Avalon demo)",
+            "idNumber": "UC4NDR1V3",
+          },
+          "subject": "did:demo:0001",
+          "expires": 2020-12-24T00:00:00.000Z,
+          "renderInfo": Immutable.Map {
+            "logo": Immutable.Map {
+              "url": "https://miro.medium.com/fit/c/240/240/1*jbb5WdcAvaY1uVdCjX1XVg.png",
+            },
+            "background": Immutable.Map {
+              "url": "https://www.e-zrentacar.com/wp-content/plugins/advantage-vehicles/assets/ICAR_800x400.png",
+            },
+            "text": Immutable.Map {
+              "color": "blue",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9003",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "NotValid",
+          "claimData": Immutable.Map {
+            "type": "Expired Credential",
+            "idNumber": "INVALID",
+          },
+          "expires": 1970-01-01T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9004",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "DrivingLicense",
+          "claimData": Immutable.Map {
+            "type": "Really Long Name (Expired One) To Test What Happens",
+            "idNumber": "5UP3RN0TR34L",
+          },
+          "expires": 1970-01-01T00:00:00.000Z,
+          "subject": "did:demo:0001",
+          "renderInfo": Immutable.Map {
+            "text": Immutable.Map {
+              "color": "red",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9005",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "AKaart",
+          "claimData": Immutable.Map {
+            "type": "A-kaart",
+            "idNumber": "T3ST0001",
+          },
+          "expires": 2020-04-29T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9006",
+          "issuer": "did:jolo:zz9xx8dd7vv6",
+          "credentialType": "IdCard",
+          "claimData": Immutable.Map {
+            "idNumber": "D3M0002",
+            "type": "Digital ID Card",
+            "gender": "male",
+            "birth_place": "berlin",
+          },
+          "expires": 2024-05-14T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9007",
+          "issuer": "did:jolo:asdqw1321",
+          "credentialType": "Passport",
+          "claimData": Immutable.Map {
+            "idNumber": "N0TR34L",
+            "type": "Digital Passport",
+            "gender": "male",
+            "birth_place": "berlin",
+          },
+          "expires": 2016-03-12T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+      ],
     },
   },
   "did": Immutable.Map {
@@ -132,7 +235,110 @@ Object {
           "subject": "",
         },
       ],
-      "Other": Immutable.List [],
+      "Other": Immutable.List [
+        Immutable.Map {
+          "id": "9001",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "IdCard",
+          "claimData": Immutable.Map {
+            "type": "ID Card (Avalon demo)",
+            "idNumber": "4LW4YSW4TCH3D",
+          },
+          "subject": "did:demo:0001",
+          "expires": 2024-07-12T00:00:00.000Z,
+          "renderInfo": Immutable.Map {
+            "logo": Immutable.Map {
+              "url": "https://botm-municipal-demo.jolocom.com/static/images/Bitmap.png",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9002",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "DrivingLicense",
+          "claimData": Immutable.Map {
+            "type": "Drivers License (Avalon demo)",
+            "idNumber": "UC4NDR1V3",
+          },
+          "subject": "did:demo:0001",
+          "expires": 2020-12-24T00:00:00.000Z,
+          "renderInfo": Immutable.Map {
+            "logo": Immutable.Map {
+              "url": "https://miro.medium.com/fit/c/240/240/1*jbb5WdcAvaY1uVdCjX1XVg.png",
+            },
+            "background": Immutable.Map {
+              "url": "https://www.e-zrentacar.com/wp-content/plugins/advantage-vehicles/assets/ICAR_800x400.png",
+            },
+            "text": Immutable.Map {
+              "color": "blue",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9003",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "NotValid",
+          "claimData": Immutable.Map {
+            "type": "Expired Credential",
+            "idNumber": "INVALID",
+          },
+          "expires": 1970-01-01T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9004",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "DrivingLicense",
+          "claimData": Immutable.Map {
+            "type": "Really Long Name (Expired One) To Test What Happens",
+            "idNumber": "5UP3RN0TR34L",
+          },
+          "expires": 1970-01-01T00:00:00.000Z,
+          "subject": "did:demo:0001",
+          "renderInfo": Immutable.Map {
+            "text": Immutable.Map {
+              "color": "red",
+            },
+          },
+        },
+        Immutable.Map {
+          "id": "9005",
+          "issuer": "did:jolo:aa1bb2cc3dd4",
+          "credentialType": "AKaart",
+          "claimData": Immutable.Map {
+            "type": "A-kaart",
+            "idNumber": "T3ST0001",
+          },
+          "expires": 2020-04-29T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9006",
+          "issuer": "did:jolo:zz9xx8dd7vv6",
+          "credentialType": "IdCard",
+          "claimData": Immutable.Map {
+            "idNumber": "D3M0002",
+            "type": "Digital ID Card",
+            "gender": "male",
+            "birth_place": "berlin",
+          },
+          "expires": 2024-05-14T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+        Immutable.Map {
+          "id": "9007",
+          "issuer": "did:jolo:asdqw1321",
+          "credentialType": "Passport",
+          "claimData": Immutable.Map {
+            "idNumber": "N0TR34L",
+            "type": "Digital Passport",
+            "gender": "male",
+            "birth_place": "berlin",
+          },
+          "expires": 2016-03-12T00:00:00.000Z,
+          "subject": "did:demo:0001",
+        },
+      ],
     },
   },
   "did": Immutable.Map {

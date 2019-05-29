@@ -6,7 +6,9 @@ describe('Claims container', () => {
   const COMMON_PROPS = {
     showClaimsDetails: false,
     typeClaimDetails: '',
-    claims: {},
+    claimsState: {
+      decoratedCredentials: {},
+    },
     toggleLoading: () => {},
   }
 
