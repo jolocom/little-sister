@@ -1,5 +1,5 @@
-import { createStore, applyMiddleware } from 'redux'
-import thunk from 'redux-thunk'
+import {createStore, applyMiddleware, Action} from 'redux'
+import thunk, {ThunkDispatch as OriginalThunkDispatch, ThunkAction as OriginalThunkAction} from 'redux-thunk'
 import { RootState, rootReducer } from 'src/reducers'
 import { BackendMiddleware } from 'src/backendMiddleware'
 import config from 'src/config'
@@ -22,3 +22,6 @@ export function initStore(): Store<{}> {
     applyMiddleware(thunk.withExtraArgument(backendMiddleware)),
   )
 }
+
+export type ThunkDispatch = OriginalThunkDispatch<RootState, BackendMiddleware, Action>
+export type ThunkAction = OriginalThunkAction<void, RootState, BackendMiddleware, Action>

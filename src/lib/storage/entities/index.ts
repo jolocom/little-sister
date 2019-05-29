@@ -5,6 +5,7 @@ import {
   PersonaEntity,
   SignatureEntity,
   VerifiableCredentialEntity,
+  CacheEntity,
 } from '.'
 
 export { SettingEntity } from './settingEntity'
@@ -13,6 +14,7 @@ export { MasterKeyEntity } from './masterKeyEntity'
 export { PersonaEntity } from './personaEntity'
 export { SignatureEntity } from './signatureEntity'
 export { VerifiableCredentialEntity } from './verifiableCredentialEntity'
+export { CacheEntity } from './cacheEntity'
 
 export const entityList = [
   SettingEntity,
@@ -21,4 +23,5 @@ export const entityList = [
   PersonaEntity,
   SignatureEntity,
   VerifiableCredentialEntity,
+  CacheEntity,
 ]

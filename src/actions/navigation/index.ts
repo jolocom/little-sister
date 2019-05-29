@@ -2,12 +2,12 @@ import {
   NavigationActions,
   NavigationNavigateActionPayload,
 } from 'react-navigation'
-import { AnyAction, Dispatch } from 'redux'
-import { ssoActions } from 'src/actions/'
 import { toggleLoading } from '../account'
-import { BackendMiddleware } from 'src/backendMiddleware'
 import { setDeepLinkLoading, toggleDeepLinkFlag } from '../sso'
 import { routeList } from 'src/routeList'
+import { JolocomLib } from 'jolocom-lib'
+import { interactionHandlers } from '../../lib/storage/interactionTokens'
+import { ThunkAction } from '../../store'
 
 export const navigate = (options: NavigationNavigateActionPayload) =>
   NavigationActions.navigate(options)
@@ -25,10 +25,10 @@ export const navigatorReset = (newScreen: NavigationNavigateActionPayload) =>
  * It then matches the route name and dispatches a corresponding action
  * @param url - a deep link string with the following schema: appName://routeName/params
  */
-export const handleDeepLink = (url: string) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const handleDeepLink = (url: string): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   dispatch(toggleLoading(true))
   const route: string = url.replace(/.*?:\/\//g, '')
@@ -49,6 +49,12 @@ export const handleDeepLink = (url: string) => async (
 
     dispatch(setDeepLinkLoading(true))
     dispatch(toggleDeepLinkFlag(true))
-    dispatch(ssoActions.parseJWT(params))
+    const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
+    const handler = interactionHandlers[interactionToken.interactionType]
+
+    // TODO What if absent?
+    if (handler) {
+      dispatch(handler(interactionToken))
+    }
   }
 }

@@ -1,6 +1,4 @@
-import { AnyAction, Dispatch } from 'redux'
 import { genericActions, navigationActions } from 'src/actions/'
-import { BackendMiddleware } from 'src/backendMiddleware'
 import { routeList } from 'src/routeList'
 import { DecoratedClaims, CategorizedClaims } from 'src/reducers/account'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
@@ -12,6 +10,10 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
+import { ThunkAction } from '../../store'
+import { groupBy, zipWith, mergeRight } from 'ramda'
+import { compose } from 'redux'
+import { CredentialMetadataSummary } from '../../lib/storage/storage'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -38,10 +40,10 @@ export const toggleClaimsLoading = (value: boolean) => ({
   value,
 })
 
-export const checkIdentityExists = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const checkIdentityExists = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   try {
     const { keyChainLib, storageLib, encryptionLib } = backendMiddleware
@@ -62,7 +64,7 @@ export const checkIdentityExists = () => async (
     if (!decryptedSeed) throw new Error('could not decrypt seed')
 
     // TODO: rework the seed param on lib, currently cleartext seed is being passed around. Bad.
-    const userVault = new JolocomLib.KeyProvider(
+    const userVault = JolocomLib.KeyProvider.fromSeed(
       Buffer.from(decryptedSeed, 'hex'),
       password,
     )
@@ -84,9 +86,9 @@ export const checkIdentityExists = () => async (
   }
 }
 
-export const openClaimDetails = (claim: DecoratedClaims) => (
-  dispatch: Dispatch<AnyAction>,
-) => {
+export const openClaimDetails = (
+  claim: DecoratedClaims,
+): ThunkAction => dispatch => {
   dispatch(setSelected(claim))
   dispatch(
     navigationActions.navigate({
@@ -95,10 +97,10 @@ export const openClaimDetails = (claim: DecoratedClaims) => (
   )
 }
 
-export const saveClaim = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const saveClaim = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { identityWallet, storageLib, keyChainLib } = backendMiddleware
 
@@ -138,10 +140,10 @@ export const saveClaim = () => async (
 }
 
 // TODO Currently only rendering  / adding one
-export const saveExternalCredentials = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const saveExternalCredentials = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   const { storageLib } = backendMiddleware
   const externalCredentials = getState().account.claims.toJS().pendingExternal
@@ -168,19 +170,26 @@ export const toggleLoading = (value: boolean) => ({
   value,
 })
 
-export const setClaimsForDid = () => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const setClaimsForDid = (): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   dispatch(toggleClaimsLoading(true))
-  const storageLib = backendMiddleware.storageLib
+  const { storageLib } = backendMiddleware
 
   const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
+
+  const credentialMetadata: CredentialMetadataSummary[] = await Promise.all(
+    verifiableCredentials.map(storageLib.get.credentialMetadata),
+  )
+
   const claims = prepareClaimsForState(
     verifiableCredentials,
+    credentialMetadata,
   ) as CategorizedClaims
 
+  console.log(claims)
   dispatch({
     type: 'SET_CLAIMS_FOR_DID',
     claims,
@@ -189,22 +198,15 @@ export const setClaimsForDid = () => async (
   dispatch(toggleClaimsLoading(false))
 }
 
-const prepareClaimsForState = (credentials: SignedCredential[]) => {
-  const categorizedClaims = {}
-  const decoratedCredentials = convertToDecoratedClaim(credentials)
-
-  decoratedCredentials.forEach(decoratedCred => {
-    const uiCategory = getCredentialUiCategory(decoratedCred.credentialType)
-
-    try {
-      categorizedClaims[uiCategory].push(decoratedCred)
-    } catch (err) {
-      categorizedClaims[uiCategory] = [decoratedCred]
-    }
-  })
-
-  return categorizedClaims
-}
+const prepareClaimsForState = (
+  credentials: SignedCredential[],
+  credentialMetadata: CredentialMetadataSummary[],
+) =>
+  compose(
+    groupBy(getCredentialUiCategory),
+    zipWith(mergeRight, credentialMetadata),
+    convertToDecoratedClaim,
+  )(credentials)
 
 // TODO Util, make subject mandatory
 export const convertToDecoratedClaim = (

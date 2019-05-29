@@ -4,6 +4,10 @@ import { claims } from 'src/reducers/account/claims'
 import { loading } from 'src/reducers/account/loading'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import { ClaimEntry } from 'jolocom-lib/js/credentials/credential/types'
+import {
+  CredentialOfferMetadata,
+  CredentialOfferRenderInfo
+} from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
 
 export interface DecoratedClaims {
   credentialType: string
@@ -11,7 +15,9 @@ export interface DecoratedClaims {
   id: string
   issuer: string
   subject: string
-  expires?: Date
+  expires?: Date,
+  renderInfo?: CredentialOfferRenderInfo,
+  metadata?: CredentialOfferMetadata,
   keyboardType?:
     | 'default'
     | 'number-pad'
