@@ -118,7 +118,7 @@
     "crypto-js": "^3.1.9-1",
     "ethereumjs-wallet": "^0.6.0",
     "i18n-js": "^3.1.0",
-    "jolocom-lib": "/Users/focus/Jolocom-lib-2.4.3.tgz",
+    "jolocom-lib": "/Users/seanli/Jolocom-lib-2.4.3.tgz",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "ramda": "^0.26.1",
@@ -144,6 +144,7 @@
     "react-navigation-redux-helpers": "^1.0.3",
     "react-redux": "^5.0.7",
     "redux": "^3.7.2",
+    "redux-thunk": "^2.3.0",
     "sjcl": "^1.0.7",
     "squel": "^5.12.1",
     "wif": "^2.0.6"
