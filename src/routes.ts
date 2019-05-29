@@ -1,11 +1,11 @@
-import { Platform } from 'react-native'
+import { Platform  } from 'react-native'
 import { StackNavigator, TabNavigator } from 'react-navigation'
 import { Claims, Interactions, Records, ClaimDetails } from 'src/ui/home/'
 import { Landing } from 'src/ui/landing/'
 import { PaymentConsent } from 'src/ui/payment'
 import { SeedPhrase, Loading, Entropy } from 'src/ui/registration/'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
-import { Exception, BottomNavBar } from 'src/ui/generic/'
+import { Exception, SlidingTabBar} from 'src/ui/generic/'
 import { Consent } from 'src/ui/sso'
 import { CredentialReceive } from 'src/ui/home'
 import { Settings } from 'src/ui/settings'
@@ -135,11 +135,10 @@ export const BottomNavRoutes = TabNavigator(
       showLabel: false,
       style: {
         height: 50,
-        bottom: 0,
         backgroundColor: bottomNavBarBackground,
       },
     },
-    tabBarComponent: BottomNavBar,
+    tabBarComponent: SlidingTabBar,
     tabBarPosition: 'bottom',
   },
 )
