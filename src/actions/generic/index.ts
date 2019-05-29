@@ -35,10 +35,10 @@ export const loadSettings = (settings: { [key: string]: any }) => ({
   value: settings,
 })
 
-export const setLocale = (locale: string) => async (
-  dispatch: Dispatch<AnyAction>,
-  getState: Function,
-  backendMiddleware: BackendMiddleware,
+export const setLocale = (locale: string): ThunkAction => async (
+  dispatch,
+  getState,
+  backendMiddleware,
 ) => {
   await backendMiddleware.storageLib.store.setting('locale', locale)
   I18n.locale = locale

@@ -30,14 +30,14 @@ const ENOUGH_ENTROPY_PROGRESS = 0.6
 export class EntropyContainer extends React.Component<Props, State> {
   private entropyGenerator!: EntropyGeneratorInterface
 
-  state = {
+  public state = {
     isDrawn: false,
     encodedEntropy: '',
     entropyProgress: 0,
     sufficientEntropy: false,
   }
 
-  componentDidMount() {
+  public componentDidMount(): void {
     this.entropyGenerator = this.setUpEntropyGenerator()
   }
 
@@ -80,7 +80,7 @@ export class EntropyContainer extends React.Component<Props, State> {
     this.props.submit(this.state.encodedEntropy)
   }
 
-  render() {
+  public render(): JSX.Element {
     return (
       <EntropyComponent
         addPoint={this.addPoint}
@@ -93,7 +93,7 @@ export class EntropyContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: RootState) => ({})
 
-const mapDispatchToProps = (dispatch: (action: Function) => void) => ({
+const mapDispatchToProps = (dispatch: Function) => ({
   submit: (encodedEntropy: string) =>
     dispatch(registrationActions.submitEntropy(encodedEntropy)),
 })

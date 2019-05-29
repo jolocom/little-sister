@@ -10,16 +10,16 @@ import { ThunkAction } from '../../store'
 
 export const setLoadingMsg = (loadingMsg: string) => ({
   type: 'SET_LOADING_MSG',
-  value: loadingMsg
+  value: loadingMsg,
 })
 
-export const submitEntropy = (encodedEntropy: string) => (
-  dispatch: Dispatch<AnyAction>
-) => {
+export const submitEntropy = (
+  encodedEntropy: string,
+): ThunkAction => dispatch => {
   dispatch(
     navigationActions.navigatorReset({
-      routeName: routeList.Loading
-    })
+      routeName: routeList.Loading,
+    }),
   )
 
   dispatch(setLoadingMsg(loading.loadingStages[0]))
@@ -32,17 +32,17 @@ export const submitEntropy = (encodedEntropy: string) => (
 export const startRegistration = (): ThunkAction => async (
   dispatch,
   getState,
-  backendMiddleware
+  backendMiddleware,
 ) => {
   try {
     const randomPassword = await generateSecureRandomBytes(32)
     await backendMiddleware.keyChainLib.savePassword(
-      randomPassword.toString('base64')
+      randomPassword.toString('base64'),
     )
     return dispatch(
       navigationActions.navigatorReset({
-        routeName: routeList.Entropy
-      })
+        routeName: routeList.Entropy,
+      }),
     )
   } catch (err) {
     return dispatch(genericActions.showErrorScreen(err, routeList.Landing))
@@ -55,7 +55,7 @@ export const finishRegistration = () =>
 export const createIdentity = (encodedEntropy: string): ThunkAction => async (
   dispatch,
   getState,
-  backendMiddleware
+  backendMiddleware,
 ) => {
   const { encryptionLib, keyChainLib, storageLib, registry } = backendMiddleware
 
@@ -63,13 +63,13 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
     const password = await keyChainLib.getPassword()
     const encEntropy = encryptionLib.encryptWithPass({
       data: encodedEntropy,
-      pass: password
+      pass: password,
     })
     const entropyData = { encryptedEntropy: encEntropy, timestamp: Date.now() }
     await storageLib.store.encryptedSeed(entropyData)
     const userVault = JolocomLib.KeyProvider.fromSeed(
       Buffer.from(encodedEntropy, 'hex'),
-      password
+      password,
     )
 
     dispatch(setLoadingMsg(loading.loadingStages[1]))
@@ -77,8 +77,8 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
     await JolocomLib.util.fuelKeyWithEther(
       userVault.getPublicKey({
         encryptionPass: password,
-        derivationPath: JolocomLib.KeyTypes.ethereumKey
-      })
+        derivationPath: JolocomLib.KeyTypes.ethereumKey,
+      }),
     )
 
     dispatch(setLoadingMsg(loading.loadingStages[2]))
@@ -86,7 +86,7 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
 
     const personaData = {
       did: identityWallet.identity.did,
-      controllingKeyPath: JolocomLib.KeyTypes.jolocomIdentityKey
+      controllingKeyPath: JolocomLib.KeyTypes.jolocomIdentityKey,
     }
 
     await storageLib.store.persona(personaData)
@@ -97,15 +97,15 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
     return dispatch(
       navigationActions.navigatorReset({
         routeName: routeList.SeedPhrase,
-        params: { mnemonic: bip39.entropyToMnemonic(encodedEntropy) }
-      })
+        params: { mnemonic: bip39.entropyToMnemonic(encodedEntropy) },
+      }),
     )
   } catch (error) {
     return dispatch(
       genericActions.showErrorScreen(
         new AppError(ErrorCode.RegistrationFailed, error),
-        routeList.Landing
-      )
+        routeList.Landing,
+      ),
     )
   }
 }

@@ -11,11 +11,19 @@ const DOC_TYPES = [
 export function getDocumentClaims(
   claims: DecoratedClaims[],
 ): DecoratedClaims[] {
-  return claims.filter(claim => DOC_TYPES.includes(claim.credentialType))
+  return claims.filter(
+    claim =>
+      DOC_TYPES.includes(claim.credentialType) ||
+      (claim.renderInfo && claim.renderInfo.renderAs === 'document'),
+  )
 }
 
 export function getNonDocumentClaims(
   claims: DecoratedClaims[],
 ): DecoratedClaims[] {
-  return claims.filter(claim => DOC_TYPES.indexOf(claim.credentialType) < 0)
+  return claims.filter(
+    claim =>
+      DOC_TYPES.indexOf(claim.credentialType) < 0 ||
+      (claim.renderInfo && claim.renderInfo.renderAs !== 'document'),
+  )
 }

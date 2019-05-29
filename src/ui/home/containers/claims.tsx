@@ -17,11 +17,11 @@ interface ConnectProps {
 interface Props extends ConnectProps {}
 
 export class ClaimsContainer extends React.Component<Props> {
-  componentWillMount() {
+  public componentWillMount(): void {
     this.props.setClaimsForDid()
   }
 
-  render() {
+  public render(): JSX.Element {
     const { did, loading, claimsState, openClaimDetails } = this.props
     return (
       <View style={{ flex: 1 }}>
@@ -40,16 +40,16 @@ export class ClaimsContainer extends React.Component<Props> {
 const mapStateToProps = (state: any) => ({
   did: state.account.did.toJS().did,
   claimsState: state.account.claims.toJS(),
-  loading: state.account.loading.toJS().loading
+  loading: state.account.loading.toJS().loading,
 })
 
 const mapDispatchToProps = (dispatch: Function) => ({
   openClaimDetails: (claim: DecoratedClaims) =>
     dispatch(accountActions.openClaimDetails(claim)),
-  setClaimsForDid: () => dispatch(accountActions.setClaimsForDid())
+  setClaimsForDid: () => dispatch(accountActions.setClaimsForDid()),
 })
 
 export const Claims = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ClaimsContainer)
