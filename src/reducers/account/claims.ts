@@ -2,7 +2,7 @@ import { AnyAction } from 'redux'
 import { assocPath } from 'ramda'
 import {
   ClaimsState,
-  CategorizedClaims,
+  CategorizedClaims, DecoratedClaims
   // DecoratedClaims,
 } from 'src/reducers/account'
 
@@ -78,7 +78,7 @@ export const claims = (
     case 'TOGGLE_CLAIMS_LOADING':
       return {...state, loading: action.value}
     case 'SET_CLAIMS_FOR_DID':
-      return {...state, decoratedCredentials: action.claims}
+      return {...state, decoratedCredentials: addDefaultValues(action.claims)}
     case 'SET_EXTERNAL':
       return {...state, pendingExternal: action.external}
     case 'RESET_EXTERNAL':
@@ -94,33 +94,33 @@ export const claims = (
   }
 }
 
-// const addDefaultValues = (claims: CategorizedClaims) =>
-//   Object.keys(categorizedClaims).reduce(
-//     (acc: CategorizedClaims, category: string) => ({
-//       ...acc,
-//       [category]: injectPlaceholdersIfNeeded(category, claims[category]),
-//     }),
-//     {},
-//   )
+const addDefaultValues = (claims: CategorizedClaims) =>
+  Object.keys(categorizedClaims).reduce(
+    (acc: CategorizedClaims, category: string) => ({
+      ...acc,
+      [category]: injectPlaceholdersIfNeeded(category, claims[category]),
+    }),
+    {},
+  )
 
-// const injectPlaceholdersIfNeeded = (
-//   category: string,
-//   claims: DecoratedClaims[],
-// ): DecoratedClaims[] => {
-//   if (!claims || claims.length === 0) {
-//     return categorizedClaims[category]
-//   }
-//
-//   const missing = categorizedClaims[category].filter(
-//     defaultClaim =>
-//       !claims.some(
-//         claim => claim.credentialType === defaultClaim.credentialType,
-//       ),
-//   )
-//
-//   if (missing) {
-//     return [...missing, ...claims]
-//   }
-//
-//   return claims
-// }
+const injectPlaceholdersIfNeeded = (
+  category: string,
+  claims: DecoratedClaims[],
+): DecoratedClaims[] => {
+  if (!claims || claims.length === 0) {
+    return categorizedClaims[category]
+  }
+
+  const missing = categorizedClaims[category].filter(
+    defaultClaim =>
+      !claims.some(
+        claim => claim.credentialType === defaultClaim.credentialType,
+      ),
+  )
+
+  if (missing) {
+    return [...missing, ...claims]
+  }
+
+  return claims
+}

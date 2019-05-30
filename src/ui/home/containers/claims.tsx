@@ -23,7 +23,6 @@ export class ClaimsContainer extends React.Component<Props> {
 
   public render(): JSX.Element {
     const { did, loading, claimsState, openClaimDetails } = this.props
-    console.log(claimsState.decoratedCredentials)
     return (
       <View style={{ flex: 1 }}>
         <CredentialOverview
