@@ -1,9 +1,7 @@
 import { AnyAction } from 'redux'
-import { assocPath } from 'ramda'
 import {
   ClaimsState,
   CategorizedClaims, DecoratedClaims
-  // DecoratedClaims,
 } from 'src/reducers/account'
 
 const categorizedClaims: CategorizedClaims = {
@@ -87,8 +85,18 @@ export const claims = (
       return {...state, selected: action.selected}
     case 'RESET_SELECTED':
       return {...state, selected: initialState.selected}
-    case 'HANLDE_CLAIM_INPUT':
-      return assocPath(['selected', 'claimsData', action.fieldName], action.fieldValue, state)({}) // TODO Error?
+    case 'HANDLE_CLAIM_INPUT':
+      const claimData = {
+        [action.fieldName]: action.fieldValue
+      }
+
+      return {
+        ...state,
+        selected: {
+          ...state.selected,
+          claimData
+        },
+      }
     default:
       return state
   }

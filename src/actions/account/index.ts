@@ -30,7 +30,7 @@ export const resetSelected = () => ({
 })
 
 export const handleClaimInput = (fieldValue: string, fieldName: string) => ({
-  type: 'HANLDE_CLAIM_INPUT',
+  type: 'HANDLE_CLAIM_INPUT',
   fieldName,
   fieldValue,
 })
