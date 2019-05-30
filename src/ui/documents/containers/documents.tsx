@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { openExpiredDetails } from 'src/actions/documents'
 import { CategorizedClaims, DecoratedClaims } from 'src/reducers/account'
 import { getDocumentClaims } from 'src/utils/filterDocuments'
+import {RootState} from '../../../reducers'
 
 interface ConnectProps {
   decoratedCredentials: CategorizedClaims
@@ -42,8 +43,8 @@ export class DocumentsContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any): {} => ({
-  decoratedCredentials: state.account.claims.toJS().decoratedCredentials,
+const mapStateToProps = ({account: {claims: {decoratedCredentials}}}: RootState): {} => ({
+  decoratedCredentials,
 })
 
 const mapDispatchToProps = (dispatch: Function): {} => ({

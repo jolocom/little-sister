@@ -4,7 +4,6 @@ import { LoadingScreen } from 'src/ui/generic/'
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { registrationActions } from 'src/actions/'
 import { RootState } from 'src/reducers/'
-import Immutable from 'immutable'
 
 interface ConnectProps {
   startRegistration: () => void
@@ -23,10 +22,9 @@ export class LandingContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = (state: RootState) => {
-  const loading = Immutable.fromJS(state.account.loading)
+const mapStateToProps = ({account: {loading: {loading}}}: RootState) => {
   return {
-    loading: loading.get('loading'),
+    loading,
   }
 }
 

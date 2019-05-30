@@ -23,6 +23,7 @@ export class ClaimsContainer extends React.Component<Props> {
 
   public render(): JSX.Element {
     const { did, loading, claimsState, openClaimDetails } = this.props
+    console.log(claimsState.decoratedCredentials)
     return (
       <View style={{ flex: 1 }}>
         <CredentialOverview
@@ -38,9 +39,9 @@ export class ClaimsContainer extends React.Component<Props> {
 
 // TODO nicer pattern for accessing state, perhaps immer or something easier to Type
 const mapStateToProps = (state: any) => ({
-  did: state.account.did.toJS().did,
-  claimsState: state.account.claims.toJS(),
-  loading: state.account.loading.toJS().loading,
+  did: state.account.did.did,
+  claimsState: state.account.claims,
+  loading: state.account.loading.loading,
 })
 
 const mapDispatchToProps = (dispatch: Function) => ({

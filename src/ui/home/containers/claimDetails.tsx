@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { RootState } from 'src/reducers/'
 import { accountActions } from 'src/actions'
 import { ClaimsState } from 'src/reducers/account'
-import Immutable from 'immutable'
 
 interface ConnectProps {
   claims: ClaimsState
@@ -28,10 +27,9 @@ export class ClaimDetailsContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => {
-  const claims = Immutable.fromJS(state.account.claims)
+const mapStateToProps = ({account: {claims}}: RootState) => {
   return {
-    claims: claims.toJS(),
+    claims,
   }
 }
 

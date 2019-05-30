@@ -3,7 +3,7 @@ import {
   ConnectionOptions,
   Connection,
 } from 'typeorm/browser'
-import {classToPlain, plainToClass} from 'class-transformer'
+import {plainToClass} from 'class-transformer'
 import {
   SettingEntity,
   PersonaEntity,

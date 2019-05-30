@@ -1,9 +1,9 @@
 import { AnyAction } from 'redux'
-import Immutable from 'immutable'
+import { assocPath } from 'ramda'
 import {
   ClaimsState,
   CategorizedClaims,
-  DecoratedClaims,
+  // DecoratedClaims,
 } from 'src/reducers/account'
 
 const categorizedClaims: CategorizedClaims = {
@@ -71,64 +71,56 @@ export const initialState: ClaimsState = {
 }
 
 export const claims = (
-  state = Immutable.fromJS(initialState),
+  state = initialState,
   action: AnyAction,
 ): ClaimsState => {
   switch (action.type) {
     case 'TOGGLE_CLAIMS_LOADING':
-      return state.setIn(['loading'], action.value)
+      return {...state, loading: action.value}
     case 'SET_CLAIMS_FOR_DID':
-      return state
-        .set(
-          'decoratedCredentials',
-          Immutable.fromJS(addDefaultValues(action.claims)),
-        )
-        .set('loading', false)
+      return {...state, decoratedCredentials: action.claims}
     case 'SET_EXTERNAL':
-      return state.set('pendingExternal', Immutable.fromJS(action.external))
+      return {...state, pendingExternal: action.external}
     case 'RESET_EXTERNAL':
-      return state.set('pendingExternal', Immutable.fromJS([]))
+      return {...state, pendingExternal: []} // TODO Remove in favor of calling set external with empty array
     case 'SET_SELECTED':
-      return state.setIn(['selected'], Immutable.fromJS(action.selected))
+      return {...state, selected: action.selected}
     case 'RESET_SELECTED':
-      return state.setIn(['selected'], initialState.selected)
+      return {...state, selected: initialState.selected}
     case 'HANLDE_CLAIM_INPUT':
-      return state.setIn(
-        ['selected', 'claimData', action.fieldName],
-        action.fieldValue,
-      )
+      return assocPath(['selected', 'claimsData', action.fieldName], action.fieldValue, state)({}) // TODO Error?
     default:
       return state
   }
 }
 
-const addDefaultValues = (claims: CategorizedClaims) =>
-  Object.keys(categorizedClaims).reduce(
-    (acc: CategorizedClaims, category: string) => ({
-      ...acc,
-      [category]: injectPlaceholdersIfNeeded(category, claims[category]),
-    }),
-    {},
-  )
+// const addDefaultValues = (claims: CategorizedClaims) =>
+//   Object.keys(categorizedClaims).reduce(
+//     (acc: CategorizedClaims, category: string) => ({
+//       ...acc,
+//       [category]: injectPlaceholdersIfNeeded(category, claims[category]),
+//     }),
+//     {},
+//   )
 
-const injectPlaceholdersIfNeeded = (
-  category: string,
-  claims: DecoratedClaims[],
-): DecoratedClaims[] => {
-  if (!claims || claims.length === 0) {
-    return categorizedClaims[category]
-  }
-
-  const missing = categorizedClaims[category].filter(
-    defaultClaim =>
-      !claims.some(
-        claim => claim.credentialType === defaultClaim.credentialType,
-      ),
-  )
-
-  if (missing) {
-    return [...missing, ...claims]
-  }
-
-  return claims
-}
+// const injectPlaceholdersIfNeeded = (
+//   category: string,
+//   claims: DecoratedClaims[],
+// ): DecoratedClaims[] => {
+//   if (!claims || claims.length === 0) {
+//     return categorizedClaims[category]
+//   }
+//
+//   const missing = categorizedClaims[category].filter(
+//     defaultClaim =>
+//       !claims.some(
+//         claim => claim.credentialType === defaultClaim.credentialType,
+//       ),
+//   )
+//
+//   if (missing) {
+//     return [...missing, ...claims]
+//   }
+//
+//   return claims
+// }

@@ -13,6 +13,7 @@ const isIncludedIn = <T>(list: T[]) => (element: T) => includes(element, list)
 
 const isDocument = ({ credentialType, renderInfo = {} }: DecoratedClaims) =>
   compose(
+    // @ts-ignore
     or(equals(renderInfo.renderAs, 'document')),
     isIncludedIn(DOC_TYPES),
   )(credentialType)

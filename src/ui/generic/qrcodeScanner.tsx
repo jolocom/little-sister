@@ -1,6 +1,6 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
-import {connect} from 'react-redux'
+import { connect } from 'react-redux'
 import { Container } from 'src/ui/structure'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
 import { Button } from 'react-native-material-ui'
@@ -8,16 +8,17 @@ import { QrScanEvent } from 'src/ui/generic/qrcodeScanner'
 import { navigationActions } from 'src/actions'
 import I18n from 'src/locales/i18n'
 import { LoadingSpinner } from './loadingSpinner'
-import {JolocomLib} from 'jolocom-lib'
-import {interactionHandlers} from '../../lib/storage/interactionTokens'
-import {AnyAction} from 'redux'
-import {ThunkAction, ThunkDispatch} from '../../store'
+import { JolocomLib } from 'jolocom-lib'
+import { interactionHandlers } from '../../lib/storage/interactionTokens'
+import { AnyAction } from 'redux'
+import { ThunkAction } from '../../store'
+import { showErrorScreen } from '../../actions/generic'
+import {RootState} from '../../reducers'
 const QRScanner = require('react-native-qrcode-scanner').default
 
 export interface QrScanEvent {
   data: string
 }
-
 
 interface Props {
   loading: boolean
@@ -57,19 +58,18 @@ export class QRcodeScanner extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: any) => ({
-  loading: state.account.loading.toJS().loading,
+const mapStateToProps = ({account: {loading: {loading}}}: RootState) => ({
+  loading
 })
 
-const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+const mapDispatchToProps = (dispatch: Function) => ({
   onScannerSuccess: (e: QrScanEvent) => {
     const interactionToken = JolocomLib.parse.interactionToken.fromJWT(e.data)
-    console.log(interactionToken)
     const handler = interactionHandlers[interactionToken.interactionType]
-    // TODO: What if not present?
-    if (handler) {
-      return dispatch(handler(interactionToken))
-    }
+
+    return handler
+      ? dispatch(handler(interactionToken))
+      : dispatch(showErrorScreen(new Error('No handler found')))
   },
   onScannerCancel: () => dispatch(navigationActions.goBack()),
 })

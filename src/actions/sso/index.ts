@@ -92,7 +92,7 @@ export const consumeCredentialRequest = (
   decodedCredentialRequest: JSONWebToken<CredentialRequest>,
 ): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { storageLib, identityWallet, registry } = backendMiddleware
-  const { did } = getState().account.did.toJS()
+  const { did } = getState().account.did
 
   try {
     await identityWallet.validateJWT(
@@ -222,7 +222,7 @@ export const cancelSSO = (): ThunkAction => dispatch => {
 
 export const cancelReceiving = (): ThunkAction => dispatch => {
   dispatch(resetSelected())
-  dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
+  return dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
 }
 
 export const toggleDeepLinkFlag = (value: boolean) => ({

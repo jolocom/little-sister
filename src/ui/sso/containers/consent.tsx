@@ -48,7 +48,7 @@ export class ConsentContainer extends React.Component<Props, State> {
 
 const mapStateToProps = (state: any) => ({
   activeCredentialRequest: state.sso.activeCredentialRequest,
-  currentDid: state.account.did.toJS().did,
+  currentDid: state.account.did.did,
 })
 
 const mapDispatchToProps = (dispatch: Function) => ({

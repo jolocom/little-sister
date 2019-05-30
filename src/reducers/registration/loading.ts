@@ -1,5 +1,4 @@
 import { AnyAction } from 'redux'
-import Immutable from 'immutable'
 import { LoadingState } from 'src/reducers/registration/'
 
 const initialState: LoadingState = {
@@ -7,12 +6,14 @@ const initialState: LoadingState = {
 }
 
 export const loading = (
-  state = Immutable.fromJS(initialState),
+  state = initialState,
   action: AnyAction,
-): string => {
+): LoadingState => {
   switch (action.type) {
     case 'SET_LOADING_MSG':
-      return state.setIn(['loadingMsg'], action.value)
+      return {
+        loadingMsg: action.value
+      }
     default:
       return state
   }

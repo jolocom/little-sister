@@ -105,8 +105,8 @@ export const saveClaim = (): ThunkAction => async (
   const { identityWallet, storageLib, keyChainLib } = backendMiddleware
 
   try {
-    const did = getState().account.did.get('did')
-    const claimsItem = getState().account.claims.toJS().selected
+    const did = getState().account.did.did
+    const claimsItem = getState().account.claims.selected
     const password = await keyChainLib.getPassword()
 
     const verifiableCredential = await identityWallet.create.signedCredential(
@@ -146,7 +146,7 @@ export const saveExternalCredentials = (): ThunkAction => async (
   backendMiddleware,
 ) => {
   const { storageLib } = backendMiddleware
-  const externalCredentials = getState().account.claims.toJS().pendingExternal
+  const externalCredentials = getState().account.claims.pendingExternal
   const cred: SignedCredential = externalCredentials[0]
 
   if (cred.id) {
@@ -155,9 +155,9 @@ export const saveExternalCredentials = (): ThunkAction => async (
 
   try {
     await storageLib.store.verifiableCredential(externalCredentials[0])
-    dispatch(cancelReceiving())
+    return dispatch(cancelReceiving())
   } catch (err) {
-    dispatch(
+    return dispatch(
       genericActions.showErrorScreen(
         new AppError(ErrorCode.SaveExternalCredentialFailed, err),
       ),
@@ -189,7 +189,6 @@ export const setClaimsForDid = (): ThunkAction => async (
     credentialMetadata,
   ) as CategorizedClaims
 
-  console.log(claims)
   dispatch({
     type: 'SET_CLAIMS_FOR_DID',
     claims,

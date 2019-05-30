@@ -1,19 +1,17 @@
 import React from 'react'
-import { connect } from 'react-redux'
-import { RootState } from 'src/reducers/'
-import { DecoratedClaims } from 'src/reducers/account'
+import {connect} from 'react-redux'
+import {RootState} from 'src/reducers/'
+import {DecoratedClaims} from 'src/reducers/account'
 
-import Immutable from 'immutable'
 import {
   convertToDecoratedClaim,
-  saveExternalCredentials,
+  saveExternalCredentials
 } from 'src/actions/account'
-import { CredentialDialogComponent } from '../components/credentialDialog'
-import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
-import { cancelReceiving } from 'src/actions/sso'
-import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
-import { View } from 'react-native'
-import {ThunkDispatch} from '../../../store'
+import {CredentialDialogComponent} from '../components/credentialDialog'
+import {SignedCredential} from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import {cancelReceiving} from 'src/actions/sso'
+import {ButtonSection} from 'src/ui/structure/buttonSectionBottom'
+import {View} from 'react-native'
 
 interface ConnectProps {
   externalCredentials: SignedCredential[]
@@ -21,7 +19,8 @@ interface ConnectProps {
   goBack: () => void
 }
 
-interface Props extends ConnectProps {}
+interface Props extends ConnectProps {
+}
 
 interface State {
   toRender: DecoratedClaims
@@ -29,14 +28,14 @@ interface State {
 
 export class CredentialsReceiveContainer extends React.Component<Props, State> {
   state = {
-    toRender: convertToDecoratedClaim(this.props.externalCredentials)[0],
+    toRender: convertToDecoratedClaim(this.props.externalCredentials)[0]
   }
 
   render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.9 }}>
-          <CredentialDialogComponent credentialToRender={this.state.toRender} />
+      <View style={{flex: 1}}>
+        <View style={{flex: 0.9}}>
+          <CredentialDialogComponent credentialToRender={this.state.toRender}/>
         </View>
         <ButtonSection
           confirmText={'Accept'}
@@ -50,19 +49,18 @@ export class CredentialsReceiveContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = (state: RootState) => {
-  const claims = Immutable.fromJS(state.account.claims)
+const mapStateToProps = ({account: {claims: {pendingExternal: externalCredentials}}}: RootState) => {
   return {
-    externalCredentials: claims.toJS().pendingExternal,
+    externalCredentials
   }
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+const mapDispatchToProps = (dispatch: Function) => ({
   saveExternalCredentials: () => dispatch(saveExternalCredentials()),
-  goBack: () => dispatch(cancelReceiving()),
+  goBack: () => dispatch(cancelReceiving())
 })
 
 export const CredentialReceive = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(CredentialsReceiveContainer)
