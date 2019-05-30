@@ -1,7 +1,8 @@
 import { AnyAction } from 'redux'
 import {
   ClaimsState,
-  CategorizedClaims, DecoratedClaims
+  CategorizedClaims,
+  DecoratedClaims,
 } from 'src/reducers/account'
 
 const categorizedClaims: CategorizedClaims = {
@@ -74,27 +75,26 @@ export const claims = (
 ): ClaimsState => {
   switch (action.type) {
     case 'TOGGLE_CLAIMS_LOADING':
-      return {...state, loading: action.value}
+      return { ...state, loading: action.value }
     case 'SET_CLAIMS_FOR_DID':
-      return {...state, decoratedCredentials: addDefaultValues(action.claims)}
+      return { ...state, decoratedCredentials: addDefaultValues(action.claims) }
     case 'SET_EXTERNAL':
-      return {...state, pendingExternal: action.external}
+      return { ...state, pendingExternal: action.external }
     case 'RESET_EXTERNAL':
-      return {...state, pendingExternal: []} // TODO Remove in favor of calling set external with empty array
+      return { ...state, pendingExternal: [] } // TODO Remove in favor of calling set external with empty array
     case 'SET_SELECTED':
-      return {...state, selected: action.selected}
+      return { ...state, selected: action.selected }
     case 'RESET_SELECTED':
-      return {...state, selected: initialState.selected}
+      return { ...state, selected: initialState.selected }
     case 'HANDLE_CLAIM_INPUT':
-      const claimData = {
-        [action.fieldName]: action.fieldValue
-      }
-
       return {
         ...state,
         selected: {
           ...state.selected,
-          claimData
+          claimData: {
+            ...state.selected.claimData,
+            [action.fieldName]: action.fieldValue,
+          },
         },
       }
     default:

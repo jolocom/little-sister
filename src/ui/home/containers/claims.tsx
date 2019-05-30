@@ -5,6 +5,7 @@ import { CredentialOverview } from '../components/credentialOverview'
 import { accountActions } from 'src/actions'
 import { ClaimsState } from 'src/reducers/account'
 import { DecoratedClaims } from 'src/reducers/account/'
+import { RootState } from '../../../reducers'
 
 interface ConnectProps {
   setClaimsForDid: () => void
@@ -36,12 +37,13 @@ export class ClaimsContainer extends React.Component<Props> {
   }
 }
 
-// TODO nicer pattern for accessing state, perhaps immer or something easier to Type
-const mapStateToProps = (state: any) => ({
-  did: state.account.did.did,
-  claimsState: state.account.claims,
-  loading: state.account.loading.loading,
-})
+const mapStateToProps = ({
+  account: {
+    did: { did },
+    claims: claimsState,
+    loading: { loading },
+  },
+}: RootState) => ({ did, claimsState, loading })
 
 const mapDispatchToProps = (dispatch: Function) => ({
   openClaimDetails: (claim: DecoratedClaims) =>

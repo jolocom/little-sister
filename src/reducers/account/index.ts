@@ -3,7 +3,6 @@ import { did } from 'src/reducers/account/did'
 import { claims } from 'src/reducers/account/claims'
 import { loading } from 'src/reducers/account/loading'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
-import { ClaimEntry } from 'jolocom-lib/js/credentials/credential/types'
 import {
   CredentialOfferMetadata,
   CredentialOfferRenderInfo,
@@ -11,7 +10,9 @@ import {
 
 export interface DecoratedClaims {
   credentialType: string
-  claimData: ClaimEntry
+  claimData: {
+    [key: string] : any /** @TODO Type correctly */
+  }
   id: string
   issuer: string
   subject: string

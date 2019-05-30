@@ -15,6 +15,7 @@ import {
 import { ReactNode } from 'react-redux'
 import { DecoratedClaims } from 'src/reducers/account'
 import I18n from 'src/locales/i18n'
+import {values, all, isEmpty} from 'ramda'
 
 interface Props {
   handleInteraction?: (event: GestureResponderEvent) => void
@@ -31,7 +32,6 @@ interface Props {
 
 interface State {
   collapsed: boolean
-  blank: boolean
 }
 
 export class CredentialCard extends React.Component<Props, State> {
@@ -40,9 +40,6 @@ export class CredentialCard extends React.Component<Props, State> {
 
     this.state = {
       collapsed: props.collapsible || false,
-      blank: Object.keys(props.credentialItem.claimData).every(
-        key => !props.credentialItem.claimData[key],
-      ),
     }
   }
 
@@ -68,12 +65,12 @@ export class CredentialCard extends React.Component<Props, State> {
     const { credentialType, claimData } = credentialItem
     const onEdit = handleInteraction || (() => {})
 
-    if (this.state.blank) {
+    const isBlank = all(isEmpty, values(claimData))
+    if (isBlank) {
       return (
         <PlaceholderClaimCard onEdit={onEdit} credentialType={credentialType} />
       )
     }
-
     return Object.keys(claimData).map(key => (
       <ClaimCard
         key={key}

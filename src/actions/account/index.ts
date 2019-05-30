@@ -179,7 +179,6 @@ export const setClaimsForDid = (): ThunkAction => async (
   const { storageLib } = backendMiddleware
 
   const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
-
   const credentialMetadata: CredentialMetadataSummary[] = await Promise.all(
     verifiableCredentials.map(storageLib.get.credentialMetadata),
   )
@@ -193,6 +192,7 @@ export const setClaimsForDid = (): ThunkAction => async (
     type: 'SET_CLAIMS_FOR_DID',
     claims,
   })
+  console.log(claims)
 
   dispatch(toggleClaimsLoading(false))
 }

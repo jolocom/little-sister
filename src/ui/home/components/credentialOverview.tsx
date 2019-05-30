@@ -13,6 +13,7 @@ import { prepareLabel } from 'src/lib/util'
 import I18n from 'src/locales/i18n'
 import { getNonDocumentClaims } from 'src/utils/filterDocuments'
 const loaders = require('react-native-indicator')
+import { groupBy, map, omit, toPairs, fromPairs } from 'ramda'
 
 interface Props {
   claimsToRender: CategorizedClaims
@@ -44,6 +45,7 @@ const styles = StyleSheet.create({
 export class CredentialOverview extends React.Component<Props, State> {
   private renderCredentialCard = (category: string): ReactNode => {
     const { onEdit, did, claimsToRender } = this.props
+    // console.log(claimsToRender, 'overview')
 
     let categorizedCredentials = (claimsToRender[category] || []).sort((a, b) =>
       a.credentialType > b.credentialType ? 1 : -1,
@@ -53,26 +55,20 @@ export class CredentialOverview extends React.Component<Props, State> {
     }
 
     return categorizedCredentials.map((claim: DecoratedClaims, index) => {
-      const filteredKeys = Object.keys(claim.claimData).filter(
-        el => el !== 'id',
-      )
-      const captialized = filteredKeys.reduce(
-        (acc, curr) => ({
-          ...acc,
-          [prepareLabel(curr)]: claim.claimData[curr],
-        }),
-        {},
-      )
-      const selfSigned = claim.issuer === did
+      const { claimData, issuer, credentialType } = claim
 
+      const prep = ([key, value]) => [prepareLabel(key), value]
+      const capitalized = fromPairs(toPairs(claimData).map(prep))
+
+      const selfSigned = issuer === did
       return (
         <CredentialCard
-          key={claim.credentialType}
+          key={credentialType}
           handleInteraction={() => onEdit(claim)}
-          credentialItem={{ ...claim, claimData: captialized }}
+          credentialItem={{ ...claim, claimData: capitalized }}
           collapsible={collapsible(claim)}
           rightIcon={selfSigned ? <MoreIcon /> : null}
-          leftIcon={getCredentialIconByType(claim.credentialType)}
+          leftIcon={getCredentialIconByType(credentialType)}
           containerStyle={index === 0 ? { borderTopWidth: 1 } : undefined}
         />
       )
