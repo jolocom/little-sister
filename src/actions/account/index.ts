@@ -10,10 +10,11 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import { ThunkAction } from '../../store'
+import {Action, AsyncThunkAction, ThunkAction} from '../../store'
 import { groupBy, zipWith, mergeRight } from 'ramda'
 import { compose } from 'redux'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
+import {NavigationResetAction} from 'react-navigation'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -140,7 +141,7 @@ export const saveClaim = (): ThunkAction => async (
 }
 
 // TODO Currently only rendering  / adding one
-export const saveExternalCredentials = (): ThunkAction => async (
+export const saveExternalCredentials = (): AsyncThunkAction<NavigationResetAction> => async (
   dispatch,
   getState,
   backendMiddleware,
@@ -152,25 +153,16 @@ export const saveExternalCredentials = (): ThunkAction => async (
   if (cred.id) {
     await storageLib.delete.verifiableCredential(cred.id)
   }
-
-  try {
-    await storageLib.store.verifiableCredential(externalCredentials[0])
-    return dispatch(cancelReceiving())
-  } catch (err) {
-    return dispatch(
-      genericActions.showErrorScreen(
-        new AppError(ErrorCode.SaveExternalCredentialFailed, err),
-      ),
-    )
-  }
+  await storageLib.store.verifiableCredential(externalCredentials[0])
+  return dispatch(cancelReceiving())
 }
 
-export const toggleLoading = (value: boolean) => ({
+export const toggleLoading = (value: boolean): Action => ({
   type: 'SET_LOADING',
   value,
 })
 
-export const setClaimsForDid = (): ThunkAction => async (
+export const setClaimsForDid = (): AsyncThunkAction<Action> => async (
   dispatch,
   getState,
   backendMiddleware,
@@ -188,13 +180,13 @@ export const setClaimsForDid = (): ThunkAction => async (
     credentialMetadata,
   ) as CategorizedClaims
 
-  dispatch({
+  /** @TODO Move up into action creator modifier */
+  dispatch(toggleClaimsLoading(false))
+
+  return dispatch({
     type: 'SET_CLAIMS_FOR_DID',
     claims,
   })
-  console.log(claims)
-
-  dispatch(toggleClaimsLoading(false))
 }
 
 const prepareClaimsForState = (

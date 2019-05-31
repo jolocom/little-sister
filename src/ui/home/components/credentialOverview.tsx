@@ -13,7 +13,7 @@ import { prepareLabel } from 'src/lib/util'
 import I18n from 'src/locales/i18n'
 import { getNonDocumentClaims } from 'src/utils/filterDocuments'
 const loaders = require('react-native-indicator')
-import { groupBy, map, omit, toPairs, fromPairs } from 'ramda'
+import { compose, map, toPairs, fromPairs } from 'ramda'
 
 interface Props {
   claimsToRender: CategorizedClaims
@@ -45,7 +45,6 @@ const styles = StyleSheet.create({
 export class CredentialOverview extends React.Component<Props, State> {
   private renderCredentialCard = (category: string): ReactNode => {
     const { onEdit, did, claimsToRender } = this.props
-    // console.log(claimsToRender, 'overview')
 
     let categorizedCredentials = (claimsToRender[category] || []).sort((a, b) =>
       a.credentialType > b.credentialType ? 1 : -1,
@@ -57,8 +56,13 @@ export class CredentialOverview extends React.Component<Props, State> {
     return categorizedCredentials.map((claim: DecoratedClaims, index) => {
       const { claimData, issuer, credentialType } = claim
 
-      const prep = ([key, value]) => [prepareLabel(key), value]
-      const capitalized = fromPairs(toPairs(claimData).map(prep))
+      const capitalizeFirst = ([key, value]: string[]) : string[] => [prepareLabel(key), value]
+
+      const capitalized = compose(
+        fromPairs,
+        map(capitalizeFirst),
+        toPairs
+      )(claimData)
 
       const selfSigned = issuer === did
       return (

@@ -3,8 +3,12 @@ import { routeList } from 'src/routeList'
 import SplashScreen from 'react-native-splash-screen'
 import I18n from 'src/locales/i18n'
 import { ThunkAction } from '../../store'
+import { NavigationNavigateAction } from 'react-navigation'
 
-export const showErrorScreen = (error: Error, returnTo = routeList.Home) =>
+export const showErrorScreen = (
+  error: Error,
+  returnTo = routeList.Home,
+): ThunkAction<NavigationNavigateAction> => dispatch =>
   navigationActions.navigate({
     routeName: routeList.Exception,
     params: { returnTo, error },

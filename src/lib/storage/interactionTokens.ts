@@ -10,21 +10,21 @@ import {
 import { consumeAuthenticationRequest } from '../../actions/sso/authenticationRequest'
 import { consumeCredentialOfferRequest } from '../../actions/sso/credentialOfferRequest'
 import { consumePaymentRequest } from '../../actions/sso/paymentRequest'
-import { ThunkAction } from '../../store'
+import {AsyncThunkAction} from '../../store'
 
 /**
  * @param Metadata should not need to be passed to credential receive because it comes from cred Offer
  * Furthermore, this only needs to be defined for requests
  */
 
-type InteractionTokenHandler<T extends JWTEncodable> = (
+type InteractionTokenHandler<T extends JWTEncodable, R = void> = (
   token: JSONWebToken<T>,
-) => ThunkAction
+) => AsyncThunkAction<R>
 
 const buildHandler = <T extends JWTEncodable>(
   handler: InteractionTokenHandler<T>,
   expectedTokenType?: InteractionType,
-) => (interactionToken: JSONWebToken<T>) => {
+) => (interactionToken: JSONWebToken<T>): AsyncThunkAction => {
   if (
     expectedTokenType &&
     expectedTokenType !== interactionToken.interactionType

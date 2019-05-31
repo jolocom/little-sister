@@ -58,6 +58,11 @@ export class DocumentsComponent extends React.Component<Props, State> {
     const { activeDocumentIndex, showingValid } = this.state
     const { expiredDocuments, validDocuments, openExpiredDetails } = this.props
 
+    /** @TODO Temporary, to avoid crash */
+    if (!expiredDocuments.length || !validDocuments.length) {
+      return <View />
+    }
+
     return (
       <View style={styles.mainContainer}>
         <DocumentViewToggle

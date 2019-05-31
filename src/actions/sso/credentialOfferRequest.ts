@@ -8,13 +8,13 @@ import { isNil, all, map, compose, isEmpty } from 'ramda'
 import { httpAgent } from '../../lib/http'
 import { JolocomLib } from 'jolocom-lib'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
-import { ThunkAction } from '../../store'
+import {AsyncThunkAction} from '../../store'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import {keyIdToDid} from 'jolocom-lib/js/utils/helper'
 
 export const consumeCredentialOfferRequest = (
   credOfferRequest: JSONWebToken<CredentialOfferRequest>,
-): ThunkAction => async (
+): AsyncThunkAction => async (
   dispatch,
   getState,
   { keyChainLib, identityWallet, registry },

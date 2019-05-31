@@ -1,17 +1,21 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {RootState} from 'src/reducers/'
-import {DecoratedClaims} from 'src/reducers/account'
+import { connect } from 'react-redux'
+import { RootState } from 'src/reducers/'
+import { DecoratedClaims } from 'src/reducers/account'
 
 import {
   convertToDecoratedClaim,
-  saveExternalCredentials
+  saveExternalCredentials,
 } from 'src/actions/account'
-import {CredentialDialogComponent} from '../components/credentialDialog'
-import {SignedCredential} from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
-import {cancelReceiving} from 'src/actions/sso'
-import {ButtonSection} from 'src/ui/structure/buttonSectionBottom'
-import {View} from 'react-native'
+import { CredentialDialogComponent } from '../components/credentialDialog'
+import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import { cancelReceiving } from 'src/actions/sso'
+import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
+import { View } from 'react-native'
+import { withErrorHandlingAsync} from '../../../store'
+import { showErrorScreen } from '../../../actions/generic'
+import { compose } from 'ramda'
+import { AppError, ErrorCode } from '../../../lib/errors'
 
 interface ConnectProps {
   externalCredentials: SignedCredential[]
@@ -19,8 +23,7 @@ interface ConnectProps {
   goBack: () => void
 }
 
-interface Props extends ConnectProps {
-}
+interface Props extends ConnectProps {}
 
 interface State {
   toRender: DecoratedClaims
@@ -28,14 +31,14 @@ interface State {
 
 export class CredentialsReceiveContainer extends React.Component<Props, State> {
   state = {
-    toRender: convertToDecoratedClaim(this.props.externalCredentials)[0]
+    toRender: convertToDecoratedClaim(this.props.externalCredentials)[0],
   }
 
   render() {
     return (
-      <View style={{flex: 1}}>
-        <View style={{flex: 0.9}}>
-          <CredentialDialogComponent credentialToRender={this.state.toRender}/>
+      <View style={{ flex: 1 }}>
+        <View style={{ flex: 0.9 }}>
+          <CredentialDialogComponent credentialToRender={this.state.toRender} />
         </View>
         <ButtonSection
           confirmText={'Accept'}
@@ -49,18 +52,30 @@ export class CredentialsReceiveContainer extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({account: {claims: {pendingExternal: externalCredentials}}}: RootState) => {
+const mapStateToProps = ({
+  account: {
+    claims: { pendingExternal: externalCredentials },
+  },
+}: RootState) => {
   return {
-    externalCredentials
+    externalCredentials,
   }
 }
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  saveExternalCredentials: () => dispatch(saveExternalCredentials()),
-  goBack: () => dispatch(cancelReceiving())
+  saveExternalCredentials: () =>
+    dispatch(
+      // compose(
+      //   withErrorHandlingAsync((err: Error) =>
+      //       showErrorScreen(new AppError(ErrorCode.SaveExternalCredentialFailed, err)),
+      //   ),
+        saveExternalCredentials,
+      )(),
+    // ),
+  goBack: () => dispatch(cancelReceiving()),
 })
 
 export const CredentialReceive = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(CredentialsReceiveContainer)

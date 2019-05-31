@@ -12,6 +12,8 @@ import { RootState } from 'src/reducers/'
 import { navigationActions, accountActions, genericActions } from 'src/actions/'
 import { routeList } from './routeList'
 import { LoadingSpinner } from 'src/ui/generic/loadingSpinner'
+import {  withLoading } from './store'
+import {setDeepLinkLoading} from './actions/sso'
 
 const {
   createReduxBoundAddListener,
@@ -116,7 +118,7 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: Function) => ({
   goBack: () => dispatch(navigationActions.goBack()),
   handleDeepLink: (url: string) =>
-    dispatch(navigationActions.handleDeepLink(url)),
+    dispatch(withLoading(setDeepLinkLoading)(navigationActions.handleDeepLink(url))),
   openScanner: () =>
     dispatch(
       navigationActions.navigate({ routeName: routeList.QRCodeScanner }),
