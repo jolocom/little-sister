@@ -29,7 +29,7 @@ const mapStateToProps = ({account: {loading: {loading}}}: RootState) => {
 }
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  startRegistration: () => dispatch(registrationActions.startRegistration()),
+  startRegistration: () => dispatch(registrationActions.startRegistration),
 })
 
 export const Landing = connect(

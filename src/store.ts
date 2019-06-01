@@ -1,7 +1,6 @@
 import {
   createStore,
   applyMiddleware,
-  ActionCreator,
   AnyAction,
 } from 'redux'
 import thunk, { ThunkDispatch as OriginalThunkDispatch } from 'redux-thunk'
@@ -39,7 +38,7 @@ export type ThunkDispatch = OriginalThunkDispatch<
 >
 
 export interface ThunkAction {
-  <A extends All>(
+  <A extends All | Promise<All>>(
     dispatch: ThunkDispatch,
     getState: () => RootState,
     extraArgument: BackendMiddleware,
