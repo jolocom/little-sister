@@ -9,7 +9,9 @@ import { Linking } from 'react-native'
 import { cancelSSO, clearInteractionRequest } from 'src/actions/sso'
 import { JolocomRegistry } from 'jolocom-lib/js/registries/jolocomRegistry'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {AsyncThunkAction, ThunkAction} from '../../store'
+import { ThunkDispatch} from '../../store'
+import {RootState} from '../../reducers'
+import {BackendMiddleware} from '../../backendMiddleware'
 
 export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
   type: 'SET_PAYMENT_REQUEST',
@@ -18,7 +20,7 @@ export const setPaymentRequest = (request: StatePaymentRequestSummary) => ({
 
 export const consumePaymentRequest = (
   paymentRequest: JSONWebToken<PaymentRequest>,
-): AsyncThunkAction => async (dispatch, getState, backendMiddleware) => {
+) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
   const { identityWallet, registry } = backendMiddleware
 
   try {
@@ -40,26 +42,27 @@ export const consumePaymentRequest = (
       paymentRequest: paymentRequest.encode(),
     }
     dispatch(setPaymentRequest(paymentDetails))
-    dispatch(
+    return dispatch(
       navigationActions.navigatorReset({ routeName: routeList.PaymentConsent }),
     )
   } catch (err) {
-    dispatch(showErrorScreen(new AppError(ErrorCode.PaymentRequestFailed, err)))
+    return dispatch(showErrorScreen(new AppError(ErrorCode.PaymentRequestFailed, err)))
   } finally {
-    dispatch(ssoActions.setDeepLinkLoading(false))
+    return dispatch(ssoActions.setDeepLinkLoading(false))
   }
 }
 
-export const sendPaymentResponse = (): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const sendPaymentResponse = () => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   const { identityWallet } = backendMiddleware
   const {
     activePaymentRequest: { callbackURL, paymentRequest },
     isDeepLinkInteraction,
   } = getState().sso
+
   // add loading screen here
   try {
     const password = await backendMiddleware.keyChainLib.getPassword()
@@ -78,18 +81,18 @@ export const sendPaymentResponse = (): ThunkAction => async (
 
     if (isDeepLinkInteraction) {
       return Linking.openURL(`${callbackURL}/${response.encode()}`).then(() =>
-        dispatch(cancelSSO()),
+        dispatch(cancelSSO),
       )
     } else {
       return fetch(callbackURL, {
         method: 'POST',
         body: JSON.stringify({ token: response.encode() }),
         headers: { 'Content-Type': 'application/json' },
-      }).then(() => dispatch(cancelSSO()))
+      }).then(() => dispatch(cancelSSO))
     }
   } catch (err) {
-    dispatch(clearInteractionRequest())
-    dispatch(
+    dispatch(clearInteractionRequest)
+    return dispatch(
       showErrorScreen(new AppError(ErrorCode.PaymentResponseFailed, err)),
     )
   }

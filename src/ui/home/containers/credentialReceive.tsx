@@ -12,10 +12,6 @@ import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/si
 import { cancelReceiving } from 'src/actions/sso'
 import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
 import { View } from 'react-native'
-import { withErrorHandlingAsync} from '../../../store'
-import { showErrorScreen } from '../../../actions/generic'
-import { compose } from 'ramda'
-import { AppError, ErrorCode } from '../../../lib/errors'
 
 interface ConnectProps {
   externalCredentials: SignedCredential[]

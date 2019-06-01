@@ -2,22 +2,22 @@ import { navigationActions } from 'src/actions/'
 import { routeList } from 'src/routeList'
 import SplashScreen from 'react-native-splash-screen'
 import I18n from 'src/locales/i18n'
-import { ThunkAction } from '../../store'
-import { NavigationNavigateAction } from 'react-navigation'
+import { ThunkDispatch} from '../../store'
+import {RootState} from '../../reducers'
+import {BackendMiddleware} from '../../backendMiddleware'
 
 export const showErrorScreen = (
   error: Error,
   returnTo = routeList.Home,
-): ThunkAction<NavigationNavigateAction> => dispatch =>
-  navigationActions.navigate({
+) => navigationActions.navigate({
     routeName: routeList.Exception,
     params: { returnTo, error },
   })
 
-export const initApp = (): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const initApp = () => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   try {
     await backendMiddleware.initStorage()
@@ -27,10 +27,10 @@ export const initApp = (): ThunkAction => async (
     if (storedSettings.locale) I18n.locale = storedSettings.locale
     else storedSettings.locale = I18n.locale
 
-    dispatch(loadSettings(storedSettings))
     SplashScreen.hide()
+    return dispatch(loadSettings(storedSettings))
   } catch (e) {
-    dispatch(showErrorScreen(e, routeList.Landing))
+    return dispatch(showErrorScreen(e, routeList.Landing))
   }
 }
 
@@ -39,14 +39,14 @@ export const loadSettings = (settings: { [key: string]: any }) => ({
   value: settings,
 })
 
-export const setLocale = (locale: string): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const setLocale = (locale: string) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   await backendMiddleware.storageLib.store.setting('locale', locale)
   I18n.locale = locale
-  dispatch({
+  return dispatch({
     type: 'SET_LOCALE',
     value: locale,
   })

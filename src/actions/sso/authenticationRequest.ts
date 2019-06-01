@@ -8,7 +8,9 @@ import { cancelSSO, clearInteractionRequest } from '.'
 import { Linking } from 'react-native'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {AsyncThunkAction, ThunkAction} from '../../store'
+import { ThunkDispatch } from '../../store'
+import { RootState } from '../../reducers'
+import { BackendMiddleware } from '../../backendMiddleware'
 
 export const setAuthenticationRequest = (
   request: StateAuthenticationRequestSummary,
@@ -19,7 +21,11 @@ export const setAuthenticationRequest = (
 
 export const consumeAuthenticationRequest = (
   authenticationRequest: JSONWebToken<Authentication>,
-): AsyncThunkAction => async (dispatch, getState, backendMiddleware) => {
+) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
+) => {
   const { identityWallet } = backendMiddleware
   try {
     await identityWallet.validateJWT(authenticationRequest)
@@ -30,24 +36,24 @@ export const consumeAuthenticationRequest = (
       requestJWT: authenticationRequest.encode(),
     }
     dispatch(setAuthenticationRequest(authenticationDetails))
-    dispatch(
+    return dispatch(
       navigationActions.navigatorReset({
         routeName: routeList.AuthenticationConsent,
       }),
     )
   } catch (err) {
-    dispatch(
+    return dispatch(
       showErrorScreen(new AppError(ErrorCode.AuthenticationRequestFailed, err)),
     )
   } finally {
-    dispatch(ssoActions.setDeepLinkLoading(false))
+    return dispatch(ssoActions.setDeepLinkLoading(false))
   }
 }
 
-export const sendAuthenticationResponse = (): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const sendAuthenticationResponse = async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   const { identityWallet } = backendMiddleware
   const { isDeepLinkInteraction } = getState().sso
@@ -71,18 +77,19 @@ export const sendAuthenticationResponse = (): ThunkAction => async (
 
     if (isDeepLinkInteraction) {
       return Linking.openURL(`${callbackURL}/${response.encode()}`).then(() =>
-        dispatch(cancelSSO()),
+        dispatch(cancelSSO),
       )
-    } else {
-      return fetch(callbackURL, {
-        method: 'POST',
-        body: JSON.stringify({ token: response.encode() }),
-        headers: { 'Content-Type': 'application/json' },
-      }).then(() => dispatch(cancelSSO()))
     }
+    await fetch(callbackURL, {
+      method: 'POST',
+      body: JSON.stringify({ token: response.encode() }),
+      headers: { 'Content-Type': 'application/json' },
+    })
+
+    return dispatch(cancelSSO)
   } catch (err) {
-    dispatch(clearInteractionRequest())
-    dispatch(
+    dispatch(clearInteractionRequest)
+    return dispatch(
       showErrorScreen(
         new AppError(ErrorCode.AuthenticationResponseFailed, err),
       ),

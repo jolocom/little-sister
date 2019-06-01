@@ -10,11 +10,12 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {Action, AsyncThunkAction, ThunkAction} from '../../store'
+import {ThunkDispatch} from '../../store'
 import { groupBy, zipWith, mergeRight } from 'ramda'
 import { compose } from 'redux'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
-import {NavigationResetAction} from 'react-navigation'
+import {RootState} from '../../reducers'
+import {BackendMiddleware} from '../../backendMiddleware'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -41,10 +42,10 @@ export const toggleClaimsLoading = (value: boolean) => ({
   value,
 })
 
-export const checkIdentityExists = (): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const checkIdentityExists = () => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   try {
     const { keyChainLib, storageLib, encryptionLib } = backendMiddleware
@@ -74,12 +75,13 @@ export const checkIdentityExists = (): ThunkAction => async (
     dispatch(setDid(identityWallet.identity.did))
 
     dispatch(toggleLoading(false))
-    dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
+    return dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
   } catch (err) {
     if (err.message.indexOf('no such table') === 0) {
       return
     }
-    dispatch(
+
+    return dispatch(
       genericActions.showErrorScreen(
         new AppError(ErrorCode.WalletInitFailed, err),
       ),
@@ -89,19 +91,19 @@ export const checkIdentityExists = (): ThunkAction => async (
 
 export const openClaimDetails = (
   claim: DecoratedClaims,
-): ThunkAction => dispatch => {
+) => (dispatch: ThunkDispatch) => {
   dispatch(setSelected(claim))
-  dispatch(
+  return dispatch(
     navigationActions.navigate({
       routeName: routeList.ClaimDetails,
     }),
   )
 }
 
-export const saveClaim = (): ThunkAction => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const saveClaim = () => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   const { identityWallet, storageLib, keyChainLib } = backendMiddleware
 
@@ -126,13 +128,13 @@ export const saveClaim = (): ThunkAction => async (
     await storageLib.store.verifiableCredential(verifiableCredential)
     await setClaimsForDid()
 
-    dispatch(
+    return dispatch(
       navigationActions.navigatorReset({
         routeName: routeList.Home,
       }),
     )
   } catch (err) {
-    dispatch(
+    return dispatch(
       genericActions.showErrorScreen(
         new AppError(ErrorCode.SaveClaimFailed, err),
       ),
@@ -141,10 +143,10 @@ export const saveClaim = (): ThunkAction => async (
 }
 
 // TODO Currently only rendering  / adding one
-export const saveExternalCredentials = (): AsyncThunkAction<NavigationResetAction> => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const saveExternalCredentials = async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   const { storageLib } = backendMiddleware
   const externalCredentials = getState().account.claims.pendingExternal
@@ -153,19 +155,20 @@ export const saveExternalCredentials = (): AsyncThunkAction<NavigationResetActio
   if (cred.id) {
     await storageLib.delete.verifiableCredential(cred.id)
   }
+
   await storageLib.store.verifiableCredential(externalCredentials[0])
-  return dispatch(cancelReceiving())
+  return dispatch(cancelReceiving)
 }
 
-export const toggleLoading = (value: boolean): Action => ({
+export const toggleLoading = (value: boolean) => ({
   type: 'SET_LOADING',
   value,
 })
 
-export const setClaimsForDid = (): AsyncThunkAction<Action> => async (
-  dispatch,
-  getState,
-  backendMiddleware,
+export const setClaimsForDid = () => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
 ) => {
   dispatch(toggleClaimsLoading(true))
   const { storageLib } = backendMiddleware

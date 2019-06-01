@@ -14,11 +14,11 @@ import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
 import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRequest'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import { AsyncThunkAction, ThunkAction } from '../../store'
+import { ThunkDispatch} from '../../store'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import { equals } from 'ramda'
-import { NavigationResetAction } from 'react-navigation'
-import {Action, ActionCreator, AnyAction} from 'redux'
+import {RootState} from '../../reducers'
+import {BackendMiddleware} from '../../backendMiddleware'
 
 export const setCredentialRequest = (
   request: StateCredentialRequestSummary,
@@ -27,16 +27,16 @@ export const setCredentialRequest = (
   value: request,
 })
 
-export const clearInteractionRequest = () => ({
+export const clearInteractionRequest = {
   type: 'CLEAR_INTERACTION_REQUEST',
-})
+}
 
 export const setReceivingCredential = (external: SignedCredential[]) => ({
   type: 'SET_EXTERNAL',
   external,
 })
 
-export const setDeepLinkLoading: ActionCreator<AnyAction> = (value: boolean) => ({
+export const setDeepLinkLoading = (value: boolean) => ({
   type: 'SET_DEEP_LINK_LOADING',
   value,
 })
@@ -44,7 +44,7 @@ export const setDeepLinkLoading: ActionCreator<AnyAction> = (value: boolean) => 
 export const receiveExternalCredential = (
   credReceive: JSONWebToken<CredentialsReceive>,
   credentialOfferMetadata?: Array<CredentialMetadataSummary>,
-): AsyncThunkAction => async (dispatch, getState, backendMiddleware) => {
+) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
   const { identityWallet, registry, storageLib } = backendMiddleware
 
   try {
@@ -52,7 +52,7 @@ export const receiveExternalCredential = (
     const providedCredentials = credReceive.interactionToken.signedCredentials
 
     const validationResults = await JolocomLib.util.validateDigestables(
-      providedCredentials,
+      providedCredentials
     )
 
     // TODO Error Code
@@ -67,17 +67,17 @@ export const receiveExternalCredential = (
     }
 
     dispatch(setReceivingCredential(providedCredentials))
-    dispatch(
+    return dispatch(
       navigationActions.navigatorReset({
         routeName: routeList.CredentialDialog,
       }),
     )
   } catch (error) {
-    dispatch(
+    return dispatch(
       showErrorScreen(new AppError(ErrorCode.CredentialsReceiveFailed, error)),
     )
   } finally {
-    dispatch(accountActions.toggleLoading(false))
+    return dispatch(accountActions.toggleLoading(false))
   }
 }
 
@@ -92,7 +92,7 @@ interface AttributeSummary {
 
 export const consumeCredentialRequest = (
   decodedCredentialRequest: JSONWebToken<CredentialRequest>,
-): AsyncThunkAction => async (dispatch, getState, backendMiddleware) => {
+) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
   const { storageLib, identityWallet, registry } = backendMiddleware
   const { did } = getState().account.did
 
@@ -154,9 +154,9 @@ export const consumeCredentialRequest = (
     }
 
     dispatch(setCredentialRequest(summary))
-    dispatch(navigationActions.navigatorReset({ routeName: routeList.Consent }))
+    return dispatch(navigationActions.navigatorReset({ routeName: routeList.Consent }))
   } catch (error) {
-    dispatch(
+    return dispatch(
       showErrorScreen(new AppError(ErrorCode.CredentialRequestFailed, error)),
     )
   }
@@ -164,7 +164,7 @@ export const consumeCredentialRequest = (
 
 export const sendCredentialResponse = (
   selectedCredentials: StateVerificationSummary[],
-): ThunkAction => async (dispatch, getState, backendMiddleware) => {
+) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
   const { storageLib, keyChainLib, identityWallet } = backendMiddleware
   const {
     activeCredentialRequest: { callbackURL, requestJWT },
@@ -193,33 +193,29 @@ export const sendCredentialResponse = (
       request,
     )
 
-    throw new Error('Catastrophy')
-
     if (isDeepLinkInteraction) {
       return Linking.openURL(`${callbackURL}${response.encode()}`).then(() =>
-        dispatch(cancelSSO()),
+        dispatch(cancelSSO),
       )
     } else {
       return fetch(callbackURL, {
         method: 'POST',
         body: JSON.stringify({ token: response.encode() }),
         headers: { 'Content-Type': 'application/json' },
-      }).then(() => dispatch(cancelSSO()))
+      }).then(() => dispatch(cancelSSO))
     }
   } catch (error) {
-    dispatch(clearInteractionRequest())
+    return dispatch(clearInteractionRequest)
   }
 }
 
-export const cancelSSO = (): ThunkAction => dispatch => {
-  dispatch(clearInteractionRequest())
+export const cancelSSO = (dispatch: ThunkDispatch) => {
+  dispatch(clearInteractionRequest)
   dispatch(accountActions.toggleLoading(false))
-  dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
+  return dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
 }
 
-export const cancelReceiving = (): ThunkAction<
-  NavigationResetAction
-> => dispatch => {
+export const cancelReceiving = (dispatch: ThunkDispatch) => {
   dispatch(resetSelected())
   return dispatch(
     navigationActions.navigatorReset({ routeName: routeList.Home }),
@@ -228,7 +224,7 @@ export const cancelReceiving = (): ThunkAction<
 
 export const toggleDeepLinkFlag = (
   value: boolean,
-): ThunkAction<Action> => dispatch => ({
+)=> ({
   type: 'SET_DEEP_LINK_FLAG',
   value,
 })

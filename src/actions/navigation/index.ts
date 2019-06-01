@@ -1,6 +1,5 @@
 import {
   NavigationActions,
-  NavigationNavigateAction,
   NavigationNavigateActionPayload,
   NavigationResetAction,
 } from 'react-navigation'
@@ -8,12 +7,14 @@ import { toggleDeepLinkFlag } from '../sso'
 import { routeList } from 'src/routeList'
 import { JolocomLib } from 'jolocom-lib'
 import { interactionHandlers } from '../../lib/storage/interactionTokens'
-import { AsyncThunkAction } from '../../store'
 import { showErrorScreen } from '../generic'
 import {
   JSONWebToken,
   JWTEncodable,
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import {ThunkAction, ThunkDispatch} from '../../store'
+import {RootState} from '../../reducers'
+import {BackendMiddleware} from '../../backendMiddleware'
 
 export const navigate = (options: NavigationNavigateActionPayload) =>
   NavigationActions.navigate(options)
@@ -35,30 +36,30 @@ export const navigatorReset = (
  */
 export const handleDeepLink = (
   url: string,
-):    AsyncThunkAction<NavigationResetAction | NavigationNavigateAction> => async (
-      dispatch,
-      getState,
-      backendMiddleware,
-    ) => {
-      // TODO Fix
-      const route: string = url.replace(/.*?:\/\//g, '')
-      const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
-      const routeName = route.split('/')[0]
+) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
+) => {
+  // TODO Fix
+  const route: string = url.replace(/.*?:\/\//g, '')
+  const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
+  const routeName = route.split('/')[0]
 
-      if (
-        routeName === 'consent' ||
-        routeName === 'payment' ||
-        routeName === 'authenticate'
-      ) {
-        // The identityWallet is initialised before the deep link is handled.
-        if (!backendMiddleware.identityWallet) {
-          return dispatch(navigatorReset({ routeName: routeList.Landing }))
-        }
+  if (
+    routeName === 'consent' ||
+    routeName === 'payment' ||
+    routeName === 'authenticate'
+  ) {
+    // The identityWallet is initialised before the deep link is handled.
+    if (!backendMiddleware.identityWallet) {
+      return dispatch(navigatorReset({ routeName: routeList.Landing }))
+    }
 
-        dispatch(toggleDeepLinkFlag(true))
-        const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
-        const handler: (arg: JSONWebToken<JWTEncodable>) => AsyncThunkAction<any> =
-          interactionHandlers[interactionToken.interactionType]
+    dispatch(toggleDeepLinkFlag(true))
+    const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
+    const handler: (arg: JSONWebToken<JWTEncodable>) => ThunkAction =
+      interactionHandlers[interactionToken.interactionType]
 
     // TODO What if absent?
     if (handler) {
