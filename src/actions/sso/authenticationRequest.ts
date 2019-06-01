@@ -11,10 +11,11 @@ import { AppError, ErrorCode } from 'src/lib/errors'
 import { ThunkDispatch } from '../../store'
 import { RootState } from '../../reducers'
 import { BackendMiddleware } from '../../backendMiddleware'
+import {AnyAction} from 'redux'
 
 export const setAuthenticationRequest = (
   request: StateAuthenticationRequestSummary,
-) => ({
+) : AnyAction => ({
   type: 'SET_AUTHENTICATION_REQUEST',
   value: request,
 })

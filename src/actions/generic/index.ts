@@ -14,7 +14,7 @@ export const showErrorScreen = (
     params: { returnTo, error },
   })
 
-export const initApp = () => async (
+export const initApp = async (
   dispatch: ThunkDispatch,
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,

@@ -42,7 +42,7 @@ export const toggleClaimsLoading = (value: boolean) => ({
   value,
 })
 
-export const checkIdentityExists = () => async (
+export const checkIdentityExists = async (
   dispatch: ThunkDispatch,
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,

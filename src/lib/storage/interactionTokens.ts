@@ -1,64 +1,23 @@
-import {
-  JSONWebToken,
-  JWTEncodable,
-} from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { InteractionType } from 'jolocom-lib/js/interactionTokens/types'
-import {
-  consumeCredentialRequest,
-  receiveExternalCredential,
-} from '../../actions/sso'
-import { consumeAuthenticationRequest } from '../../actions/sso/authenticationRequest'
-import { consumeCredentialOfferRequest } from '../../actions/sso/credentialOfferRequest'
-import { consumePaymentRequest } from '../../actions/sso/paymentRequest'
-import {AsyncThunkAction} from '../../store'
-
+import {JSONWebToken} from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import {InteractionType} from 'jolocom-lib/js/interactionTokens/types'
+import {consumeCredentialRequest, receiveExternalCredential} from '../../actions/sso'
+import {consumeAuthenticationRequest} from '../../actions/sso/authenticationRequest'
+import {consumeCredentialOfferRequest} from '../../actions/sso/credentialOfferRequest'
+import {Authentication} from 'jolocom-lib/js/interactionTokens/authentication'
+import {CredentialOfferRequest} from 'jolocom-lib/js/interactionTokens/credentialOfferRequest'
+import {CredentialRequest} from 'jolocom-lib/js/interactionTokens/credentialRequest'
+import {CredentialsReceive} from 'jolocom-lib/js/interactionTokens/credentialsReceive'
+import {PaymentRequest} from 'jolocom-lib/js/interactionTokens/paymentRequest'
+import {consumePaymentRequest} from '../../actions/sso/paymentRequest'
 /**
  * @param Metadata should not need to be passed to credential receive because it comes from cred Offer
  * Furthermore, this only needs to be defined for requests
  */
 
-type InteractionTokenHandler<T extends JWTEncodable, R = void> = (
-  token: JSONWebToken<T>,
-) => AsyncThunkAction<R>
-
-const buildHandler = <T extends JWTEncodable>(
-  handler: InteractionTokenHandler<T>,
-  expectedTokenType?: InteractionType,
-) => (interactionToken: JSONWebToken<T>): AsyncThunkAction => {
-  if (
-    expectedTokenType &&
-    expectedTokenType !== interactionToken.interactionType
-  )
-    throw new Error('Incorrect interaction token handler')
-
-  return handler(interactionToken)
-}
-
-const authReqHandler = buildHandler(
-  consumeAuthenticationRequest,
-  InteractionType.Authentication,
-)
-const credentialOfferHandler = buildHandler(
-  consumeCredentialOfferRequest,
-  InteractionType.CredentialOfferRequest,
-)
-const credentialRequestHandler = buildHandler(
-  consumeCredentialRequest,
-  InteractionType.CredentialRequest,
-)
-const credentialReceiveHandler = buildHandler(
-  receiveExternalCredential,
-  InteractionType.CredentialsReceive,
-)
-const paymentRequestHandler = buildHandler(
-  consumePaymentRequest,
-  InteractionType.PaymentRequest,
-)
-
 export const interactionHandlers = {
-  [InteractionType.Authentication]: authReqHandler,
-  [InteractionType.CredentialRequest]: credentialRequestHandler,
-  [InteractionType.CredentialOfferRequest]: credentialOfferHandler,
-  [InteractionType.CredentialsReceive]: credentialReceiveHandler,
-  [InteractionType.PaymentRequest]: paymentRequestHandler,
-} as { [key in InteractionType]: InteractionTokenHandler<JWTEncodable> }
+  [InteractionType.Authentication]: <T extends JSONWebToken<Authentication>> (interactionToken: T) => consumeAuthenticationRequest(interactionToken),
+  [InteractionType.CredentialRequest]: <T extends JSONWebToken<CredentialRequest>>(interactionToken: T)  => consumeCredentialRequest(interactionToken),
+  [InteractionType.CredentialOfferRequest]: <T extends JSONWebToken<CredentialOfferRequest>> (interactionToken: T) => consumeCredentialOfferRequest(interactionToken),
+  [InteractionType.CredentialsReceive]: <T extends JSONWebToken<CredentialsReceive>> (interactionToken: T) => receiveExternalCredential(interactionToken),
+  [InteractionType.PaymentRequest]: <T extends JSONWebToken<PaymentRequest>> (interactionToken: T) => consumePaymentRequest(interactionToken)
+}

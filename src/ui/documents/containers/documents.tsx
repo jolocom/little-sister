@@ -5,10 +5,11 @@ import { openExpiredDetails } from 'src/actions/documents'
 import { CategorizedClaims, DecoratedClaims } from 'src/reducers/account'
 import { getDocumentClaims } from 'src/utils/filterDocuments'
 import {RootState} from '../../../reducers'
+import {ThunkDispatch} from '../../../store'
 
 interface ConnectProps {
   decoratedCredentials: CategorizedClaims
-  openExpiredDetails: (document: DecoratedClaims) => void
+  openExpiredDetails: typeof openExpiredDetails
 }
 
 interface Props extends ConnectProps {}
@@ -47,9 +48,8 @@ const mapStateToProps = ({account: {claims: {decoratedCredentials}}}: RootState)
   decoratedCredentials,
 })
 
-const mapDispatchToProps = (dispatch: Function): {} => ({
-  openExpiredDetails: (document: DecoratedClaims) =>
-    dispatch(openExpiredDetails(document)),
+const mapDispatchToProps = (dispatch: ThunkDispatch): {} => ({
+  openExpiredDetails: openExpiredDetails,
 })
 
 export const Documents = connect(

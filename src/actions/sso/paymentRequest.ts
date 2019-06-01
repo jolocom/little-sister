@@ -52,7 +52,7 @@ export const consumePaymentRequest = (
   }
 }
 
-export const sendPaymentResponse = () => async (
+export const sendPaymentResponse = async (
   dispatch: ThunkDispatch,
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,

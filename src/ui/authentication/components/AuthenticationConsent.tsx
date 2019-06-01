@@ -4,11 +4,13 @@ import { Text, StyleSheet, View } from 'react-native'
 import I18n from 'src/locales/i18n'
 import { StateAuthenticationRequestSummary } from 'src/reducers/sso'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
+import {sendAuthenticationResponse} from '../../../actions/sso/authenticationRequest'
+import {cancelSSO} from '../../../actions/sso'
 
 interface Props {
   activeAuthenticationRequest: StateAuthenticationRequestSummary
-  cancelAuthenticationRequest: () => void
-  confirmAuthenticationRequest: () => void
+  confirmAuthenticationRequest: () => typeof sendAuthenticationResponse
+  cancelAuthenticationRequest: () => typeof cancelSSO
 }
 
 interface State {}
@@ -59,7 +61,7 @@ export class AuthenticationConsentComponent extends React.Component<
 
   private handleConfirm = () => {
     this.setState({ pending: true })
-    this.props.confirmAuthenticationRequest()
+    return this.props.confirmAuthenticationRequest()
   }
 
   private renderRequesterCard(requester: string, callbackURL: string) {
@@ -108,7 +110,7 @@ export class AuthenticationConsentComponent extends React.Component<
         confirmText={I18n.t('Authorize')}
         denyText={I18n.t('Deny')}
         handleConfirm={this.handleConfirm}
-        handleDeny={() => this.props.cancelAuthenticationRequest()}
+        handleDeny={() => this.props.cancelAuthenticationRequest()} // TODO Does this get dispatched correctly?
         verticalPadding={10}
       />
     )

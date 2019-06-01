@@ -19,6 +19,7 @@ import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import { equals } from 'ramda'
 import {RootState} from '../../reducers'
 import {BackendMiddleware} from '../../backendMiddleware'
+import {AnyAction} from 'redux'
 
 export const setCredentialRequest = (
   request: StateCredentialRequestSummary,
@@ -36,7 +37,7 @@ export const setReceivingCredential = (external: SignedCredential[]) => ({
   external,
 })
 
-export const setDeepLinkLoading = (value: boolean) => ({
+export const setDeepLinkLoading = (value: boolean): AnyAction => ({
   type: 'SET_DEEP_LINK_LOADING',
   value,
 })

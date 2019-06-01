@@ -6,14 +6,16 @@ import {
 } from 'src/reducers/sso'
 import { ConsentComponent } from 'src/ui/sso/components/consent'
 import { ssoActions } from 'src/actions'
+import {ThunkDispatch} from '../../../store'
+import {cancelSSO, sendCredentialResponse} from '../../../actions/sso'
 
 interface ConnectProps {}
 
 interface Props extends ConnectProps {
   activeCredentialRequest: StateCredentialRequestSummary
   currentDid: string
-  sendCredentialResponse: (creds: StateVerificationSummary[]) => void
-  cancelSSO: () => void
+  sendCredentialResponse: typeof sendCredentialResponse
+  cancelSSO: () => ReturnType<typeof cancelSSO>
 }
 
 interface State {}
@@ -51,10 +53,9 @@ const mapStateToProps = (state: any) => ({
   currentDid: state.account.did.did,
 })
 
-const mapDispatchToProps = (dispatch: Function) => ({
-  sendCredentialResponse: (creds: StateVerificationSummary[]) =>
-    dispatch(ssoActions.sendCredentialResponse(creds)),
-  cancelSSO: () => dispatch(ssoActions.cancelSSO()),
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  sendCredentialResponse: ssoActions.sendCredentialResponse,
+  cancelSSO: () => dispatch(ssoActions.cancelSSO),
 })
 
 export const Consent = connect(

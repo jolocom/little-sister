@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { RootState } from 'src/reducers/'
 import { NavigationScreenProps } from 'react-navigation'
 import { DecoratedClaims } from 'src/reducers/account'
+import {ThunkDispatch} from '../../../store'
 
 interface ConnectProps {
   selectedExpiredDocument: DecoratedClaims
@@ -39,7 +40,7 @@ const mapStateToProps = (state: RootState): {} => ({
   selectedExpiredDocument: state.documents.selectedExpiredDocument,
 })
 
-const mapDispatchToProps = (dispatch: Function): {} => ({})
+const mapDispatchToProps = (dispatch: ThunkDispatch): {} => ({})
 
 export const ExpiredDocumentsDetails = connect(
   mapStateToProps,

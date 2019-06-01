@@ -5,13 +5,14 @@ import { StateAuthenticationRequestSummary } from 'src/reducers/sso'
 import { RootState } from 'src/reducers'
 import { cancelSSO } from 'src/actions/sso'
 import { sendAuthenticationResponse } from 'src/actions/sso/authenticationRequest'
+import {ThunkDispatch} from '../../../store'
 
 interface ConnectProps {}
 
 interface Props extends ConnectProps {
   activeAuthenticationRequest: StateAuthenticationRequestSummary
-  confirmAuthenticationRequest: () => void
-  cancelAuthenticationRequest: () => void
+  confirmAuthenticationRequest: () => typeof sendAuthenticationResponse
+  cancelAuthenticationRequest: () => typeof cancelSSO
 }
 
 interface State {}
@@ -35,9 +36,9 @@ const mapStateToProps = (state: RootState) => ({
   activeAuthenticationRequest: state.sso.activeAuthenticationRequest,
 })
 
-const mapDispatchToProps = (dispatch: Function) => ({
-  confirmAuthenticationRequest: () => dispatch(sendAuthenticationResponse()),
-  cancelAuthenticationRequest: () => dispatch(cancelSSO()),
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  confirmAuthenticationRequest: () => sendAuthenticationResponse,
+  cancelAuthenticationRequest: () => cancelSSO,
 })
 
 export const AuthenticationConsent = connect(

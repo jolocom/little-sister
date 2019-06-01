@@ -19,7 +19,7 @@ import {BackendMiddleware} from '../../backendMiddleware'
 export const navigate = (options: NavigationNavigateActionPayload) =>
   NavigationActions.navigate(options)
 
-export const goBack = () => NavigationActions.back()
+export const goBack = NavigationActions.back()
 
 export const navigatorReset = (
   newScreen: NavigationNavigateActionPayload,

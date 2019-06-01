@@ -29,11 +29,12 @@ export function initStore(): Store<{}> {
   )
 }
 
-export type All = AnyAction | ThunkAction | NavigationAction
+export type All =  AnyAction | ThunkAction | NavigationAction
 
 export type ThunkDispatch = OriginalThunkDispatch<
   RootState,
   BackendMiddleware,
+  //@ts-ignore TODO Can this be solved?
   All
 >
 

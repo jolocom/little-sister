@@ -6,14 +6,18 @@ import {
 } from 'react-navigation'
 import { connect } from 'react-redux'
 import { BackHandler, Linking, StatusBar } from 'react-native'
-import { AnyAction } from 'redux'
-import { Routes } from 'src/routes'
 import { RootState } from 'src/reducers/'
 import { navigationActions, accountActions, genericActions } from 'src/actions/'
 import { routeList } from './routeList'
 import { LoadingSpinner } from 'src/ui/generic/loadingSpinner'
-import {  withLoading } from './store'
-import {setDeepLinkLoading} from './actions/sso'
+import {ThunkDispatch} from './store'
+import {goBack, handleDeepLink} from './actions/navigation'
+import {checkIdentityExists} from './actions/account'
+import {Routes} from './routes'
+
+interface OwnProps {
+  dispatch: ThunkDispatch
+}
 
 const {
   createReduxBoundAddListener,
@@ -21,15 +25,11 @@ const {
 
 interface ConnectProps {
   navigation: RootState['navigation']
-  openScanner: () => void
-  goBack: () => void
-  handleDeepLink: (url: string) => void
-  checkIfAccountExists: () => void
-  initApp: () => Promise<void>
-}
-
-interface OwnProps {
-  dispatch: (action: AnyAction) => void
+  openScanner: () => ReturnType<typeof navigationActions.navigate>
+  goBack: () => typeof goBack
+  handleDeepLink: typeof handleDeepLink
+  checkIfAccountExists: () => ReturnType<typeof checkIdentityExists>
+  initApp: () => ReturnType<typeof genericActions.initApp>
 }
 
 interface Props extends ConnectProps, OwnProps {
@@ -115,16 +115,15 @@ const mapStateToProps = (state: RootState) => ({
   deepLinkLoading: state.sso.deepLinkLoading,
 })
 
-const mapDispatchToProps = (dispatch: Function) => ({
-  goBack: () => dispatch(navigationActions.goBack()),
-  handleDeepLink: (url: string) =>
-    dispatch(withLoading(setDeepLinkLoading)(navigationActions.handleDeepLink(url))),
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  goBack: () => navigationActions.goBack,
+  handleDeepLink: navigationActions.handleDeepLink, // TODO Check
   openScanner: () =>
     dispatch(
       navigationActions.navigate({ routeName: routeList.QRCodeScanner }),
     ),
-  checkIfAccountExists: () => dispatch(accountActions.checkIdentityExists()),
-  initApp: async () => await dispatch(genericActions.initApp()),
+  checkIfAccountExists: () => dispatch(accountActions.checkIdentityExists),
+  initApp: () => dispatch(genericActions.initApp), // TODO IS AWAIT NEEDED?
 })
 
 export const Navigator = connect(
