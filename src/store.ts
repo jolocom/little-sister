@@ -46,20 +46,3 @@ export interface ThunkAction {
   ): A | Promise<A>
 }
 
-export const withLoading = (loadingAction: ActionCreator<All>) => (
-  wrappedAction: All,
-) => (dispatch: ThunkDispatch) => {
-  dispatch(loadingAction(true))
-  return Promise.resolve(dispatch(wrappedAction)).finally(() =>
-    dispatch(loadingAction(false)),
-  )
-}
-
-export const withErrorHandling = (
-  errorHandler: (err: Error) => AnyAction,
-) => (wrappedAction: All) => (dispatch: ThunkDispatch) => {
-  return Promise.resolve(dispatch(wrappedAction)).catch((err: Error) =>
-    dispatch(errorHandler(err)),
-  )
-}
-

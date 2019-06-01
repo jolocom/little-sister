@@ -170,7 +170,6 @@ export const setClaimsForDid = () => async (
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,
 ) => {
-  dispatch(toggleClaimsLoading(true))
   const { storageLib } = backendMiddleware
 
   const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
@@ -182,9 +181,6 @@ export const setClaimsForDid = () => async (
     verifiableCredentials,
     credentialMetadata,
   ) as CategorizedClaims
-
-  /** @TODO Move up into action creator modifier */
-  dispatch(toggleClaimsLoading(false))
 
   return dispatch({
     type: 'SET_CLAIMS_FOR_DID',

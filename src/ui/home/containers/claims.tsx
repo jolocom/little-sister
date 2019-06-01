@@ -6,6 +6,8 @@ import { accountActions } from 'src/actions'
 import { ClaimsState } from 'src/reducers/account'
 import { DecoratedClaims } from 'src/reducers/account/'
 import { RootState } from '../../../reducers'
+import {toggleLoading} from '../../../actions/account'
+import {withLoading} from '../../../actions/modifiers'
 
 interface ConnectProps {
   setClaimsForDid: () => void
@@ -48,7 +50,7 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: Function) => ({
   openClaimDetails: (claim: DecoratedClaims) =>
     dispatch(accountActions.openClaimDetails(claim)),
-  setClaimsForDid: () => dispatch(accountActions.setClaimsForDid()),
+  setClaimsForDid: () => dispatch(withLoading(toggleLoading)(accountActions.setClaimsForDid())),
 })
 
 export const Claims = connect(

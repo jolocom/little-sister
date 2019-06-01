@@ -10,10 +10,13 @@ import I18n from 'src/locales/i18n'
 import { LoadingSpinner } from './loadingSpinner'
 import { JolocomLib } from 'jolocom-lib'
 import { interactionHandlers } from '../../lib/storage/interactionTokens'
-import {ThunkAction, ThunkDispatch} from '../../store'
+import { All, ThunkAction, ThunkDispatch } from '../../store'
 import { showErrorScreen } from '../../actions/generic'
-import {RootState} from '../../reducers'
-import {goBack} from '../../actions/navigation'
+import { RootState } from '../../reducers'
+import { goBack } from '../../actions/navigation'
+import { toggleLoading } from '../../actions/account'
+import { ActionCreator } from 'redux'
+import {withErrorHandling, withLoading} from '../../actions/modifiers'
 const QRScanner = require('react-native-qrcode-scanner').default
 
 export interface QrScanEvent {
@@ -58,8 +61,12 @@ export class QRcodeScanner extends React.Component<Props, State> {
   }
 }
 
-const mapStateToProps = ({account: {loading: {loading}}}: RootState) => ({
-  loading
+const mapStateToProps = ({
+  account: {
+    loading: { loading },
+  },
+}: RootState) => ({
+  loading,
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
@@ -68,7 +75,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
     const handler = interactionHandlers[interactionToken.interactionType]
 
     return handler
-      ? dispatch(handler(interactionToken))
+      ? dispatch(
+          withErrorHandling(showErrorScreen)(
+            withLoading(toggleLoading)(handler(interactionToken)),
+          ),
+        )
       : dispatch(showErrorScreen(new Error('No handler found')))
   },
   onScannerCancel: () => dispatch(navigationActions.goBack),

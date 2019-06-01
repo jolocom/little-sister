@@ -14,12 +14,12 @@ import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
 import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRequest'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import { ThunkDispatch} from '../../store'
+import { ThunkDispatch } from '../../store'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import { equals } from 'ramda'
-import {RootState} from '../../reducers'
-import {BackendMiddleware} from '../../backendMiddleware'
-import {AnyAction} from 'redux'
+import { RootState } from '../../reducers'
+import { BackendMiddleware } from '../../backendMiddleware'
+import { AnyAction } from 'redux'
 
 export const setCredentialRequest = (
   request: StateCredentialRequestSummary,
@@ -45,7 +45,11 @@ export const setDeepLinkLoading = (value: boolean): AnyAction => ({
 export const receiveExternalCredential = (
   credReceive: JSONWebToken<CredentialsReceive>,
   credentialOfferMetadata?: Array<CredentialMetadataSummary>,
-) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
+) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
+) => {
   const { identityWallet, registry, storageLib } = backendMiddleware
 
   try {
@@ -53,7 +57,7 @@ export const receiveExternalCredential = (
     const providedCredentials = credReceive.interactionToken.signedCredentials
 
     const validationResults = await JolocomLib.util.validateDigestables(
-      providedCredentials
+      providedCredentials,
     )
 
     // TODO Error Code
@@ -93,79 +97,90 @@ interface AttributeSummary {
 
 export const consumeCredentialRequest = (
   decodedCredentialRequest: JSONWebToken<CredentialRequest>,
-) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
+) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
+) => {
   const { storageLib, identityWallet, registry } = backendMiddleware
   const { did } = getState().account.did
 
-  try {
-    await identityWallet.validateJWT(
-      decodedCredentialRequest,
-      undefined,
-      registry,
-    )
-    const requestedTypes =
-      decodedCredentialRequest.interactionToken.requestedCredentialTypes
-    const attributesForType = await Promise.all<AttributeSummary>(
-      requestedTypes.map(storageLib.get.attributesByType),
-    )
+  await identityWallet.validateJWT(
+    decodedCredentialRequest,
+    undefined,
+    registry,
+  )
+  const requestedTypes =
+    decodedCredentialRequest.interactionToken.requestedCredentialTypes
+  const attributesForType = await Promise.all<AttributeSummary>(
+    requestedTypes.map(storageLib.get.attributesByType),
+  )
 
-    const populatedWithCredentials = await Promise.all(
-      attributesForType.map(async entry => {
-        if (entry.results.length) {
-          return Promise.all(
-            entry.results.map(async result => ({
-              type: getUiCredentialTypeByType(entry.type),
-              values: result.values,
-              verifications: await storageLib.get.verifiableCredential({
-                id: result.verification,
-              }),
-            })),
-          )
-        }
+  throw new Error('Hello world')
 
-        return [
-          {
+  const populatedWithCredentials = await Promise.all(
+    attributesForType.map(async entry => {
+      if (entry.results.length) {
+        return Promise.all(
+          entry.results.map(async result => ({
             type: getUiCredentialTypeByType(entry.type),
-            values: [],
-            verifications: [],
-          },
-        ]
-      }),
-    )
+            values: result.values,
+            verifications: await storageLib.get.verifiableCredential({
+              id: result.verification,
+            }),
+          })),
+        )
+      }
 
-    const abbreviated = populatedWithCredentials.map(attribute =>
-      attribute.map(entry => ({
-        ...entry,
-        verifications: entry.verifications.map((vCred: SignedCredential) => ({
-          id: vCred.id,
-          issuer: vCred.issuer,
-          selfSigned: vCred.signer.did === did,
-          expires: vCred.expires,
-        })),
+      return [
+        {
+          type: getUiCredentialTypeByType(entry.type),
+          values: [],
+          verifications: [],
+        },
+      ]
+    }),
+  )
+
+  const abbreviated = populatedWithCredentials.map(attribute =>
+    attribute.map(entry => ({
+      ...entry,
+      verifications: entry.verifications.map((vCred: SignedCredential) => ({
+        id: vCred.id,
+        issuer: vCred.issuer,
+        selfSigned: vCred.signer.did === did,
+        expires: vCred.expires,
       })),
-    )
-    const flattened = abbreviated.reduce((acc, val) => acc.concat(val))
+    })),
+  )
+  const flattened = abbreviated.reduce((acc, val) => acc.concat(val))
 
-    // TODO requester shouldn't be optional
-    const summary = {
-      callbackURL: decodedCredentialRequest.interactionToken.callbackURL,
-      requester: decodedCredentialRequest.issuer,
-      availableCredentials: flattened,
-      requestJWT: decodedCredentialRequest.encode(),
-    }
-
-    dispatch(setCredentialRequest(summary))
-    return dispatch(navigationActions.navigatorReset({ routeName: routeList.Consent }))
-  } catch (error) {
-    return dispatch(
-      showErrorScreen(new AppError(ErrorCode.CredentialRequestFailed, error)),
-    )
+  // TODO requester shouldn't be optional
+  const summary = {
+    callbackURL: decodedCredentialRequest.interactionToken.callbackURL,
+    requester: decodedCredentialRequest.issuer,
+    availableCredentials: flattened,
+    requestJWT: decodedCredentialRequest.encode(),
   }
+
+  dispatch(setCredentialRequest(summary))
+  return dispatch(
+    navigationActions.navigatorReset({ routeName: routeList.Consent }),
+  )
 }
+// catch (error) {
+// return dispatch(
+//   showErrorScreen(new AppError(ErrorCode.CredentialRequestFailed, error)),
+// )
+// }
 
 export const sendCredentialResponse = (
   selectedCredentials: StateVerificationSummary[],
-) => async (dispatch: ThunkDispatch, getState: () => RootState, backendMiddleware: BackendMiddleware) => {
+) => async (
+  dispatch: ThunkDispatch,
+  getState: () => RootState,
+  backendMiddleware: BackendMiddleware,
+) => {
   const { storageLib, keyChainLib, identityWallet } = backendMiddleware
   const {
     activeCredentialRequest: { callbackURL, requestJWT },
@@ -213,7 +228,9 @@ export const sendCredentialResponse = (
 export const cancelSSO = (dispatch: ThunkDispatch) => {
   dispatch(clearInteractionRequest)
   dispatch(accountActions.toggleLoading(false))
-  return dispatch(navigationActions.navigatorReset({ routeName: routeList.Home }))
+  return dispatch(
+    navigationActions.navigatorReset({ routeName: routeList.Home }),
+  )
 }
 
 export const cancelReceiving = (dispatch: ThunkDispatch) => {
@@ -223,9 +240,7 @@ export const cancelReceiving = (dispatch: ThunkDispatch) => {
   )
 }
 
-export const toggleDeepLinkFlag = (
-  value: boolean,
-)=> ({
+export const toggleDeepLinkFlag = (value: boolean) => ({
   type: 'SET_DEEP_LINK_FLAG',
   value,
 })

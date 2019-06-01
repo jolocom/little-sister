@@ -28,7 +28,7 @@ export const submitEntropy = (
   return dispatch(createIdentity(encodedEntropy))
 }
 
-export const startRegistration = () => async (
+export const startRegistration = async (
   dispatch: ThunkDispatch,
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,
