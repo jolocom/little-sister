@@ -16,6 +16,7 @@ import { RootState } from '../../reducers'
 import { goBack } from '../../actions/navigation'
 import { toggleLoading} from '../../actions/account'
 import {withErrorHandling, withLoading} from '../../actions/modifiers'
+import {NavigationNavigateAction} from 'react-navigation'
 const QRScanner = require('react-native-qrcode-scanner').default
 
 export interface QrScanEvent {
@@ -24,7 +25,7 @@ export interface QrScanEvent {
 
 interface Props {
   loading: boolean
-  onScannerSuccess: (e: QrScanEvent) => Promise<ReturnType<typeof showErrorScreen>>
+  onScannerSuccess: (e: QrScanEvent) => Promise<NavigationNavigateAction>
   onScannerCancel: () => typeof goBack
 }
 
