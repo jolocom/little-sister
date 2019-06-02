@@ -121,7 +121,7 @@ export const ExceptionComponent: React.SFC<Props> = (props): JSX.Element => {
 const mapStateToProps = (): {} => ({})
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-  navigateBack: (routeName: string) => navigationActions.navigatorReset({routeName}),
+  navigateBack: (routeName: string) => dispatch(navigationActions.navigatorReset({routeName})),
 })
 
 export const Exception = connect(

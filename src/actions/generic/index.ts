@@ -1,18 +1,21 @@
-import { navigationActions } from 'src/actions/'
-import { routeList } from 'src/routeList'
+import {navigationActions} from 'src/actions/'
+import {routeList} from 'src/routeList'
 import SplashScreen from 'react-native-splash-screen'
 import I18n from 'src/locales/i18n'
-import { ThunkDispatch} from '../../store'
+import {ThunkDispatch} from '../../store'
 import {RootState} from '../../reducers'
 import {BackendMiddleware} from '../../backendMiddleware'
+import {AppError, ErrorCode} from '../../lib/errors'
 
-export const showErrorScreen = (
-  error: Error,
-  returnTo = routeList.Home,
-) => navigationActions.navigate({
+export const showErrorScreen = (error: AppError) => {
+  return navigationActions.navigate({
     routeName: routeList.Exception,
-    params: { returnTo, error },
+    params: {
+      returnTo: error.navigateTo || routeList.Home,
+      error,
+    },
   })
+}
 
 export const initApp = async (
   dispatch: ThunkDispatch,
@@ -30,7 +33,11 @@ export const initApp = async (
     SplashScreen.hide()
     return dispatch(loadSettings(storedSettings))
   } catch (e) {
-    return dispatch(showErrorScreen(e, routeList.Landing))
+    return dispatch(
+      showErrorScreen(
+        new AppError(ErrorCode.WalletInitFailed, e, routeList.Landing),
+      ),
+    )
   }
 }
 

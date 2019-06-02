@@ -1,23 +1,24 @@
-import { navigationActions, genericActions } from 'src/actions/'
+import { genericActions, navigationActions } from 'src/actions/'
 import { routeList } from 'src/routeList'
 import * as loading from 'src/actions/registration/loadingStages'
 import { setDid } from 'src/actions/account'
 import { JolocomLib } from 'jolocom-lib'
-const bip39 = require('bip39')
 import { generateSecureRandomBytes } from 'src/lib/util'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import {ThunkDispatch} from '../../store'
-import {RootState} from '../../reducers'
-import {BackendMiddleware} from '../../backendMiddleware'
+import { ThunkDispatch } from '../../store'
+import { RootState } from '../../reducers'
+import { BackendMiddleware } from '../../backendMiddleware'
+
+const bip39 = require('bip39')
 
 export const setLoadingMsg = (loadingMsg: string) => ({
   type: 'SET_LOADING_MSG',
   value: loadingMsg,
 })
 
-export const submitEntropy = (
-  encodedEntropy: string,
-) => (dispatch: ThunkDispatch) => {
+export const submitEntropy = (encodedEntropy: string) => (
+  dispatch: ThunkDispatch,
+) => {
   dispatch(
     navigationActions.navigatorReset({
       routeName: routeList.Loading,
@@ -44,7 +45,11 @@ export const startRegistration = async (
       }),
     )
   } catch (err) {
-    return dispatch(genericActions.showErrorScreen(err, routeList.Landing))
+    return dispatch(
+      genericActions.showErrorScreen(
+        new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
+      ),
+    )
   }
 }
 
@@ -102,8 +107,7 @@ export const createIdentity = (encodedEntropy: string) => async (
   } catch (error) {
     return dispatch(
       genericActions.showErrorScreen(
-        new AppError(ErrorCode.RegistrationFailed, error),
-        routeList.Landing,
+        new AppError(ErrorCode.RegistrationFailed, error, routeList.Landing),
       ),
     )
   }

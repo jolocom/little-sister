@@ -116,8 +116,6 @@ export const consumeCredentialRequest = (
     requestedTypes.map(storageLib.get.attributesByType),
   )
 
-  throw new Error('Hello world')
-
   const populatedWithCredentials = await Promise.all(
     attributesForType.map(async entry => {
       if (entry.results.length) {

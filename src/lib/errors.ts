@@ -1,3 +1,5 @@
+import {routeList} from '../routeList'
+
 export const enum ErrorCode {
   Unknown = 'Unknown',
 
@@ -51,11 +53,13 @@ const errorMessages: { [key in ErrorCode]: string } = {
 export class AppError extends Error {
   code: ErrorCode
   origError: any
+  navigateTo: routeList
 
-  constructor(code = ErrorCode.Unknown, origError?: any) {
+  constructor(code = ErrorCode.Unknown, origError?: any, navigateTo: routeList = routeList.Home) {
     super(errorMessages[code] || errorMessages[ErrorCode.Unknown])
     this.code = code
     this.origError = origError
+    this.navigateTo = navigateTo
   }
 }
 

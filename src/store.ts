@@ -1,9 +1,5 @@
-import {
-  createStore,
-  applyMiddleware,
-  AnyAction,
-} from 'redux'
-import thunk, { ThunkDispatch as OriginalThunkDispatch } from 'redux-thunk'
+import { createStore, applyMiddleware, AnyAction } from 'redux'
+import thunk from 'redux-thunk'
 import { RootState, rootReducer } from 'src/reducers'
 import { BackendMiddleware } from 'src/backendMiddleware'
 import config from 'src/config'
@@ -28,20 +24,21 @@ export function initStore(): Store<{}> {
   )
 }
 
-export type All =  AnyAction | ThunkAction | NavigationAction
+export type All = {[key: string]: any} | ThunkAction | NavigationAction | Modifier
 
-export type ThunkDispatch = OriginalThunkDispatch<
-  RootState,
-  BackendMiddleware,
-  //@ts-ignore TODO Can this be solved?
-  All
->
+export type Modifier = (dispatch: ThunkDispatch) => Promise<All>
 
+export interface ThunkDispatch {
+  <T extends AnyAction | NavigationAction>(action: T): T
+  <R extends ThunkAction | Modifier | ((...args: any[]) => any)>(
+    asyncAction: R,
+  ): ReturnType<R>
+  <S extends All>(anyAction: S): S
+}
 export interface ThunkAction {
-  <A extends All | Promise<All>>(
+  <A extends All>(
     dispatch: ThunkDispatch,
     getState: () => RootState,
     extraArgument: BackendMiddleware,
-  ): A | Promise<A>
+  ): A
 }
-

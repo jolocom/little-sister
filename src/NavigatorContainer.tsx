@@ -10,10 +10,16 @@ import { RootState } from 'src/reducers/'
 import { navigationActions, accountActions, genericActions } from 'src/actions/'
 import { routeList } from './routeList'
 import { LoadingSpinner } from 'src/ui/generic/loadingSpinner'
-import {ThunkDispatch} from './store'
-import {goBack, handleDeepLink} from './actions/navigation'
-import {checkIdentityExists} from './actions/account'
-import {Routes} from './routes'
+import { ThunkDispatch } from './store'
+import { goBack, handleDeepLink } from './actions/navigation'
+import {
+  checkIdentityExists,
+  toggleLoading,
+} from './actions/account'
+import { Routes } from './routes'
+import { withErrorHandling, withLoading } from './actions/modifiers'
+import { showErrorScreen } from './actions/generic'
+import { compose } from 'ramda'
 
 interface OwnProps {
   dispatch: ThunkDispatch
@@ -117,13 +123,20 @@ const mapStateToProps = (state: RootState) => ({
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   goBack: () => navigationActions.goBack,
-  handleDeepLink: navigationActions.handleDeepLink, // TODO Check
+  handleDeepLink: (url: string) =>
+    dispatch(
+      compose(
+        () => handleDeepLink(url),
+        withLoading(toggleLoading),
+        withErrorHandling(showErrorScreen),
+      ),
+    ), // TODO Check
   openScanner: () =>
     dispatch(
       navigationActions.navigate({ routeName: routeList.QRCodeScanner }),
     ),
   checkIfAccountExists: () => dispatch(accountActions.checkIdentityExists),
-  initApp: () => dispatch(genericActions.initApp), // TODO IS AWAIT NEEDED?
+  initApp: () => dispatch(withErrorHandling(showErrorScreen)(genericActions.initApp))
 })
 
 export const Navigator = connect(

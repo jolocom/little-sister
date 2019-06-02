@@ -15,6 +15,7 @@ import {
 import {ThunkAction, ThunkDispatch} from '../../store'
 import {RootState} from '../../reducers'
 import {BackendMiddleware} from '../../backendMiddleware'
+import {AppError, ErrorCode} from '../../lib/errors'
 
 export const navigate = (options: NavigationNavigateActionPayload) =>
   NavigationActions.navigate(options)
@@ -36,7 +37,7 @@ export const navigatorReset = (
  */
 export const handleDeepLink = (
   url: string,
-) => async (
+) => (
   dispatch: ThunkDispatch,
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,
@@ -67,7 +68,7 @@ export const handleDeepLink = (
     }
 
     /** @TODO Use error code */
-    return dispatch(showErrorScreen(new Error('No handler found')))
+    return dispatch(showErrorScreen(new AppError(ErrorCode.Unknown,new Error('No handler found'))))
   }
 
   /** @TODO Better return */
