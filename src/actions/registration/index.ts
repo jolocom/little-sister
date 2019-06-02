@@ -34,23 +34,17 @@ export const startRegistration = async (
   getState: () => RootState,
   backendMiddleware: BackendMiddleware,
 ) => {
-  try {
     const randomPassword = await generateSecureRandomBytes(32)
+
     await backendMiddleware.keyChainLib.savePassword(
       randomPassword.toString('base64'),
     )
+
     return dispatch(
       navigationActions.navigatorReset({
         routeName: routeList.Entropy,
       }),
     )
-  } catch (err) {
-    return dispatch(
-      genericActions.showErrorScreen(
-        new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
-      ),
-    )
-  }
 }
 
 export const finishRegistration = () =>

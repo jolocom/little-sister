@@ -4,6 +4,10 @@ import { LoadingScreen } from 'src/ui/generic/'
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { registrationActions } from 'src/actions/'
 import { RootState } from 'src/reducers/'
+import { withErrorHandling } from '../../../actions/modifiers'
+import { showErrorScreen } from '../../../actions/generic'
+import { AppError, ErrorCode } from '../../../lib/errors'
+import { routeList } from '../../../routeList'
 
 interface ConnectProps {
   startRegistration: () => void
@@ -22,14 +26,25 @@ export class LandingContainer extends React.Component<Props> {
   }
 }
 
-const mapStateToProps = ({account: {loading: {loading}}}: RootState) => {
+const mapStateToProps = ({
+  account: {
+    loading: { loading },
+  },
+}: RootState) => {
   return {
     loading,
   }
 }
 
 const mapDispatchToProps = (dispatch: Function) => ({
-  startRegistration: () => dispatch(registrationActions.startRegistration),
+  startRegistration: () =>
+    dispatch(
+      withErrorHandling(
+        showErrorScreen,
+        (err: AppError) =>
+          new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
+      )(registrationActions.startRegistration),
+    ),
 })
 
 export const Landing = connect(

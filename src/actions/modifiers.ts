@@ -12,7 +12,10 @@ export const withLoading = (
   }
 }
 
-export const withErrorHandling = (errorHandler: (err: AppError) => All) => <
+export const withErrorHandling = (
+  errorHandler: (err: AppError) => All,
+  errorModifier: (err: AppError) => AppError = (err: AppError) => err
+) => <
   R extends All
 >(
   wrappedAction: R,
@@ -21,7 +24,7 @@ export const withErrorHandling = (errorHandler: (err: AppError) => All) => <
     try {
       return await dispatch(wrappedAction)
     } catch (err) {
-      return dispatch(errorHandler(err))
+      return dispatch(errorHandler(errorModifier(err)))
     }
   }
 }
