@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, ScrollView } from 'react-native'
+import { StyleSheet, Text, ScrollView, Animated } from 'react-native'
 import { Container, Block } from 'src/ui/structure'
 import { CredentialCard } from './credentialCard'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
@@ -19,7 +19,8 @@ interface Props {
   claimsToRender: CategorizedClaims
   loading: boolean
   onEdit: (claim: DecoratedClaims) => void
-  did: string
+    did: string
+    scrollValue: Animated.Value
 }
 
 interface State {}
@@ -104,7 +105,8 @@ export class CredentialOverview extends React.Component<Props, State> {
       <Container style={{ padding: 0 }}>
         <ScrollView
           style={scrollComponent}
-          contentContainerStyle={loading ? scrollComponentLoading : {}}
+        contentContainerStyle={loading ? scrollComponentLoading : {}}
+        onScroll={ Animated.event([{nativeEvent: {contentOffset: {y: this.props.scrollValue}}}])}
         >
           {claimCategories.map(this.renderCredentialCategory)}
         </ScrollView>

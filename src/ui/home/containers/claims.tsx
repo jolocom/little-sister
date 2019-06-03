@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
+import { View, Animated } from 'react-native'
 import { CredentialOverview } from '../components/credentialOverview'
 import { accountActions } from 'src/actions'
 import { ClaimsState } from 'src/reducers/account'
@@ -15,13 +15,32 @@ interface ConnectProps {
   did: string
   claimsState: ClaimsState
   loading: boolean
+  navigation: any
 }
 
 interface Props extends ConnectProps {}
 
-export class ClaimsContainer extends React.Component<Props> {
+interface State {
+    documentScroll: Animated.Value
+}
+
+export class ClaimsContainer extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props)
+        const documentScroll = new Animated.Value(0)
+        this.state = {
+            documentScroll
+        }
+    }
+
+    static navigationOptions = ({ navigation }) => {
+        const { params } = navigation.state
+        return params
+    }
+
   public componentWillMount(): void {
-    this.props.setClaimsForDid()
+      this.props.setClaimsForDid()
+      console.log(this.props.navigation.setParams({tabBarHeight: this.state.documentScroll}))
   }
 
   public render(): JSX.Element {
@@ -32,7 +51,8 @@ export class ClaimsContainer extends React.Component<Props> {
           did={did}
           claimsToRender={claimsState.decoratedCredentials}
           loading={!!loading}
-          onEdit={openClaimDetails}
+        onEdit={openClaimDetails}
+        scrollValue={this.state.documentScroll}
         />
       </View>
     )

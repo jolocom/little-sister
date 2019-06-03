@@ -9,28 +9,15 @@ import { TabBarBottomProps } from 'react-navigation';
 const OFFSET = -80
 
 export class SlidingTabBar extends React.Component<TabBarBottomProps, any> {
-    constructor(props: TabBarBottomProps) {
-        super(props)
-        const scrollAnim = new Animated.Value(0)
-        this.state = {
-            scrollAnim,
-            offsetY: Animated.diffClamp(0, 0, 0)
-        }
-    }
 
     componentWillReceiveProps(props: TabBarBottomProps) {
-        // take param and set 'bottom' to it?
-        console.log(props.navigation.getParam('tabBarHeight'))
+        //
+        console.log(props.navigation.getParam('Claims'))
     }
 
     render() {
         return (
-                <Animated.View style={{ transform: [{
-                    translateY: this.state.offsetY.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [OFFSET, 0]
-                    })
-                }] }}>
+                <Animated.View>
                 <BottomNavBar {...this.props}/>
                 </Animated.View>
         );
