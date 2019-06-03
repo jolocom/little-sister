@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Dimensions, ScrollView } from 'react-native'
+import { View, StyleSheet, Dimensions, ScrollView, Animated } from 'react-native'
 import {
   DocumentCard,
   DOCUMENT_CARD_WIDTH,
@@ -15,6 +15,7 @@ interface Props {
   openExpiredDetails: (document: DecoratedClaims) => void
   expiredDocuments: DecoratedClaims[]
   validDocuments: DecoratedClaims[]
+  scrollValue: Animated.Value
 }
 
 interface State {
@@ -73,6 +74,7 @@ export class DocumentsComponent extends React.Component<Props, State> {
           <React.Fragment>
             <ScrollView
               scrollEventThrottle={16}
+              onScroll={ Animated.event([{nativeEvent: {contentOffset: {y: this.props.scrollValue}}}])}
               // to give a scroll animation upon changing card
               ref={ref => (this.ScrollViewRef = ref)}
             >
