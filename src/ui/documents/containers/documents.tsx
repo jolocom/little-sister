@@ -6,17 +6,31 @@ import { CategorizedClaims, DecoratedClaims } from 'src/reducers/account'
 import { getDocumentClaims } from 'src/utils/filterDocuments'
 import {RootState} from '../../../reducers'
 import {ThunkDispatch} from '../../../store'
+import { Animated } from 'react-native';
+import { NavigationScreenProps } from 'react-navigation';
 
 interface ConnectProps {
   decoratedCredentials: CategorizedClaims
   openExpiredDetails: typeof openExpiredDetails
+  navigation: NavigationScreenProps<any>
 }
 
 interface Props extends ConnectProps {}
 
-interface State {}
+interface State {
+    documentScroll: Animated.Value
+}
 
 export class DocumentsContainer extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props)
+        this.state = {
+            documentScroll: new Animated.Value(0)
+        }
+        this.state.documentScroll.addListener((state: {value: number}) => {
+            this.props.navigation.navigation.setParams({tabBarHeight: state.value})
+        })
+    }
   private getValidDocuments = (claims: DecoratedClaims[]) =>
     claims.filter(claim =>
       claim.expires ? claim.expires.valueOf() >= new Date().valueOf() : true,
@@ -39,6 +53,7 @@ export class DocumentsContainer extends React.Component<Props, State> {
         validDocuments={validDocuments}
         expiredDocuments={expiredDocuments}
         openExpiredDetails={openExpiredDetails}
+        scrollValue={this.state.documentScroll}
       />
     )
   }

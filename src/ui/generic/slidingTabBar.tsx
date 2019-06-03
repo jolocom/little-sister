@@ -19,7 +19,8 @@ export class SlidingTabBar extends React.Component<TabBarBottomProps, any> {
     }
 
     componentWillReceiveProps(props: TabBarBottomProps) {
-
+        // take param and set 'bottom' to it?
+        console.log(props.navigation.getParam('tabBarHeight'))
     }
 
     render() {
