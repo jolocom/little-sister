@@ -19,7 +19,8 @@ import {
     CredentialOfferRenderInfo,
 } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
 import { IdentitySummary } from '../../actions/sso/types'
-import RNFetchBlob from 'rn-fetch-blob';
+import RNFetchBlob from 'rn-fetch-blob'
+import { compose } from 'ramda'
 
 interface PersonaAttributes {
     did: string
@@ -338,7 +339,10 @@ const getPublicProfile = (connection: Connection) => async (did: string) => {
     return (issuerProfile && issuerProfile.value) || { did }
 }
 
-const cacheBlob = async (url: string, path: string): Promise<string> =>
+const cacheRenderGraphics = async (oldRI: CredentialOfferRenderInfo):
+    Promise<CredentialOfferRenderInfo> => { }
+
+const cacheBlob = async (url: string, path?: string): Promise<string> =>
     RNFetchBlob.config(path
         ? {
             path,
@@ -347,4 +351,19 @@ const cacheBlob = async (url: string, path: string): Promise<string> =>
         : { fileCache: true })
         .fetch('GET', url)
         .then(res => { return res.path() })
-        .then(err => { return err })
+        .catch(err => { return err })
+
+const setCachedLogoPath = (logoPath: string) =>
+    (ri: CredentialOfferRenderInfo): CredentialOfferRenderInfo => ({
+        ...ri,
+        logo: { url: logoPath }
+    })
+
+const setCachedBackgroundPath = (bgPath: string) =>
+    (ri: CredentialOfferRenderInfo): CredentialOfferRenderInfo => ({
+        ...ri,
+        background: {
+            ...ri.background,
+            url: bgPath
+        }
+    })
