@@ -1,6 +1,6 @@
 import React from 'react';
 
-const constants = constants = {
+const constants = {
   Aspect: {},
   BarCodeType: {},
   Type: {},

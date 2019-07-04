@@ -4,12 +4,11 @@ import { shallow } from 'enzyme'
 
 describe('seedPhrase container', () => {
   it('mounts correctly and matches snapshot', () => {
-    const fetchSeedPhrase = jest.fn()
-    const clearSeedPhrase = jest.fn()
 
-    const props = {
-      fetchSeedPhrase,
-      clearSeedPhrase,
+    const finishRegistration = jest.fn()
+
+    const props : SeedPhraseContainer['props'] = {
+      finishRegistration,
       navigation: {
         state: {
           params: {

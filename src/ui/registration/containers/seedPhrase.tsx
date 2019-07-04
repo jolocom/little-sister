@@ -7,8 +7,6 @@ import { ThunkDispatch } from '../../../store'
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps> {
-  dispatch: ThunkDispatch
-  deepLinkLoading: boolean
   navigation: { state: { params: any } } // TODO Type?
 }
 

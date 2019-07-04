@@ -2,20 +2,20 @@ import React from 'react'
 import { NavigatorContainer } from 'src/NavigatorContainer'
 import { shallow } from 'enzyme'
 import { RootState } from 'src/reducers/'
+import {routeList} from '../../../src/routeList'
 const {
   createReactNavigationReduxMiddleware,
 } = require('react-navigation-redux-helpers')
 
 describe('NavigatorContainer', () => {
-  const COMMON_PROPS = {
-    parseJWT: jest.fn(),
+  const COMMON_PROPS: NavigatorContainer['props'] = {
     goBack: jest.fn(),
     navigation: {
       index: 0,
       routes: [{ routeName: 'Home' }],
-      navigate: jest.fn(),
     },
-    openScanner: jest.fn(),
+    deepLinkLoading: false,
+    initApp: jest.fn(),
     handleDeepLink: jest.fn(),
     checkIfAccountExists: jest.fn(),
     dispatch: jest.fn(),
@@ -31,9 +31,10 @@ describe('NavigatorContainer', () => {
       routes: [{ routeName: 'Home' }],
       navigate: jest.fn(),
     }
-    const homeScreenProps = { ...COMMON_PROPS, navigation }
 
-    const rendered = shallow(<NavigatorContainer {...homeScreenProps} />)
+    const props: NavigatorContainer['props'] = { ...COMMON_PROPS, navigation }
+
+    const rendered = shallow(<NavigatorContainer { ...props } />)
     expect(rendered).toMatchSnapshot()
   })
 
@@ -44,7 +45,7 @@ describe('NavigatorContainer', () => {
     )
     const navigation = {
       index: 0,
-      routes: [{ routeName: 'Landing' }],
+      routes: [{ routeName: routeList.Landing}],
       navigate: jest.fn(),
     }
     const landingPageProps = { ...COMMON_PROPS, navigation }
