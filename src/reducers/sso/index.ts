@@ -46,7 +46,7 @@ export interface SsoState {
   deepLinkLoading: boolean
 }
 
-const initialState: SsoState = {
+export const initialState: SsoState = {
   activeCredentialRequest: {
     requester: {
       did: '',

@@ -8,7 +8,14 @@ Object {
     "requestJWT": "",
     "requester": "",
   },
-  "activeCredentialRequest": undefined,
+  "activeCredentialRequest": Object {
+    "availableCredentials": Array [],
+    "callbackURL": "",
+    "requestJWT": "",
+    "requester": Object {
+      "did": "",
+    },
+  },
   "activePaymentRequest": Object {
     "amount": 0,
     "callbackURL": "",
@@ -32,17 +39,20 @@ Object {
     "requester": "",
   },
   "activeCredentialRequest": Object {
-    "callbackUrl": "http://example.com/myendpoint/",
-    "request": Array [
+    "availableCredentials": Array [
       Object {
-        "constraints": Array [],
-        "type": Array [
-          "Credential",
-          "ProofOfEmailCredential",
+        "type": "Email",
+        "values": Array [
+          "test@email.com",
         ],
+        "verifications": Array [],
       },
     ],
-    "requester": "did:jolo:mock",
+    "callbackURL": "http://example.com/myendpoint/",
+    "requestJWT": "request_jwt",
+    "requester": Object {
+      "did": "did:jolo:mock",
+    },
   },
   "activePaymentRequest": Object {
     "amount": 0,
