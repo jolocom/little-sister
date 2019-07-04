@@ -3,7 +3,6 @@ import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
 import data from './data/mockRegistrationData'
 import { JolocomLib } from 'jolocom-lib'
-import { getJestConfig } from 'ts-jest/dist/test-utils'
 import * as util from 'src/lib/util'
 import { withErrorHandling } from '../../../src/actions/modifiers'
 import { showErrorScreen } from '../../../src/actions/generic'
@@ -18,16 +17,15 @@ describe('Registration action creators', () => {
       const action = registrationActions.submitEntropy('mockEntropy')
       const mockStore = configureStore([thunk])({})
 
-      action(mockStore.dispatch)
+      action(mockStore.dispatch, mockStore.getState, null)
       expect(mockStore.getActions()).toMatchSnapshot()
     })
   })
 
   describe('startRegistration', () => {
-    const mockGetState = () => {}
-
     it('should save a password and initiate the registration process', async () => {
       const randomPassword = 'hunter0='
+      // @ts-ignore assigning to readonly property
       util.generateSecureRandomBytes = () =>
         Buffer.from(randomPassword, 'base64')
       const mockStore = configureStore([thunk])({})
@@ -39,7 +37,7 @@ describe('Registration action creators', () => {
 
       await registrationActions.startRegistration(
         mockStore.dispatch,
-        mockGetState,
+        mockStore.getState,
         mockMiddleware,
       )
 
@@ -69,7 +67,7 @@ describe('Registration action creators', () => {
         )(
           registrationActions.startRegistration(
             mockStore.dispatch,
-            mockGetState,
+            mockStore.getState,
             mockMiddleware,
           ),
         ),
@@ -115,10 +113,8 @@ describe('Registration action creators', () => {
         {},
       )
 
-      const mockGetState = () => {}
-
       const asyncAction = registrationActions.createIdentity(entropy)
-      await asyncAction(mockStore.dispatch, mockGetState, mockBackend)
+      await asyncAction(mockStore.dispatch, mockStore.getState, mockBackend)
 
       expect(mockStore.getActions()).toMatchSnapshot()
 
@@ -143,7 +139,6 @@ describe('Registration action creators', () => {
       }
 
       const mockStore = configureStore([thunk])({})
-      const mockGetState = () => {}
 
       const asyncAction = registrationActions.createIdentity(mockEntropy)
 
@@ -152,7 +147,7 @@ describe('Registration action creators', () => {
           showErrorScreen,
           (err: AppError) =>
             new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
-        )(asyncAction(mockStore.dispatch, mockGetState, mockBackend)),
+        )(asyncAction(mockStore.dispatch, mockStore.getState, mockBackend)),
       )
 
       expect(mockStore.getActions()[0].routeName).toContain('Exception')

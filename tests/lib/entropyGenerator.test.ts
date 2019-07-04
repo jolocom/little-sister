@@ -1,7 +1,7 @@
 import { EntropyGenerator } from 'src/lib/entropyGenerator'
 
 describe('EntropyGenerator lib', () => {
-  let Entropy
+  let Entropy: EntropyGenerator
 
   beforeEach(() => {
     Entropy = new EntropyGenerator()
@@ -9,6 +9,7 @@ describe('EntropyGenerator lib', () => {
 
   it('should correctly add deltas to generator', () => {
     const mockAddEntropy = jest.fn()
+    // @ts-ignore private
     Entropy.generator.addEntropy = mockAddEntropy
     Entropy.addFromDelta(1)
 
@@ -17,6 +18,7 @@ describe('EntropyGenerator lib', () => {
 
   it('should correctly get progress', () => {
     const mockGetProgress = jest.fn().mockReturnValue(0)
+    // @ts-ignore private
     Entropy.generator.getProgress = mockGetProgress
 
     expect(Entropy.getProgress()).toBe(0)
@@ -32,6 +34,7 @@ describe('EntropyGenerator lib', () => {
       2131944135,
       -450876854,
     ])
+    // @ts-ignore private
     Entropy.generator.randomWords = mockRandomWords
 
     expect(Entropy.generateRandomString(4)).toBe(expectedEntropy)

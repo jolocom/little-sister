@@ -1,5 +1,5 @@
 import React from 'react'
-import { mount, shallow } from 'enzyme'
+import { shallow } from 'enzyme'
 import { MaskedImageComponent } from 'src/ui/registration/components/maskedImage'
 
 describe('MaskedImage component', () => {
@@ -11,9 +11,10 @@ describe('MaskedImage component', () => {
   it('correctly calls the function to configure PanResponder on component mount', () => {
     const configureSpy = jest.spyOn(
       MaskedImageComponent.prototype,
+      // @ts-ignore because getConfiguredPanResponder is private
       'getConfiguredPanResponder',
     )
-    const rendered = shallow(<MaskedImageComponent {...props} />)
+    shallow(<MaskedImageComponent {...props} />)
     expect(configureSpy).toHaveBeenCalledTimes(1)
   })
 
@@ -35,6 +36,7 @@ describe('MaskedImage component', () => {
     const rendered = shallow(<MaskedImageComponent {...props} />)
     const instance = rendered.instance()
 
+    // @ts-ignore because handleDrawStart is private
     instance.handleDrawStart(mockNativeEvent)
     expect(rendered.state().pathDs[0]).toEqual(`M${x},${y}`)
   })
@@ -52,6 +54,7 @@ describe('MaskedImage component', () => {
     const rendered = shallow(<MaskedImageComponent {...props} />)
     const instance = rendered.instance()
 
+    // @ts-ignore because handleDraw is private
     instance.handleDraw(mockNativeEvent)
     expect(rendered.state().pathDs[0]).toEqual(`L${x},${y}`)
   })

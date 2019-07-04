@@ -73,7 +73,7 @@ exports[`Exception screen component Renders correctly 1`] = `
           }
         }
       >
-        There was an error with your request.
+        Unknown Error.
       </Text>
     </Component>
   </Component>
@@ -191,7 +191,7 @@ exports[`Exception screen component Renders correctly when no error object is pr
           }
         }
       >
-        There was an error with your request.
+        Unknown Error.
       </Text>
     </Component>
   </Component>

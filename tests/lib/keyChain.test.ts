@@ -1,19 +1,22 @@
 import { KeyChain } from 'src/lib/keychain'
 
 describe('KeyChain lib', () => {
-  let KC
+  let KC: KeyChain
 
   beforeEach(() => {
     KC = new KeyChain()
   })
 
   it('should contain the correct username', () => {
+    // @ts-ignore private 
     expect(KC.username).toBe('JolocomSmartWallet')
+    // @ts-ignore private 
     expect(KC.nativeLib).toBeDefined()
   })
 
   it('should correctly save the password', async () => {
     const mockSetGenericPassword = jest.fn()
+    // @ts-ignore private 
     KC.nativeLib.setGenericPassword = mockSetGenericPassword
 
     await KC.savePassword('test')
@@ -22,6 +25,7 @@ describe('KeyChain lib', () => {
   })
 
   it('should correctly return if saving the password failed', async () => {
+    // @ts-ignore private 
     KC.nativeLib.setGenericPassword = async () => {
       throw new Error('scary error')
     }
@@ -38,6 +42,7 @@ describe('KeyChain lib', () => {
   })
 
   it('should correctly retrieve password', async () => {
+    // @ts-ignore private 
     KC.nativeLib.getGenericPassword = jest.fn().mockReturnValue({
       username: 'JolocomSmartWallet',
       password: 'test',
@@ -48,6 +53,7 @@ describe('KeyChain lib', () => {
   })
 
   it('should correctly return if password retrieval failed', async () => {
+    // @ts-ignore private 
     KC.nativeLib.getGenericPassword = jest.fn().mockReturnValue(false)
 
     let error

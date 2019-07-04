@@ -1,7 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import { EntropyContainer } from 'src/ui/registration/containers/entropy'
-import { EntropyGenerator } from 'src/lib/entropyGenerator'
 import * as util from 'src/lib/util'
 
 describe('Entropy container', () => {
@@ -45,6 +44,7 @@ describe('Entropy container', () => {
   })
 
   it('correctly triggers a random string generation when there is sufficient entropy', async () => {
+    // @ts-ignore hacky mock
     util.generateSecureRandomBytes = () => Buffer.from('moreEntropy')
 
     const rendered = shallow(<EntropyContainer {...props} />)

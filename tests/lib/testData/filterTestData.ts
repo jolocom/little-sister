@@ -48,20 +48,26 @@ export const decoratedTypes = [
 ]
 
 export const getTestDecoratedClaims = (): DecoratedClaims[] => {
-  const claims = []
+  const claims: DecoratedClaims[] = []
   decoratedTypes.forEach(typ => {
     const credentialType = getUiCredentialTypeByType(typ)
-    claims.push(
+    const newClaim = {
+      credentialType,
+      id: '',
+      subject: '',
+      claimData: {}
+    }
+    claims.push.apply(claims,
       flatten(
         expiryDates.map(expiryDate =>
           issuers.map(issuer => ({
-            credentialType,
-            issuer,
+            ...newClaim,
+            issuer: { did: issuer },
             expires: expiryDate,
           })),
         ),
-      ),
+      )
     )
   })
-  return flatten(claims)
+  return claims
 }

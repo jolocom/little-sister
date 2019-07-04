@@ -3,7 +3,7 @@ import { IpfsCustomConnector } from 'src/lib/ipfs'
 describe('Ipfs custom connector', () => {
   const BASE_URL = 'https://test.com:443'
 
-  let ipfsLib
+  let ipfsLib: IpfsCustomConnector
 
   beforeEach(() => {
     ipfsLib = new IpfsCustomConnector({
@@ -12,10 +12,12 @@ describe('Ipfs custom connector', () => {
       port: 443,
     })
 
+    // @ts-ignore private 
     ipfsLib.nativeLib.fetch.mockClear()
   })
 
   it('should be correctly configured', () => {
+    // @ts-ignore private 
     expect(ipfsLib.ipfsHost).toBe(BASE_URL)
   })
 
@@ -34,7 +36,9 @@ describe('Ipfs custom connector', () => {
 
     ipfsLib.storeJSON({ data: testJSON, pin: true })
 
+    // @ts-ignore private 
     expect(ipfsLib.nativeLib.fetch).toHaveBeenCalledTimes(1)
+    // @ts-ignore private 
     expect(ipfsLib.nativeLib.fetch).toHaveBeenCalledWith(...expectedArgs)
   })
 
@@ -46,6 +50,7 @@ describe('Ipfs custom connector', () => {
     ]
 
     ipfsLib.catJSON(mockHash)
+    // @ts-ignore private 
     expect(ipfsLib.nativeLib.fetch).toHaveBeenCalledWith(...expectedArgs)
   })
 })

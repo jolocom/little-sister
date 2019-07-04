@@ -12,7 +12,7 @@ describe('ClaimDetails component', () => {
     const props = Object.assign({}, COMMON_PROPS, {
       selectedClaim: {
         id: '',
-        issuer: '',
+        issuer: { did: '' },
         subject: '',
         credentialType: 'Email',
         claimData: {
@@ -28,7 +28,10 @@ describe('ClaimDetails component', () => {
   it('matches the snapshot on render with multi-line claim', () => {
     const props = Object.assign({}, COMMON_PROPS, {
       selectedClaim: {
+        id: '',
+        subject: '',
         credentialType: 'Name',
+        issuer: { did: '' },
         claimData: {
           givenName: 'natascha',
           familyName: 'test'

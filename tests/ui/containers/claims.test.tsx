@@ -35,8 +35,6 @@ describe('Claims container', () => {
   })
 
   it('correctly changes scanning to false when qr code scanner is canceled', () => {
-    const onScannerCancel = jest.fn()
-
     const props = Object.assign({}, COMMON_PROPS, {
       setClaimsForDid: () => {},
     })

@@ -11,9 +11,13 @@ describe('ClaimCard component', () => {
           familyName: 'Running',
         },
         id: 'claim:id:1234',
-        issuer: 'did:issuer:ex',
-        subject: 'did:subject: ex',
+        issuer: {
+          did: 'did:issuer:ex',
+        },
+        subject: 'did:subject:ex',
       },
+
+      leftIcon: null,
 
       openClaimsDetails: () => null,
     }
@@ -30,10 +34,12 @@ describe('ClaimCard component', () => {
           familyName: 'Running',
         },
         id: 'claim:id:1234',
-        issuer: 'did:issuer:ex',
+        issuer: {
+          did: 'did:issuer:ex',
+        },
         subject: 'did:subject: ex',
       },
-
+      leftIcon: null,
       openClaimsDetails: () => null,
     }
 
