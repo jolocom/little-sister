@@ -3,16 +3,15 @@ import { QRcodeScanner } from 'src/ui/generic/qrcodeScanner'
 import { shallow } from 'enzyme'
 import mockCamera from '../../__mocks__/react-native-camera'
 
-describe('QRcodeScanner component', () => {
+describe('QRCodeScanner component', () => {
+  // TODO Is this needed?
   jest.mock('react-native-camera', () => mockCamera)
 
   it('matches the snapshot with back handler', () => {
-    const BackHandler = jest.fn()
-
-    const props = {
-      onScannerSuccess: () => null,
-      onScannerCancel: () => null,
-      listener: BackHandler,
+    const props: QRcodeScanner['props'] = {
+      onScannerSuccess: jest.fn(),
+      onScannerCancel: jest.fn(),
+      loading: false
     }
 
     const rendered = shallow(<QRcodeScanner {...props} />)
