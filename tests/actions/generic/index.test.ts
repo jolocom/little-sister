@@ -4,7 +4,7 @@ import thunk from 'redux-thunk'
 import {AppError} from '../../../src/lib/errors'
 import ErrorCode from '../../../src/lib/errorCodes'
 
-describe.only('Generic action creators', () => {
+describe('Generic action creators', () => {
   describe('showErrorScreen', () => {
     it('should navigate to error screen and provide the message', () => {
       const mockStore = configureStore([thunk])({})

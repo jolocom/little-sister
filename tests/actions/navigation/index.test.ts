@@ -3,6 +3,7 @@ import { JolocomLib } from 'jolocom-lib'
 
 import configureStore from 'redux-mock-store'
 import thunk from 'redux-thunk'
+import {BackendMiddleware} from '../../../src/backendMiddleware'
 
 describe('Navigation action creators', () => {
   describe('handleDeepLink', () => {
@@ -12,7 +13,7 @@ describe('Navigation action creators', () => {
     // TODO: refactor test case to account for identity check when deeplinking
     it('should extract the route name and param from the URL', async () => {
       const mockStore = configureStore([thunk])({})
-      const mockBackendMiddleware = {
+      const mockBackendMiddleware: BackendMiddleware = {
         storageLib: {
           get: {
             persona: jest.fn().mockResolvedValue([{ did: 'did:jolo:mock' }]),
@@ -29,11 +30,11 @@ describe('Navigation action creators', () => {
       }
       const parseInteractionTokenSpy = jest
         .spyOn(JolocomLib.parse.interactionToken, 'fromJWT')
-        .mockImplementation(() => () => {})
+        .mockImplementation(jest.fn())
       const action = navigationActions.handleDeepLink(
         'smartwallet://consent/' + jwt,
       )
-      await action(mockStore.dispatch, () => {}, mockBackendMiddleware)
+      await action(mockStore.dispatch, jest.fn(), mockBackendMiddleware)
       expect(mockStore.getActions()).toMatchSnapshot()
       expect(parseInteractionTokenSpy).toHaveBeenCalledWith(jwt)
       parseInteractionTokenSpy.mockReset()
