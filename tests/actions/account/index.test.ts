@@ -3,29 +3,39 @@ import configureStore from 'redux-mock-store'
 import data from '../registration/data/mockRegistrationData'
 import thunk from 'redux-thunk'
 import { JolocomLib } from 'jolocom-lib'
+import {AccountState} from '../../../src/reducers/account'
 
 describe('Account action creators', () => {
-  const initialState = {
+  const initialState : {account: AccountState} = {
     account: {
-      claims: {
-        loading: false,
-        selected: {
-          credentialType: 'Email',
-          claimData: {
-            email: 'test@test.com',
-          },
-          id: '',
-          issuer: 'did:jolo:test',
-          subject: 'did:jolo:test',
-        },
-        pendingExternal: [],
-        decoratedCredentials: 'blah',
-      },
-      did: {
-        get: () => 'mock:did:test ',
-      },
+    loading: {
+      loading: false
     },
+    claims: {
+      selected: {
+        credentialType: 'Email',
+          claimData: {
+          email: 'test@test.com',
+        },
+        id: '',
+          issuer: {
+          did: 'did:jolo:test'
+        },
+        subject: 'did:jolo:test',
+      },
+      pendingExternal: {
+        offer: [],
+          offeror: {
+          did: ''
+        }
+      },
+      decoratedCredentials: {},
+    },
+    did: {
+      did: ''
+    }
   }
+}
   const mockStore = configureStore([thunk])(initialState)
 
   beforeEach(() => {
@@ -50,15 +60,13 @@ describe('Account action creators', () => {
       identityWallet: { identity: { did: 'did:jolo:mock' } },
     }
 
-    const action = accountActions.checkIdentityExists
-
     // @ts-ignore
-    await action(mockStore.dispatch, mockStore.getState, backendMiddleware)
+    await accountActions.checkIdentityExists(mockStore.dispatch, jest.fn().mockReturnValue(initialState), backendMiddleware)
     expect(backendMiddleware.setIdentityWallet).toHaveBeenCalledTimes(1)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
-  it('Should correctly handle more existing user identites', async () => {
+  it('Should correctly handle more existing user identities', async () => {
     const backendMiddleware = {
       storageLib: {
         get: {
@@ -83,7 +91,7 @@ describe('Account action creators', () => {
 
     const action = accountActions.checkIdentityExists
     // @ts-ignore
-    await action(mockStore.dispatch, mockStore.getState, backendMiddleware)
+    await action(mockStore.dispatch, jest.fn().mockReturnValue(initialState), backendMiddleware)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
@@ -97,9 +105,8 @@ describe('Account action creators', () => {
       },
     }
 
-    const action = accountActions.checkIdentityExists
     // @ts-ignore
-    await action(mockStore.dispatch, mockStore.getState, backendMiddleware)
+    await accountActions.checkIdentityExists(mockStore.dispatch, jest.fn().mockReturnValue(initialState), backendMiddleware)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
@@ -123,7 +130,7 @@ describe('Account action creators', () => {
 
     await accountActions.setClaimsForDid(
       mockStore.dispatch,
-      mockStore.getState,
+      jest.fn(),
       backendMiddleware,
     )
 
@@ -153,10 +160,9 @@ describe('Account action creators', () => {
       thunk.withExtraArgument(backendMiddleware),
     ])(initialState)
 
-    const action = accountActions.saveClaim
-    await action(
+    await accountActions.saveClaim(
       altMockStore.dispatch,
-      altMockStore.getState,
+      jest.fn().mockReturnValue(initialState),
       backendMiddleware,
     )
     expect(altMockStore.getActions()).toMatchSnapshot()
