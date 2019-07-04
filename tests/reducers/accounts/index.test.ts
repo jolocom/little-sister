@@ -3,10 +3,10 @@ import { accountActions as actions } from 'src/actions/'
 
 describe('account reducer', () => {
   it('should handle the DID_SET action ', () => {
-    expect(reducer(undefined, actions.setDid('mock did'))).toMatchSnapshot()
+    expect(reducer({did: ''}, actions.setDid('mock did'))).toMatchSnapshot()
   })
 
   it('should initialize correctly', () => {
-    expect(reducer(undefined, { type: '@INIT' })).toMatchSnapshot()
+    expect(reducer({did: ''}, { type: '@INIT' })).toMatchSnapshot()
   })
 })

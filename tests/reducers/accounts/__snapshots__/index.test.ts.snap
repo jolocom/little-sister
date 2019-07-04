@@ -163,9 +163,7 @@ Object {
       "subject": "",
     },
   },
-  "did": Object {
-    "did": "",
-  },
+  "did": "",
   "loading": Object {
     "loading": true,
   },
