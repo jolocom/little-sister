@@ -4,10 +4,7 @@ exports[`Generic action creators showErrorScreen should navigate to error screen
 Array [
   Object {
     "params": Object {
-      "error": Object {
-        "message": "MOCK BAD ERROR",
-        "stack": "MOCK STACK TRACE",
-      },
+      "error": [Error: Unknown Error],
       "returnTo": "Home",
     },
     "routeName": "Exception",
