@@ -4,9 +4,11 @@ import { connect } from 'react-redux'
 import { ThunkDispatch } from 'src/store'
 import { navigationActions, accountActions, genericActions } from 'src/actions'
 import { Linking, Dimensions, Image, StyleSheet } from 'react-native'
-import { withLoading, withErrorScreen } from 'src/actions/modifiers'
+import { withLoading, withErrorHandler } from 'src/actions/modifiers'
 import { Container, CenteredText } from '../structure'
 import { JolocomTheme } from 'src/styles/jolocom-theme'
+import { AppError, ErrorCode } from 'src/lib/errors'
+import { showErrorScreen } from 'src/actions/generic'
 const image = require('src/resources/img/splashScreen.png')
 
 interface Props extends ReturnType<typeof mapDispatchToProps> {}
@@ -53,22 +55,20 @@ export class AppInitContainer extends React.Component<Props> {
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   doAppInit: async () => {
+    const withErrorScreen = withErrorHandler(
+      showErrorScreen,
+      (err: Error) => new AppError(ErrorCode.AppInitFailed, err),
+    )
     await dispatch(withErrorScreen(genericActions.initApp))
     await dispatch(withErrorScreen(accountActions.checkIdentityExists))
     const handleDeepLink = (url: string) =>
       dispatch(
-        withLoading(
-          withErrorScreen(
-            navigationActions.handleDeepLink(url),
-          ),
-        )
+        withLoading(withErrorScreen(navigationActions.handleDeepLink(url))),
       )
 
     // FIXME: get rid of these after setting up deepLinking properly using
     // react-navigation
-    Linking.addEventListener('url', event =>
-      handleDeepLink(event.url),
-    )
+    Linking.addEventListener('url', event => handleDeepLink(event.url))
     Linking.getInitialURL().then(url => {
       if (url) handleDeepLink(url)
     })
