@@ -8,8 +8,8 @@ import {
   NavigationRoute,
   NavigationScreenProp,
   createAppContainer,
+  createSwitchNavigator
 } from 'react-navigation'
-import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
 
 import { Claims, Records, ClaimDetails } from 'src/ui/home/'
 import { Documents, DocumentDetails } from 'src/ui/documents'
@@ -169,7 +169,7 @@ const BottomTabNavigator = createBottomTabNavigator(BottomTabBarRoutes, {
   //tabBarPosition: 'bottom',
 })
 
-const RegistrationScreens = createAnimatedSwitchNavigator(
+const RegistrationScreens = createSwitchNavigator(
   {
     [routeList.Landing]: {
       screen: Landing,
@@ -251,7 +251,7 @@ const MainStack = createStackNavigator(
   },
 )
 
-export const Routes = createAnimatedSwitchNavigator(
+export const Routes = createSwitchNavigator(
   {
     [routeList.AppInit]: {
       screen: AppInit,
