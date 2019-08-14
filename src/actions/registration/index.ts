@@ -66,7 +66,7 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
 
   dispatch(setIsRegistering(true))
 
-  const { encryptionLib, keyChainLib, storageLib, registry } = backendMiddleware
+  const { encryptionLib, keyChainLib, storageLib, registry, fuelKeyWithEther } = backendMiddleware
 
   const password = await keyChainLib.getPassword()
   const encEntropy = encryptionLib.encryptWithPass({
@@ -81,7 +81,7 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
 
   dispatch(setLoadingMsg(loading.loadingStages[1]))
 
-  await JolocomLib.util.fuelKeyWithEther(
+  await fuelKeyWithEther(
     userVault.getPublicKey({
       encryptionPass: password,
       derivationPath: JolocomLib.KeyTypes.ethereumKey,

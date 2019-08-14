@@ -11,6 +11,7 @@ import { IpfsCustomConnector } from './lib/ipfs'
 import { jolocomContractsAdapter } from 'jolocom-lib/js/contracts/contractsAdapter'
 import { jolocomEthereumResolver } from 'jolocom-lib/js/ethereum/ethereum'
 import { jolocomContractsGateway } from 'jolocom-lib/js/contracts/contractsGateway'
+import { skipIdentityRegisteration } from './config';
 
 export class BackendMiddleware {
   public identityWallet!: IdentityWallet
@@ -18,6 +19,7 @@ export class BackendMiddleware {
   public encryptionLib: EncryptionLibInterface
   public keyChainLib: KeyChainInterface
   public registry: IRegistry
+  public fuelKeyWithEther: typeof JolocomLib.util.fuelKeyWithEther
 
   public constructor(config: {
     fuelingEndpoint: string
@@ -26,6 +28,7 @@ export class BackendMiddleware {
     this.storageLib = new Storage(config.typeOrmConfig)
     this.encryptionLib = new EncryptionLib()
     this.keyChainLib = new KeyChain()
+    this.fuelKeyWithEther = JolocomLib.util.fuelKeyWithEther
     this.registry = createJolocomRegistry({
       ipfsConnector: new IpfsCustomConnector({
         host: 'ipfs.jolocom.com',
@@ -38,6 +41,15 @@ export class BackendMiddleware {
         gateway: jolocomContractsGateway,
       },
     })
+    if (skipIdentityRegisteration) {
+      this.registry.commit = this.fuelKeyWithEther = async (arg: any) => undefined
+      this.setIdentityWallet = async function(
+        userVault: SoftwareKeyProvider,
+        pass: string,
+      ): Promise<void> {
+        this.identityWallet = await this.registry.create(userVault, pass)
+      }
+    }
   }
 
   public async initStorage(): Promise<void> {
