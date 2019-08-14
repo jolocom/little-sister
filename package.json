@@ -27,6 +27,7 @@
     "@typescript-eslint/parser": "^1.5.0",
     "babel-jest": "^24.8.0",
     "babel-plugin-inline-import": "^3.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "class-transformer": "^0.1.9",
