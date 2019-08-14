@@ -1,3 +1,4 @@
+import { skipEntropyCollection } from 'src/config'
 import React from 'react'
 import { connect } from 'react-redux'
 import { registrationActions } from 'src/actions'
@@ -58,7 +59,10 @@ export class EntropyContainer extends React.Component<Props, State> {
   }
 
   private updateEntropyProgress = async (): Promise<void> => {
-    const { entropyProgress } = this.state
+    let { entropyProgress } = this.state
+    if (skipEntropyCollection) {
+      entropyProgress = 1
+    }
     if (entropyProgress >= 1) {
       this.setState({ sufficientEntropy: true, entropyProgress: 1 })
       while (this.entropyGenerator.getProgress() < 1) {
