@@ -57,8 +57,8 @@
   },
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "test": "NODE_ENV=test jest",
+    "test:debug": "NODE_ENV=test node --inspect-brk node_modules/.bin/jest --runInBand",
     "run:ios": "react-native run-ios",
     "run:android": "react-native run-android --appIdSuffix debug",
     "run:android:staging": "react-native run-android --variant staging --appIdSuffix debugStaging",

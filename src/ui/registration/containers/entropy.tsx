@@ -59,10 +59,8 @@ export class EntropyContainer extends React.Component<Props, State> {
   }
 
   private updateEntropyProgress = async (): Promise<void> => {
-    let { entropyProgress } = this.state
-    if (skipEntropyCollection) {
-      entropyProgress = 1
-    }
+    const entropyProgress = skipEntropyCollection ? 1 : this.state.entropyProgress
+
     if (entropyProgress >= 1) {
       this.setState({ sufficientEntropy: true, entropyProgress: 1 })
       while (this.entropyGenerator.getProgress() < 1) {

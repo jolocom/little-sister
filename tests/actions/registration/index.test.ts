@@ -1,6 +1,5 @@
 import { registrationActions } from 'src/actions'
 import data from './data/mockRegistrationData'
-import { JolocomLib } from 'jolocom-lib'
 import * as util from 'src/lib/util'
 import { withErrorScreen } from 'src/actions/modifiers'
 import { AppError, ErrorCode } from 'src/lib/errors'
@@ -79,9 +78,6 @@ describe('Registration action creators', () => {
     it('should attempt to create an identity', async () => {
       MockDate.set(new Date(946681200000))
       const { getPasswordResult, cipher, entropy, identityWallet } = data
-      const fuelSpy = jest
-        .spyOn(JolocomLib.util, 'fuelKeyWithEther')
-        .mockResolvedValueOnce(null)
 
       const mockMiddleware = {
         identityWallet,
@@ -107,6 +103,7 @@ describe('Registration action creators', () => {
           create: () => identityWallet,
         },
         setIdentityWallet: jest.fn(() => Promise.resolve()),
+        fuelKeyWithEther: jest.fn().mockResolvedValueOnce(null)
       }
 
       const mockState: Partial<RootState> = {
@@ -134,7 +131,7 @@ describe('Registration action creators', () => {
       expect(
         mockMiddleware.storageLib.store.derivedKey.mock.calls,
       ).toMatchSnapshot()
-      expect(fuelSpy.mock.calls).toMatchSnapshot()
+      expect(mockMiddleware.fuelKeyWithEther.mock.calls).toMatchSnapshot()
       MockDate.reset()
     })
 
