@@ -2,7 +2,7 @@ import {
   createConnection,
   ConnectionOptions,
   Connection,
-} from 'typeorm/browser'
+} from 'typeorm'
 import { plainToClass } from 'class-transformer'
 import {
   SettingEntity,

@@ -1,4 +1,4 @@
-import { ConnectionOptions } from 'typeorm/browser'
+import { ConnectionOptions } from 'typeorm'
 import { entityList } from './lib/storage/entities'
 
 const typeOrmConf: ConnectionOptions = {
