@@ -6,11 +6,6 @@ import {
   ManyToOne,
 } from 'typeorm/browser'
 import {
-  PersonaEntity,
-  SignatureEntity,
-  CredentialEntity,
-} from 'src/lib/storage/entities'
-import {
   Exclude,
   Expose,
   plainToClass,
@@ -19,6 +14,9 @@ import {
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import { ISignedCredentialAttrs } from 'jolocom-lib/js/credentials/signedCredential/types'
 import { IClaimSection } from 'jolocom-lib/js/credentials/credential/types'
+import { PersonaEntity } from './personaEntity'
+import { SignatureEntity } from './signatureEntity'
+import { CredentialEntity } from './credentialEntity'
 
 @Exclude()
 @Entity('verifiable_credentials')
