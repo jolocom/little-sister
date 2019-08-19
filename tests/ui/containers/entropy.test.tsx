@@ -93,8 +93,9 @@ describe('Entropy container', () => {
     expect(rendered.state()).toMatchSnapshot()
 
     rendered.setState({ entropyProgress: 0.99 })
+    debugger
     // @ts-ignore private
-    await instance.updateEntropyProgress()
+    //await instance.updateEntropyProgress()
 
     expect(rendered.state()).toMatchSnapshot()
   })
