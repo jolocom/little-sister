@@ -23,6 +23,8 @@ import ErrorCode from '../../lib/errorCodes'
 import { Identity } from 'jolocom-lib/js/identity/identity'
 import { DidDocument } from 'jolocom-lib/js/identity/didDocument/didDocument'
 import { getMethodPrefixFromDid } from 'jolocom-lib/js/utils/crypto'
+import { Platform } from 'react-native'
+import RNFetchBlob from 'rn-fetch-blob'
 
 export const setCredentialRequest = (
   request: StateCredentialRequestSummary,
@@ -265,11 +267,14 @@ export const sendCredentialResponse = (
 
       return Linking.openURL(callback).then(() => dispatch(cancelSSO))
     } else {
-      return fetch(callbackURL, {
-        method: 'POST',
-        body: JSON.stringify({ token: response.encode() }),
-        headers: { 'Content-Type': 'application/json' },
-      })
+      return RNFetchBlob.config({
+        trusty: true,
+      }).fetch(
+        'POST',
+        callbackURL,
+        { 'Content-Type': 'application/json' },
+        JSON.stringify({ token: response.encode() }),
+      )
     }
   } finally {
     dispatch(cancelSSO)

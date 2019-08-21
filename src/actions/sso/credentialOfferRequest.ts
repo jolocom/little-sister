@@ -21,6 +21,7 @@ import { withLoading, withErrorScreen } from '../modifiers'
 import { getMethodPrefixFromDid } from 'jolocom-lib/js/utils/crypto'
 import { DidDocument } from 'jolocom-lib/js/identity/didDocument/didDocument'
 import { Identity } from 'jolocom-lib/js/identity/identity'
+import RNFetchBlob from 'rn-fetch-blob'
 
 export const consumeCredentialOfferRequest = (
   credOfferRequest: JSONWebToken<CredentialOfferRequest>,
@@ -82,11 +83,16 @@ export const consumeCredentialOfferRequest = (
     credOfferRequest,
   )
 
-  const res = await httpAgent.postRequest<{ token: string }>(
-    callbackURL,
-    { 'Content-Type': 'application/json' },
-    { token: credOfferResponse.encode() },
-  )
+  const res = await RNFetchBlob.config({
+    trusty: true,
+  })
+    .fetch(
+      'POST',
+      callbackURL,
+      { 'Content-Type': 'application/json' },
+      JSON.stringify({ token: credOfferResponse.encode() }),
+    )
+    .then(res => res.json())
 
   const credentialReceive = JolocomLib.parse.interactionToken.fromJWT<
     CredentialsReceive
