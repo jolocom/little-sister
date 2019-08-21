@@ -101,18 +101,20 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
     10e18,
   )
 
-  await awaitPaymentTxConfirmation(
+  const staxFueling = awaitPaymentTxConfirmation(
     `${staxEndpoint}/payment`,
     fuelingTxHash,
     httpAgent,
   )
 
-  await JolocomLib.util.fuelKeyWithEther(
+  const jolocomFueling = JolocomLib.util.fuelKeyWithEther(
     userVault.getPublicKey({
       encryptionPass: password,
       derivationPath: JolocomLib.KeyTypes.ethereumKey,
     }),
   )
+
+  await Promise.all([staxFueling, jolocomFueling])
 
   dispatch(setLoadingMsg(loading.loadingStages[2]))
   const identityWallet = await registry.create(userVault, password)
