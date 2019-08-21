@@ -15,7 +15,7 @@ import { compose } from 'redux'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import { IdentitySummary } from '../sso/types'
 import { KeyTypes } from 'jolocom-lib/js/vaultedKeyProvider/types'
-import { publicKeyToDID } from 'jolocom-lib/js/utils/crypto'
+import { publicKeyToJoloDID } from 'jolocom-lib/js/utils/crypto'
 import { IdentityWallet } from 'jolocom-lib/js/identityWallet/identityWallet'
 import { Identity } from 'jolocom-lib/js/identity/identity'
 
@@ -79,7 +79,7 @@ export const checkIdentityExists: ThunkAction = async (
     encryptionPass,
   })
 
-  const didDocument = await storageLib.get.didDoc(publicKeyToDID(userPubKey))
+  const didDocument = await storageLib.get.didDoc(publicKeyToJoloDID(userPubKey))
 
   if (didDocument) {
     const identity = Identity.fromDidDocument({ didDocument })
