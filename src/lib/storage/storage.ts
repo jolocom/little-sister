@@ -19,6 +19,7 @@ import {
   CredentialOfferRenderInfo,
 } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
 import { IdentitySummary } from '../../actions/sso/types'
+import { DidDocument } from 'jolocom-lib/js/identity/didDocument/didDocument'
 
 interface PersonaAttributes {
   did: string
@@ -53,6 +54,10 @@ export class Storage {
       this.createConnectionIfNeeded().then(() =>
         storeIssuerProfile(this.connection)(issuer),
       ),
+    didDoc: (doc: DidDocument) =>
+      this.createConnectionIfNeeded().then(() =>
+        cacheDIDDoc(this.connection)(doc),
+      ),
   }
 
   public get = {
@@ -70,6 +75,10 @@ export class Storage {
     publicProfile: (did: string) =>
       this.createConnectionIfNeeded().then(() =>
         getPublicProfile(this.connection)(did),
+      ),
+    didDoc: (did: string) =>
+      this.createConnectionIfNeeded().then(() =>
+        getCachedDIDDoc(this.connection)(did),
       ),
   }
 
@@ -287,6 +296,29 @@ export interface CredentialMetadata {
 
 export interface CredentialMetadataSummary extends CredentialMetadata {
   issuer: IdentitySummary
+}
+
+const cacheDIDDoc = (connection: Connection) => (doc: DidDocument) => {
+  const cacheEntry = plainToClass(CacheEntity, {
+    key: `didCache:${doc.did}`,
+    value: doc.toJSON(),
+  })
+
+  return connection.manager.save(cacheEntry)
+}
+
+const getCachedDIDDoc = (connection: Connection) => async (
+  did: string,
+): Promise<DidDocument | undefined> => {
+  const [entry] = await connection.manager.findByIds(CacheEntity, [
+    `didCache:${did}`,
+  ])
+
+  try {
+    return DidDocument.fromJSON(entry.value)
+  } catch (err) {
+    return undefined
+  }
 }
 
 const storeCredentialMetadata = (connection: Connection) => (

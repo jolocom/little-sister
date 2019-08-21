@@ -1,6 +1,6 @@
 import { navigationActions } from 'src/actions/'
 import { routeList } from 'src/routeList'
-import { DecoratedClaims, CategorizedClaims } from 'src/reducers/account'
+import { CategorizedClaims, DecoratedClaims } from 'src/reducers/account'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import {
   getClaimMetadataByCredentialType,
@@ -10,10 +10,14 @@ import {
 import { cancelReceiving } from '../sso'
 import { JolocomLib } from 'jolocom-lib'
 import { ThunkAction } from 'src/store'
-import { groupBy, zipWith, mergeRight, omit, uniq, map } from 'ramda'
+import { groupBy, map, mergeRight, omit, uniq, zipWith } from 'ramda'
 import { compose } from 'redux'
 import { CredentialMetadataSummary } from '../../lib/storage/storage'
 import { IdentitySummary } from '../sso/types'
+import { KeyTypes } from 'jolocom-lib/js/vaultedKeyProvider/types'
+import { publicKeyToDID } from 'jolocom-lib/js/utils/crypto'
+import { IdentityWallet } from 'jolocom-lib/js/identityWallet/identityWallet'
+import { Identity } from 'jolocom-lib/js/identity/identity'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -40,34 +44,24 @@ export const checkIdentityExists: ThunkAction = async (
   getState,
   backendMiddleware,
 ) => {
-  const { keyChainLib, storageLib, encryptionLib } = backendMiddleware
-  const encryptedEntropy = await storageLib.get.encryptedSeed().catch(err => {
-    // TODO Fix this
-    if (err.message.indexOf('no such table') === 0) {
-      return
-    }
-  })
+  const { keyChainLib, storageLib, encryptionLib, registry } = backendMiddleware
+  const encryptedEntropy = await storageLib.get.encryptedSeed()
 
   if (!encryptedEntropy) {
     const isRegistering = getState().registration.loading.isRegistering
-    if (isRegistering) {
-      return dispatch(
-        navigationActions.navigate({
-          routeName: routeList.RegistrationProgress,
-        }),
-      )
-    } else {
-      return dispatch(
-        navigationActions.navigate({ routeName: routeList.Landing }),
-      )
-    }
+
+    const routeName = isRegistering
+      ? routeList.RegistrationProgress
+      : routeList.Landing
+
+    return dispatch(navigationActions.navigate({ routeName }))
   }
 
-  const password = await keyChainLib.getPassword()
+  const encryptionPass = await keyChainLib.getPassword()
 
   const decryptedSeed = encryptionLib.decryptWithPass({
     cipher: encryptedEntropy,
-    pass: password,
+    pass: encryptionPass,
   })
 
   if (!decryptedSeed) {
@@ -77,12 +71,43 @@ export const checkIdentityExists: ThunkAction = async (
   // TODO: rework the seed param on lib, currently cleartext seed is being passed around. Bad.
   const userVault = JolocomLib.KeyProvider.fromSeed(
     Buffer.from(decryptedSeed, 'hex'),
-    password,
+    encryptionPass,
   )
 
-  await backendMiddleware.setIdentityWallet(userVault, password)
-  const identityWallet = backendMiddleware.identityWallet
-  dispatch(setDid(identityWallet.identity.did))
+  const userPubKey = userVault.getPublicKey({
+    derivationPath: KeyTypes.jolocomIdentityKey,
+    encryptionPass,
+  })
+
+  const didDocument = await storageLib.get.didDoc(publicKeyToDID(userPubKey))
+
+  if (didDocument) {
+    const identity = Identity.fromDidDocument({ didDocument })
+
+    // TODO Simplify constructor
+    backendMiddleware.identityWallet = new IdentityWallet({
+      identity,
+      vaultedKeyProvider: userVault,
+      publicKeyMetadata: {
+        derivationPath: KeyTypes.jolocomIdentityKey,
+        keyId: identity.publicKeySection[0].id,
+      },
+      contractsAdapter: registry.contractsAdapter,
+      contractsGateway: registry.contractsGateway,
+    })
+  } else {
+    const { jolocomIdentityKey: derivationPath } = JolocomLib.KeyTypes
+    const identityWallet = await registry.authenticate(userVault, {
+      encryptionPass,
+      derivationPath,
+    })
+
+    backendMiddleware.identityWallet = identityWallet
+    await storageLib.store.didDoc(identityWallet.didDocument)
+  }
+
+  const userDid = backendMiddleware.identityWallet.identity.did
+  dispatch(setDid(userDid))
 
   return dispatch(navigationActions.navigate({ routeName: routeList.Home }))
 }

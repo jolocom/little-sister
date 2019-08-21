@@ -128,7 +128,6 @@ export class ExceptionComponent extends React.PureComponent<Props> {
     errorText = I18n.t(errorText) + '.'
     console.error(origError || err)
 
-
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />

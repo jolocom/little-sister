@@ -13,7 +13,7 @@ import { withLoading, withErrorScreen } from 'src/actions/modifiers'
 import { ThunkAction } from 'src/store'
 
 let deferredNavActions: NavigationAction[] = [],
-  dispatchNavigationAction = (action: any) => {
+  dispatchNavigationAction = (action: NavigationAction) => {
     deferredNavActions.push(action)
   }
 
@@ -65,30 +65,32 @@ export const handleDeepLink = (url: string): ThunkAction => (
   const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
   const routeName = route.split('/')[0]
 
-  if (
-    routeName === 'consent' ||
-    routeName === 'payment' ||
-    routeName === 'authenticate'
-  ) {
-    // The identityWallet is initialised before the deep link is handled. If it
-    // is not initialized, then we may not even have an identity.
-    if (backendMiddleware.identityWallet) {
-      const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
-      const handler = interactionHandlers[interactionToken.interactionType]
+  // The identityWallet is initialised before the deep link is handled. If it
+  // is not initialized, then we may not even have an identity.
+  if (!backendMiddleware.identityWallet) {
+    return dispatch(
+      navigate({
+        routeName: routeList.Landing,
+      }),
+    )
+  }
 
-      if (handler) {
-        return dispatch(
-          withLoading(
-            withErrorScreen(handler(interactionToken, true)),
-          ),
-        )
-      }
+  const supportedRoutes = ['consent', 'payment', 'authenticate']
+  if (supportedRoutes.includes(routeName)) {
+    const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
+    const handler = interactionHandlers[interactionToken.interactionType]
+
+    if (handler) {
+      return dispatch(
+        withLoading(withErrorScreen(handler(interactionToken, true))),
+      )
+
     }
   }
 
   /** @TODO Use error code */
   throw new AppError(
-    ErrorCode.Unknown,
+    ErrorCode.ParseJWTFailed,
     new Error('Could not handle interaction token'),
   )
 }

@@ -9,7 +9,7 @@ Array [
 ]
 `;
 
-exports[`Account action creators Should correctly handle more existing user identities 1`] = `
+exports[`Account action creators Should correctly handle existing user identity if cached 1`] = `
 Array [
   Object {
     "type": "DID_SET",
@@ -22,7 +22,20 @@ Array [
 ]
 `;
 
-exports[`Account action creators Should correctly handle one existing user identity 1`] = `
+exports[`Account action creators Should correctly handle existing user identity if not cached 1`] = `
+Array [
+  Object {
+    "type": "DID_SET",
+    "value": "did:jolo:first",
+  },
+  Object {
+    "routeName": "Home",
+    "type": "Navigation/NAVIGATE",
+  },
+]
+`;
+
+exports[`Account action creators Should correctly handle more existing user identities 1`] = `
 Array [
   Object {
     "type": "DID_SET",

@@ -5,10 +5,11 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm/browser'
-import { VerifiableCredentialEntity } from 'src/lib/storage/entities/verifiableCredentialEntity'
+
 import { Type, plainToClass } from 'class-transformer'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import { IClaimSection } from 'jolocom-lib/js/credentials/credential/types'
+import { VerifiableCredentialEntity } from './verifiableCredentialEntity'
 
 interface JsonAttributes {
   propertyName: string

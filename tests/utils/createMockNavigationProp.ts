@@ -16,8 +16,10 @@ export function createMockNavigationScreenProp(
 ): NavigationScreenPropType {
   return stub<NavigationScreenPropType>({
     ...navigation,
-    getParam: (key: string, def: any) => {
-      return navigation.state && navigation.state.params && navigation.state.params[key] || def
-    }
+    getParam: (key: string, def: any) =>
+      (navigation.state &&
+        navigation.state.params &&
+        navigation.state.params[key]) ||
+      def,
   })
 }

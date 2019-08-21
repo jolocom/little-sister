@@ -8,7 +8,7 @@ import {
   NavigationRoute,
   NavigationScreenProp,
   createAppContainer,
-  createSwitchNavigator
+  createSwitchNavigator,
 } from 'react-navigation'
 
 import { Claims, Records, ClaimDetails } from 'src/ui/home/'
@@ -190,7 +190,7 @@ const RegistrationScreens = createSwitchNavigator(
   },
   {
     initialRouteName: routeList.Landing,
-  }
+  },
 )
 
 const MainStack = createStackNavigator(

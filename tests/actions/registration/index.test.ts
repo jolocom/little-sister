@@ -97,6 +97,7 @@ describe('Registration action creators', () => {
             persona: jest.fn(),
             derivedKey: jest.fn(),
             encryptedSeed: jest.fn(),
+            didDoc: jest.fn(),
           },
           get: {
             persona: jest.fn().mockResolvedValue([{ did: 'did:jolo:first' }]),
@@ -119,11 +120,12 @@ describe('Registration action creators', () => {
       }
 
       const mockStore = createMockStore(mockState, mockMiddleware)
-
       await mockStore.dispatch(registrationActions.createIdentity(entropy))
 
+      expect(mockMiddleware.storageLib.store.didDoc).toHaveBeenCalledWith(
+        identityWallet.didDocument,
+      )
       expect(mockStore.getActions()).toMatchSnapshot()
-
       expect(mockMiddleware.keyChainLib.getPassword).toHaveBeenCalledTimes(1)
       expect(
         mockMiddleware.encryptionLib.encryptWithPass.mock.calls,
