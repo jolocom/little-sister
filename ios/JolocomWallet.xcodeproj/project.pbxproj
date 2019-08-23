@@ -79,6 +79,7 @@
 		CCA090A55011427A9E46430C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 917F7DAEDE914FFDA9AF3763 /* libRNVectorIcons.a */; };
 		26A7C4C99A8F4905A2398B42 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E01FBBDE5E4C44A29FD4CC /* libRNVectorIcons-tvOS.a */; };
 		715D8480D35E4A449C21FDA9 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBC43EF73F7D44A6A2082E07 /* libRNFetchBlob.a */; };
+		1BA97A3438474081BBC49226 /* libNfcManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E1FE4DA203B4418B861FA477 /* libNfcManager.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -582,6 +583,8 @@
 		17E01FBBDE5E4C44A29FD4CC /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; name = "libRNVectorIcons-tvOS.a"; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 		1AA6A09A3F7143629F79D502 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; name = "RNFetchBlob.xcodeproj"; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
 		CBC43EF73F7D44A6A2082E07 /* libRNFetchBlob.a */ = {isa = PBXFileReference; name = "libRNFetchBlob.a"; path = "libRNFetchBlob.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		152C793386D44F6D9245C8CA /* NfcManager.xcodeproj */ = {isa = PBXFileReference; name = "NfcManager.xcodeproj"; path = "../node_modules/react-native-nfc-manager/ios/NfcManager.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E1FE4DA203B4418B861FA477 /* libNfcManager.a */ = {isa = PBXFileReference; name = "libNfcManager.a"; path = "libNfcManager.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -625,6 +628,7 @@
 				F45E559D4DA0414F9408A761 /* libRNVersionNumber.a in Frameworks */,
 				CCA090A55011427A9E46430C /* libRNVectorIcons.a in Frameworks */,
 				715D8480D35E4A449C21FDA9 /* libRNFetchBlob.a in Frameworks */,
+				1BA97A3438474081BBC49226 /* libNfcManager.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -835,6 +839,7 @@
 				E66CCD724E7544A5885E09DE /* RNVersionNumber.xcodeproj */,
 				82B3FE84BBEF41E68075A469 /* RNVectorIcons.xcodeproj */,
 				1AA6A09A3F7143629F79D502 /* RNFetchBlob.xcodeproj */,
+				152C793386D44F6D9245C8CA /* NfcManager.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1850,12 +1855,14 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = JolocomWalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1891,12 +1898,14 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = JolocomWalletTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1933,6 +1942,7 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = JolocomWallet/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1968,6 +1978,7 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = JolocomWallet/Base.lproj/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -2009,11 +2020,13 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = "JolocomWallet-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2057,11 +2070,13 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = "JolocomWallet-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2104,11 +2119,13 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = "JolocomWallet-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -2151,11 +2168,13 @@
 					"$(SRCROOT)/../node_modules/react-native-version-number/ios",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/rn-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-nfc-manager/ios",
 				);
 				INFOPLIST_FILE = "JolocomWallet-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

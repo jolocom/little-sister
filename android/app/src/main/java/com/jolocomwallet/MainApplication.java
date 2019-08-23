@@ -3,6 +3,7 @@ package com.jolocomwallet;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import community.revteltech.nfc.NfcManagerPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.reactcommunity.rnlocalize.RNLocalizePackage;
 import com.swmansion.reanimated.ReanimatedPackage;
@@ -36,6 +37,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new NfcManagerPackage(),
             new VectorIconsPackage(),
             new RNLocalizePackage(),
             new ReanimatedPackage(),

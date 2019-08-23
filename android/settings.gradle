@@ -1,4 +1,6 @@
 rootProject.name = 'JolocomWallet'
+include ':react-native-nfc-manager'
+project(':react-native-nfc-manager').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-nfc-manager/android')
 include ':react-native-vector-icons'
 project(':react-native-vector-icons').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-vector-icons/android')
 include ':rn-fetch-blob'

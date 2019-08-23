@@ -8703,6 +8703,11 @@ react-native-material-ui@^1.30.0:
     prop-types "^15.5.10"
     react-native-material-design-styles "^0.2.6"
 
+react-native-nfc-manager@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-nfc-manager/-/react-native-nfc-manager-1.2.4.tgz#358b94ea18fca925eec9332d778c65ef721aeb72"
+  integrity sha512-bcU+5O/FUg6olrmPQXMogyvdGx16/WGqUK7Co67t4tMdz2P4WbzgHwSVTkFHgdMIfIN51MhVJbx5gdnXx2dELA==
+
 react-native-permissions@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/react-native-permissions/-/react-native-permissions-1.1.1.tgz#4876004681ff8556454613d85249b01baff9b35b"
