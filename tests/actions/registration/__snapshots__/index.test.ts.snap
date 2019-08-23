@@ -8,6 +8,10 @@ Array [
   },
   Object {
     "type": "SET_LOADING_MSG",
+    "value": "Encrypting and storing data locally",
+  },
+  Object {
+    "type": "SET_LOADING_MSG",
     "value": "Fueling with ether",
   },
   Object {
@@ -36,75 +40,6 @@ Array [
 ]
 `;
 
-exports[`Registration action creators createIdentity should attempt to create an identity 2`] = `
-Array [
-  Array [
-    Object {
-      "data": "4f8d84403d760b5b3fc5426c90827dab",
-      "pass": "secret",
-    },
-  ],
-]
-`;
-
-exports[`Registration action creators createIdentity should attempt to create an identity 3`] = `
-Array [
-  Array [
-    Object {
-      "controllingKeyPath": "m/73'/0'/0'/0",
-      "did": "did:jolo:mockdid",
-    },
-  ],
-]
-`;
-
-exports[`Registration action creators createIdentity should attempt to create an identity 4`] = `Array []`;
-
-exports[`Registration action creators createIdentity should attempt to create an identity 5`] = `
-Array [
-  Array [
-    Object {
-      "data": Array [
-        2,
-        190,
-        222,
-        236,
-        223,
-        239,
-        223,
-        32,
-        17,
-        81,
-        201,
-        162,
-        78,
-        254,
-        96,
-        10,
-        97,
-        136,
-        138,
-        150,
-        254,
-        179,
-        2,
-        244,
-        3,
-        231,
-        162,
-        235,
-        71,
-        152,
-        56,
-        126,
-        92,
-      ],
-      "type": "Buffer",
-    },
-  ],
-]
-`;
-
 exports[`Registration action creators startRegistration should save a password and initiate the registration process 1`] = `
 Array [
   Object {
@@ -119,10 +54,6 @@ Array [
   Object {
     "routeName": "RegistrationProgress",
     "type": "Navigation/NAVIGATE",
-  },
-  Object {
-    "type": "SET_LOADING_MSG",
-    "value": "Encrypting and storing data locally",
   },
 ]
 `;

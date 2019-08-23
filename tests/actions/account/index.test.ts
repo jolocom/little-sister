@@ -2,9 +2,8 @@ import { accountActions } from 'src/actions/'
 import data from '../registration/data/mockRegistrationData'
 import { JolocomLib } from 'jolocom-lib'
 import { RootState } from 'src/reducers'
-import { createMockStore, stub } from 'tests/utils'
-import { DidDocument } from 'jolocom-lib/js/identity/didDocument/didDocument'
-import { IContractsAdapter, IContractsGateway } from 'jolocom-lib/js/contracts/types';
+import { createMockStore } from 'tests/utils'
+import { BackendError } from 'src/backendMiddleware'
 
 describe('Account action creators', () => {
   const initialState: Partial<RootState> = {
@@ -48,91 +47,27 @@ describe('Account action creators', () => {
   }
 
   const mockMiddleware = {
-    registry: {
-      contractsAdapter: stub<IContractsAdapter>(),
-      contractsGateway: stub<IContractsGateway>(),
-      authenticate: jest.fn().mockResolvedValue(mockIdentityWallet),
-    },
-    storageLib: {
-      get: {
-        persona: jest.fn().mockResolvedValue({
-          did: 'did:jolo:first',
-        }),
-        encryptedSeed: jest.fn().mockResolvedValue('mockencryptedvalue'),
-        didDoc: jest.fn().mockResolvedValue(undefined),
-      },
-      store: {
-        didDoc: jest.fn().mockResolvedValue(undefined),
-      },
-    },
-    keyChainLib: {
-      getPassword: jest.fn().mockResolvedValue('secret'),
-    },
-    encryptionLib: {
-      decryptWithPass: jest.fn().mockReturnValue('a'.repeat(64)),
-    },
-    identityWallet: mockIdentityWallet,
+    prepareIdentityWallet: jest.fn().mockResolvedValue(mockIdentityWallet),
   }
 
   const mockStore = createMockStore(initialState, mockMiddleware)
 
   beforeEach(mockStore.reset)
 
-  it('Should correctly handle existing user identity if not cached', async () => {
+  it('should correctly handle stored encrypted seed', async () => {
     await mockStore.dispatch(accountActions.checkIdentityExists)
-    expect(mockMiddleware.registry.authenticate).toHaveBeenCalledTimes(1)
-    expect(mockMiddleware.storageLib.store.didDoc).toHaveBeenCalledWith(
-      mockMiddleware.identityWallet.identity.didDocument,
+    expect(mockStore.getActions()).toMatchSnapshot()
+  })
+
+  it('should correctly handle an empty encrypted seed table', async () => {
+    mockMiddleware.prepareIdentityWallet.mockRejectedValue(
+      new BackendError(BackendError.codes.NoEntropy),
     )
-
-    expect(mockStore.getActions()).toMatchSnapshot()
-
-    // TODO(@mnzaki)
-    // mockStore.reset() should handle this, probably by storing references to
-    // all jest.fn that are part of mockMiddleware, on stub creation
-    mockMiddleware.registry.authenticate.mockReset()
-  })
-
-  it('Should correctly handle existing user identity if cached', async () => {
-    const mockDidDoc = DidDocument.fromJSON({
-      id: 'did:jolo:first',
-      publicKey: [
-        //@ts-ignore
-        {
-          publicKeyHex: '0xabc',
-          id: 'did:jolo:first#123',
-        },
-      ],
-    })
-
-    mockStore.backendMiddleware.storageLib.get.didDoc = jest
-      .fn()
-      .mockResolvedValue(mockDidDoc)
-
-    await mockStore.dispatch(accountActions.checkIdentityExists)
-    expect(mockMiddleware.registry.authenticate).not.toHaveBeenCalled()
-    expect(mockMiddleware.identityWallet.identity.didDocument).toStrictEqual(
-      mockDidDoc,
-    )
-    expect(mockStore.getActions()).toMatchSnapshot()
-  })
-
-  it('Should correctly handle more existing user identities', async () => {
-    mockMiddleware.storageLib.get.persona.mockResolvedValueOnce([
-      { did: 'did:jolo:first' },
-    ])
     await mockStore.dispatch(accountActions.checkIdentityExists)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
-  it('Should correctly handle an empty encrypted seed table', async () => {
-    mockMiddleware.storageLib.get.persona.mockResolvedValueOnce([])
-    mockMiddleware.storageLib.get.encryptedSeed.mockReturnValueOnce(null)
-    await mockStore.dispatch(accountActions.checkIdentityExists)
-    expect(mockStore.getActions()).toMatchSnapshot()
-  })
-
-  it('Should correctly retrieve claims from device storage db on setClaimForDid', async () => {
+  it('should correctly retrieve claims from device storage db on setClaimForDid', async () => {
     const { identityWallet, testSignedCredentialDefault } = data
 
     const backendMiddleware = {

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Account action creators Should correctly handle an empty encrypted seed table 1`] = `
+exports[`Account action creators should correctly handle an empty encrypted seed table 1`] = `
 Array [
   Object {
     "routeName": "Landing",
@@ -9,7 +9,7 @@ Array [
 ]
 `;
 
-exports[`Account action creators Should correctly handle existing user identity if cached 1`] = `
+exports[`Account action creators should correctly handle stored encrypted seed 1`] = `
 Array [
   Object {
     "type": "DID_SET",
@@ -22,33 +22,7 @@ Array [
 ]
 `;
 
-exports[`Account action creators Should correctly handle existing user identity if not cached 1`] = `
-Array [
-  Object {
-    "type": "DID_SET",
-    "value": "did:jolo:first",
-  },
-  Object {
-    "routeName": "Home",
-    "type": "Navigation/NAVIGATE",
-  },
-]
-`;
-
-exports[`Account action creators Should correctly handle more existing user identities 1`] = `
-Array [
-  Object {
-    "type": "DID_SET",
-    "value": "did:jolo:first",
-  },
-  Object {
-    "routeName": "Home",
-    "type": "Navigation/NAVIGATE",
-  },
-]
-`;
-
-exports[`Account action creators Should correctly retrieve claims from device storage db on setClaimForDid 1`] = `
+exports[`Account action creators should correctly retrieve claims from device storage db on setClaimForDid 1`] = `
 Array [
   Object {
     "claims": Object {

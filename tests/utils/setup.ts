@@ -12,3 +12,8 @@ jest.mock('rn-fetch-blob', () => ({
     fetch: jest.fn(),
   },
 }))
+
+jest.mock('src/lib/storage/storage', () => ({
+  __esModule: true,
+  Storage: jest.fn(),
+}))

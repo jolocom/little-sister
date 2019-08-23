@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`BackendMiddleware Identity Creation should create a keyProvider on setEntropy 1`] = `
+Array [
+  Array [
+    Object {
+      "data": "4f8d84403d760b5b3fc5426c90827dab",
+      "pass": "secret",
+    },
+  ],
+]
+`;
+
+exports[`BackendMiddleware Identity Creation should fuelKeyWithEther 1`] = `
+Array [
+  Array [
+    Object {
+      "data": Array [
+        2,
+        190,
+        222,
+        236,
+        223,
+        239,
+        223,
+        32,
+        17,
+        81,
+        201,
+        162,
+        78,
+        254,
+        96,
+        10,
+        97,
+        136,
+        138,
+        150,
+        254,
+        179,
+        2,
+        244,
+        3,
+        231,
+        162,
+        235,
+        71,
+        152,
+        56,
+        126,
+        92,
+      ],
+      "type": "Buffer",
+    },
+  ],
+]
+`;
+
+exports[`BackendMiddleware prepareIdentityWallet should authenticate and cache the identity if not cached 1`] = `
+Array [
+  Array [
+    SoftwareKeyProvider {
+      "encryptedSeed": Object {
+        "data": Array [
+          190,
+          144,
+          145,
+          188,
+          119,
+          122,
+          159,
+          32,
+          22,
+          170,
+          224,
+          142,
+          74,
+          142,
+          196,
+          237,
+          201,
+          234,
+          140,
+          131,
+          37,
+          26,
+          172,
+          112,
+          119,
+          23,
+          52,
+          137,
+          203,
+          7,
+          222,
+          241,
+        ],
+        "type": "Buffer",
+      },
+    },
+    Object {
+      "derivationPath": "m/73'/0'/0'/0",
+      "encryptionPass": "secret",
+    },
+  ],
+]
+`;
+
+exports[`BackendMiddleware prepareIdentityWallet should authenticate and cache the identity if not cached 2`] = `
+Array [
+  Array [
+    "did:jolo:ebfa13213949209338401070db186c191f0c9339a3d7c05beb809bae531ec236",
+  ],
+]
+`;
