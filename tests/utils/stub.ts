@@ -8,7 +8,8 @@ export type RecursivePartial<T> = {
 }
 
 // NOTE: this is based on https://github.com/gregbacchus/jest-auto-stub
-//       but with RecursivePartial instead of Partial
+//       but with clearMocks, and Stub members defined as jest.Mock instead of
+//       jest.Mock<{}>
 export function stub<T extends {}>(base: RecursivePartial<T> = {}): T {
   const store: Map<string, jest.Mock> = new Map()
   const clearMocks = () => {
@@ -46,7 +47,7 @@ export function stub<T extends {}>(base: RecursivePartial<T> = {}): T {
 stub.clearMocks = (stubbed: any) => stubbed._clearMocks()
 
 export type Stub<T> = {
-  [P in keyof T]: jest.Mock<{}>
+  [P in keyof T]: jest.Mock
 }
 
 export function reveal<T extends {}>(original: T): Stub<T> {
