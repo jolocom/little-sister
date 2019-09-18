@@ -31,6 +31,8 @@
     "babel-plugin-transform-typescript-metadata": "^0.2.2",
     "case-sensitive-paths-webpack-plugin": "^2.1.2",
     "class-transformer": "^0.1.9",
+    "commitizen": "^4.0.3",
+    "cz-conventional-changelog": "3.0.2",
     "enzyme": "^3.3.0",
     "enzyme-adapter-react-16": "^1.1.1",
     "enzyme-to-json": "^3.3.3",
@@ -71,6 +73,7 @@
     "build:ios": "react-native bundle --entry-file='index.ts' --bundle-output='./ios/JolocomWallet/main.jsbundle' --minify=false --dev=false --platform='ios' --assets-dest='./ios'",
     "build:android": "react-native bundle --entry-file='index.ts' --bundle-output='./android/app/src/main/assets/index.android.bundle' --minify=true --dev=false --platform='android' --assets-dest='./android/app/src/main/res'",
     "format": "eslint --fix --ext .ts --ext .tsx .",
+    "cm": "git-cz",
     "icon": "svgr --native --out-dir src/resources/svg/",
     "devtools": "react-devtools &",
     "terms": "ts-node -O '{\"module\": \"commonjs\"}' bin/generateTerms.ts",
@@ -127,5 +130,10 @@
     "assets": [
       "./src/assets/fonts"
     ]
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
