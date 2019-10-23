@@ -29,8 +29,9 @@ export const httpAgent: HttpAgent = {
   },
 }
 
-export const respond = (url: string, token: string) => fetch(url, {
+export const respond = (onFinish: () => Promise<any>) => (url: string, token: string) =>
+  fetch(url, {
     method: 'POST',
     body: JSON.stringify({ token: token }),
-    headers: { 'Content-Type': 'application/json' }
-})
+    headers: { 'Content-Type': 'application/json' },
+  }).then(onFinish)
