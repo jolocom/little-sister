@@ -28,6 +28,7 @@ import { AppInit } from './ui/generic/appInit'
 import BottomTabBar from 'src/ui/generic/bottomTabBar'
 import strings from './locales/strings'
 import { Colors, Typography } from 'src/styles'
+import { respond } from './lib/deeplink'
 
 import {
   DocumentsMenuIcon,
@@ -205,6 +206,7 @@ const MainStack = createStackNavigator(
         headerTitle: I18n.t(strings.SHARE_CLAIMS),
       }),
       path: 'consent/:jwt',
+      params: { send: respond }
     },
     [routeList.PaymentConsent]: {
       screen: PaymentConsent,
@@ -213,6 +215,7 @@ const MainStack = createStackNavigator(
         headerTitle: I18n.t(strings.CONFIRM_PAYMENT),
       }),
       path: 'payment/:jwt',
+      params: { send: respond }
     },
     [routeList.AuthenticationConsent]: {
       screen: AuthenticationConsent,
@@ -221,6 +224,7 @@ const MainStack = createStackNavigator(
         headerTitle: I18n.t(strings.AUTHORIZATION_REQUEST),
       }),
       path: 'authenticate/:jwt',
+      params: { send: respond }
     },
     [routeList.ClaimDetails]: {
       screen: ClaimDetails,
