@@ -9,6 +9,7 @@ import { BackendMiddleware } from '../../backendMiddleware'
 import { AppError } from '../../lib/errors'
 import ErrorCode from '../../lib/errorCodes'
 import { IdentitySummary, PaymentRequestSummary } from './types'
+import { SendResponse } from 'src/lib/transportLayers';
 
 export const formatPaymentRequest = (
   paymentRequest: JSONWebToken<PaymentRequest>,
@@ -26,7 +27,7 @@ export const formatPaymentRequest = (
 })
 
 export const sendPaymentResponse = (
-  isDeepLinkInteraction: boolean,
+  send: SendResponse,
   paymentDetails: PaymentRequestSummary,
 ) => async (
   dispatch: ThunkDispatch,
@@ -51,18 +52,7 @@ export const sendPaymentResponse = (
     decodedPaymentRequest,
   )
 
-  if (isDeepLinkInteraction) {
-    const callback = `${callbackURL}/${response.encode()}`
-    if (!(await Linking.canOpenURL(callback))) {
-      throw new AppError(ErrorCode.DeepLinkUrlNotFound)
-    }
+  await send(callbackURL, response)
 
-    return Linking.openURL(callback).then(() => dispatch(cancelSSO))
-  } else {
-    return fetch(callbackURL, {
-      method: 'POST',
-      body: JSON.stringify({ token: response.encode() }),
-      headers: { 'Content-Type': 'application/json' },
-    }).then(() => dispatch(cancelSSO))
-  }
+  return dispatch(cancelSSO)
 }

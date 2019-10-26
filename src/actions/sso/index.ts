@@ -15,6 +15,7 @@ import {
 } from './types'
 import { AppError } from '../../lib/errors'
 import ErrorCode from '../../lib/errorCodes'
+import { SendResponse } from 'src/lib/transportLayers';
 
 interface AttributeSummary {
   type: string[]
@@ -102,9 +103,9 @@ export const consumeCredentialRequest = (
 }
 
 export const sendCredentialResponse = (
+  send: SendResponse,
   selectedCredentials: CredentialVerificationSummary[],
   credentialRequestDetails: CredentialRequestSummary,
-  isDeepLinkInteraction: boolean = false,
 ): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { storageLib, keyChainLib, identityWallet } = backendMiddleware
   const { callbackURL, requestJWT } = credentialRequestDetails
@@ -130,19 +131,8 @@ export const sendCredentialResponse = (
     request,
   )
 
-  if (isDeepLinkInteraction) {
-    const callback = `${callbackURL}${response.encode()}`
-    if (!(await Linking.canOpenURL(callback))) {
-      throw new AppError(ErrorCode.DeepLinkUrlNotFound)
-    }
+  await send(callbackURL, response);
 
-    return Linking.openURL(callback).then(() => dispatch(cancelSSO))
-  }
-  await fetch(callbackURL, {
-    method: 'POST',
-    body: JSON.stringify({ token: response.encode() }),
-    headers: { 'Content-Type': 'application/json' },
-  })
   dispatch(cancelSSO)
 }
 

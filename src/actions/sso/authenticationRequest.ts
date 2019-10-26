@@ -1,12 +1,10 @@
 import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { cancelSSO } from '.'
-import { Linking } from 'react-native'
 import { JolocomLib } from 'jolocom-lib'
 import { ThunkAction } from '../../store'
-import { AppError } from '../../lib/errors'
-import ErrorCode from '../../lib/errorCodes'
 import { AuthenticationRequestSummary, IdentitySummary } from './types'
+import { SendResponse } from 'src/lib/transportLayers';
 
 export const formatAuthenticationRequest = (
   authenticationRequest: JSONWebToken<Authentication>,
@@ -19,7 +17,7 @@ export const formatAuthenticationRequest = (
 })
 
 export const sendAuthenticationResponse = (
-  isDeepLinkInteraction: boolean,
+  send: SendResponse,
   authenticationDetails: AuthenticationRequestSummary,
 ): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { identityWallet } = backendMiddleware
@@ -36,19 +34,7 @@ export const sendAuthenticationResponse = (
     decodedAuthRequest,
   )
 
-  if (isDeepLinkInteraction) {
-    const callback = `${callbackURL}/${response.encode()}`
-    if (!(await Linking.canOpenURL(callback))) {
-      throw new AppError(ErrorCode.DeepLinkUrlNotFound)
-    }
-    return Linking.openURL(callback).then(() => dispatch(cancelSSO))
-  }
-
-  await fetch(callbackURL, {
-    method: 'POST',
-    body: JSON.stringify({ token: response.encode() }),
-    headers: { 'Content-Type': 'application/json' },
-  })
+  await send(callbackURL, response)
 
   return dispatch(cancelSSO)
 }
