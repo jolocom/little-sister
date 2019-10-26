@@ -5,4 +5,7 @@ import {
 
 type ResponseRoute = string
 
-export type SendResponse = (route: ResponseRoute, token: JSONWebToken<JWTEncodable>) => Promise<boolean>
+export type SendResponse = (
+  route: ResponseRoute,
+  token: JSONWebToken<JWTEncodable>,
+) => Promise<boolean>

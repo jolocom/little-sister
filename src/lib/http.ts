@@ -1,3 +1,6 @@
+
+import { SendResponse } from './transportLayers'
+
 interface HttpAgent {
   getRequest<T>(endpoint: string): Promise<T>
   postRequest<T>(endpoint: string, headers: any, data: any): Promise<T>
@@ -29,9 +32,9 @@ export const httpAgent: HttpAgent = {
   },
 }
 
-export const respond = (onFinish: () => Promise<any>) => (url: string, token: string) =>
-  fetch(url, {
+export const respond: SendResponse = token =>
+  fetch(token.interactionToken.callbackURL, {
     method: 'POST',
-    body: JSON.stringify({ token: token }),
+    body: JSON.stringify({ token: token.encode() }),
     headers: { 'Content-Type': 'application/json' },
-  }).then(onFinish)
+  }).then(response => response.ok)

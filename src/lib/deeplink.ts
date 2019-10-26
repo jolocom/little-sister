@@ -1,12 +1,8 @@
 
+import { SendResponse } from './transportLayers'
 import { Linking } from 'react-native'
 
-export const respond = (onFinish: () => Promise<any>) => (
-  url: string,
-  token: string,
-) =>
-  Linking.canOpenURL(url).then(can =>
-    can
-      ? Linking.openURL(`${url}${token}`).then(onFinish)
-      : Promise.reject('Cant deep link to that url'),
-  )
+export const respond: SendResponse =
+  token =>
+    Linking.canOpenURL(token.interactionToken.callbackURL).then(async (can) =>
+    can && await Linking.openURL(`${token.interactionToken.callbackURL}${token}`))
