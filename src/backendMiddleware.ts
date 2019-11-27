@@ -1,5 +1,6 @@
 import { IdentityWallet } from 'jolocom-lib/js/identityWallet/identityWallet'
 import { Storage } from 'src/lib/storage/storage'
+import { BLE } from 'src/lib/ble'
 import { KeyChain, KeyChainInterface } from 'src/lib/keychain'
 import { ConnectionOptions } from 'typeorm/browser'
 import {
@@ -35,6 +36,7 @@ export class BackendMiddleware {
   private _identityWallet!: IdentityWallet
   private _keyProvider!: SoftwareKeyProvider
 
+  public bleLib: BLE
   public storageLib: Storage
   public keyChainLib: KeyChainInterface
   public registry: JolocomRegistry
@@ -43,6 +45,7 @@ export class BackendMiddleware {
     fuelingEndpoint: string
     typeOrmConfig: ConnectionOptions
   }) {
+    this.bleLib = new BLE()
     this.storageLib = new Storage(config.typeOrmConfig)
     this.keyChainLib = new KeyChain()
     this.registry = createJolocomRegistry({

@@ -12,25 +12,22 @@ import { JolocomLib } from 'jolocom-lib'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import { interactionHandlers } from 'src/lib/storage/interactionTokens'
 import { withLoading, withErrorScreen } from 'src/actions/modifiers'
+import { connectToBleDevice } from 'src/actions/interactions'
+
 import {
   JSONWebToken,
   JWTEncodable,
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
+import { RootState } from 'src/reducers';
 
 interface Props
-  extends ReturnType<typeof mapDispatchToProps>,
+  extends ReturnType<typeof mapDispatchToProps>, ReturnType<typeof mapStateToProps>,
   NavigationScreenProps { }
 
 interface State {
   devices: {
     [id: string]: string
   }
-}
-
-const serialUUIDs: BleSerialConnectionConfig = {
-  serviceUUID: '6e400001-b5a3-f393-e0a9-e50e24dcca9e',
-  rxUUID: '6e400002-b5a3-f393-e0a9-e50e24dcca9e',
-  txUUID: '6e400003-b5a3-f393-e0a9-e50e24dcca9e',
 }
 
 const styles = StyleSheet.create({
@@ -48,10 +45,6 @@ export class BLECodeScanner extends React.Component<Props, State> {
 
   constructor(props: Props) {
     super(props)
-    this.state = {
-      devices: {},
-    }
-    this.ble = new BleManager()
     this.ble.startDeviceScan(
       [serialUUIDs.serviceUUID],
       null,
@@ -79,7 +72,7 @@ export class BLECodeScanner extends React.Component<Props, State> {
   }
 
   render() {
-    const devices = this.state.devices
+    const devices = this.props.bleDevices
     return (
       <React.Fragment>
         <Container style={styles.container}>
@@ -91,19 +84,7 @@ export class BLECodeScanner extends React.Component<Props, State> {
             renderItem={({ item }) => (
               <JolocomButton
                 text={item.name}
-                onPress={async () =>
-                  this.ble
-                    .connectToDevice(item.id, { requestMTU: 512 })
-                    .then(device => {
-                      this.ble.stopDeviceScan()
-                      return device.discoverAllServicesAndCharacteristics()
-                    })
-                    .then(device =>
-                      openSerialConnection(this.ble)(device, serialUUIDs)(
-                        this.props.onScannerSuccess,
-                      )
-                    )
-                }
+                onPress={() => this.props.connectToDevice(item)}
               />
             )}
           />
@@ -113,7 +94,12 @@ export class BLECodeScanner extends React.Component<Props, State> {
   }
 }
 
+const mapStateToProps = (state: RootState) => ({
+  bleDevices: state.ble.devices
+})
+
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  connectToDevice: device => dispatch(connectToBleDevice(device)),
   onScannerSuccess: (
     send: (token: JSONWebToken<JWTEncodable>) => Promise<any>,
   ) => async (e: string) => {
@@ -137,6 +123,6 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
 })
 
 export const BLEScannerContainer = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps,
 )(BLECodeScanner)
