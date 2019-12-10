@@ -62,7 +62,7 @@
     "tsconfig-paths": "^3.8.0",
     "tslib": "^1.7.1",
     "typeorm": "^0.2.5",
-    "typescript": "^3.5.1",
+    "typescript": "^3.7.3",
     "yarn": "^1.16.0"
   },
   "scripts": {
