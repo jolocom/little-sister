@@ -146,14 +146,18 @@ const updateNotificationsState: ThunkAction = async (dispatch, getState) => {
   // expired or sticky (non-dismissible)
   if (isActiveExpired || isActiveSticky) {
     const { queue: fullQueue, activeFilter } = getState().notifications
+
     const queue = fullQueue.filter(
       notificationMatchesFilter.bind(null, activeFilter),
     )
+
     if (queue.length) {
       // find the next dissmissible notification, or otherwise take the first in
       // queue. Note that this means we do not support showing two non-dismissible
       // notifications
       next = queue.find(notification => !!notification.dismiss) || queue[0]
+    } else {
+      ret = dispatch(setActiveNotification(null))
     }
   } else if (active) {
     // active notification should not be changed

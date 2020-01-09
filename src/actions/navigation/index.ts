@@ -44,7 +44,9 @@ export const navigate = (
 
   // @ts-ignore
   let navi = navigator._navigation
-  let curState = navi.state, screenOpts, notifConfig
+  let curState = navi.state,
+    screenOpts,
+    notifConfig
 
   while (curState.routes) {
     curState = curState.routes[curState.index]

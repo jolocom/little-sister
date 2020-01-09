@@ -60,7 +60,7 @@ export const notificationsReducer = (
       if (state.activeFilter === action.value) return state
       return {
         ...state,
-        activeFilter: action.valu,
+        activeFilter: action.value,
       }
     default:
       return state

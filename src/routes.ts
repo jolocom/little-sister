@@ -126,7 +126,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       notifications: NotificationFilter.all,
-      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
+      tabBarOnPress: tabNavigationHandler(NotificationFilter.all),
       tabBarIcon: (props: {
         tintColor: string
         focused: boolean
@@ -143,6 +143,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: RecordsMenuIcon,
+      notifications: NotificationFilter.onlyDismissible,
       tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
     },
   },
@@ -152,6 +153,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: SettingsMenuIcon,
+      notifications: NotificationFilter.onlyDismissible,
       tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
     },
   },
@@ -325,5 +327,23 @@ export const Routes = createSwitchNavigator(
     initialRouteName: routeList.AppInit,
   },
 )
+
+// TODO: updating the filter state when navigating back
+/*
+const {
+  getStateForAction: getStateForActionScreensStack,
+} = Routes.router
+
+Routes.router = {
+  ...Routes.router,
+  getStateForAction(action, state) {
+    if (action.type == 'Navigation/BACK') {
+      const newState = getStateForActionScreensStack(action)
+      console.log(newState)
+    }
+    return getStateForActionScreensStack(action, state)
+  },
+}
+*/
 
 export const RoutesContainer = createAppContainer(Routes)

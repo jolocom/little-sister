@@ -45,9 +45,8 @@ export const NotificationContainer = (props: Props) => {
       notification &&
       activeNotification.id !== notification.id
     ) {
-      //check this
+      //fix this
       hideNotification().start(() => {
-        setNotificationHeight(100)
         setNotification(activeNotification)
         showNotification().start()
       })
