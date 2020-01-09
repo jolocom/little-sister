@@ -9,6 +9,7 @@ import {
   NavigationRoute,
   NavigationScreenOptions,
   NavigationScreenProp,
+  StackActions,
 } from 'react-navigation'
 
 import { ClaimDetails, Claims, Records } from 'src/ui/home/'
@@ -29,6 +30,8 @@ import BottomTabBar from 'src/ui/generic/bottomTabBar'
 import strings from './locales/strings'
 import { Colors, Typography } from 'src/styles'
 
+import { store as ReduxStore } from './App'
+
 import {
   DocumentsMenuIcon,
   IdentityMenuIcon,
@@ -42,6 +45,9 @@ import { ErrorReporting } from './ui/errors/containers/errorReporting'
 import { NotificationScheduler } from './ui/notifications/containers/devNotificationScheduler'
 
 import { NotificationFilter } from './lib/notifications'
+import { navigate } from './actions/navigation'
+import { ThunkDispatch } from './store'
+import { setActiveNotificationFilter } from './actions/notifications'
 
 // only used on android
 const headerBackImage = createElement(Image, {
@@ -84,6 +90,25 @@ const navOptScreenWCancel = {
   }),
 }
 
+const tabNavigationHandler = (filter: NotificationFilter) => ({
+  navigation,
+}: any) => {
+  const route = navigation.state
+  const isNestedRoute = route.hasOwnProperty('index') && route.index > 0
+  const thunkDispatch = ReduxStore.dispatch as ThunkDispatch
+
+  if (navigation.isFocused()) {
+    if (isNestedRoute) {
+      navigation.dispatch(StackActions.popToTop({ key: route.key }))
+    } else {
+      navigation.emit('refocus')
+    }
+    thunkDispatch(setActiveNotificationFilter(filter))
+  } else {
+    thunkDispatch(navigate({ routeName: navigation.state.routeName }))
+  }
+}
+
 export const BottomTabBarRoutes = {
   [routeList.Claims]: {
     screen: Claims,
@@ -92,6 +117,7 @@ export const BottomTabBarRoutes = {
       ...commonNavigationOptions,
       notifications: NotificationFilter.all,
       tabBarIcon: IdentityMenuIcon,
+      tabBarOnPress: tabNavigationHandler(NotificationFilter.all),
     },
   },
   [routeList.Documents]: {
@@ -100,6 +126,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       notifications: NotificationFilter.all,
+      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
       tabBarIcon: (props: {
         tintColor: string
         focused: boolean
@@ -116,6 +143,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: RecordsMenuIcon,
+      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
     },
   },
   [routeList.Settings]: {
@@ -124,6 +152,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: SettingsMenuIcon,
+      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
     },
   },
 }
@@ -259,7 +288,10 @@ const MainStack = createStackNavigator(
       },
       [routeList.NotificationScheduler]: {
         screen: NotificationScheduler,
-        navigationOptions: noHeaderNavOpts,
+        navigationOptions: {
+          notifications: NotificationFilter.all,
+          ...noHeaderNavOpts,
+        },
       },
     }),
   },
@@ -279,13 +311,15 @@ export const Routes = createSwitchNavigator(
     [routeList.Main]: {
       screen: MainStack,
       navigationOptions: {
-        notifications: NotificationFilter.onlyDismissible
-      }
+        notifications: NotificationFilter.onlyDismissible,
+      },
     },
     [routeList.Registration]: {
       screen: RegistrationScreens,
-      notifications: NotificationFilter.none
-    }
+      navigationOptions: {
+        notifications: NotificationFilter.none,
+      },
+    },
   },
   {
     initialRouteName: routeList.AppInit,

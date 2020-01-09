@@ -36,10 +36,11 @@ export const setTopLevelNavigator = (nav: NavigationContainerComponent) => {
  */
 export const navigate = (
   options: NavigationNavigateActionPayload,
-): ThunkAction => dispatch => {
+): ThunkAction => async dispatch => {
   const action = NavigationActions.navigate(options)
 
   dispatchNavigationAction(action)
+  await dispatch(action)
 
   // @ts-ignore
   let navi = navigator._navigation
@@ -56,7 +57,6 @@ export const navigate = (
   }
 
   if (notifConfig) dispatch(setActiveNotificationFilter(notifConfig))
-  return dispatch(action)
 }
 
 export const navigatorReset = (
