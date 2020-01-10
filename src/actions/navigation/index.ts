@@ -7,14 +7,19 @@ import {
   NavigationRouter,
   NavigationResetActionPayload,
   NavigationNavigateAction,
+  NavigationState,
+  NavigationRoute,
+  NavigationScreenProp,
 } from 'react-navigation'
 import { routeList } from 'src/routeList'
 import { JolocomLib } from 'jolocom-lib'
 import { interactionHandlers } from 'src/lib/storage/interactionTokens'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import { withLoading, withErrorScreen } from 'src/actions/modifiers'
-import { ThunkAction } from 'src/store'
+import { ThunkAction, ThunkDispatch } from 'src/store'
 import { setActiveNotificationFilter } from '../notifications'
+import { NotificationFilter } from '../../lib/notifications'
+import { store as ReduxStore } from '../../App'
 
 const deferredNavActions: NavigationAction[] = []
 let dispatchNavigationAction = (action: NavigationAction) => {
@@ -27,6 +32,29 @@ export const setTopLevelNavigator = (nav: NavigationContainerComponent) => {
   navigator = nav
   deferredNavActions.forEach(dispatchNavigationAction)
   deferredNavActions.length = 0
+}
+
+/**
+ * @param state: current state (for nested routes) of the navigator
+ * @returns navigationOptions for the current state
+ */
+const getNavigationOptionsFromState = (
+  state: NavigationState,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+) => {
+  // @ts-ignore
+  let navi = navigator._navigation
+  let curState: NavigationState | NavigationRoute = state,
+    navigationOptions
+
+  while (curState.routes) {
+    curState = curState.routes[curState.index]
+    const childNavi = navi.getChildNavigation(curState.key)
+    navigationOptions = navi.router.getScreenOptions(childNavi)
+    navi = childNavi
+  }
+
+  return navigationOptions
 }
 
 /**
@@ -43,22 +71,22 @@ export const navigate = (
   await dispatch(action)
 
   // @ts-ignore
-  let navi = navigator._navigation
-  let curState = navi.state,
-    screenOpts,
-    notifConfig
+  const { state } = navigator._navigation
+  const navigationOptions = getNavigationOptionsFromState(state)
 
-  while (curState.routes) {
-    curState = curState.routes[curState.index]
-    const childNavi = navi.getChildNavigation(curState.key)
-    screenOpts = navi.router.getScreenOptions(childNavi)
-    navi = childNavi
-    if (screenOpts.notifications !== undefined) {
-      notifConfig = screenOpts.notifications
-    }
+  if (navigationOptions.notifications) {
+    dispatch(setActiveNotificationFilter(navigationOptions.notifications))
   }
+}
 
-  if (notifConfig) dispatch(setActiveNotificationFilter(notifConfig))
+export const handleBackAction = (
+  state: NavigationState,
+): ThunkAction => async dispatch => {
+  const navigationOptions = getNavigationOptionsFromState(state)
+
+  if (navigationOptions.notifications) {
+    dispatch(setActiveNotificationFilter(navigationOptions.notifications))
+  }
 }
 
 export const navigatorReset = (
@@ -103,6 +131,32 @@ export const navigatorReset = (
   const resetAction = StackActions.reset(resetActionPayload)
   dispatchNavigationAction(resetAction)
   return dispatch(resetAction)
+}
+
+// NOTE: should this be in actions???
+export const bottomTabPressHandler = (filter: NotificationFilter) => (options: {
+  navigation: NavigationScreenProp<NavigationRoute> & {
+    emit: (event: string) => void
+  }
+}) => {
+  const thunkDispatch = ReduxStore.dispatch as ThunkDispatch
+  const { navigation } = options
+  const route = navigation.state
+  const isNestedRoute = route.hasOwnProperty('index') && route.index > 0
+
+  if (navigation.isFocused()) {
+    if (isNestedRoute) {
+      // NOTE: if there are nested routes inside the tab navigator, they are
+      // not handled by our navigationActions
+      navigation.dispatch(StackActions.popToTop({ key: route.key }))
+    } else {
+      // NOTE: not properly typed
+      navigation.emit('refocus')
+    }
+    thunkDispatch(setActiveNotificationFilter(filter))
+  } else {
+    thunkDispatch(navigate({ routeName: navigation.state.routeName }))
+  }
 }
 
 export const navigatorResetHome = (): ThunkAction => dispatch =>

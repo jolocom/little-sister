@@ -9,7 +9,6 @@ import {
   NavigationRoute,
   NavigationScreenOptions,
   NavigationScreenProp,
-  StackActions,
 } from 'react-navigation'
 
 import { ClaimDetails, Claims, Records } from 'src/ui/home/'
@@ -45,9 +44,8 @@ import { ErrorReporting } from './ui/errors/containers/errorReporting'
 import { NotificationScheduler } from './ui/notifications/containers/devNotificationScheduler'
 
 import { NotificationFilter } from './lib/notifications'
-import { navigate } from './actions/navigation'
+import { handleBackAction, bottomTabPressHandler } from './actions/navigation'
 import { ThunkDispatch } from './store'
-import { setActiveNotificationFilter } from './actions/notifications'
 
 // only used on android
 const headerBackImage = createElement(Image, {
@@ -90,25 +88,6 @@ const navOptScreenWCancel = {
   }),
 }
 
-const tabNavigationHandler = (filter: NotificationFilter) => ({
-  navigation,
-}: any) => {
-  const route = navigation.state
-  const isNestedRoute = route.hasOwnProperty('index') && route.index > 0
-  const thunkDispatch = ReduxStore.dispatch as ThunkDispatch
-
-  if (navigation.isFocused()) {
-    if (isNestedRoute) {
-      navigation.dispatch(StackActions.popToTop({ key: route.key }))
-    } else {
-      navigation.emit('refocus')
-    }
-    thunkDispatch(setActiveNotificationFilter(filter))
-  } else {
-    thunkDispatch(navigate({ routeName: navigation.state.routeName }))
-  }
-}
-
 export const BottomTabBarRoutes = {
   [routeList.Claims]: {
     screen: Claims,
@@ -117,7 +96,7 @@ export const BottomTabBarRoutes = {
       ...commonNavigationOptions,
       notifications: NotificationFilter.all,
       tabBarIcon: IdentityMenuIcon,
-      tabBarOnPress: tabNavigationHandler(NotificationFilter.all),
+      tabBarOnPress: bottomTabPressHandler(NotificationFilter.all),
     },
   },
   [routeList.Documents]: {
@@ -126,7 +105,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       notifications: NotificationFilter.all,
-      tabBarOnPress: tabNavigationHandler(NotificationFilter.all),
+      tabBarOnPress: bottomTabPressHandler(NotificationFilter.all),
       tabBarIcon: (props: {
         tintColor: string
         focused: boolean
@@ -144,7 +123,7 @@ export const BottomTabBarRoutes = {
       ...commonNavigationOptions,
       tabBarIcon: RecordsMenuIcon,
       notifications: NotificationFilter.onlyDismissible,
-      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
+      tabBarOnPress: bottomTabPressHandler(NotificationFilter.onlyDismissible),
     },
   },
   [routeList.Settings]: {
@@ -154,7 +133,7 @@ export const BottomTabBarRoutes = {
       ...commonNavigationOptions,
       tabBarIcon: SettingsMenuIcon,
       notifications: NotificationFilter.onlyDismissible,
-      tabBarOnPress: tabNavigationHandler(NotificationFilter.onlyDismissible),
+      tabBarOnPress: bottomTabPressHandler(NotificationFilter.onlyDismissible),
     },
   },
 }
@@ -328,22 +307,20 @@ export const Routes = createSwitchNavigator(
   },
 )
 
-// TODO: updating the filter state when navigating back
-/*
-const {
-  getStateForAction: getStateForActionScreensStack,
-} = Routes.router
-
+// NOTE: custom handling of back navigation actions
+const { getStateForAction: getStateForActionScreensStack } = Routes.router
 Routes.router = {
   ...Routes.router,
-  getStateForAction(action, state) {
-    if (action.type == 'Navigation/BACK') {
-      const newState = getStateForActionScreensStack(action)
-      console.log(newState)
+  getStateForAction(action, lastState) {
+    const thunkDispatch = ReduxStore.dispatch as ThunkDispatch
+    if (action.type === 'Navigation/BACK') {
+      const newState: ReturnType<
+        typeof Routes.router.getStateForAction
+      > = getStateForActionScreensStack(action, lastState)
+      thunkDispatch(handleBackAction(newState))
     }
-    return getStateForActionScreensStack(action, state)
+    return getStateForActionScreensStack(action, lastState)
   },
 }
-*/
 
 export const RoutesContainer = createAppContainer(Routes)

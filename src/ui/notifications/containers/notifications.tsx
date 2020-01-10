@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { NotificationComponent } from '../components/notifications'
-import { Animated, LayoutChangeEvent, StatusBar, StyleSheet } from 'react-native'
+import {
+  Animated,
+  LayoutChangeEvent,
+  StatusBar,
+  StyleSheet,
+} from 'react-native'
 import { connect } from 'react-redux'
 import { Notification } from '../../../lib/notifications'
 import { ThunkDispatch } from '../../../store'
