@@ -1,6 +1,6 @@
 {
   "name": "jolocomwallet",
-  "version": "1.7.0",
+  "version": "1.7.1",
   "private": true,
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -86,7 +86,7 @@
     "ethereumjs-wallet": "^0.6.0",
     "events": "^3.0.0",
     "i18n-js": "^3.1.0",
-    "jolocom-lib": "^3.0.0",
+    "jolocom-lib": "^3.0.1",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "ramda": "^0.26.1",

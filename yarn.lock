@@ -6087,10 +6087,10 @@ jest@^24.8.0:
     import-local "^2.0.0"
     jest-cli "^24.8.0"
 
-jolocom-lib@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/jolocom-lib/-/jolocom-lib-3.0.0.tgz#b1cf6ccce3f82b1a42268ec3eeb3ea904dbba79f"
-  integrity sha512-16a341jLO1uVmW6WHJIs292gYTourV0ZDVI+KnwZ+Tzi3p0mJM83tSZc+hNFm06gwKFnAycy/GO+uLSinpSgxA==
+jolocom-lib@^3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/jolocom-lib/-/jolocom-lib-3.0.1.tgz#4b6d26ff440f6b54001c5fb15ee1f57df0a2ab9c"
+  integrity sha512-sCZvrc35cf81Lu3dTxKxo36+SuqzEkwVk4jywnYdPd+WVnVk1Eb3KdxBoeR+ypE2Yzx8JQwQp1HYaYXu00/caQ==
   dependencies:
     base64url "^3.0.1"
     bip32 "^1.0.2"
