@@ -42,6 +42,9 @@ import { BottomBar } from './ui/navigation/container/bottomBar'
 import { NotificationScheduler } from './ui/notifications/containers/devNotificationScheduler'
 
 import { NotificationFilter } from './lib/notifications'
+import { Backup } from './ui/backup/container/backup'
+import { BackupOffer } from './ui/backup/container/backupOffer'
+import { ImportBackup } from './ui/recovery/container/importBackup'
 
 // only used on android
 const headerBackImage = createElement(Image, {
@@ -153,6 +156,10 @@ const RegistrationScreens = createSwitchNavigator(
       screen: InputSeedPhrase,
       navigationOptions: noHeaderNavOpts,
     },
+    [routeList.ImportBackup]: {
+      screen: ImportBackup,
+      navigationOptions: noHeaderNavOpts,
+    },
     [routeList.Entropy]: {
       screen: Entropy,
       navigationOptions: noHeaderNavOpts,
@@ -231,6 +238,14 @@ const MainStack = createStackNavigator(
         ...noHeaderNavOpts,
         notifications: NotificationFilter.none,
       },
+    },
+    [routeList.BackupOffer]: {
+      screen: BackupOffer,
+      navigationOptions: noHeaderNavOpts,
+    },
+    [routeList.Backup]: {
+      screen: Backup,
+      navigationOptions: noHeaderNavOpts,
     },
 
     [routeList.Exception]: {

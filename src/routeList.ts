@@ -12,6 +12,7 @@ export enum routeList {
 
   // Recovery
   InputSeedPhrase = 'InputSeedPhrase',
+  ImportBackup = 'ImportBackup',
 
   // Bottom Nav Screens
   Home = 'Home',
@@ -32,6 +33,8 @@ export enum routeList {
   // Settings
   RepeatSeedPhrase = 'RepeatSeedPhrase',
   SeedPhrase = 'SeedPhrase',
+  Backup = 'Backup',
+  BackupOffer = 'BackupOffer',
 
   // General
   Exception = 'Exception',

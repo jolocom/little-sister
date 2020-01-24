@@ -114,6 +114,7 @@ android {
         missingDimensionStrategy 'react-native-camera', 'general'
         testBuildType System.getProperty('testBuildType', 'debug')  // This will later be used to control the test apk build type
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true // needed to build react-native-fs
     }
     splits {
         abi {
@@ -166,6 +167,9 @@ android {
 }
 
 dependencies {
+    implementation project(':react-native-fs')
+    implementation project(':react-native-document-picker')
+    implementation project(':react-native-share')
 
     implementation project(':react-native-android-open-settings')
     implementation project(':@react-native-community_async-storage')

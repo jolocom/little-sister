@@ -3,7 +3,6 @@ import RepeatSeedPhraseComponent from '../components/repeatSeedPhrase'
 import { ThunkDispatch } from '../../../store'
 import { navigationActions, recoveryActions } from '../../../actions'
 import { connect } from 'react-redux'
-import { withLoading } from '../../../actions/modifiers'
 import strings from '../../../locales/strings'
 import * as I18n from 'i18n-js'
 import { NavigationScreenProps } from 'react-navigation'
@@ -57,7 +56,7 @@ export class RepeatSeedPhraseContainer extends React.Component<Props, State> {
     })
 
     if (isCorrect) {
-      this.props.setSeedPhraseSaved()
+      this.props.onFinish()
     } else {
       this.setState({
         sorting: {},
@@ -112,9 +111,11 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
         params: { mnemonic },
       }),
     ),
-  setSeedPhraseSaved: () => {
-    dispatch(withLoading(recoveryActions.setSeedPhraseSaved()))
-    return dispatch(navigationActions.navigatorResetHome())
+  onFinish: () => {
+    dispatch(recoveryActions.setSeedPhraseSaved())
+    return dispatch(
+      navigationActions.navigate({ routeName: routeList.BackupOffer }),
+    )
   },
 })
 

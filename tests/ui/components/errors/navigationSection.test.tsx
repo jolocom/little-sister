@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { NavigationSection } from '../../../../src/ui/errors/components/navigationSection'
+import { NavigationSection } from '../../../../src/ui/structure/navigationSection'
 import { TouchableOpacity } from 'react-native'
 
 describe('NavigationSection Component', () => {

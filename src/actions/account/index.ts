@@ -17,6 +17,7 @@ import { Not } from 'typeorm'
 import { HAS_EXTERNAL_CREDENTIALS } from './actionTypes'
 import { BackendError } from 'src/backendMiddleware'
 import { checkRecoverySetup } from '../notifications/checkRecoverySetup'
+import { autoBackupData } from '../recovery'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -104,7 +105,7 @@ export const saveClaim: ThunkAction = async (
   await storageLib.store.verifiableCredential(verifiableCredential)
 
   await dispatch(setClaimsForDid)
-
+  dispatch(autoBackupData())
   return dispatch(navigationActions.navigatorResetHome())
 }
 
@@ -127,6 +128,7 @@ export const saveExternalCredentials: ThunkAction = async (
   await storageLib.store.verifiableCredential(cred)
   await dispatch(checkRecoverySetup)
 
+  dispatch(autoBackupData())
   return dispatch(cancelReceiving)
 }
 

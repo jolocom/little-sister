@@ -1,13 +1,14 @@
 import React from 'react'
 import {
+  Platform,
   StyleSheet,
   Text,
+  TextStyle,
   TouchableHighlight,
   TouchableHighlightProps,
-  Platform,
 } from 'react-native'
 import { sandLight } from '../../styles/colors'
-import { textLG, baseFontStyles } from '../../styles/typography'
+import { baseFontStyles, textLG } from '../../styles/typography'
 
 const styles = StyleSheet.create({
   container: {
@@ -29,12 +30,13 @@ const styles = StyleSheet.create({
 
 interface Props extends TouchableHighlightProps {
   text: string
+  textStyle?: TextStyle
 }
 export const TransparentButton: React.FC<Props> = props => {
-  const { style, text, ...otherProps } = props
+  const { style, text, textStyle, ...otherProps } = props
   return (
     <TouchableHighlight style={[styles.container, style]} {...otherProps}>
-      <Text style={styles.text}>{text}</Text>
+      <Text style={[styles.text, textStyle]}>{text}</Text>
     </TouchableHighlight>
   )
 }

@@ -16,6 +16,7 @@ import { LocaleSetting } from '../components/localeSetting'
 import SettingItem from '../components/settingItem'
 import settingKeys from '../settingKeys'
 import { showSeedPhrase } from '../../../actions/recovery'
+import { NavigationParams } from 'react-navigation'
 
 const styles = StyleSheet.create({
   container: {
@@ -25,7 +26,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   scrollComponentContainer: {
-    paddingBottom: Spacing.XXL,
+    paddingBottom: 110,
   },
   versionNumber: {
     ...Typography.baseFontStyles,
@@ -41,7 +42,7 @@ interface Props
     ReturnType<typeof mapDispatchToProps> {}
 
 export const SettingsContainer: React.FC<Props> = props => {
-  const { setLocale, settings, setupBackup, navigate } = props
+  const { navigate, setLocale, settings, setupBackup } = props
   const version = VersionNumber.appVersion
   const currentLocale = settings.locale
   const seedPhraseSaved = settings[settingKeys.seedPhraseSaved] as boolean
@@ -63,6 +64,16 @@ export const SettingsContainer: React.FC<Props> = props => {
               description={'Mock notifications for debugging'}
               onPress={() => navigate(routeList.NotificationScheduler)}
               iconName={'bell-ring'}
+            />
+            <SettingItem
+              title={'Error report Test'}
+              description={'Exception Screen'}
+              iconName={'alert'}
+              onPress={() =>
+                navigate(routeList.Exception, {
+                  error: new Error('Test Error'),
+                })
+              }
             />
           </SettingSection>
         )}
@@ -88,14 +99,13 @@ export const SettingsContainer: React.FC<Props> = props => {
             isDisabled={seedPhraseSaved}
             onPress={setupBackup}
           />
-          {/*
-          <SettingsItem
-            title={I18n.t(strings.DELETE_IDENTITY)}
-            description={'(coming soon)'}
+          <SettingItem
+            title={'Backup'}
+            description={'Securely backup your data'}
             iconName={'delete'}
-            isDisabled
+            onPress={() => navigate(routeList.Backup)}
+            isDisabled={!seedPhraseSaved}
           />
-          */}
         </SettingSection>
         <Text style={styles.versionNumber}>
           Jolocom SmartWallet {I18n.t(strings.VERSION)} {version}
@@ -113,10 +123,11 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   setLocale: (locale: string) =>
     dispatch(withLoading(genericActions.setLocale(locale))),
-  navigate: (route: routeList) =>
+  navigate: (routeName: routeList, params?: NavigationParams) =>
     dispatch(
       navigationActions.navigate({
-        routeName: route,
+        routeName,
+        params,
       }),
     ),
   setupBackup: () => dispatch(withErrorScreen(showSeedPhrase())),

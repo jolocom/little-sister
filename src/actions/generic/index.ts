@@ -5,6 +5,7 @@ import I18n from 'src/locales/i18n'
 import { ThunkAction } from 'src/store'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import settingKeys from '../../ui/settings/settingKeys'
+import { SETTINGS } from '../../reducers/settings'
 
 export const showErrorScreen = (
   error: AppError | Error,
@@ -48,7 +49,7 @@ export const initApp: ThunkAction = async (
 }
 
 export const loadSettings = (settings: { [key: string]: any }) => ({
-  type: 'LOAD_SETTINGS',
+  type: SETTINGS.LOAD_SETTINGS,
   value: settings,
 })
 
@@ -59,7 +60,7 @@ export const setLocale = (locale: string): ThunkAction => async (
 ) => {
   await backendMiddleware.storageLib.store.setting(settingKeys.locale, locale)
   I18n.locale = locale
-  dispatch({ type: 'SET_LOCALE', value: locale })
+  dispatch({ type: SETTINGS.SET_LOCALE, value: locale })
 
   // we need to reset the navigator so that all screens are re-rendered with the
   // new locale

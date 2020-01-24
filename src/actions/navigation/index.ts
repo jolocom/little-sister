@@ -7,6 +7,7 @@ import {
   NavigationRouter,
   NavigationResetActionPayload,
   NavigationNavigateAction,
+  NavigationBackActionPayload,
 } from 'react-navigation'
 import { routeList } from 'src/routeList'
 import { JolocomLib } from 'jolocom-lib'
@@ -37,6 +38,15 @@ export const navigate = (
   options: NavigationNavigateActionPayload,
 ): ThunkAction => dispatch => {
   const action = NavigationActions.navigate(options)
+
+  dispatchNavigationAction(action)
+  return dispatch(action)
+}
+
+export const navigateBack = (
+  option?: NavigationBackActionPayload,
+): ThunkAction => dispatch => {
+  const action = NavigationActions.back(option)
 
   dispatchNavigationAction(action)
   return dispatch(action)

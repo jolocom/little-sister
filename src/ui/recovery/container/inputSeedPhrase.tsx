@@ -4,7 +4,7 @@ import { ThunkDispatch } from '../../../store'
 import InputSeedPhraseComponent from '../components/inputSeedPhrase'
 import { validateMnemonic, wordlists } from 'bip39'
 import { withErrorScreen } from '../../../actions/modifiers'
-import { recoverIdentity } from '../../../actions/registration'
+import { recoverFromSeedPhrase } from '../../../actions/registration'
 import { routeList } from '../../../routeList'
 import { StatusBar, TextInput } from 'react-native'
 import { timeout } from '../../../utils/asyncTimeout'
@@ -41,8 +41,6 @@ export class InputSeedPhraseContainer extends React.Component<Props, State> {
     markedWord: 0, // editing first word
     inputState: WordState.editing,
   }
-
-  public componentDidMount(): void {}
 
   private handleInputChange = (text: string): void => {
     let matches = [] as string[]
@@ -167,7 +165,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   recoverIdentity: (seedPhrase: string) =>
-    dispatch(withErrorScreen(recoverIdentity(seedPhrase))),
+    dispatch(withErrorScreen(recoverFromSeedPhrase(seedPhrase))),
   goBack: () =>
     dispatch(navigationActions.navigate({ routeName: routeList.Landing })),
 })

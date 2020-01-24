@@ -67,3 +67,7 @@ export function generateSecureRandomBytes(length: number): Promise<Buffer> {
     })
   })
 }
+
+export function toBase64(data: string): string {
+  return Buffer.from(data).toString('base64')
+}

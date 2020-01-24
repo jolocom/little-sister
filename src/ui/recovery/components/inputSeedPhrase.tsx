@@ -155,6 +155,7 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
         ) : (
           mnemonic.map((word: string, i: number) => (
             <Text
+              key={i}
               style={[
                 styles.mnemonicWord,
                 markedWord === i && { color: Colors.purpleMain },

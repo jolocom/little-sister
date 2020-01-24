@@ -52,6 +52,8 @@ export const greenMain = 'rgb(40, 165, 45)'
 export const greenFaded060 = 'rgba(233, 239, 221, 0.6)'
 export const mint = 'rgb(89, 167, 145)'
 export const yellowError = 'rgb(243, 198, 28)'
+export const error = 'rgb(243, 198, 28)'
+export const beige = 'rgb(255, 239, 223)'
 // PRESETS
 
 export const backgroundDarkMain = blackMain

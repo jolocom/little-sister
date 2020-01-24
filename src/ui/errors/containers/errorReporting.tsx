@@ -15,7 +15,7 @@ import { ContactSection } from '../components/contactSection'
 import I18n from '../../../locales/i18n'
 import strings from '../../../locales/strings'
 import { SectionWrapper } from '../components/sectionWrapper'
-import { NavigationSection } from '../components/navigationSection'
+import { NavigationSection } from '../../structure/navigationSection'
 
 interface PaymentNavigationParams {
   error?: AppError | Error

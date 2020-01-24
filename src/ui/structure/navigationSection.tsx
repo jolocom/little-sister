@@ -1,15 +1,16 @@
 import React from 'react'
 import { TouchableOpacity, View } from 'react-native'
-import { styles } from '../styles'
-import { BackIcon, CrossIcon } from '../../../resources'
+import { styles } from '../errors/styles'
+import { BackIcon, CrossIcon } from '../../resources'
 
 interface Props {
   onNavigation: () => void
   isBackButton: boolean
+  isDark?: boolean
 }
 
 export const NavigationSection = (props: Props) => {
-  const { onNavigation, isBackButton } = props
+  const { onNavigation, isBackButton, isDark } = props
   return (
     <View
       style={{
@@ -22,7 +23,7 @@ export const NavigationSection = (props: Props) => {
           activeOpacity={0.8}
           style={styles.navigationButton}
         >
-          <BackIcon />
+          <BackIcon dark={isDark} />
         </TouchableOpacity>
       ) : (
         <View />
@@ -33,7 +34,7 @@ export const NavigationSection = (props: Props) => {
           activeOpacity={0.8}
           style={styles.navigationButton}
         >
-          <CrossIcon />
+          <CrossIcon dark={isDark} />
         </TouchableOpacity>
       ) : (
         <View />

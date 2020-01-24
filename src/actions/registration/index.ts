@@ -4,7 +4,8 @@ import * as loading from 'src/actions/registration/loadingStages'
 import { setDid } from 'src/actions/account'
 import { ThunkAction } from 'src/store'
 import { navigatorResetHome } from '../navigation'
-import { setSeedPhraseSaved } from '../recovery'
+import { setAutoBackup, setSeedPhraseSaved } from '../recovery'
+import { EncryptedData } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
 
 export const setLoadingMsg = (loadingMsg: string) => ({
   type: 'SET_LOADING_MSG',
@@ -48,22 +49,49 @@ export const createIdentity = (encodedEntropy: string): ThunkAction => async (
   return dispatch(navigatorResetHome())
 }
 
-export const recoverIdentity = (mnemonic: string): ThunkAction => async (
+export const recoverFromSeedPhrase = (mnemonic: string): ThunkAction => async (
   dispatch,
   getState,
   backendMiddleware,
 ) => {
   dispatch(setIsRegistering(true))
-  let identity
+  let pubKey
   try {
-    identity = await backendMiddleware.recoverIdentity(mnemonic)
+    pubKey = await backendMiddleware.recoverKeyProvider(mnemonic)
   } catch (e) {
     return dispatch(setIsRegistering(false))
   }
 
-  dispatch(setDid(identity.did))
-  dispatch(setSeedPhraseSaved())
+  const backup = await backendMiddleware.fetchBackup()
+  if (backup) {
+    dispatch(setAutoBackup(true, false))
+    return dispatch(recoverIdentity(backup))
+  }
 
-  dispatch(setIsRegistering(false))
+  // No backup found, user needs to import manually
+  // public key is needed to validate if the imported backup belongs to the recovered identity
+  return dispatch(
+    navigationActions.navigate({
+      routeName: routeList.ImportBackup,
+      params: { pubKey },
+    }),
+  )
+}
+
+export const recoverIdentity = (
+  encryptedBackup?: EncryptedData,
+): ThunkAction => async (dispatch, getState, backendMiddleware) => {
+  // the backup should be validated before to avoid decryption failures at this point
+  const backup = encryptedBackup
+    ? await backendMiddleware.decryptBackup(encryptedBackup)
+    : undefined
+  const identity = await backendMiddleware.recoverIdentity(
+    backup ? backup.did : undefined,
+  )
+  if (backup) await backendMiddleware.recoverData(backup)
+
+  await dispatch(setDid(identity.did))
+  await dispatch(setSeedPhraseSaved())
+  await dispatch(setIsRegistering(false))
   return dispatch(navigatorResetHome())
 }

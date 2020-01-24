@@ -1,5 +1,5 @@
 import { IdentityWallet } from 'jolocom-lib/js/identityWallet/identityWallet'
-import { Storage } from 'src/lib/storage/storage'
+import { CredentialMetadataSummary, Storage } from 'src/lib/storage/storage'
 import { KeyChain, KeyChainInterface } from 'src/lib/keychain'
 import { ConnectionOptions } from 'typeorm/browser'
 import {
@@ -13,8 +13,14 @@ import { jolocomContractsGateway } from 'jolocom-lib/js/contracts/contractsGatew
 import { JolocomLib } from 'jolocom-lib'
 import { publicKeyToDID } from 'jolocom-lib/js/utils/crypto'
 import { Identity } from 'jolocom-lib/js/identity/identity'
-import { SoftwareKeyProvider } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
+import {
+  EncryptedData,
+  SoftwareKeyProvider,
+} from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
 import { generateSecureRandomBytes } from './lib/util'
+import { BackupData, backupData, deleteBackup, fetchBackup } from './lib/backup'
+import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import { isEmpty } from 'ramda'
 
 export enum ErrorCodes {
   NoEntropy = 'NoEntropy',
@@ -144,20 +150,100 @@ export class BackendMiddleware {
       return (this._identityWallet = identityWallet)
     }
   }
-  public async recoverIdentity(mnemonic: string): Promise<Identity> {
+
+  public async backupData(
+    shouldUpload: boolean,
+  ): Promise<void | EncryptedData> {
+    const credentials = await this.storageLib.get.verifiableCredential()
+    const credentialMetadata = [] as CredentialMetadataSummary[]
+    for (const cred of credentials) {
+      const metadata = await this.storageLib.get.credentialMetadata(cred)
+      if (!isEmpty(metadata)) {
+        metadata.issuer = await this.storageLib.get.publicProfile(
+          metadata.issuer,
+        )
+        credentialMetadata.push(metadata)
+      }
+    }
+    const data: BackupData = {
+      did: this._identityWallet.did,
+      credentials: credentials.map(cred => cred.toJSON()),
+      credentialMetadata,
+    }
+
+    const password = await this.keyChainLib.getPassword()
+    return backupData(data, this._keyProvider, password, shouldUpload)
+  }
+
+  public async deleteBackup(): Promise<void> {
+    const password = await this.keyChainLib.getPassword()
+    return deleteBackup(this._keyProvider, password)
+  }
+
+  public async recoverKeyProvider(seedPhrase: string): Promise<string> {
     const password = (await generateSecureRandomBytes(32)).toString('base64')
     this._keyProvider = JolocomLib.KeyProvider.recoverKeyPair(
-      mnemonic,
+      seedPhrase,
       password,
-    ) as SoftwareKeyProvider
+    )
+    // if the recovery process fails, the password in the keychain will be overwritten in the next try
+    await this.keyChainLib.savePassword(password)
+    return this._keyProvider
+      .getPublicKey({
+        derivationPath: JolocomLib.KeyTypes.jolocomIdentityKey,
+        encryptionPass: password,
+      })
+      .toString('hex')
+  }
+
+  public async decryptBackup(
+    encryptedBackup: EncryptedData,
+  ): Promise<BackupData> {
+    const password = await this.keyChainLib.getPassword()
+    const backup = await this._keyProvider.decryptHybrid(encryptedBackup, {
+      encryptionPass: password,
+      derivationPath: JolocomLib.KeyTypes.jolocomIdentityKey,
+    })
+    return backup as BackupData
+  }
+  public async fetchBackup(): Promise<EncryptedData | undefined> {
+    const password = await this.keyChainLib.getPassword()
+    return await fetchBackup(this._keyProvider, password)
+  }
+
+  public async recoverData(data: BackupData): Promise<void> {
+    if (!data.did) throw new Error('Missing DID in backup')
+
+    // Persona is already stored in recoverIdentity (needed to store credentials because of a foreignKey from credentials to persona.did
+    if (data.credentials) {
+      for (let i = 0; i < data.credentials.length; i++) {
+        const credential = SignedCredential.fromJSON(data.credentials[i])
+        await this.storageLib.store.verifiableCredential(credential)
+      }
+    }
+    if (data.credentialMetadata) {
+      for (const metadata of data.credentialMetadata) {
+        if (metadata) {
+          await this.storageLib.store.credentialMetadata(metadata)
+          await this.storageLib.store.issuerProfile(metadata.issuer)
+        }
+      }
+    }
+  }
+
+  public async recoverIdentity(did?: string): Promise<Identity> {
+    const password = await this.keyChainLib.getPassword()
     const { jolocomIdentityKey: derivationPath } = JolocomLib.KeyTypes
 
-    const identityWallet = await this.registry.authenticate(this._keyProvider, {
-      encryptionPass: password,
-      derivationPath,
-    })
+    const identityWallet = await this.registry.authenticate(
+      this._keyProvider,
+      {
+        encryptionPass: password,
+        derivationPath,
+      },
+      did,
+    )
     this._identityWallet = identityWallet
-    await this.keyChainLib.savePassword(password)
     await this.storeIdentityData()
     return identityWallet.identity
   }
@@ -198,9 +284,7 @@ export class BackendMiddleware {
     }
     await this.storageLib.store.persona(personaData)
     const encryptedSeedData = {
-      // TODO: change to keyProvider.encryptedSeed when the library is updated
-      // with a public getter for the encryptedSeed
-      encryptedEntropy: this.keyProvider['encryptedSeed'].toString('hex'),
+      encryptedEntropy: this.keyProvider.encryptedSeed,
       timestamp: Date.now(),
     }
     await this.storageLib.store.encryptedSeed(encryptedSeedData)
