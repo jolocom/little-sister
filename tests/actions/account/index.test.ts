@@ -15,7 +15,6 @@ describe('Account action creators', () => {
       },
     },
     account: {
-      loading: false,
       claims: {
         selected: {
           credentialType: 'Email',

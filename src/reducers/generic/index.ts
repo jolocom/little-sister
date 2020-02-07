@@ -1,9 +1,14 @@
-import { AnyAction } from 'redux'
+import { combineReducers, AnyAction } from 'redux'
 
 export type LoadingState = boolean
+
+export interface GenericState {
+  readonly loading: LoadingState
+}
+
 const initialState: LoadingState = false
 
-export const loading = (
+export const loadingReducer = (
   state = initialState,
   action: AnyAction,
 ): LoadingState => {
@@ -14,3 +19,7 @@ export const loading = (
       return state
   }
 }
+
+export const genericReducer = combineReducers<GenericState>({
+  loading: loadingReducer,
+})

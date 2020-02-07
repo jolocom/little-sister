@@ -8,6 +8,9 @@ import { ThunkAction } from 'src/store'
 import settingKeys from 'src/ui/settings/settingKeys'
 import { withLoading, withErrorScreen } from '../modifiers'
 
+// Default delay on the loading state value before it can switch back to 'false'
+const DEFAULT_LOADING_LATCH_DELAY_MS = 300
+
 export const showErrorScreen = (
   error: AppError | Error,
 ): ThunkAction => dispatch => {
@@ -90,4 +93,48 @@ export const setLocale = (locale: string): ThunkAction => async (
   // we need to reset the navigator so that all screens are re-rendered with the
   // new locale
   return dispatch(navigationActions.navigatorReset())
+}
+
+const setLoading = (value: boolean) => ({
+  type: 'SET_LOADING',
+  value,
+})
+
+let curLoadingState = false
+export const showAppLoading = (
+  shouldShow: boolean,
+  latchDelay = DEFAULT_LOADING_LATCH_DELAY_MS,
+): ThunkAction => (dispatch, getState) => {
+  const wasShowing = curLoadingState
+  if (shouldShow && !wasShowing) {
+    // for setting to "true" we do it immediately and set current state
+    curLoadingState = shouldShow
+    return new Promise(resolve => {
+      const ret = dispatch(setLoading(shouldShow))
+      setTimeout(() => resolve(ret), latchDelay)
+    })
+  }
+
+  if (wasShowing && !shouldShow) {
+    // for setting to 'false', we delay by the latchDelay amounr
+    dispatch(delayedSetLoading(shouldShow, latchDelay))
+  }
+
+  // in all cases we return set to the "current" state again
+  return dispatch(setLoading(curLoadingState))
+}
+
+let nextLoadingState = curLoadingState
+let timeout: number | undefined
+const delayedSetLoading = (
+  value: boolean,
+  latchDelay: number,
+): ThunkAction => async dispatch => {
+  nextLoadingState = value
+  if (timeout !== undefined) clearTimeout(timeout)
+  timeout = setTimeout(() => {
+    curLoadingState = nextLoadingState
+    dispatch(setLoading(curLoadingState))
+    timeout = undefined
+  }, latchDelay)
 }

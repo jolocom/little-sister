@@ -12,7 +12,7 @@ import { withErrorScreen, withLoading } from '../../../actions/modifiers'
 import { connect } from 'react-redux'
 import { CloseIcon } from '../../../resources'
 import { fontMain, textXXS } from '../../../styles/typography'
-import { navigatorResetHome } from '../../../actions/navigation'
+import { navigateBack } from '../../../actions/navigation'
 import {
   JSONWebToken,
   JWTEncodable,
@@ -53,49 +53,21 @@ interface Props
     NavigationScreenProps {}
 
 const InteractionContainer = (props: Props) => {
-  const [AnimatedOpacity] = useState(new Animated.Value(0))
-
-  /*
-   * NOTE: (Android only) When navigating to the @InteractionScreen, the homepage
-   * (together with the @BottomBar) jumps about 20px up and disrupts
-   * the navigation transition. This happens due to the hiding of the
-   * @StatusBar. One workaround is delaying it, but the "flicker" is still
-   * noticeable.
-   */
-
-  useEffect(() => {
-    Animated.timing(AnimatedOpacity, {
-      toValue: 1,
-      duration: 200,
-      useNativeDriver: true,
-    }).start()
-  }, [])
-
   return (
-    <React.Fragment>
-      <Animated.View
-        style={{
-          backgroundColor: Colors.greyDark,
-          opacity: AnimatedOpacity,
-          flex: 1,
-        }}
-      >
-        <Wrapper withoutSafeArea style={{ backgroundColor: Colors.greyDark }}>
-          {IS_IOS && (
-            <TouchableOpacity
-              onPress={props.navigateHome}
-              style={styles.closeButton}
-            >
-              <CloseIcon />
-            </TouchableOpacity>
-          )}
-          <ScannerContainer
-            navigation={props.navigation}
-            onScannerSuccess={props.onScannerSuccess}
-          />
-        </Wrapper>
-      </Animated.View>
-    </React.Fragment>
+    <Wrapper dark withoutSafeArea>
+      {IS_IOS && (
+        <TouchableOpacity
+          onPress={props.navigateHome}
+          style={styles.closeButton}
+        >
+          <CloseIcon />
+        </TouchableOpacity>
+      )}
+      <ScannerContainer
+        navigation={props.navigation}
+        onScannerSuccess={props.onScannerSuccess}
+      />
+    </Wrapper>
   )
 }
 
@@ -111,7 +83,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
           ),
         )
   },
-  navigateHome: () => dispatch(navigatorResetHome()),
+  navigateHome: () => dispatch(navigateBack()),
 })
 
 export const InteractionScreen = connect(

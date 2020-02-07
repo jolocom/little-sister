@@ -132,17 +132,15 @@ export const saveExternalCredentials: ThunkAction = async (
   return dispatch(cancelReceiving)
 }
 
-export const toggleLoading = (value: boolean) => ({
-  type: 'SET_LOADING',
-  value,
-})
-
 export const hasExternalCredentials: ThunkAction = async (
   dispatch,
   getState,
   backendMiddleware,
 ) => {
   const { storageLib, identityWallet } = backendMiddleware
+  // TODO FIXME
+  // we only need a count, no need to actually load and deserialize
+  // all of them
   const externalCredentials = await storageLib.get.verifiableCredential({
     issuer: Not(identityWallet.did),
   })
