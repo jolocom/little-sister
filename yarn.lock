@@ -10047,6 +10047,11 @@ react-native@0.59.9:
     xmldoc "^0.4.0"
     yargs "^9.0.0"
 
+react-navigation-animated-switch@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/react-navigation-animated-switch/-/react-navigation-animated-switch-0.4.1.tgz#5928d0cff40d2bfcb2a60f1baabebf09ed6c1b09"
+  integrity sha512-p3W/2ecwet2w1mkZzzH3x9KXnnRTLUq3Z4MD+QlsCm/dPSVAz/4UZwT+1iYfqS0D7Zl6K/RXol7aNOrcuDldxA==
+
 react-navigation-drawer@~1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-navigation-drawer/-/react-navigation-drawer-1.2.1.tgz#7bd5efeee7d2f611d3ebb0933e0c8e8eb7cafe52"

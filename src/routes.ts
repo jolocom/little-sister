@@ -5,11 +5,12 @@ import {
   createAppContainer,
   createBottomTabNavigator,
   createStackNavigator,
-  createSwitchNavigator,
   NavigationRoute,
   NavigationScreenOptions,
   NavigationScreenProp,
+  StackViewTransitionConfigs,
 } from 'react-navigation'
+import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
 
 import { ClaimDetails, Claims, Records } from 'src/ui/home/'
 import { DocumentDetails, Documents } from 'src/ui/documents'
@@ -143,7 +144,7 @@ const BottomTabNavigator = createBottomTabNavigator(BottomTabBarRoutes, {
   tabBarComponent: BottomBar,
 })
 
-const RegistrationScreens = createSwitchNavigator(
+const RegistrationScreens = createAnimatedSwitchNavigator(
   {
     [routeList.Landing]: {
       screen: Landing,
@@ -180,6 +181,7 @@ const MainStack = createStackNavigator(
         statusBar: false,
       },
     },
+
     [routeList.CredentialDialog]: {
       screen: CredentialReceive,
       navigationOptions: () => ({
@@ -262,13 +264,28 @@ const MainStack = createStackNavigator(
     }),
   },
   {
+    transitionConfig: (transitionProps, prevTransitionProps) => {
+      const isModal = MODAL_ROUTES.some(
+        screenName =>
+          screenName === transitionProps.scene.route.routeName ||
+          (prevTransitionProps &&
+            screenName === prevTransitionProps.scene.route.routeName),
+      )
+      return StackViewTransitionConfigs.defaultTransitionConfig(
+        transitionProps,
+        prevTransitionProps,
+        isModal,
+      )
+    },
     defaultNavigationOptions: noHeaderNavOpts,
   },
 )
 
+const MODAL_ROUTES = [routeList.InteractionScreen]
+
 // NOTE: navigatorReset in actions/navigation assumes that there is only 1
 // StackRouter child at the top level
-export const Routes = createSwitchNavigator(
+export const Routes = createAnimatedSwitchNavigator(
   {
     [routeList.AppInit]: {
       screen: AppInit,
