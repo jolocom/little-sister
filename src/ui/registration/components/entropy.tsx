@@ -13,9 +13,6 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: Colors.blackMain,
-  },
   text: {
     ...Typography.subMainText,
     textAlign: 'center',
@@ -26,10 +23,6 @@ const styles = StyleSheet.create({
   },
   bigFont: {
     fontSize: Typography.text4XL,
-  },
-  contentContainer: {
-    flex: 1,
-    flexDirection: 'column',
   },
 })
 
@@ -46,16 +39,14 @@ export const EntropyComponent: React.FC<Props> = props => {
   const textStyle = progress === 0 ? styles.text : [styles.text, styles.bigFont]
 
   return (
-    <Wrapper style={styles.mainContainer}>
+    <Wrapper dark>
       <Text testID="entropyMsg" style={textStyle}>
         {msg}
       </Text>
-      <Wrapper testID="scratchArea" style={styles.contentContainer}>
-        {progress === 0 ? (
-          <View style={{ position: 'absolute' }}>
-            <HandAnimationComponent />
-          </View>
-        ) : null}
+      {progress === 0 && (
+          <HandAnimationComponent />
+      )}
+      <Wrapper breathy overlay>
         <MaskedImageComponent disabled={progress === 1} addPoint={addPoint} />
       </Wrapper>
     </Wrapper>

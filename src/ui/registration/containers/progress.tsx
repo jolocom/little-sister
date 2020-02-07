@@ -16,10 +16,6 @@ interface Props
     ReturnType<typeof mapStateToProps> {}
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.blackMain,
-    justifyContent: 'space-around',
-  },
   messageArea: {},
   loadingArea: {},
   progressArea: {
@@ -54,8 +50,7 @@ const styles = StyleSheet.create({
 export const RegistrationProgressContainer: React.FunctionComponent<
   Props
 > = props => (
-  <Wrapper style={styles.container}>
-    <StatusBar barStyle="light-content" />
+  <Wrapper dark breathy>
     <View style={styles.messageArea}>
       <Text style={styles.text}>{I18n.t(strings.GIVE_US_A_FEW_MOMENTS)}</Text>
       <Text style={styles.text}>{I18n.t(strings.TO_SET_UP_YOUR_IDENTITY)}</Text>

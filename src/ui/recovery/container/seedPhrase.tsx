@@ -17,17 +17,10 @@ export class SeedPhraseContainer extends React.Component<Props> {
     const mnemonic =
       this.props.navigation && this.props.navigation.getParam('mnemonic')
     return (
-      <React.Fragment>
-        <StatusBar
-          animated={false}
-          barStyle="light-content"
-          showHideTransition="fade"
-        />
-        <SeedPhraseComponent
-          seedPhrase={mnemonic}
-          handleButtonTap={() => this.props.repeatSeedPhrase(mnemonic)}
-        />
-      </React.Fragment>
+      <SeedPhraseComponent
+        seedPhrase={mnemonic}
+        handleButtonTap={() => this.props.repeatSeedPhrase(mnemonic)}
+      />
     )
   }
 }

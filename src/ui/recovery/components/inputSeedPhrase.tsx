@@ -18,11 +18,6 @@ import strings from '../../../locales/strings'
 import I18n from 'i18n-js'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: Colors.backgroundDarkMain,
-  },
   header: {
     ...Typography.largeText,
     color: Colors.sandLight,
@@ -139,10 +134,8 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
   }
   return (
     <Wrapper
-      style={[
-        styles.container,
-        isLoading && { justifyContent: 'space-around' },
-      ]}
+      dark
+      breathy={isLoading}
     >
       <Text style={styles.header}>{headerText}</Text>
       <View testID="seedPhraseMsg" style={styles.mnemonicSection}>

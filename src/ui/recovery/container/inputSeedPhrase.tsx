@@ -134,30 +134,27 @@ export class InputSeedPhraseContainer extends React.Component<Props, State> {
     } = this.state
 
     return (
-      <React.Fragment>
-        <StatusBar />
-        <InputSeedPhraseComponent
-          inputValue={inputValue}
-          mnemonic={mnemonic}
-          isMnemonicValid={isMnemonicValid}
-          suggestions={suggestions}
-          markedWord={markedWord}
-          inputState={inputState}
-          selectWord={this.selectWord}
-          handleTextInput={this.handleInputChange}
-          handleButtonPress={() =>
-            this.props.recoverIdentity(mnemonic.join(' '))
-          }
-          inputRef={ref => {
-            this.textInput = ref
-          }}
-          handleDoneButton={this.onDoneButton}
-          handleNextWord={this.nextWord}
-          handlePreviousWord={this.previousWord}
-          handleBackButton={this.props.goBack}
-          isLoading={this.props.isLoading}
-        />
-      </React.Fragment>
+      <InputSeedPhraseComponent
+        inputValue={inputValue}
+        mnemonic={mnemonic}
+        isMnemonicValid={isMnemonicValid}
+        suggestions={suggestions}
+        markedWord={markedWord}
+        inputState={inputState}
+        selectWord={this.selectWord}
+        handleTextInput={this.handleInputChange}
+        handleButtonPress={() =>
+          this.props.recoverIdentity(mnemonic.join(' '))
+        }
+        inputRef={ref => {
+          this.textInput = ref
+        }}
+        handleDoneButton={this.onDoneButton}
+        handleNextWord={this.nextWord}
+        handlePreviousWord={this.previousWord}
+        handleBackButton={this.props.goBack}
+        isLoading={this.props.isLoading}
+      />
     )
   }
 }

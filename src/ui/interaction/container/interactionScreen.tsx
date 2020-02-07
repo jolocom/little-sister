@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Wrapper } from '../../structure'
 import { Animated, Platform, StyleSheet, TouchableOpacity } from 'react-native'
 import { ScannerContainer } from './scanner'

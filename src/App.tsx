@@ -2,7 +2,7 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { initStore, ThunkDispatch } from './store'
 import { navigationActions } from 'src/actions'
-import { StatusBar, View } from 'react-native'
+import { StatusBar, View, StyleSheet } from 'react-native'
 import { RoutesContainer } from './routes'
 import { AppLoadingAndNotifications } from './ui/generic/appLoadingAndNotifications'
 import { useScreens } from 'react-native-screens'
@@ -13,7 +13,7 @@ import {
   NavigationState,
 } from 'react-navigation'
 import { setActiveNotificationFilter } from './actions/notifications'
-import { black } from './styles/colors'
+import { backgroundDarkMain } from './styles/colors'
 
 useScreens()
 
@@ -26,6 +26,14 @@ useScreens()
  * better architecture.
  */
 let store: ReturnType<typeof initStore>
+
+const styles = StyleSheet.create({
+  appWrapper: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: backgroundDarkMain
+  }
+})
 
 export default class App extends React.PureComponent<
   {},
@@ -87,27 +95,23 @@ export default class App extends React.PureComponent<
   public render() {
     const { showStatusBar } = this.state
     return (
-      <React.Fragment>
-        <StatusBar hidden={!showStatusBar} translucent />
-        {showStatusBar && (
-          <View
-            style={{
-              width: '100%',
-              height: StatusBar.currentHeight,
-              backgroundColor: black,
-            }}
-          />
-        )}
+      <View style={styles.appWrapper}>
+        <StatusBar
+          hidden={!showStatusBar}
+          backgroundColor={'transparent'}
+          translucent
+          animated
+        />
         <Provider store={store}>
-          <View style={{ flex: 1 }}>
+          <>
             <RoutesContainer
               onNavigationStateChange={this.handleNavigationChange.bind(this)}
               ref={nav => this.setNavigator(nav)}
             />
             <AppLoadingAndNotifications />
-          </View>
+          </>
         </Provider>
-      </React.Fragment>
+      </View>
     )
   }
 }

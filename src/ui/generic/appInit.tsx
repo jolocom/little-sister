@@ -15,9 +15,6 @@ const image = require('src/resources/img/splashScreen.png')
 interface Props extends ReturnType<typeof mapDispatchToProps> {}
 
 const styles = StyleSheet.create({
-  loadingContainer: {
-    backgroundColor: Colors.blackMain,
-  },
   loadingText: {
     position: 'absolute',
     bottom: '5%',
@@ -39,7 +36,7 @@ export class AppInitContainer extends React.Component<Props> {
     const viewHeight: number = Dimensions.get('window').height
 
     return (
-      <Wrapper style={styles.loadingContainer}>
+      <Wrapper dark>
         <Image
           source={image}
           style={{

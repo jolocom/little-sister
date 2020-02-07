@@ -11,9 +11,6 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Colors.blackMain,
-  },
   container: {
     paddingHorizontal: '5%',
   },
@@ -43,7 +40,7 @@ export const SeedPhrase: React.SFC<Props> = ({
   seedPhrase,
   handleButtonTap,
 }: Props) => (
-  <Wrapper style={styles.wrapper}>
+  <Wrapper dark>
     <View style={styles.container}>
       <View style={styles.noteSection}>
         <Text style={styles.note}>

@@ -85,13 +85,10 @@ export class EntropyContainer extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <React.Fragment>
-        <StatusBar barStyle="light-content" />
-        <EntropyComponent
-          addPoint={this.addPoint}
-          progress={this.state.entropyProgress}
-        />
-      </React.Fragment>
+      <EntropyComponent
+        addPoint={this.addPoint}
+        progress={this.state.entropyProgress}
+      />
     )
   }
 }

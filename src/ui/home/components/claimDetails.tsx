@@ -15,9 +15,6 @@ import strings from '../../../locales/strings'
 import { Buttons, Typography, Colors, Spacing } from 'src/styles'
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.backgroundLightMain,
-  },
   scroll: {
     width: '100%',
   },
@@ -146,7 +143,7 @@ export class ClaimDetailsComponent extends React.Component<Props, State> {
       !this.state.keyboardDrawn || Object.keys(claimData).length < 3
 
     return (
-      <Wrapper style={styles.container}>
+      <Wrapper>
         <ScrollView keyboardShouldPersistTaps="handled" style={styles.scroll}>
           <Text style={styles.header}>{I18n.t(credentialType)}</Text>
           <View style={styles.textInputArea}>

@@ -35,7 +35,8 @@ const VISIBLE_BAR_HEIGHT = SCALING_FACTOR * VISIBLE_ORIGINAL_BAR_HEIGHT
 // Scaled down height of the whole original bar. The 1.01 multiplier is removing
 // the white space between the bar and screen edges
 const BAR_HEIGHT = SCALING_FACTOR * SVG_BAR_HEIGHT * 1.01
-// Additional "SafeView" for extra large devices e.g. iPhone 11 Pro Max
+// Additional cover for the "SafeAreaView" for devices with a safe area at the
+// bottom: e.g. iPhone 11 Pro Max
 const BAR_EXTRA_SAFE_HEIGHT = 30
 
 /* Calculation of button size and position proportionally to the original bar */
@@ -70,6 +71,7 @@ const styles = StyleSheet.create({
   safeView: {
     width: '100%',
     height: BAR_EXTRA_SAFE_HEIGHT,
+    // FIXME replace with bottom bar value
     backgroundColor: '#0B030D',
     marginTop: -4,
   },
@@ -194,13 +196,13 @@ const BottomBarContainer = (props: Props) => {
           )
         })}
       </View>
+      <BottomBarSVG scaledHeight={BAR_HEIGHT} color={Colors.bottomTabBarBg} />
       <InteractionButton
         topMargin={VERTICAL_OFFSET}
         buttonSize={BUTTON_SIZE}
         scale={SCALING_FACTOR}
         navigateScanner={navigateInteraction}
       />
-      <BottomBarSVG scaledHeight={BAR_HEIGHT} color={Colors.bottomTabBarBg} />
       <View style={styles.safeView} />
     </AnimatedSafeAreaView>
   )
