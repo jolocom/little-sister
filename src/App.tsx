@@ -66,9 +66,19 @@ export default class App extends React.PureComponent<
       navigationOptions
 
     while (curState.routes) {
-      curState = curState.routes[curState.index]
-      const childNav = navigation.getChildNavigation(curState.key)
-      navigationOptions = navigation.router.getScreenOptions(childNav)
+      const nextState: NavigationRoute = curState.routes[curState.index]
+      const childNav = navigation.getChildNavigation(nextState.key)
+      try {
+        // NOTE
+        // this throws for mysterious reasons sometimes
+        // specifically, when using navigateBackHome(), so
+        navigationOptions = navigation.router.getScreenOptions(childNav)
+      } catch {
+        // we just assume it means dead end
+        break
+      }
+
+      curState = nextState
       navigation = childNav
     }
 
@@ -79,11 +89,9 @@ export default class App extends React.PureComponent<
       thunkDispatch(setActiveNotificationFilter(notifications))
     }
 
-    if (!isNil(statusBar)) {
-      this.setState({ showStatusBar: statusBar })
-    } else {
-      this.setState({ showStatusBar: true })
-    }
+    const showStatusBar = isNil(statusBar) ? true : statusBar
+    if (this.state.showStatusBar != showStatusBar)
+      this.setState({ showStatusBar })
   }
 
   private setNavigator(nav: NavigationContainerComponent | null) {
