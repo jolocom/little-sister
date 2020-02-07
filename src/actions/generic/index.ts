@@ -1,10 +1,12 @@
-import { navigationActions } from 'src/actions/'
-import { routeList } from 'src/routeList'
+import { Linking } from 'react-native'
 import SplashScreen from 'react-native-splash-screen'
-import I18n from 'src/locales/i18n'
-import { ThunkAction } from 'src/store'
 import { AppError, ErrorCode } from 'src/lib/errors'
-import settingKeys from '../../ui/settings/settingKeys'
+import I18n from 'src/locales/i18n'
+import { routeList } from 'src/routeList'
+import { navigationActions, accountActions } from 'src/actions'
+import { ThunkAction } from 'src/store'
+import settingKeys from 'src/ui/settings/settingKeys'
+import { withLoading, withErrorScreen } from '../modifiers'
 
 export const showErrorScreen = (
   error: AppError | Error,
@@ -33,21 +35,45 @@ export const initApp: ThunkAction = async (
   try {
     await backendMiddleware.initStorage()
     const storedSettings = await backendMiddleware.storageLib.get.settingsObject()
+
     // locale setup
     if (storedSettings.locale) I18n.locale = storedSettings.locale
     else storedSettings.locale = I18n.locale
-    SplashScreen.hide()
-    return dispatch(loadSettings(storedSettings))
+
+    await dispatch(loadSettings(storedSettings))
+
+    const ret = await dispatch(accountActions.checkIdentityExists)
+
+    // FIXME what happens if no identity and this is a deeplink?
+    // navigationActions.handleDeepLink throws NoWallet
+    // need to improve this UX
+
+    // FIXME: get rid of these after setting up deepLinking properly using
+    // react-navigation
+    const handleDeepLink = (url: string) =>
+      dispatch(
+        withLoading(
+          withErrorScreen(navigationActions.handleDeepLink(url)),
+        ),
+      )
+    Linking.addEventListener('url', event => handleDeepLink(event.url))
+    await Linking.getInitialURL().then(url => {
+      if (url) handleDeepLink(url)
+    })
+
+    return ret
   } catch (e) {
     return dispatch(
       showErrorScreen(
         new AppError(ErrorCode.WalletInitFailed, e, routeList.Landing),
       ),
     )
+  } finally {
+    SplashScreen.hide()
   }
 }
 
-export const loadSettings = (settings: { [key: string]: any }) => ({
+const loadSettings = (settings: { [key: string]: any }) => ({
   type: 'LOAD_SETTINGS',
   value: settings,
 })
