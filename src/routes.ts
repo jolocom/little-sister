@@ -3,13 +3,13 @@ import { createElement } from 'react'
 
 import {
   createAppContainer,
-  createBottomTabNavigator,
-  createStackNavigator,
   NavigationRoute,
   NavigationScreenOptions,
   NavigationScreenProp,
-  StackViewTransitionConfigs,
 } from 'react-navigation'
+
+import { StackViewTransitionConfigs,createStackNavigator } from 'react-navigation-stack'
+import { createBottomTabNavigator } from 'react-navigation-tabs'
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
 
 import { ClaimDetails, Claims, Records } from 'src/ui/home/'
@@ -264,19 +264,19 @@ const MainStack = createStackNavigator(
     }),
   },
   {
-    transitionConfig: (transitionProps, prevTransitionProps) => {
-      const isModal = MODAL_ROUTES.some(
-        screenName =>
-          screenName === transitionProps.scene.route.routeName ||
-          (prevTransitionProps &&
-            screenName === prevTransitionProps.scene.route.routeName),
-      )
-      return StackViewTransitionConfigs.defaultTransitionConfig(
-        transitionProps,
-        prevTransitionProps,
-        isModal,
-      )
-    },
+//    transitionConfig: (transitionProps, prevTransitionProps) => {
+//      const isModal = MODAL_ROUTES.some(
+//        screenName =>
+//          screenName === transitionProps.scene.route.routeName ||
+//          (prevTransitionProps &&
+//            screenName === prevTransitionProps.scene.route.routeName),
+//      )
+//      return StackViewTransitionConfigs.defaultTransitionConfig(
+//        transitionProps,
+//        prevTransitionProps,
+//        isModal,
+//      )
+//    },
     defaultNavigationOptions: noHeaderNavOpts,
   },
 )
