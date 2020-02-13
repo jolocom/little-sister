@@ -4,6 +4,8 @@ buildscript {
     ext {
         buildToolsVersion = "28.0.3"
         // detox requires at least version 18
+        // also once this is bumped up to 21, we can remove manual multidex
+        // config ('implementation' and 'multiDexEnabled') from  app/build.gradle
         minSdkVersion = 18
         compileSdkVersion = 28
         targetSdkVersion = 28
@@ -18,7 +20,6 @@ buildscript {
         classpath 'com.android.tools.build:gradle:3.4.2'
         // detox instrumentation app uses kotlin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
-
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
