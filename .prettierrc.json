@@ -1,4 +1,6 @@
 {
+  "bracketSpacing": false,
+  "jsxBracketSameLine": true,
   "endOfLine": "lf",
   "semi": false,
   "singleQuote": true,

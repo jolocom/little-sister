@@ -131,7 +131,7 @@ export class ClaimDetailsComponent extends React.Component<Props, State> {
       }
 
       return claimData[c].length > 0
-    })
+    });
   }
 
   render() {

@@ -8,7 +8,10 @@ import {
   NavigationScreenProp,
 } from 'react-navigation'
 
-import { StackViewTransitionConfigs,createStackNavigator } from 'react-navigation-stack'
+import {
+  StackViewTransitionConfigs,
+  createStackNavigator,
+} from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 import createAnimatedSwitchNavigator from 'react-navigation-animated-switch'
 
