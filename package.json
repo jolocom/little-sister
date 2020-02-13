@@ -62,7 +62,7 @@
     "tslib": "^1.7.1",
     "typeorm": "^0.2.5",
     "typescript": "^3.5.1",
-    "yarn": "^1.16.0"
+    "yarn": "^1.22.0"
   },
   "scripts": {
     "start": "adb reverse tcp:8081 tcp:8081 & react-native start",

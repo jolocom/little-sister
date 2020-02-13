@@ -1,5 +1,5 @@
 {
-  "bracketSpacing": false,
+  "bracketSpacing": true,
   "jsxBracketSameLine": true,
   "endOfLine": "lf",
   "semi": false,
