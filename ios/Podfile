@@ -34,7 +34,10 @@ target 'JolocomWallet' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-
+  permissions_path = '../node_modules/react-native-permissions/ios'
+  pod 'Permission-BluetoothPeripheral', :path => "#{permissions_path}/BluetoothPeripheral.podspec"
+  pod 'Permission-Camera', :path => "#{permissions_path}/Camera.podspec"
+  #pod 'Permission-FaceID', :path => "#{permissions_path}/FaceID.podspec"
 
   target 'JolocomWalletTests' do
     inherit! :search_paths

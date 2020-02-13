@@ -36,7 +36,7 @@
 	<key>CFBundleVersion</key>
 	<string>0</string>
 	<key>LSApplicationCategoryType</key>
-	<string/>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -70,6 +70,7 @@
 	<string>Required by a dependency, not used by us</string>
 	<key>UIAppFonts</key>
 	<array>
+		<string>MaterialCommunityIcons.ttf</string>
 		<string>TTCommons.otf</string>
 		<string>TTCommons-Light.otf</string>
 		<string>TTCommons-Medium.otf</string>

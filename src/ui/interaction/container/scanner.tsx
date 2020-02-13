@@ -8,13 +8,11 @@ import {
 } from 'react-native'
 import {
   NavigationEventSubscription,
-  NavigationScreenProps,
+  NavigationInjectedProps
 } from 'react-navigation'
-/* TODO: When using the latest react-native-permissions version, remove this dependency,
- since there is already a cross-platform openSettings method */
-import { appDetailsSettings } from 'react-native-android-open-settings'
-// TODO: using v1.2.1. When upgrading to RN60, use the latest version.
-import Permissions, { Status } from 'react-native-permissions'
+
+import { PERMISSIONS, RESULTS, request, openSettings, check, Permission } from 'react-native-permissions'
+
 import { ScannerComponent } from '../component/scanner'
 import { NoPermissionComponent } from '../component/noPermission'
 import { JolocomLib } from 'jolocom-lib'
@@ -22,26 +20,21 @@ import {
   JSONWebToken,
   JWTEncodable,
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { Colors } from '../../../styles'
+import { Colors } from 'src/styles'
 
-interface Props extends NavigationScreenProps {
+interface Props extends NavigationInjectedProps {
   onScannerSuccess: (interactionToken: JSONWebToken<JWTEncodable>) => void
 }
 
-const CAMERA_PERMISSION = 'camera'
+const CAMERA_PERMISSION = Platform.select({
+  android: PERMISSIONS.ANDROID.CAMERA,
+  ios: PERMISSIONS.IOS.CAMERA
+}) as Permission
 
-enum RESULTS {
-  AUTHORIZED = 'authorized',
-  RESTRICTED = 'restricted',
-}
-
-const IS_IOS = Platform.OS === 'ios'
-
-export const ScannerContainer = (props: Props) => {
+export const ScannerContainer: React.FC<Props> = (props) => {
   const { onScannerSuccess, navigation } = props
   const [reRenderKey, setRenderKey] = useState(Date.now())
-  const [permission, setPermission] = useState<Status>(RESULTS.RESTRICTED)
-  const [isCameraReady, setCameraReady] = useState(false)
+  const [permission, setPermission] = useState<string>(RESULTS.UNAVAILABLE)
   const [isTorch, setTorch] = useState(false)
   const [isError, setError] = useState(false)
   const [colorAnimationValue] = useState(new Animated.Value(0))
@@ -56,19 +49,22 @@ export const ScannerContainer = (props: Props) => {
       })
     }
 
-    requestCameraPermission().then(() => {
-      setTimeout(() => setCameraReady(true), 200)
+    check(CAMERA_PERMISSION).then(perm => {
+      setPermission(perm)
+      if (perm !== RESULTS.GRANTED && perm !== RESULTS.BLOCKED) {
+        requestCameraPermission()
+      }
     })
 
     return focusListener.remove
   }, [])
 
   const requestCameraPermission = async () => {
-    const permission = await Permissions.request(CAMERA_PERMISSION)
+    const permission = await request(CAMERA_PERMISSION)
     setPermission(permission)
   }
 
-  const openSettings = () => {
+  const tryOpenSettings = () => {
     const listener = async (state: AppStateStatus) => {
       if (state === 'active') {
         AppState.removeEventListener('change', listener)
@@ -79,25 +75,17 @@ export const ScannerContainer = (props: Props) => {
     AppState.addEventListener('change', listener)
 
     try {
-      const openPlatformSettings = Platform.select({
-        ios: Permissions.openSettings,
-        android: appDetailsSettings,
-      })
-      openPlatformSettings()
+      openSettings()
     } catch (e) {
       AppState.removeEventListener('change', listener)
     }
   }
 
   const onEnablePermission = async () => {
-    if (IS_IOS) {
-      openSettings()
+    if (permission === RESULTS.BLOCKED) {
+      tryOpenSettings()
     } else {
-      if (permission === RESULTS.RESTRICTED) {
-        openSettings()
-      } else {
-        await requestCameraPermission()
-      }
+      await requestCameraPermission()
     }
   }
 
@@ -141,8 +129,8 @@ export const ScannerContainer = (props: Props) => {
     }
   }
 
-  return permission === RESULTS.AUTHORIZED ? (
-    isCameraReady ? (
+  if (permission === RESULTS.GRANTED) {
+    return (
       <ScannerComponent
         reRenderKey={reRenderKey}
         onScan={parseJWT}
@@ -152,7 +140,9 @@ export const ScannerContainer = (props: Props) => {
         colorAnimationValue={colorAnimationValue}
         textAnimationValue={textAnimationValue}
       />
-    ) : (
+    )
+  } else if (permission === RESULTS.UNAVAILABLE) {
+    return (
       <View
         style={{
           width: '100%',
@@ -161,7 +151,7 @@ export const ScannerContainer = (props: Props) => {
         }}
       />
     )
-  ) : (
-    <NoPermissionComponent onPressEnable={onEnablePermission} />
-  )
+  } else {
+    return <NoPermissionComponent onPressEnable={onEnablePermission} />
+  }
 }

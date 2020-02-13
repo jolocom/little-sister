@@ -5,51 +5,26 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* JolocomWalletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* JolocomWalletTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		191E99A18C14493D8EE980FD /* libSQLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A2E9796904048368B26EF1C /* libSQLite.a */; };
-		246525D0698943D99150DD4B /* libRNSentry-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C30757487EAF487A9103C873 /* libRNSentry-tvOS.a */; };
-		26A7C4C99A8F4905A2398B42 /* libRNVectorIcons-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 17E01FBBDE5E4C44A29FD4CC /* libRNVectorIcons-tvOS.a */; };
 		2B7E8F770CC9710E82674D7B /* libPods-JolocomWallet-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B7319EA24D5D75638B45686 /* libPods-JolocomWallet-tvOS.a */; };
 		2C3D37BAA7B5442D986F17CF /* TTCommons-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7E9A692685474EBA8C3432F5 /* TTCommons-Medium.otf */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2D16E6891FA4F8E400B85C8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* JolocomWalletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* JolocomWalletTests.m */; };
-		3A0F4538C191466E88732D70 /* libRNRandomBytes-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5B5B976388974E47A7EA021A /* libRNRandomBytes-tvOS.a */; };
-		44A073B3B3084DDF823AECF9 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 90EDABCFE87C49159660CDB9 /* libSplashScreen.a */; };
-		48FE28E60EB444938B3E2D84 /* libRNSVG.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 074ED271649E4DA1A021F8FE /* libRNSVG.a */; };
-		6A867B4EB97245A6970E97D0 /* libRNSVG-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 04AF8B92427C44638E852CD0 /* libRNSVG-tvOS.a */; };
-		7082D98B3B874DC08B6B174B /* libRNKeychain.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C76AB0EC3DB8409284E3F553 /* libRNKeychain.a */; };
-		712FAAB8DBDE463893AD69C6 /* libRNLocalize.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F26AAA51D40D4E3B8151DF65 /* libRNLocalize.a */; };
-		715D8480D35E4A449C21FDA9 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CBC43EF73F7D44A6A2082E07 /* libRNFetchBlob.a */; };
-		85AD815310C54BA68FA0FBF2 /* libRNScreens.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0BF9BF5B43C74D9A95933AEF /* libRNScreens.a */; };
 		A431D390F7F5781EEA4C8E86 /* libPods-JolocomWallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 217C7D710BCA6E6CAF6E8416 /* libPods-JolocomWallet.a */; };
-		A99F7055421844509BEA9DA4 /* libRNSentry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CF478301C2D647E0B3AAB7C2 /* libRNSentry.a */; };
-		B0482C073F644452BA591CD7 /* libRNGestureHandler.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0E51C82FF984C3AAEB3745A /* libRNGestureHandler.a */; };
 		B465E65822CE17D100F87457 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = B465E65722CE17D000F87457 /* assets */; };
 		B4A807E322C62D0C008E672A /* TTCommons.otf in Resources */ = {isa = PBXBuildFile; fileRef = B4A807E222C62D0C008E672A /* TTCommons.otf */; };
 		B4A8080F22C6394C008E672A /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4A8080E22C6394C008E672A /* Launch Screen.storyboard */; };
-		B6E1627C4B934D5AB4511F20 /* libRNLocalize-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCE5F13C0E6545B9916D609E /* libRNLocalize-tvOS.a */; };
-		B7281A5215F64821A15CCB7A /* libRNGestureHandler-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 589CFA911D4E4F9D8087981A /* libRNGestureHandler-tvOS.a */; };
-		C92CA6BE8A4B4ABE9A4B79D1 /* libRNCamera.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6316A8E40AB4AAAB8430AC1 /* libRNCamera.a */; };
-		CCA090A55011427A9E46430C /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 917F7DAEDE914FFDA9AF3763 /* libRNVectorIcons.a */; };
-		CD7E5D9461EF4809A10EAEA9 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = A41E946909D945BB9F345F62 /* libz.tbd */; };
-		CE208FCAC3D245C487E607FD /* libRNReanimated.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D781708E1194460B8C87A479 /* libRNReanimated.a */; };
 		D5125362E6574EEBE7B386D0 /* libPods-JolocomWallet-tvOSTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3F5698155A4598FF33970A7C /* libPods-JolocomWallet-tvOSTests.a */; };
-		D6B0DC966DA547D29909ADE5 /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F6BA50AFB74644C59D087441 /* libBVLinearGradient.a */; };
 		D6D8B3475224E324A3623F32 /* libPods-JolocomWalletTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E78EDDFA25C3CCEF0CEB04C9 /* libPods-JolocomWalletTests.a */; };
-		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
 		ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2971642150620600B7C4FE /* JavaScriptCore.framework */; };
 		EFAD1C3A1B6644A08881D955 /* TTCommons-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 336AF2D15CD3440DAB275543 /* TTCommons-Light.otf */; };
-		F0511ED44B6F44739985BE9A /* libRNRandomBytes.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 16BFC0969B194FC2B3147416 /* libRNRandomBytes.a */; };
-		F45E559D4DA0414F9408A761 /* libRNVersionNumber.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EF3A398D7B9C465BA4A3ADA8 /* libRNVersionNumber.a */; };
-		F49625E2579D46B2841139C4 /* libRNVersionNumber-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51077AE9886846C9B1C77495 /* libRNVersionNumber-tvOS.a */; };
-		FE1BAE54BEE04653A9053D29 /* libRNCAsyncStorage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 102529ADDECB464985ADB5D8 /* libRNCAsyncStorage.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,63 +48,37 @@
 		00E356EE1AD99517003FC87E /* JolocomWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JolocomWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* JolocomWalletTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JolocomWalletTests.m; sourceTree = "<group>"; };
-		04AF8B92427C44638E852CD0 /* libRNSVG-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSVG-tvOS.a"; sourceTree = "<group>"; };
 		067EC48000DEF726F21356EB /* Pods-JolocomWalletTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWalletTests.debug.xcconfig"; path = "Target Support Files/Pods-JolocomWalletTests/Pods-JolocomWalletTests.debug.xcconfig"; sourceTree = "<group>"; };
-		074ED271649E4DA1A021F8FE /* libRNSVG.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSVG.a; sourceTree = "<group>"; };
-		0BF9BF5B43C74D9A95933AEF /* libRNScreens.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNScreens.a; sourceTree = "<group>"; };
-		102529ADDECB464985ADB5D8 /* libRNCAsyncStorage.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCAsyncStorage.a; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* JolocomWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JolocomWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = JolocomWallet/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = JolocomWallet/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = JolocomWallet/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = JolocomWallet/main.m; sourceTree = "<group>"; };
-		16BFC0969B194FC2B3147416 /* libRNRandomBytes.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNRandomBytes.a; sourceTree = "<group>"; };
-		17E01FBBDE5E4C44A29FD4CC /* libRNVectorIcons-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVectorIcons-tvOS.a"; sourceTree = "<group>"; };
 		1ED7C9604F652709287C1F2C /* Pods-JolocomWallet-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-JolocomWallet-tvOSTests/Pods-JolocomWallet-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		217C7D710BCA6E6CAF6E8416 /* libPods-JolocomWallet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JolocomWallet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2A2E9796904048368B26EF1C /* libSQLite.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSQLite.a; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* JolocomWallet-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JolocomWallet-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* JolocomWallet-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "JolocomWallet-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		336AF2D15CD3440DAB275543 /* TTCommons-Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TTCommons-Light.otf"; path = "../src/assets/fonts/TTCommons-Light.otf"; sourceTree = "<group>"; };
 		3BEAAC35529228E3AFDE344D /* Pods-JolocomWallet-tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet-tvOS.release.xcconfig"; path = "Target Support Files/Pods-JolocomWallet-tvOS/Pods-JolocomWallet-tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		3F5698155A4598FF33970A7C /* libPods-JolocomWallet-tvOSTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JolocomWallet-tvOSTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		51077AE9886846C9B1C77495 /* libRNVersionNumber-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVersionNumber-tvOS.a"; sourceTree = "<group>"; };
-		589CFA911D4E4F9D8087981A /* libRNGestureHandler-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNGestureHandler-tvOS.a"; sourceTree = "<group>"; };
-		5B5B976388974E47A7EA021A /* libRNRandomBytes-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNRandomBytes-tvOS.a"; sourceTree = "<group>"; };
 		5B7319EA24D5D75638B45686 /* libPods-JolocomWallet-tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JolocomWallet-tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7E9A692685474EBA8C3432F5 /* TTCommons-Medium.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TTCommons-Medium.otf"; path = "../src/assets/fonts/TTCommons-Medium.otf"; sourceTree = "<group>"; };
-		90EDABCFE87C49159660CDB9 /* libSplashScreen.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libSplashScreen.a; sourceTree = "<group>"; };
-		917F7DAEDE914FFDA9AF3763 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
 		93D3970E93A7768602B70D7C /* Pods-JolocomWallet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet.release.xcconfig"; path = "Target Support Files/Pods-JolocomWallet/Pods-JolocomWallet.release.xcconfig"; sourceTree = "<group>"; };
-		A41E946909D945BB9F345F62 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		A5EDB0F9CBA88D413C2BA1C7 /* Pods-JolocomWallet-tvOSTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet-tvOSTests.debug.xcconfig"; path = "Target Support Files/Pods-JolocomWallet-tvOSTests/Pods-JolocomWallet-tvOSTests.debug.xcconfig"; sourceTree = "<group>"; };
 		AE65353438C8A7B388A0CC8B /* Pods-JolocomWallet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet.debug.xcconfig"; path = "Target Support Files/Pods-JolocomWallet/Pods-JolocomWallet.debug.xcconfig"; sourceTree = "<group>"; };
 		B465E65722CE17D000F87457 /* assets */ = {isa = PBXFileReference; lastKnownFileType = folder; name = assets; path = "../../smartwallet-app/ios/assets"; sourceTree = "<group>"; };
 		B4A807E222C62D0C008E672A /* TTCommons.otf */ = {isa = PBXFileReference; lastKnownFileType = file; name = TTCommons.otf; path = ../android/app/src/main/assets/fonts/TTCommons.otf; sourceTree = "<group>"; };
-		B4A807F422C631A5008E672A /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		B4A8080E22C6394C008E672A /* Launch Screen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "../../smartwallet-app/ios/Launch Screen.storyboard"; sourceTree = "<group>"; };
-		B6316A8E40AB4AAAB8430AC1 /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
 		B67C83EB5364A98FF8ED7382 /* Pods-JolocomWallet-tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet-tvOS.debug.xcconfig"; path = "Target Support Files/Pods-JolocomWallet-tvOS/Pods-JolocomWallet-tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		B7F4F3F872534807887AEDDA /* TypeType - TT Commons Light.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "TypeType - TT Commons Light.otf"; path = "../src/assets/fonts/TypeType - TT Commons Light.otf"; sourceTree = "<group>"; };
-		C30757487EAF487A9103C873 /* libRNSentry-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNSentry-tvOS.a"; sourceTree = "<group>"; };
-		C76AB0EC3DB8409284E3F553 /* libRNKeychain.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNKeychain.a; sourceTree = "<group>"; };
-		CBC43EF73F7D44A6A2082E07 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
-		CCE5F13C0E6545B9916D609E /* libRNLocalize-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNLocalize-tvOS.a"; sourceTree = "<group>"; };
-		CF478301C2D647E0B3AAB7C2 /* libRNSentry.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSentry.a; sourceTree = "<group>"; };
 		D27ED15622CB950D008FD1C1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = en; path = en.lproj/Info.plist; sourceTree = "<group>"; };
 		D27ED19222CB9517008FD1C1 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = de; path = de.lproj/Info.plist; sourceTree = "<group>"; };
 		D27ED19322CB951E008FD1C1 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = nl; path = nl.lproj/Info.plist; sourceTree = "<group>"; };
 		D27ED19422CB9559008FD1C1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
-		D781708E1194460B8C87A479 /* libRNReanimated.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNReanimated.a; sourceTree = "<group>"; };
 		E78EDDFA25C3CCEF0CEB04C9 /* libPods-JolocomWalletTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JolocomWalletTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		ED2971642150620600B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = Platforms/AppleTVOS.platform/Developer/SDKs/AppleTVOS12.0.sdk/System/Library/Frameworks/JavaScriptCore.framework; sourceTree = DEVELOPER_DIR; };
-		EF3A398D7B9C465BA4A3ADA8 /* libRNVersionNumber.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVersionNumber.a; sourceTree = "<group>"; };
-		F0E51C82FF984C3AAEB3745A /* libRNGestureHandler.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNGestureHandler.a; sourceTree = "<group>"; };
-		F26AAA51D40D4E3B8151DF65 /* libRNLocalize.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNLocalize.a; sourceTree = "<group>"; };
 		F3C6022D1A26D8CAE1325D84 /* Pods-JolocomWalletTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWalletTests.release.xcconfig"; path = "Target Support Files/Pods-JolocomWalletTests/Pods-JolocomWalletTests.release.xcconfig"; sourceTree = "<group>"; };
-		F6BA50AFB74644C59D087441 /* libBVLinearGradient.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libBVLinearGradient.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,24 +94,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */,
-				C92CA6BE8A4B4ABE9A4B79D1 /* libRNCamera.a in Frameworks */,
-				B0482C073F644452BA591CD7 /* libRNGestureHandler.a in Frameworks */,
-				7082D98B3B874DC08B6B174B /* libRNKeychain.a in Frameworks */,
-				712FAAB8DBDE463893AD69C6 /* libRNLocalize.a in Frameworks */,
-				F0511ED44B6F44739985BE9A /* libRNRandomBytes.a in Frameworks */,
-				CE208FCAC3D245C487E607FD /* libRNReanimated.a in Frameworks */,
-				85AD815310C54BA68FA0FBF2 /* libRNScreens.a in Frameworks */,
-				44A073B3B3084DDF823AECF9 /* libSplashScreen.a in Frameworks */,
-				191E99A18C14493D8EE980FD /* libSQLite.a in Frameworks */,
-				48FE28E60EB444938B3E2D84 /* libRNSVG.a in Frameworks */,
-				F45E559D4DA0414F9408A761 /* libRNVersionNumber.a in Frameworks */,
-				CCA090A55011427A9E46430C /* libRNVectorIcons.a in Frameworks */,
-				715D8480D35E4A449C21FDA9 /* libRNFetchBlob.a in Frameworks */,
-				CD7E5D9461EF4809A10EAEA9 /* libz.tbd in Frameworks */,
-				A99F7055421844509BEA9DA4 /* libRNSentry.a in Frameworks */,
-				D6B0DC966DA547D29909ADE5 /* libBVLinearGradient.a in Frameworks */,
-				FE1BAE54BEE04653A9053D29 /* libRNCAsyncStorage.a in Frameworks */,
 				A431D390F7F5781EEA4C8E86 /* libPods-JolocomWallet.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -172,14 +103,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ED2971652150620600B7C4FE /* JavaScriptCore.framework in Frameworks */,
-				2D16E6881FA4F8E400B85C8A /* libReact.a in Frameworks */,
-				B7281A5215F64821A15CCB7A /* libRNGestureHandler-tvOS.a in Frameworks */,
-				B6E1627C4B934D5AB4511F20 /* libRNLocalize-tvOS.a in Frameworks */,
-				3A0F4538C191466E88732D70 /* libRNRandomBytes-tvOS.a in Frameworks */,
-				6A867B4EB97245A6970E97D0 /* libRNSVG-tvOS.a in Frameworks */,
-				F49625E2579D46B2841139C4 /* libRNVersionNumber-tvOS.a in Frameworks */,
-				26A7C4C99A8F4905A2398B42 /* libRNVectorIcons-tvOS.a in Frameworks */,
-				246525D0698943D99150DD4B /* libRNSentry-tvOS.a in Frameworks */,
 				2B7E8F770CC9710E82674D7B /* libPods-JolocomWallet-tvOS.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,11 +150,8 @@
 		2D16E6871FA4F8E400B85C8A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				B4A807F422C631A5008E672A /* libReactNativePermissions.a */,
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
 				ED2971642150620600B7C4FE /* JavaScriptCore.framework */,
-				2D16E6891FA4F8E400B85C8A /* libReact.a */,
-				A41E946909D945BB9F345F62 /* libz.tbd */,
 				217C7D710BCA6E6CAF6E8416 /* libPods-JolocomWallet.a */,
 				5B7319EA24D5D75638B45686 /* libPods-JolocomWallet-tvOS.a */,
 				3F5698155A4598FF33970A7C /* libPods-JolocomWallet-tvOSTests.a */,
@@ -274,7 +194,6 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				A43983400AD34E30ACD8EEA3 /* Resources */,
-				B4A8076122C62C70008E672A /* Recovered References */,
 				3F017A091298799602474EDD /* Pods */,
 			);
 			indentWidth = 2;
@@ -301,44 +220,6 @@
 				7E9A692685474EBA8C3432F5 /* TTCommons-Medium.otf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		B4A8076122C62C70008E672A /* Recovered References */ = {
-			isa = PBXGroup;
-			children = (
-				B6316A8E40AB4AAAB8430AC1 /* libRNCamera.a */,
-				F0E51C82FF984C3AAEB3745A /* libRNGestureHandler.a */,
-				C76AB0EC3DB8409284E3F553 /* libRNKeychain.a */,
-				F26AAA51D40D4E3B8151DF65 /* libRNLocalize.a */,
-				16BFC0969B194FC2B3147416 /* libRNRandomBytes.a */,
-				D781708E1194460B8C87A479 /* libRNReanimated.a */,
-				0BF9BF5B43C74D9A95933AEF /* libRNScreens.a */,
-				90EDABCFE87C49159660CDB9 /* libSplashScreen.a */,
-				2A2E9796904048368B26EF1C /* libSQLite.a */,
-				074ED271649E4DA1A021F8FE /* libRNSVG.a */,
-				EF3A398D7B9C465BA4A3ADA8 /* libRNVersionNumber.a */,
-				589CFA911D4E4F9D8087981A /* libRNGestureHandler-tvOS.a */,
-				CCE5F13C0E6545B9916D609E /* libRNLocalize-tvOS.a */,
-				5B5B976388974E47A7EA021A /* libRNRandomBytes-tvOS.a */,
-				04AF8B92427C44638E852CD0 /* libRNSVG-tvOS.a */,
-				51077AE9886846C9B1C77495 /* libRNVersionNumber-tvOS.a */,
-				917F7DAEDE914FFDA9AF3763 /* libRNVectorIcons.a */,
-				CBC43EF73F7D44A6A2082E07 /* libRNFetchBlob.a */,
-				CF478301C2D647E0B3AAB7C2 /* libRNSentry.a */,
-				17E01FBBDE5E4C44A29FD4CC /* libRNVectorIcons-tvOS.a */,
-				C30757487EAF487A9103C873 /* libRNSentry-tvOS.a */,
-				102529ADDECB464985ADB5D8 /* libRNCAsyncStorage.a */,
-				F6BA50AFB74644C59D087441 /* libBVLinearGradient.a */,
-			);
-			name = "Recovered References";
-			sourceTree = "<group>";
-		};
-		E46718C24C454F029208C0D7 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
-			path = Application;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -368,11 +249,12 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "JolocomWallet" */;
 			buildPhases = (
 				E4B51FFB376DD80A5CFCD9F1 /* [CP] Check Pods Manifest.lock */,
+				79835C3C23F594F500C351B0 /* Start Packager */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
-				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				C0DE913E6CB66E8BBC249096 /* [CP] Copy Pods Resources */,
+				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				42978E94DFBA42B7A85B79FF /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
@@ -526,7 +408,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=$(which node)\nexport SENTRY_PROPERTIES=sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode ../node_modules/react-native/scripts/react-native-xcode.sh index.ts\n";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nexport NODE_BINARY=$(which node)\nexport SENTRY_PROPERTIES=sentry.properties\n\n../node_modules/@sentry/cli/bin/sentry-cli react-native xcode -- ../node_modules/react-native/scripts/react-native-xcode.sh index.ts\n";
 		};
 		2D02E4CB1E0B4B27006451C7 /* Bundle React Native Code And Images */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -586,6 +468,38 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		42978E94DFBA42B7A85B79FF /* Upload Debug Symbols to Sentry */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Upload Debug Symbols to Sentry";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
+		};
+		79835C3C23F594F500C351B0 /* Start Packager */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Start Packager";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export RCT_METRO_PORT=\"${RCT_METRO_PORT:=8081}\"\necho \"export RCT_METRO_PORT=${RCT_METRO_PORT}\" > \"${SRCROOT}/../node_modules/react-native/scripts/.packager.env\"\nif [ -z \"${RCT_NO_LAUNCH_PACKAGER+xxx}\" ] ; then\n  if nc -w 5 -z localhost ${RCT_METRO_PORT} ; then\n    if ! curl -s \"http://localhost:${RCT_METRO_PORT}/status\" | grep -q \"packager-status:running\" ; then\n      echo \"Port ${RCT_METRO_PORT} already in use, packager is either not running or not running correctly\"\n      exit 2\n    fi\n  else\n    open \"$SRCROOT/../node_modules/react-native/scripts/launchPackager.command\" || echo \"Can't start packager automatically\"\n  fi\nfi\n";
+		};
 		C0DE913E6CB66E8BBC249096 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -593,41 +507,11 @@
 			);
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-JolocomWallet/Pods-JolocomWallet-resources.sh",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/AntDesign.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Entypo.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Feather.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Brands.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Regular.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/FontAwesome5_Solid.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Fontisto.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Foundation.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf",
 				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialCommunityIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Octicons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/SimpleLineIcons.ttf",
-				"${PODS_ROOT}/../../node_modules/react-native-vector-icons/Fonts/Zocial.ttf",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AntDesign.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Entypo.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EvilIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Feather.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Brands.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Regular.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/FontAwesome5_Solid.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Fontisto.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Foundation.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Ionicons.ttf",
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialCommunityIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MaterialIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Octicons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/SimpleLineIcons.ttf",
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/Zocial.ttf",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -677,20 +561,6 @@
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
-		};
-		42978E94DFBA42B7A85B79FF /* Upload Debug Symbols to Sentry */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			name = "Upload Debug Symbols to Sentry";
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
 		};
 /* End PBXShellScriptBuildPhase section */
 

@@ -5,7 +5,7 @@ import { navigationActions } from 'src/actions'
 import { StatusBar, View, StyleSheet } from 'react-native'
 import { RoutesContainer } from './routes'
 import { AppLoadingAndNotifications } from './ui/generic/appLoadingAndNotifications'
-import { useScreens } from 'react-native-screens'
+import { enableScreens } from 'react-native-screens'
 import { isNil } from 'ramda'
 import {
   NavigationContainerComponent,
@@ -15,7 +15,7 @@ import {
 import { setActiveNotificationFilter } from './actions/notifications'
 import { backgroundDarkMain } from './styles/colors'
 
-useScreens()
+enableScreens()
 
 /**
  * NOTE: this is *not* exported on purpose
