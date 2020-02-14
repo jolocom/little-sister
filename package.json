@@ -4,32 +4,25 @@
   "scripts": {
     "run:ios": "react-native run-ios --appIdSuffix debug",
     "run:android": "react-native run-android --appIdSuffix debug",
-
     "build:ios": "cd ios && bundle exec fastlane build type:ad-hoc",
     "build:android": "cd android && bundle exec fastlane build local:true",
-
     "run:ios:staging": "cd ios && bundle exec fastlane staging",
     "run:android:staging": "cd android && bundle exec fastlane staging",
-
     "beta:ios": "cd ios && bundle exec fastlane beta",
     "beta:android": "cd android && bundle exec fastlane beta",
-
     "release:ios": "cd ios && bundle exec fastlane release",
     "release:android": "cd android && bundle exec fastlane release",
-
     "start": "adb reverse tcp:8081 tcp:8081 & react-native start",
     "test": "jest",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "e2e:android": "detox build -c android.debug && detox test -c android.debug",
     "e2e:android:emu": "detox build -c android.emu.debug && detox test -c android.emu.debug",
     "e2e:ios:sim": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
-
     "clean:node": "rm -rf node_modules",
     "clean:android": "cd android && ./gradlew clean",
     "clean:ios": "cd ios && xcodebuild clean",
     "clean:react": "rm -rf $TMP/react* $TMP/haste-map-metro* $TMP/metro-cache*",
     "clean:all": "yarn run clean:ios & yarn run clean:android && yarn run clean:react && yarn run clean:node",
-
     "format": "eslint --fix --ext .ts --ext .tsx .",
     "icon": "svgr --native --out-dir src/resources/svg/",
     "devtools": "react-devtools &",
@@ -156,7 +149,7 @@
     "ethereumjs-wallet": "^0.6.0",
     "events": "^3.0.0",
     "i18n-js": "^3.1.0",
-    "jolocom-lib": "^3.0.1",
+    "jolocom-lib": "file:jolocom-lib-v4.0.2.tgz",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "ramda": "^0.26.1",

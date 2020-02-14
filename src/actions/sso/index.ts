@@ -216,6 +216,7 @@ export const sendCredentialResponse = (
     },
     password,
     request,
+    true
   )
 
   if (isDeepLinkInteraction) {

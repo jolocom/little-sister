@@ -55,6 +55,7 @@ export const sendAuthenticationResponse = (
     { callbackURL, description },
     password,
     decodedAuthRequest,
+    true
   )
 
   if (isDeepLinkInteraction) {
