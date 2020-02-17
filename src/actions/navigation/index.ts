@@ -110,11 +110,6 @@ export const handleDeepLink = (url: string): ThunkAction => (
   getState,
   backendMiddleware,
 ) => {
-  // TODO Fix
-  const route: string = url.replace(/.*?:\/\//g, '')
-  const params: string = (route.match(/\/([^\/]+)\/?$/) as string[])[1] || ''
-  const routeName = route.split('/')[0]
-
   // The identityWallet is initialised before the deep link is handled. If it
   // is not initialized, then we may not even have an identity.
   if (!backendMiddleware.identityWallet) {
@@ -123,6 +118,23 @@ export const handleDeepLink = (url: string): ThunkAction => (
         routeName: routeList.Landing,
       }),
     )
+  }
+
+  let routeName = '',
+    params = ''
+
+  if (url) {
+    const [scheme, uri] = url.split('://')
+    if (scheme && uri) {
+      const parts = uri.split('/')
+      if (scheme.startsWith('http')) {
+        routeName = parts[1]
+        params = parts[2]
+      } else {
+        routeName = parts[0]
+        params = parts[1]
+      }
+    }
   }
 
   const supportedRoutes = ['consent', 'payment', 'authenticate']

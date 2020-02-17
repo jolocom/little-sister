@@ -85,7 +85,7 @@ const ErrorReportingContainer = (props: Props) => {
       />
       <ScrollView>
         <SectionWrapper
-          title={I18n.t(strings.CHOOSE_THE_ISSUE)}
+          title={I18n.t(strings.TELL_US_THE_PROBLEM)}
           style={{ marginTop: 14 }}
         >
           <ChooseIssueSection
@@ -105,7 +105,7 @@ const ErrorReportingContainer = (props: Props) => {
             description={description}
           />
         </SectionWrapper>
-        <SectionWrapper title={I18n.t(strings.NEED_TO_TALK_TO_US)}>
+        <SectionWrapper title={I18n.t(strings.WANT_TO_GET_IN_TOUCH)}>
           <ContactSection
             onContactInput={setContact}
             currentInput={currentInput}
@@ -113,7 +113,7 @@ const ErrorReportingContainer = (props: Props) => {
             contactValue={contact}
           />
         </SectionWrapper>
-        <SectionWrapper title={I18n.t(strings.SOMETHING_ELSE)}>
+        <SectionWrapper title={I18n.t(strings.RATE_THE_ISSUE)}>
           <EmojiSection selectedEmoji={selectedEmoji} setEmoji={setEmoji} />
         </SectionWrapper>
         <JolocomButton

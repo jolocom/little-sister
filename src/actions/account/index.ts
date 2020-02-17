@@ -6,7 +6,7 @@ import {
   getClaimMetadataByCredentialType,
   getCredentialUiCategory,
   getUiCredentialTypeByType,
-} from '../../lib/util'
+} from 'src/lib/util'
 import { cancelReceiving } from '../sso'
 import { ThunkAction } from 'src/store'
 import { groupBy, map, mergeRight, omit, uniq, zipWith } from 'ramda'

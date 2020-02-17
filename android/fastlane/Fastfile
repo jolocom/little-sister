@@ -41,6 +41,7 @@ platform :android do
       puts "secrets already present"
     end
     password = prompt(
+      # password is in notion
       text: "password: ",
       secure_text: true
     )

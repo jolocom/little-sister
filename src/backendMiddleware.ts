@@ -6,7 +6,7 @@ import {
   createJolocomRegistry,
   JolocomRegistry,
 } from 'jolocom-lib/js/registries/jolocomRegistry'
-import { IpfsCustomConnector } from './lib/ipfs'
+import { IpfsCustomConnector } from 'src/lib/ipfs'
 import { jolocomContractsAdapter } from 'jolocom-lib/js/contracts/contractsAdapter'
 import { jolocomEthereumResolver } from 'jolocom-lib/js/ethereum/ethereum'
 import { jolocomContractsGateway } from 'jolocom-lib/js/contracts/contractsGateway'
@@ -14,7 +14,7 @@ import { JolocomLib } from 'jolocom-lib'
 import { publicKeyToDID } from 'jolocom-lib/js/utils/crypto'
 import { Identity } from 'jolocom-lib/js/identity/identity'
 import { SoftwareKeyProvider } from 'jolocom-lib/js/vaultedKeyProvider/softwareProvider'
-import { generateSecureRandomBytes } from './lib/util'
+import { generateSecureRandomBytes } from 'src/lib/util'
 
 export enum ErrorCodes {
   NoEntropy = 'NoEntropy',

@@ -1,6 +1,5 @@
 import { genericActions } from 'src/actions'
-import { AppError } from '../../../src/lib/errors'
-import ErrorCode from '../../../src/lib/errorCodes'
+import { AppError, ErrorCode } from 'src/lib/errors'
 import { createMockStore } from 'tests/utils'
 
 describe('Generic action creators', () => {

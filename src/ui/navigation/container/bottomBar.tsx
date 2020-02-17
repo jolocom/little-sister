@@ -114,15 +114,12 @@ const BottomBarContainer = (props: Props) => {
     AnimatedHiding.setValue(0)
 
     if (navigation) {
-      const blurListener = navigation.addListener('willBlur', animateHiding)
-      const focusListener = navigation.addListener('didFocus', animateAppear)
-
       const keyboardShowListener = Keyboard.addListener(
         Platform.select({
           ios: 'keyboardWillShow',
           android: 'keyboardDidShow',
         }),
-        animateAppear,
+        animateHiding,
       )
 
       const keyboardHideListener = Keyboard.addListener(
@@ -130,12 +127,10 @@ const BottomBarContainer = (props: Props) => {
           ios: 'keyboardWillHide',
           android: 'keyboardDidHide',
         }),
-        animateHiding,
+        animateAppear,
       )
 
       return () => {
-        blurListener.remove()
-        focusListener.remove()
         keyboardShowListener.remove()
         keyboardHideListener.remove()
       }

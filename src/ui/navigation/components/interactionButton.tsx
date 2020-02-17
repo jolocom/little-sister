@@ -51,17 +51,18 @@ export const InteractionButton = (props: Props) => {
   const { navigateScanner, buttonSize, topMargin, scale } = props
   const [scaleAnimationValue] = useState(new Animated.Value(1))
 
-  const onScannerStart = () => {
-    Animated.sequence([
-      Animated.timing(scaleAnimationValue, {
-        duration: 80,
-        toValue: 0.9,
-      }),
-      Animated.timing(scaleAnimationValue, {
-        duration: 60,
-        toValue: 1,
-      }),
-    ]).start(navigateScanner)
+  const onPressIn = () => {
+    Animated.timing(scaleAnimationValue, {
+      duration: 80,
+      toValue: 0.9,
+    }).start()
+  }
+
+  const onPressOut = () => {
+    Animated.timing(scaleAnimationValue, {
+      duration: 60,
+      toValue: 1,
+    }).start()
   }
 
   return (
@@ -76,7 +77,9 @@ export const InteractionButton = (props: Props) => {
         }}
       >
         <TouchableOpacity
-          onPress={onScannerStart}
+          onPress={navigateScanner}
+          onPressIn={onPressIn}
+          onPressOut={onPressOut}
           activeOpacity={1}
           style={{ flex: 1 }}
         >

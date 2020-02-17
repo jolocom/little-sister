@@ -26,12 +26,12 @@ export const ChooseIssueSection = (props: Props) => {
 
   const issueList = [
     I18n.t(strings.NO_INTERNET_CONNECTION),
-    I18n.t(strings.CRASH),
+    I18n.t(strings.THE_APP_KEEPS_CRASHING),
     I18n.t(strings.CANT_LOGIN),
     I18n.t(strings.BACKUP_IS_EMPTY),
-    I18n.t(strings.CANT_REACH_SOME_ELEMENTS),
-    I18n.t(strings.IM_JUST_ANNOYING),
-    I18n.t(strings.OTHER_REASON),
+    I18n.t(strings.PROBLEMS_WITH_THE_INTERFACE),
+    I18n.t(strings.SOMETHING_DOESNT_SEEM_RIGHT),
+    I18n.t(strings.OTHER),
   ]
 
   return (
@@ -63,7 +63,7 @@ export const ChooseIssueSection = (props: Props) => {
             ...styles.inputText,
             ...styles.pickerDropdownText,
           }}
-          defaultValue={I18n.t(strings.CHOOSE_RELATED)}
+          defaultValue={I18n.t(strings.SELECT_AN_OPTION)}
           renderSeparator={() => null}
           adjustFrame={(position: PositionStyle) => ({
             left: 20,

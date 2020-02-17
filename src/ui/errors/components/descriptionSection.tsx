@@ -28,9 +28,7 @@ export const DescriptionSection = (props: Props) => {
   return (
     <React.Fragment>
       <Text style={{ ...styles.sectionDescription, marginTop: 16 }}>
-        {I18n.t(
-          strings.IF_THE_PROBLEM_IS_NOT_LISTED_THIS_IS_THE_BEST_PLACE_TO_DESCRIBE_IT,
-        )}
+        {I18n.t(strings.YOU_CAN_PROVIDE_FURTHER_DETAILS_ABOUT_THE_ISSUE_HERE)}
       </Text>
       <TextInput
         style={{
@@ -45,7 +43,7 @@ export const DescriptionSection = (props: Props) => {
         numberOfLines={3}
         textAlignVertical={'top'}
         multiline={true}
-        placeholder={I18n.t(strings.YOUR_MESSAGE_HERE)}
+        placeholder={I18n.t(strings.TAP_TO_WRITE)}
         onFocus={() => setInput(Inputs.Description)}
         onBlur={() => setInput(Inputs.None)}
       />

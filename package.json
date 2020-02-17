@@ -1,6 +1,44 @@
 {
   "name": "jolocomwallet",
   "version": "1.7.1",
+  "scripts": {
+    "run:ios": "react-native run-ios --appIdSuffix debug",
+    "run:android": "react-native run-android --appIdSuffix debug",
+
+    "build:ios": "cd ios && bundle exec fastlane build type:ad-hoc",
+    "build:android": "cd android && bundle exec fastlane build local:true",
+
+    "run:ios:staging": "cd ios && bundle exec fastlane staging",
+    "run:android:staging": "cd android && bundle exec fastlane staging",
+
+    "beta:ios": "cd ios && bundle exec fastlane beta",
+    "beta:android": "cd android && bundle exec fastlane beta",
+
+    "release:ios": "cd ios && bundle exec fastlane release",
+    "release:android": "cd android && bundle exec fastlane release",
+
+    "start": "adb reverse tcp:8081 tcp:8081 & react-native start",
+    "test": "jest",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "e2e:android": "detox build -c android.debug && detox test -c android.debug",
+    "e2e:android:emu": "detox build -c android.emu.debug && detox test -c android.emu.debug",
+    "e2e:ios:sim": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
+
+    "clean:node": "rm -rf node_modules",
+    "clean:android": "cd android && ./gradlew clean",
+    "clean:ios": "cd ios && xcodebuild clean",
+    "clean:react": "rm -rf $TMP/react* $TMP/haste-map-metro* $TMP/metro-cache*",
+    "clean:all": "yarn run clean:ios & yarn run clean:android && yarn run clean:react && yarn run clean:node",
+
+    "format": "eslint --fix --ext .ts --ext .tsx .",
+    "icon": "svgr --native --out-dir src/resources/svg/",
+    "devtools": "react-devtools &",
+    "terms": "ts-node -O '{\"module\": \"commonjs\"}' bin/generateTerms.ts",
+    "storybook": "start-storybook -p 6006",
+
+    "repl": "REPL=1 ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/repl.ts",
+    "typeorm": "ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/repl.ts node_modules/.bin/typeorm"
+  },
   "private": true,
   "devDependencies": {
     "@babel/cli": "^7.4.4",
@@ -50,6 +88,7 @@
     "metro-minify-terser": "^0.55.0",
     "metro-react-native-babel-preset": "^0.56.0",
     "mockdate": "^2.0.2",
+    "node-fetch": "^2.6.0",
     "precise-commits": "^1.0.2",
     "prettier": "^1.18.2",
     "react-devtools": "^3.6.2",
@@ -63,37 +102,6 @@
     "typeorm": "^0.2.5",
     "typescript": "^3.5.1",
     "yarn": "^1.22.0"
-  },
-  "scripts": {
-    "start": "adb reverse tcp:8081 tcp:8081 & react-native start",
-    "test": "jest",
-    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
-    "e2e:android": "detox build -c android.debug && detox test -c android.debug",
-    "e2e:android:emu": "detox build -c android.emu.debug && detox test -c android.emu.debug",
-    "e2e:ios:sim": "detox build -c ios.sim.debug && detox test -c ios.sim.debug",
-    "run:ios": "react-native run-ios",
-    "run:ios:staging": "cd ios && bundle exec fastlane staging",
-    "run:android": "react-native run-android --appIdSuffix debug",
-    "run:android:staging": "cd android && bundle exec fastlane staging",
-    "clean:all": "yarn run clean:ios; yarn run clean:android; yarn run clean:react; yarn run clean:node",
-    "clean:ios": "cd ios && xcodebuild clean",
-    "clean:android": "cd android && ./gradlew clean",
-    "clean:react": "watchman watch-del-all; rm -rf $TMPDIR/react-native-packager-cache-*; rm -rf $TMPDIR/metro-bundler-cache-*",
-    "clean:node": "rm -rf node_modules",
-    "clean": "yarn clean:all; yarn cache clean --force; yarn install && (cd ios && pod install) & yarn start -- --reset-cache",
-    "build:ios": "cd ios && bundle exec fastlane build type:ad-hoc",
-    "build:android": "cd android && bundle exec fastlane build local:true",
-    "beta:ios": "cd ios && bundle exec fastlane beta",
-    "beta:android": "cd android && bundle exec fastlane beta",
-    "release:ios": "cd ios && bundle exec fastlane release",
-    "release:android": "cd android && bundle exec fastlane release",
-    "format": "eslint --fix --ext .ts --ext .tsx .",
-    "icon": "svgr --native --out-dir src/resources/svg/",
-    "devtools": "react-devtools &",
-    "terms": "ts-node -O '{\"module\": \"commonjs\"}' bin/generateTerms.ts",
-    "storybook": "start-storybook -p 6006",
-    "typeorm:node": "ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/typeormNode.ts",
-    "typeorm:repl": "TYPEORM_REPL=1 ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/typeormNode.ts"
   },
   "detox": {
     "configurations": {

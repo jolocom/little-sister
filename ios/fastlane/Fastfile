@@ -22,12 +22,14 @@ platform :ios do
   end
   
   lane :build do |options| 
-    match
+    match # instead of :get_secrets
+
     begin
       sh("git clone git@infra.jolocom.io:sentry-auth")
     rescue
       puts "sentry auth already present"
     end
+
     sh("cp ./sentry-auth/sentry.properties ../sentry.properties")
     build_ios_app(
       scheme: "JolocomWallet",

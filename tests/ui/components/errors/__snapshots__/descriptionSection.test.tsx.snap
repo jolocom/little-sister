@@ -14,7 +14,7 @@ exports[`DescriptionSection Component matches the snapshot on initial render 1`]
       }
     }
   >
-    If the problem is not listed, this is the best place to describe it.
+    You can provide further details about the issue here
   </Text>
   <TextInput
     allowFontScaling={true}
@@ -23,7 +23,7 @@ exports[`DescriptionSection Component matches the snapshot on initial render 1`]
     onBlur={[Function]}
     onChangeText={[Function]}
     onFocus={[Function]}
-    placeholder="Your message here..."
+    placeholder="Tap to write..."
     placeholderTextColor="rgba(0, 0, 0, 0.5)"
     rejectResponderTermination={true}
     style={
@@ -136,7 +136,7 @@ exports[`DescriptionSection Component renders the input with selected border 1`]
       }
     }
   >
-    If the problem is not listed, this is the best place to describe it.
+    You can provide further details about the issue here
   </Text>
   <TextInput
     allowFontScaling={true}
@@ -145,7 +145,7 @@ exports[`DescriptionSection Component renders the input with selected border 1`]
     onBlur={[Function]}
     onChangeText={[Function]}
     onFocus={[Function]}
-    placeholder="Your message here..."
+    placeholder="Tap to write..."
     placeholderTextColor="rgba(0, 0, 0, 0.5)"
     rejectResponderTermination={true}
     style={

@@ -18,30 +18,40 @@
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
         android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan"
         android:exported="true">
         <intent-filter>
           <action android:name="android.intent.action.MAIN" />
           <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
-        <intent-filter android:label="filter_react_native">
+
+        <intent-filter android:label="Jolocom SmartWallet">
+          <data android:scheme="https" android:host="wallet.jolocom.io" android:pathPrefix="" />
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
+
+        <intent-filter android:label="Jolocom SmartWallet">
           <data android:scheme="jolocomwallet" android:host="consent" />
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
-        <intent-filter android:label="filter_react_native">
+        <intent-filter android:label="Jolocom SmartWallet">
           <data android:scheme="jolocomwallet" android:host="payment" />
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
-        <intent-filter android:label="filter_react_native">
+        <intent-filter android:label="Jolocom SmartWallet">
           <data android:scheme="jolocomwallet" android:host="authenticate" />
           <action android:name="android.intent.action.VIEW" />
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
       </activity>
+
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
 
       <activity

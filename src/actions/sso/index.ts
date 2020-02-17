@@ -17,8 +17,7 @@ import {
   CredentialVerificationSummary,
   IdentitySummary,
 } from './types'
-import { AppError } from '../../lib/errors'
-import ErrorCode from '../../lib/errorCodes'
+import { AppError, ErrorCode } from 'src/lib/errors'
 import { generateIdentitySummary } from './utils'
 
 export const setReceivingCredential = (

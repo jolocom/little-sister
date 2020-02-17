@@ -33,7 +33,7 @@ exports[`ChooseIssueSection Component matches the snapshot on initial render 1`]
       adjustFrame={[Function]}
       animated={true}
       defaultIndex={-1}
-      defaultValue="Choose related"
+      defaultValue="Select an option"
       disabled={false}
       dropdownStyle={
         Object {
@@ -68,12 +68,12 @@ exports[`ChooseIssueSection Component matches the snapshot on initial render 1`]
       options={
         Array [
           "No internet connection",
-          "Crash",
+          "The app keeps crashing",
           "Can't login",
           "Backup is empty",
-          "Can't reach some elements",
-          "I'm just annoying",
-          "Other reason",
+          "Problems with the interface",
+          "Something doesn't seem right",
+          "Other",
         ]
       }
       renderSeparator={[Function]}
@@ -141,7 +141,7 @@ exports[`ChooseIssueSection Component renders the dropdown with selected border 
       adjustFrame={[Function]}
       animated={true}
       defaultIndex={-1}
-      defaultValue="Choose related"
+      defaultValue="Select an option"
       disabled={false}
       dropdownStyle={
         Object {
@@ -176,12 +176,12 @@ exports[`ChooseIssueSection Component renders the dropdown with selected border 
       options={
         Array [
           "No internet connection",
-          "Crash",
+          "The app keeps crashing",
           "Can't login",
           "Backup is empty",
-          "Can't reach some elements",
-          "I'm just annoying",
-          "Other reason",
+          "Problems with the interface",
+          "Something doesn't seem right",
+          "Other",
         ]
       }
       renderSeparator={[Function]}
