@@ -8,7 +8,7 @@ function logCall(pref: string) {
   return (msg: string) => console.log(`${pref}: ${msg}`)
 }
 
-const BackendMiddleware = require('src/BackendMiddleware').BackendMiddleware
+const BackendMiddleware = require('src/backendMiddleware').BackendMiddleware
 const ormconfig = require('../ormconfig.ts').default
 
 // change type to 'sqlite' instead of 'react-native'
@@ -96,7 +96,8 @@ export default {
   hide: logCall('SplashScreen.hide')
 }
 
-export const generateSecureRandomBytes = require('crypto').randomBytes
+const { randomBytes } = require('crypto')
+export const generateSecureRandomBytes = async (len: number) => randomBytes(len)
 
 export class Linking  {
   static async canOpenURL(url: string) {
