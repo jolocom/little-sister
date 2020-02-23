@@ -56,18 +56,44 @@ export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
         {I18n.t(strings.DOCUMENT_DETAILS_CLAIMS)}
       </Text>
       <View style={styles.claimsContainer}>
-        {Object.keys(document.claimData).map(key =>
-          document.claimData[key] ? (
-            <View key={key} style={styles.claimCard}>
+        {Object.keys(document.claimData).map(key => {
+          const val = document.claimData[key]
+          if (!val) return null
+          let ret
+          if (key == "actions" && val.length > 0) {
+            const actions = val[0]
+            ret = (
+              <View
+                onTouchEnd={() => doAction(action)}
+                style={styles.claimCardTextContainer}
+              >
+                <Icon
+                  size={24}
+                  name={"play"}
+                  color={Colors.golden}
+                />
+                <Text style={styles.claimCardTitle}>{action.name}</Text>
+                <Text style={styles.claimCardData}>
+                  {action.description}
+                </Text>
+              </View>
+            )
+          } else {
+            ret = (
               <View style={styles.claimCardTextContainer}>
                 <Text style={styles.claimCardTitle}>{prepareLabel(key)}</Text>
                 <Text style={styles.claimCardData}>
-                  {document.claimData[key]}
+                  {val.url ? 'WTF' : val}
                 </Text>
               </View>
+            )
+          }
+          return (
+            <View key={key} style={styles.claimCard}>
+            {ret}
             </View>
-          ) : null,
-        )}
+          )
+        })}
       </View>
     </View>
   )

@@ -63,7 +63,8 @@ const categorizedClaims: CategorizedClaims = {
     },
   ],
   // /** @dev FOR TESTING */
-  Other: [],
+  Other: [
+  ],
 }
 
 export const initialState: ClaimsState = {
