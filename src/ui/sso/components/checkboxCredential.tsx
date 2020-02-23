@@ -10,7 +10,7 @@ import {
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
 import { IconToggle } from 'react-native-material-ui'
-import { reject, isEmpty } from 'ramda'
+import { reject, isEmpty, either } from 'ramda'
 
 const styles = StyleSheet.create({
   container: {
@@ -58,10 +58,11 @@ export const CheckboxCredential: React.FC<CheckboxCredentialProps> = props => {
   const selfSigned = did === issuer.did
   const status = { color: selfSigned ? Colors.blackMain040 : Colors.greenMain }
 
+  // TODO: abstract away the claimData printing
   return (
     <View style={styles.container}>
       <View style={styles.claimArea}>
-        {reject(isEmpty, values).map(value => (
+        {reject(either(isEmpty, v => v[0] == '['), values).map(value => (
           <Text style={styles.claimText}>{value}</Text>
         ))}
         <View style={styles.issuerStatusContainer}>

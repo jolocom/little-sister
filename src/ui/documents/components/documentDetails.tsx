@@ -1,11 +1,13 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Linking } from 'react-native'
 import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { DecoratedClaims } from 'src/reducers/account'
 import { prepareLabel } from 'src/lib/util'
 import { Typography, Colors, Spacing } from 'src/styles'
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import { AppError, ErrorCode } from 'src/lib/errors'
 
 interface Props {
   document: DecoratedClaims
@@ -34,6 +36,10 @@ const styles = StyleSheet.create({
   claimCardTextContainer: {
     paddingHorizontal: Spacing.XL,
   },
+  claimCardActionContainer: {
+    width: '100%',
+    flexDirection: 'row',
+  },
   claimCardTitle: {
     ...Typography.baseFontStyles,
     fontSize: Typography.textXS,
@@ -57,44 +63,66 @@ export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
       </Text>
       <View style={styles.claimsContainer}>
         {Object.keys(document.claimData).map(key => {
-          const val = document.claimData[key]
+          let val = document.claimData[key]
           if (!val) return null
           let ret
-          if (key == "actions" && val.length > 0) {
-            const actions = val[0]
-            ret = (
-              <View
-                onTouchEnd={() => doAction(action)}
-                style={styles.claimCardTextContainer}
-              >
-                <Icon
-                  size={24}
-                  name={"play"}
-                  color={Colors.golden}
-                />
-                <Text style={styles.claimCardTitle}>{action.name}</Text>
-                <Text style={styles.claimCardData}>
-                  {action.description}
-                </Text>
-              </View>
-            )
-          } else {
+          if (key !== 'actions') {
             ret = (
               <View style={styles.claimCardTextContainer}>
                 <Text style={styles.claimCardTitle}>{prepareLabel(key)}</Text>
-                <Text style={styles.claimCardData}>
-                  {val.url ? 'WTF' : val}
-                </Text>
+                <Text style={styles.claimCardData}>{val}</Text>
               </View>
             )
+          } else if (key === 'actions') {
+            let actions
+            try {
+              actions = JSON.parse(val)
+            } catch (err) {
+              if (!(err instanceof SyntaxError)) {
+                throw err
+              }
+            }
+
+            if (actions && actions.length > 0) {
+              const action = actions[0]
+              ret = (
+                  <View
+                    onTouchEnd={() => doAction(action)}
+                    style={styles.claimCardActionContainer}
+                  >
+                    <Icon
+                      style={{ marginRight: 18 }}
+                      size={24}
+                      name={'play'}
+                      color={Colors.blackMain}
+                    />
+                    <View style={{flex: 1}}>
+                      <Text style={styles.claimCardTitle}>{action.name}</Text>
+                      <Text style={styles.claimCardData}>{action.description}</Text>
+                    </View>
+                </View>
+              )
+            }
           }
-          return (
+
+          return ret ? (
             <View key={key} style={styles.claimCard}>
-            {ret}
+              {ret}
             </View>
-          )
-        })}
+          ) : null
+        })
+      }
       </View>
     </View>
   )
 }
+
+const doAction = async (action: any) => {
+  console.log('doing action', action)
+  if (!(await Linking.canOpenURL(action.url))) {
+    throw new AppError(ErrorCode.DeepLinkUrlNotFound)
+  }
+  console.log('linking openUrl', action.url)
+  return Linking.openURL(action.url)
+}
+
