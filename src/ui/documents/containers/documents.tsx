@@ -17,6 +17,9 @@ import { DocumentViewToggle } from '../components/documentViewToggle'
 import strings from '../../../locales/strings'
 import { Typography, Colors, Spacing } from 'src/styles'
 import { Wrapper } from '../../structure'
+import { JolocomLib } from 'jolocom-lib'
+import { interactionHandlers } from 'src/lib/storage/interactionTokens'
+import { withLoading, withErrorScreen } from 'src/actions/modifiers'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -86,7 +89,8 @@ export class DocumentsContainer extends React.Component<Props, State> {
   }
 
   public render(): JSX.Element {
-    const { openDocumentDetails, decoratedCredentials } = this.props
+    const { openDocumentDetails, decoratedCredentials, doAction } = this.props
+    console.log('is it though, container', doAction)
     const documents = getDocumentClaims(decoratedCredentials['Other'])
     const docFilter = this.state.showingValid
       ? filters.filterByValid
@@ -129,6 +133,7 @@ export class DocumentsContainer extends React.Component<Props, State> {
             ) : this.state.showingValid ? (
               <DocumentsCarousel
                 documents={displayedDocs}
+                doAction={doAction}
                 activeIndex={this.state.activeDocumentIndex}
                 onActiveIndexChange={this.onActiveIndexChange.bind(this)}
               />
@@ -156,6 +161,22 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   openDocumentDetails: (doc: DecoratedClaims) =>
     dispatch(openDocumentDetails(doc)),
+
+  doAction: async (action: any) => {
+    console.log('doing action', action)
+
+    const credJson = await fetch(action.url).then(res => res.json())
+    const interactionToken = JolocomLib.parse.interactionToken.fromJSON(
+      credJson,
+    )
+    const handler = interactionHandlers[interactionToken.interactionType]
+
+    if (handler) {
+      return dispatch(
+        withLoading(withErrorScreen(handler(interactionToken, true))),
+      )
+    }
+  },
 })
 
 export const Documents = connect(

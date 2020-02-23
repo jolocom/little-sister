@@ -4,11 +4,13 @@ import Carousel from 'react-native-snap-carousel'
 import { DecoratedClaims } from 'src/reducers/account'
 import { DocumentDetailsComponent } from './documentDetails'
 import { DocumentCard, DOCUMENT_CARD_WIDTH } from './documentCard'
+import { AnyAction } from 'redux'
 
 interface DocumentsCarouselProps {
   activeIndex: number
   documents: DecoratedClaims[]
-  onActiveIndexChange: (index: number) => void
+  onActiveIndexChange: (index: number) => void,
+  doAction: (action: any) => Promise<AnyAction | void>
 }
 
 const renderItem = ({ item }: { item: DecoratedClaims }): JSX.Element => (
@@ -19,7 +21,7 @@ export const DocumentsCarousel: React.FC<DocumentsCarouselProps> = (
   props,
 ): JSX.Element => {
   const viewWidth: number = Dimensions.get('window').width
-  const { documents, activeIndex, onActiveIndexChange } = props
+  const { documents, activeIndex, onActiveIndexChange, doAction } = props
 
   return (
     <View style={{ paddingTop: 10 }}>
@@ -32,7 +34,10 @@ export const DocumentsCarousel: React.FC<DocumentsCarouselProps> = (
         layout={'default'}
         onSnapToItem={onActiveIndexChange}
       />
-      <DocumentDetailsComponent document={documents[activeIndex]} />
+      <DocumentDetailsComponent
+        doAction={doAction}
+        document={documents[activeIndex]}
+      />
     </View>
   )
 }

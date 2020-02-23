@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, StyleSheet, Linking } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import { IssuerCard } from 'src/ui/documents/components/issuerCard'
 import { DecoratedClaims } from 'src/reducers/account'
 import { prepareLabel } from 'src/lib/util'
@@ -7,10 +7,12 @@ import { Typography, Colors, Spacing } from 'src/styles'
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
-import { AppError, ErrorCode } from 'src/lib/errors'
+import { AnyAction } from 'redux'
+//import { AppError, ErrorCode } from 'src/lib/errors'
 
 interface Props {
   document: DecoratedClaims
+  doAction: (action: any) => Promise<AnyAction | void>
 }
 
 const styles = StyleSheet.create({
@@ -51,7 +53,10 @@ const styles = StyleSheet.create({
   },
 })
 
-export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
+export const DocumentDetailsComponent: React.FC<Props> = ({
+  document,
+  doAction,
+}) => {
   if (!document) return null
 
   return (
@@ -86,20 +91,22 @@ export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
             if (actions && actions.length > 0) {
               const action = actions[0]
               ret = (
-                  <View
-                    onTouchEnd={() => doAction(action)}
-                    style={styles.claimCardActionContainer}
-                  >
-                    <Icon
-                      style={{ marginRight: 18 }}
-                      size={24}
-                      name={'play'}
-                      color={Colors.blackMain}
-                    />
-                    <View style={{flex: 1}}>
-                      <Text style={styles.claimCardTitle}>{action.name}</Text>
-                      <Text style={styles.claimCardData}>{action.description}</Text>
-                    </View>
+                <View
+                  onTouchEnd={() => doAction(action)}
+                  style={styles.claimCardActionContainer}
+                >
+                  <Icon
+                    style={{ marginRight: 18 }}
+                    size={24}
+                    name={'play'}
+                    color={Colors.blackMain}
+                  />
+                  <View style={{ flex: 1 }}>
+                    <Text style={styles.claimCardTitle}>{action.name}</Text>
+                    <Text style={styles.claimCardData}>
+                      {action.description}
+                    </Text>
+                  </View>
                 </View>
               )
             }
@@ -110,19 +117,21 @@ export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
               {ret}
             </View>
           ) : null
-        })
-      }
+        })}
       </View>
     </View>
   )
 }
 
-const doAction = async (action: any) => {
-  console.log('doing action', action)
-  if (!(await Linking.canOpenURL(action.url))) {
-    throw new AppError(ErrorCode.DeepLinkUrlNotFound)
-  }
-  console.log('linking openUrl', action.url)
-  return Linking.openURL(action.url)
-}
+//const doAction = async (action: any) => {
+//  const url = action.url
+//  console.log('doing action', action)
+//  fetch(action.url).then(res => {
+//    res.json()
+//  if (!(await Linking.canOpenURL(action.url))) {
+//    throw new AppError(ErrorCode.DeepLinkUrlNotFound)
+//  }
+//  console.log('linking openUrl', action.url)
+//  return Linking.openURL(action.url)
+//}
 
