@@ -1,23 +1,26 @@
-import React from 'react'
-import { Wrapper } from '../../structure'
-import { Animated, Platform, StyleSheet, TouchableOpacity } from 'react-native'
-import { ScannerContainer } from './scanner'
-import { NavigationScreenProps } from 'react-navigation'
-import { white } from '../../../styles/colors'
-import { ThunkDispatch } from '../../../store'
-import { showErrorScreen } from '../../../actions/generic'
-import { AppError, ErrorCode } from '../../../lib/errors'
-import { interactionHandlers } from '../../../lib/storage/interactionTokens'
-import { withErrorScreen, withLoading } from '../../../actions/modifiers'
-import { connect } from 'react-redux'
-import { CloseIcon } from '../../../resources'
-import { fontMain, textXXS } from '../../../styles/typography'
-import { navigateBack } from '../../../actions/navigation'
 import {
   JSONWebToken,
   JWTEncodable,
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { Colors } from 'src/styles'
+
+import React from 'react'
+import { connect } from 'react-redux'
+import { Platform, StyleSheet, TouchableOpacity } from 'react-native'
+import { NavigationInjectedProps } from 'react-navigation'
+
+import { ThunkDispatch } from 'src/store'
+import { CloseIcon } from 'src/resources'
+import { AppError, ErrorCode } from 'src/lib/errors'
+import { interactionHandlers } from 'src/lib/storage/interactionTokens'
+
+import { Wrapper } from 'src/ui/structure'
+import { white } from 'src/styles/colors'
+import { fontMain, textXXS } from 'src/styles/typography'
+import { showErrorScreen } from 'src/actions/generic'
+import { withErrorScreen, withLoading } from 'src/actions/modifiers'
+import { navigateBack } from 'src/actions/navigation'
+
+import { ScannerContainer } from './scanner'
 
 const IS_IOS = Platform.OS === 'ios'
 
@@ -50,7 +53,7 @@ const styles = StyleSheet.create({
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
-    NavigationScreenProps {}
+    NavigationInjectedProps {}
 
 const InteractionContainer = (props: Props) => {
   return (
