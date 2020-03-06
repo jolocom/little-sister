@@ -70,6 +70,12 @@ export const Wrapper: React.FC<Props> = props => {
       )
     }
   }
+  if (__DEV__ && props.style) {
+    throw new Error(
+      '<Wrapper> dont care bout yo style. ' +
+      'Look at src/ui/structure/wrapper.tsx',
+    )
+  }
 
   const statusBar = !overlay ? (
     <StatusBar
