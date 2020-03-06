@@ -57,12 +57,11 @@ interface Props
 
 const InteractionContainer = (props: Props) => {
   return (
-    <Wrapper dark withoutSafeArea>
+    <Wrapper dark centered withoutSafeArea>
       {IS_IOS && (
         <TouchableOpacity
           onPress={props.navigateHome}
-          style={styles.closeButton}
-        >
+          style={styles.closeButton}>
           <CloseIcon />
         </TouchableOpacity>
       )}

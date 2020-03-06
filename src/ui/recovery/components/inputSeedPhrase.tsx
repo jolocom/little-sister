@@ -133,10 +133,7 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
     headerText = mnemonic.length + '/12 ' + I18n.t(strings.COMPLETED)
   }
   return (
-    <Wrapper
-      dark
-      breathy={isLoading}
-    >
+    <Wrapper dark centered breathy={isLoading}>
       <Text style={styles.header}>{headerText}</Text>
       <View testID="seedPhraseMsg" style={styles.mnemonicSection}>
         {mnemonic.length === 0 ? (
@@ -151,8 +148,7 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
               style={[
                 styles.mnemonicWord,
                 markedWord === i && { color: Colors.purpleMain },
-              ]}
-            >
+              ]}>
               {word}
             </Text>
           ))

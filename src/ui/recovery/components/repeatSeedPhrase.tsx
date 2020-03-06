@@ -7,9 +7,6 @@ import * as I18n from 'i18n-js'
 import { Colors, Spacing, Typography } from '../../../styles'
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Colors.backgroundDarkMain,
-  },
   container: {
     paddingHorizontal: '5%',
   },
@@ -76,7 +73,7 @@ const RepeatSeedPhraseComponent: React.FC<RepeatSeedPhraseProps> = ({
   const leftShiftCurrentWord =
     (randomWords && randomWords[0] && randomWords[0].length * 7.5) || 0
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper dark centered>
       <View style={styles.container}>
         <View style={styles.mainSection}>
           <View style={styles.noteSection}>
@@ -84,13 +81,11 @@ const RepeatSeedPhraseComponent: React.FC<RepeatSeedPhraseProps> = ({
           </View>
           <View style={styles.mnemonicContainer}>
             <View
-              style={[styles.mnemonicPhrase, { left: -leftShiftCurrentWord }]}
-            >
+              style={[styles.mnemonicPhrase, { left: -leftShiftCurrentWord }]}>
               {randomWords.map((key, i) => (
                 <Text
                   key={key}
-                  style={[styles.mnemonic, i === 0 && styles.currentWord]}
-                >
+                  style={[styles.mnemonic, i === 0 && styles.currentWord]}>
                   {key}
                 </Text>
               ))}

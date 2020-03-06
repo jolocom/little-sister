@@ -112,7 +112,7 @@ export class LandingComponent extends React.Component<Props> {
 
   public render() {
     return (
-      <Wrapper dark withoutSafeArea>
+      <Wrapper dark centered withoutSafeArea>
         <Carousel
           testID="landingCarousel"
           data={landingSlides}

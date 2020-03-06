@@ -40,7 +40,7 @@ export const SeedPhrase: React.SFC<Props> = ({
   seedPhrase,
   handleButtonTap,
 }: Props) => (
-  <Wrapper dark>
+  <Wrapper dark centered>
     <View style={styles.container}>
       <View style={styles.noteSection}>
         <Text style={styles.note}>
