@@ -56,7 +56,7 @@ platform :android do
   end
 
   lane :build do |options|
-    releaseFilePath = File.join(Dir.pwd, "..", "android-secrets", "JoloSmartWallet.keystore")
+    releaseFilePath = File.join(Dir.pwd, "android-secrets", "JoloSmartWallet.keystore")
     build_android_app(task: 'clean')
     begin
       sh("git clone git@infra.jolocom.io:sentry-auth")
@@ -71,7 +71,7 @@ platform :android do
         print_command: false,
       )
     else
-      keyPass = get_secrets
+      keyPass = get_secrets.strip
       build_android_app(
         task: 'assemble',
         build_type: 'Release',
