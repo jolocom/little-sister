@@ -39,25 +39,39 @@ export const ScannerContainer: React.FC<Props> = (props) => {
   const [isError, setError] = useState(false)
   const [colorAnimationValue] = useState(new Animated.Value(0))
   const [textAnimationValue] = useState(new Animated.Value(0))
+  const [scannerRef, setScannerRef] = useState(null)
+
+  // NOTE: this is needed because QRScanner behaves weirdly when the screen is
+  // remounted....
+  if (scannerRef) scannerRef.reactivate()
+
+  const rerender = () => {
+    setRenderKey(Date.now())
+    if (scannerRef) scannerRef.reactivate()
+  }
 
   useEffect(() => {
-    let focusListener!: NavigationEventSubscription
+    let listeners: NavigationEventSubscription[] = []
     if (navigation) {
-      focusListener = navigation.addListener('willFocus', () => {
-        // NOTE: the re-render and the re-mount should only fire during the willFocus event
-        setRenderKey(Date.now())
-      })
+      listeners.push(navigation.addListener('didFocus', () => {
+        rerender()
+        checkCameraPermissions()
+      }))
+    } else {
+      checkCameraPermissions()
     }
 
-    check(CAMERA_PERMISSION).then(perm => {
+    return () => listeners.forEach(l => l.remove())
+  }, [])
+
+  const checkCameraPermissions = async () => {
+    return check(CAMERA_PERMISSION).then(perm => {
       setPermission(perm)
       if (perm !== RESULTS.GRANTED && perm !== RESULTS.BLOCKED) {
         requestCameraPermission()
       }
     })
-
-    return focusListener.remove
-  }, [])
+  }
 
   const requestCameraPermission = async () => {
     const permission = await request(CAMERA_PERMISSION)
@@ -115,7 +129,7 @@ export const ScannerContainer: React.FC<Props> = (props) => {
       }),
     ])
 
-  const parseJWT = (jwt: string) => {
+  const onScan = (jwt: string) => {
     try {
       const interactionToken = JolocomLib.parse.interactionToken.fromJWT(jwt)
       onScannerSuccess(interactionToken)
@@ -124,6 +138,7 @@ export const ScannerContainer: React.FC<Props> = (props) => {
         setError(true)
         Animated.parallel([animateColor(), animateText()]).start(() => {
           setError(false)
+          rerender()
         })
       }
     }
@@ -133,7 +148,8 @@ export const ScannerContainer: React.FC<Props> = (props) => {
     return (
       <ScannerComponent
         reRenderKey={reRenderKey}
-        onScan={parseJWT}
+        onScan={onScan}
+        onScannerRef={r => setScannerRef(r)}
         isTorchPressed={isTorch}
         onPressTorch={(state: boolean) => setTorch(state)}
         isError={isError}
@@ -142,6 +158,7 @@ export const ScannerContainer: React.FC<Props> = (props) => {
       />
     )
   } else if (permission === RESULTS.UNAVAILABLE) {
+    // TODO: maybe add a message here like "do you even camera?"
     return (
       <View
         style={{

@@ -91,6 +91,7 @@ interface Props {
   isTorchPressed: boolean
   onPressTorch: (state: boolean) => void
   reRenderKey: number
+  onScannerRef: (s: any) => void
   isError: boolean
   colorAnimationValue: Animated.Value
   textAnimationValue: Animated.Value
@@ -103,6 +104,7 @@ export const ScannerComponent = (props: Props) => {
     isTorchPressed,
     onPressTorch,
     reRenderKey,
+    onScannerRef,
     colorAnimationValue,
     textAnimationValue,
   } = props
@@ -123,6 +125,7 @@ export const ScannerComponent = (props: Props) => {
   return (
     <React.Fragment>
       <QRScanner
+        ref={onScannerRef}
         //@ts-ignore - see https://github.com/DefinitelyTyped/DefinitelyTyped/issues/29651
         containerStyle={{
           position: 'absolute',
@@ -140,8 +143,7 @@ export const ScannerComponent = (props: Props) => {
       <View
         style={{
           flexDirection: 'row',
-        }}
-      >
+        }}>
         <View style={styles.horizontalOverlay} />
         <Animated.View
           style={[
@@ -165,8 +167,7 @@ export const ScannerComponent = (props: Props) => {
               {
                 opacity: textAnimationValue,
               },
-            ]}
-          >
+            ]}>
             {I18n.t(strings.LOOKS_LIKE_WE_CANT_PROVIDE_THIS_SERVICE)}
           </Animated.Text>
         ) : (
@@ -181,8 +182,7 @@ export const ScannerComponent = (props: Props) => {
           onPressOut={() => onPressTorch(false)}
           activeOpacity={1}
           underlayColor={'transparent'}
-          style={styles.torch}
-        >
+          style={styles.torch}>
           {isTorchPressed ? <TorchOnIcon /> : <TorchOffIcon />}
         </TouchableHighlight>
       </View>
