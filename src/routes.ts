@@ -4,12 +4,12 @@ import { createElement } from 'react'
 import {
   createAppContainer,
   NavigationRoute,
-  NavigationScreenOptions,
   NavigationScreenProp,
 } from 'react-navigation'
 
 import {
-  StackViewTransitionConfigs,
+  //StackViewTransitionConfigs,
+  //NavigationStackOptions,
   createStackNavigator,
 } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
@@ -68,7 +68,7 @@ const headerTitleStyle: StyleProp<TextStyle> = {
   color: Colors.navHeaderTintDefault,
 }
 
-const commonNavigationOptions: NavigationScreenOptions = {
+const commonNavigationOptions = {
   headerTitleStyle,
   headerStyle: {
     backgroundColor: Colors.navHeaderBgDefault,
@@ -80,7 +80,7 @@ const navOptScreenWCancel = {
   ...commonNavigationOptions,
   ...Platform.select({
     android: {
-      headerBackImage,
+      headerBackImage: () => headerBackImage,
     },
     ios: {
       headerTintColor: Colors.purpleMain,
@@ -95,6 +95,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: IdentityIcon,
+      // @ts-ignore
       notifications: NotificationFilter.all,
     },
   },
@@ -104,6 +105,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: DocsIcon,
+      // @ts-ignore
       notifications: NotificationFilter.all,
     },
   },
@@ -113,6 +115,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: HistoryIcon,
+      // @ts-ignore
       notifications: NotificationFilter.onlyDismissible,
     },
   },
@@ -122,6 +125,7 @@ export const BottomTabBarRoutes = {
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: SettingsIcon,
+      // @ts-ignore
       notifications: NotificationFilter.onlyDismissible,
     },
   },
@@ -180,7 +184,9 @@ const MainStack = createStackNavigator(
       screen: InteractionScreen,
       navigationOptions: {
         ...noHeaderNavOpts,
+        // @ts-ignore
         notifications: NotificationFilter.onlyDismissible,
+        // @ts-ignore
         statusBar: false,
       },
     },
@@ -227,6 +233,7 @@ const MainStack = createStackNavigator(
       screen: SeedPhrase,
       navigationOptions: {
         ...noHeaderNavOpts,
+        // @ts-ignore
         notifications: NotificationFilter.none,
       },
     },
@@ -234,6 +241,7 @@ const MainStack = createStackNavigator(
       screen: RepeatSeedPhrase,
       navigationOptions: {
         ...noHeaderNavOpts,
+        // @ts-ignore
         notifications: NotificationFilter.none,
       },
     },
@@ -242,6 +250,7 @@ const MainStack = createStackNavigator(
       screen: Exception,
       navigationOptions: {
         ...noHeaderNavOpts,
+        // @ts-ignore
         notifications: NotificationFilter.none,
       },
     },
@@ -249,6 +258,7 @@ const MainStack = createStackNavigator(
       screen: ErrorReporting,
       navigationOptions: {
         ...noHeaderNavOpts,
+        // @ts-ignore
         notifications: NotificationFilter.none,
       },
     },
@@ -261,6 +271,7 @@ const MainStack = createStackNavigator(
         screen: NotificationScheduler,
         navigationOptions: {
           ...noHeaderNavOpts,
+          // @ts-ignore
           notifications: NotificationFilter.all,
         },
       },
@@ -284,7 +295,7 @@ const MainStack = createStackNavigator(
   },
 )
 
-const MODAL_ROUTES = [routeList.InteractionScreen]
+//const MODAL_ROUTES = [routeList.InteractionScreen]
 
 // NOTE: navigatorReset in actions/navigation assumes that there is only 1
 // StackRouter child at the top level
@@ -297,11 +308,13 @@ export const Routes = createAnimatedSwitchNavigator(
     [routeList.Main]: {
       screen: MainStack,
       navigationOptions: {
+        // @ts-ignore
         notifications: NotificationFilter.onlyDismissible,
       },
     },
     [routeList.Registration]: {
       screen: RegistrationScreens,
+      // @ts-ignore
       notifications: NotificationFilter.none,
     },
   },
