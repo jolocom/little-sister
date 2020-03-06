@@ -34,7 +34,7 @@ export class AppInitContainer extends React.Component<Props> {
     const viewHeight: number = Dimensions.get('window').height
 
     return (
-      <Wrapper dark>
+      <Wrapper dark centered>
         <Image
           source={image}
           style={{

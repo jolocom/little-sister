@@ -16,13 +16,14 @@ import { LocaleSetting } from '../components/localeSetting'
 import SettingItem from '../components/settingItem'
 import settingKeys from '../settingKeys'
 import { showSeedPhrase } from '../../../actions/recovery'
+import { BOTTOM_BAR_HEIGHT } from 'src/ui/navigation/container/bottomBar'
 
 const styles = StyleSheet.create({
   scrollComponent: {
     width: '100%',
   },
   scrollComponentContainer: {
-    paddingBottom: Spacing.XXL,
+    paddingBottom: Spacing.XXL + BOTTOM_BAR_HEIGHT,
   },
   versionNumber: {
     ...Typography.baseFontStyles,

@@ -102,7 +102,7 @@ const DevNotificationScheduler = (props: Props) => {
   }
 
   return (
-    <Wrapper style={{ backgroundColor: iBackgroundWhite }}>
+    <Wrapper>
       <View style={styles.topSection}>
         <View style={styles.inputs}>
           <TextInput
@@ -157,8 +157,7 @@ const DevNotificationScheduler = (props: Props) => {
             paddingVertical: 10,
             flexDirection: 'row',
             justifyContent: 'space-around',
-          }}
-        >
+          }}>
           <View style={styles.config}>
             <ToggleSwitch
               value={interact}
@@ -187,8 +186,7 @@ const DevNotificationScheduler = (props: Props) => {
           />
         </View>
         <View
-          style={{ width: '100%', paddingVertical: 50, alignItems: 'center' }}
-        >
+          style={{ width: '100%', paddingVertical: 50, alignItems: 'center' }}>
           <Text style={[styles.configText, { fontSize: 30 }]}>Queue</Text>
           <Text style={[styles.configText, { fontSize: 30 }]}>
             {notificationQueue.length}

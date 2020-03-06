@@ -19,13 +19,15 @@ import { ThunkDispatch } from '../../../store'
 import { navigationActions } from '../../../actions'
 import { Colors } from '../../../styles'
 
+export const BOTTOM_BAR_HEIGHT = 110
+
 const { width } = Dimensions.get('window')
 
 /* Calculation of the bottom bar size and position relative to the original SVG */
 
 // Width and height of the total bottom bar original svg
 const SVG_BAR_WIDTH = 414
-const SVG_BAR_HEIGHT = 110
+const SVG_BAR_HEIGHT = BOTTOM_BAR_HEIGHT
 // The visible height of the original bar svg (the difference is the SafeView
 // for iOS devices newer than iPhone X
 const VISIBLE_ORIGINAL_BAR_HEIGHT = 80
