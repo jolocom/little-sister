@@ -8,11 +8,11 @@ import { withLoading } from '../../../actions/modifiers'
 import { ThunkDispatch } from '../../../store'
 import { Wrapper } from 'src/ui/structure'
 
-interface Props
+export interface ClaimsContainerProps
   extends ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps> {}
 
-export const ClaimsContainer = (props: Props) => {
+export const ClaimsContainer = (props: ClaimsContainerProps) => {
   const { did, claimsState, openClaimDetails } = props
 
   return (
