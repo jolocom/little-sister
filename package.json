@@ -167,7 +167,7 @@
     "react-native-localize": "^1.3.3",
     "react-native-material-textfield": "^0.14.1",
     "react-native-material-ui": "^1.30.0",
-    "react-native-modal-dropdown": "^0.7.0",
+    "react-native-modal-dropdown": "jolocom/react-native-modal-dropdown",
     "react-native-permissions": "^2.0.9",
     "react-native-qrcode-scanner": "^1.3.1",
     "react-native-randombytes": "^3.5.3",
