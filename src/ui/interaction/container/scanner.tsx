@@ -1,3 +1,4 @@
+import QRScanner from 'react-native-qrcode-scanner'
 import React, { useEffect, useState } from 'react'
 import {
   Animated,
@@ -31,6 +32,8 @@ const CAMERA_PERMISSION = Platform.select({
   ios: PERMISSIONS.IOS.CAMERA
 }) as Permission
 
+const AFTER_ERROR_COOLDOWN_MS = 250
+
 export const ScannerContainer: React.FC<Props> = (props) => {
   const { onScannerSuccess, navigation } = props
   const [reRenderKey, setRenderKey] = useState(Date.now())
@@ -39,29 +42,30 @@ export const ScannerContainer: React.FC<Props> = (props) => {
   const [isError, setError] = useState(false)
   const [colorAnimationValue] = useState(new Animated.Value(0))
   const [textAnimationValue] = useState(new Animated.Value(0))
-  const [scannerRef, setScannerRef] = useState(null)
+  const [scannerRef, setScannerRef] = useState<QRScanner|null>(null)
+
+  const reactivate = () => scannerRef && scannerRef.reactivate()
 
   // NOTE: this is needed because QRScanner behaves weirdly when the screen is
   // remounted....
-  if (scannerRef) scannerRef.reactivate()
+  if (!isError) reactivate()
 
   const rerender = () => {
     setRenderKey(Date.now())
-    if (scannerRef) scannerRef.reactivate()
+    reactivate()
   }
 
   useEffect(() => {
-    let listeners: NavigationEventSubscription[] = []
+    let listener: NavigationEventSubscription | undefined
     if (navigation) {
-      listeners.push(navigation.addListener('didFocus', () => {
+      listener = navigation.addListener('didFocus', () => {
         rerender()
         checkCameraPermissions()
-      }))
-    } else {
-      checkCameraPermissions()
+      })
     }
+    checkCameraPermissions()
 
-    return () => listeners.forEach(l => l.remove())
+    return () => listener && listener.remove()
   }, [])
 
   const checkCameraPermissions = async () => {
@@ -134,13 +138,11 @@ export const ScannerContainer: React.FC<Props> = (props) => {
       const interactionToken = JolocomLib.parse.interactionToken.fromJWT(jwt)
       onScannerSuccess(interactionToken)
     } catch (e) {
-      if (e instanceof SyntaxError) {
-        setError(true)
-        Animated.parallel([animateColor(), animateText()]).start(() => {
-          setError(false)
-          rerender()
-        })
-      }
+      setError(true)
+      Animated.parallel([animateColor(), animateText()]).start(() => {
+        setError(false)
+        setTimeout(reactivate, AFTER_ERROR_COOLDOWN_MS)
+      })
     }
   }
 
