@@ -70,6 +70,7 @@ export const Wrapper: React.FC<Props> = props => {
       )
     }
   }
+  // @ts-ignore
   if (__DEV__ && props.style) {
     throw new Error(
       '<Wrapper> dont care bout yo style. ' +

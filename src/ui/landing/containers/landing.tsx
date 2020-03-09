@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { LandingComponent } from 'src/ui/landing/components/landing'
 import { navigationActions } from 'src/actions/'
 import { ThunkDispatch } from 'src/store'
-import { StatusBar } from 'react-native'
 import { routeList } from '../../../routeList'
 
 interface Props extends ReturnType<typeof mapDispatchToProps> {}

@@ -11,7 +11,7 @@ import {
 import { scheduleNotification } from '../../../actions/notifications'
 import { connect } from 'react-redux'
 import { Wrapper, JolocomButton } from '../../structure'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { debug } from '../../../styles/presets'
 import { RootState } from '../../../reducers'
 import { fontMain } from '../../../styles/typography'
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
 })
 
 interface Props
-  extends NavigationScreenProps,
+  extends NavigationInjectedProps,
     ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps> {}
 

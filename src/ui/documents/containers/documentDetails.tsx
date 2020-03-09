@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { View, StyleSheet, ScrollView } from 'react-native'
 import { ClaimInterface } from 'cred-types-jolocom-core'
 import { RootState } from 'src/reducers/'
@@ -12,7 +12,7 @@ import { Colors, Spacing } from 'src/styles'
 
 interface Props
   extends ReturnType<typeof mapStateToProps>,
-    NavigationScreenProps {}
+    NavigationInjectedProps {}
 
 interface State {}
 
@@ -31,7 +31,7 @@ export class DocumentDetailsContainer extends React.Component<Props, State> {
   public static navigationOptions = ({
     navigation,
     navigationOptions,
-  }: NavigationScreenProps) => ({
+  }: NavigationInjectedProps) => ({
     ...navigationOptions,
     // FIXME needs to be changed to this on update to react-navigation
     // headerTitle: navigation.getParam('headerTitle', ''),

@@ -12,7 +12,6 @@ import { withErrorScreen } from 'src/actions/modifiers'
 import { ThunkDispatch } from 'src/store'
 import { AppError, ErrorCode } from '../../../lib/errors'
 import { routeList } from 'src/routeList'
-import { StatusBar } from 'react-native'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,

@@ -168,12 +168,12 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
               //@ts-ignore textAlign is missing in the typings of TextInput
               <TextInput
                 testID="seedWordFld"
-                textAlign={'center'}
                 ref={inputRef}
                 autoCapitalize={'none'}
                 autoCorrect={false}
                 style={[
                   styles.textInput,
+                  { textAlign: 'center' },
                   inputState === WordState.wrong
                     ? styles.error
                     : styles.correct,
