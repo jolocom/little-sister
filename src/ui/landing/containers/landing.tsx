@@ -5,35 +5,38 @@ import { navigationActions } from 'src/actions/'
 import { ThunkDispatch } from 'src/store'
 import { StatusBar } from 'react-native'
 import { routeList } from '../../../routeList'
+import { withInternet } from '../../../actions/modifiers'
 
 interface Props extends ReturnType<typeof mapDispatchToProps> {}
 
-export class LandingContainer extends React.Component<Props> {
-  public render(): JSX.Element {
-    return (
-      <React.Fragment>
-        <StatusBar barStyle="light-content" />
-        <LandingComponent
-          handleGetStarted={this.props.getStarted}
-          handleRecover={this.props.recoverIdentity}
-        />
-      </React.Fragment>
-    )
-  }
+export const LandingContainer = (props: Props): JSX.Element => {
+  return (
+    <React.Fragment>
+      <StatusBar barStyle="light-content" />
+      <LandingComponent
+        handleGetStarted={props.getStarted}
+        handleRecover={props.recoverIdentity}
+      />
+    </React.Fragment>
+  )
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   getStarted: () =>
     dispatch(
-      navigationActions.navigate({
-        routeName: routeList.Entropy,
-      }),
+      withInternet(
+        navigationActions.navigate({
+          routeName: routeList.Entropy,
+        }),
+      ),
     ),
   recoverIdentity: () =>
     dispatch(
-      navigationActions.navigate({
-        routeName: routeList.InputSeedPhrase,
-      }),
+      withInternet(
+        navigationActions.navigate({
+          routeName: routeList.InputSeedPhrase,
+        }),
+      ),
     ),
 })
 

@@ -18,6 +18,13 @@ export const uiCredentialTypeByType: { [key: string]: string } = {
   ProofOfPostalAddressCredential: CredentialTypes.PostalAddress,
 }
 
+export const uiCredentialFromType = (type: string) => {
+  const uiType = uiCredentialTypeByType[type]
+  return uiType ? uiType : type
+}
+
+export const localCredentialTypes = Object.keys(uiCredentialTypeByType)
+
 export const uiCategoryByCredentialType: { [key: string]: string[] } = {
   Contact: [
     CredentialTypes.Email,

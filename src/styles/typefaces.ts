@@ -57,7 +57,7 @@ export const title2 = {
   }),
   fontSize: BP({
     small: 26,
-    medium: 28,
+    medium: 26,
     large: 28,
   }),
   lineHeight: BP({

@@ -54,6 +54,11 @@ exports[`ClaimDetails component matches the snapshot on render 1`] = `
       }
     >
       <JolocomButton
+        containerStyle={
+          Object {
+            "height": 48,
+          }
+        }
         disabled={false}
         onPress={[Function]}
         text="Add claim"
@@ -124,6 +129,11 @@ exports[`ClaimDetails component matches the snapshot on render with multi-line c
       }
     >
       <JolocomButton
+        containerStyle={
+          Object {
+            "height": 48,
+          }
+        }
         disabled={false}
         onPress={[Function]}
         text="Add claim"

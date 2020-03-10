@@ -64,7 +64,6 @@ export const SeedPhrase: React.SFC<Props> = ({
         <JolocomButton
           onPress={handleButtonTap}
           text={I18n.t(strings.YES_I_WROTE_IT_DOWN)}
-          containerStyle={{ height: 56 }}
         />
       </View>
     </View>

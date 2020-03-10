@@ -1,8 +1,13 @@
 import { ActionCreator, AnyAction } from 'redux'
+import NetInfo from '@react-native-community/netinfo'
 import { ThunkAction } from 'src/store'
-import { AppError } from '../lib/errors'
+import { AppError, ErrorCode } from '../lib/errors'
 import { toggleLoading } from './account'
 import { showErrorScreen } from './generic'
+import {
+  scheduleErrorNotification,
+  scheduleOfflineNotification,
+} from './notifications/creators'
 
 /**
  * Curried function that wraps a {@link ThunkAction} with two calls to the provided loadingAction
@@ -23,6 +28,22 @@ export const withLoadingHandler = (loadingAction: ActionCreator<AnyAction>) => (
     // down, which will flash the old screen shortly
     setTimeout(() => dispatch(loadingAction(false)), 100)
   }
+}
+
+/**
+ * Curried function that wraps a {@link ThunkAction} with a notification on internet connection absence
+ * @param notificationAction - The action that should schedule a notification when there is no connection present
+ * @param wrappedAction - The thunkAction to be wrapped
+ * @example dispatch(withInternet((saveClaims))
+ */
+export const withInternetHandler = (notificationAction: ThunkAction) => (
+  wrappedAction: ThunkAction,
+): ThunkAction => async dispatch => {
+  const state = await NetInfo.fetch()
+  if (!state.isConnected) {
+    return dispatch(notificationAction)
+  }
+  return dispatch(wrappedAction)
 }
 
 type ErrorModifier = (error: AppError | Error) => AppError
@@ -52,5 +73,18 @@ export const withErrorHandler = (
   }
 }
 
+const showErrorNotification = (
+  error: AppError | Error,
+): ThunkAction => dispatch => {
+  const appError: AppError =
+    error.constructor === AppError
+      ? (error as AppError)
+      : new AppError(ErrorCode.Unknown, error)
+
+  return dispatch(scheduleErrorNotification(appError))
+}
+
 export const withLoading = withLoadingHandler(toggleLoading)
 export const withErrorScreen = withErrorHandler(showErrorScreen)
+export const withInternet = withInternetHandler(scheduleOfflineNotification)
+export const withErrorNotification = withErrorHandler(showErrorNotification)

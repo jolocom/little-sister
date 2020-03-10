@@ -4,7 +4,11 @@ import { connect } from 'react-redux'
 import { ThunkDispatch } from 'src/store'
 import { navigationActions, accountActions, genericActions } from 'src/actions'
 import { Linking, Dimensions, Image, StyleSheet, Text } from 'react-native'
-import { withLoading, withErrorHandler } from 'src/actions/modifiers'
+import {
+  withLoading,
+  withErrorHandler,
+  withInternet,
+} from 'src/actions/modifiers'
 import { Wrapper } from '../structure'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import { showErrorScreen } from 'src/actions/generic'
@@ -65,7 +69,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
     await dispatch(checkRecoverySetup)
     const handleDeepLink = (url: string) =>
       dispatch(
-        withLoading(withErrorScreen(navigationActions.handleDeepLink(url))),
+        withInternet(
+          withLoading(withErrorScreen(navigationActions.handleDeepLink(url))),
+        ),
       )
 
     // FIXME: get rid of these after setting up deepLinking properly using

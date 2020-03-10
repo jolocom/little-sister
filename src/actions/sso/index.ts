@@ -4,7 +4,11 @@ import { navigationActions } from 'src/actions'
 import { routeList } from 'src/routeList'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import { getUiCredentialTypeByType } from 'src/lib/util'
-import { convertToDecoratedClaim, resetSelected } from '../account'
+import {
+  convertToDecoratedClaim,
+  resetSelected,
+  saveExternalCredentials,
+} from '../account'
 import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
 import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRequest'
@@ -19,6 +23,16 @@ import {
 } from './types'
 import { AppError, ErrorCode } from 'src/lib/errors'
 import { generateIdentitySummary } from './utils'
+import { ErrorScreenParams } from '../../ui/errors/containers/errorScreen'
+import { scheduleNotification } from '../notifications'
+import { createInfoNotification, Notification } from '../../lib/notifications'
+import I18n from 'src/locales/i18n'
+import strings from '../../locales/strings'
+import {
+  localCredentialTypes,
+  uiCredentialFromType,
+} from '../../lib/categories'
+import { intersection, isEmpty, compose, equals, complement } from 'ramda'
 
 export const setReceivingCredential = (
   requester: IdentitySummary,
@@ -130,6 +144,42 @@ export const consumeCredentialRequest = (
   const attributesForType = await Promise.all<AttributeSummary>(
     requestedTypes.map(storageLib.get.attributesByType),
   )
+  const missingTypes = missingAttributeTypes(attributesForType)
+
+  if (!isEmpty(missingTypes)) {
+    const uiMissingCredentialTypes = missingTypes.map(uiCredentialFromType)
+
+    const notification: Notification = createInfoNotification({
+      dismiss: {
+        timeout: 6000,
+      },
+      title: I18n.t(strings.HMM_LOOKS_LIKE_YOURE_MISSING_SOMETHING),
+      message:
+        I18n.t(strings.YOU_DO_NOT_HAVE_THE_FOLLOWING_RECORDS_TO_SEND) +
+        uiMissingCredentialTypes.join(', '),
+    })
+
+    const notificationWithInteraction = {
+      ...notification,
+      interact: {
+        label: I18n.t(strings.ADD_INFO),
+        onInteract: () => {
+          dispatch(navigationActions.navigate({ routeName: routeList.Claims }))
+        },
+      },
+    }
+
+    const anyExternalCred = compose(
+      complement(equals(missingTypes)),
+      intersection(localCredentialTypes),
+    )(missingTypes)
+
+    return dispatch(
+      scheduleNotification(
+        anyExternalCred ? notification : notificationWithInteraction,
+      ),
+    )
+  }
 
   const populatedWithCredentials = await Promise.all(
     attributesForType.map(async entry => {
@@ -225,18 +275,67 @@ export const sendCredentialResponse = (
 
     return Linking.openURL(callback).then(() => dispatch(cancelSSO))
   }
+
   await fetch(callbackURL, {
     method: 'POST',
     body: JSON.stringify({ token: response.encode() }),
     headers: { 'Content-Type': 'application/json' },
   })
-  dispatch(cancelSSO)
+
+  dispatch(
+    scheduleNotification(
+      createInfoNotification({
+        title: I18n.t(strings.GREAT_SUCCESS),
+        message: I18n.t(strings.YOU_HAVE_SECURELY_SHARED_YOUR_SELECTED_RECORDS),
+      }),
+    ),
+  )
+
+  dispatch(
+    navigationActions.navigate({ routeName: routeList.InteractionScreen }),
+  )
 }
 
 export const cancelSSO: ThunkAction = dispatch =>
   dispatch(navigationActions.navigatorResetHome())
 
 export const cancelReceiving: ThunkAction = dispatch => {
-  dispatch(resetSelected())
-  return dispatch(navigationActions.navigatorResetHome())
+  const params: ErrorScreenParams = {
+    title: 'Are you sure about that?',
+    message:
+      'To get this document again - you have to start the whole process from the very first step',
+    interact: {
+      label: 'Save',
+      onInteract: () => {
+        dispatch(saveExternalCredentials)
+      },
+    },
+    dismiss: {
+      label: 'Decline anyway',
+      onDismiss: () => {
+        dispatch(resetSelected())
+        dispatch(
+          navigationActions.navigate({
+            routeName: routeList.InteractionScreen,
+          }),
+        )
+      },
+    },
+  }
+
+  return dispatch(
+    navigationActions.navigate({
+      routeName: routeList.ErrorScreen,
+      params,
+    }),
+  )
 }
+
+const missingAttributeTypes = (attr: AttributeSummary[]) =>
+  attr.reduce<string[]>((missing, attribute) => {
+    if (isEmpty(attribute.results)) {
+      const type = attribute.type
+      missing.push(type[type.length - 1])
+    }
+    return missing
+  }, [])

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   StyleSheet,
   Text,
@@ -6,8 +6,10 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native'
-import { Buttons, Colors } from 'src/styles'
+import { Buttons } from 'src/styles'
 import LinearGradient from 'react-native-linear-gradient'
+import { fontMedium } from '../../styles/typography'
+import { useNetInfo } from '@react-native-community/netinfo'
 
 const styles = StyleSheet.create({
   container: {
@@ -15,9 +17,10 @@ const styles = StyleSheet.create({
   },
   text: {
     ...Buttons.buttonStandardText,
+    fontFamily: fontMedium,
   },
   disabledText: {
-    ...Buttons.buttonDisabledStandardText,
+    opacity: 0.25,
   },
   gradientWrapper: {
     flex: 1,
@@ -48,9 +51,7 @@ export const JolocomButton: React.FC<Props> = props => {
     testID,
   } = props
   const onButtonPress = () => (disabled ? null : onPress())
-  const gradientColors = disabled
-    ? [Colors.disabledButtonBackground, Colors.disabledButtonBackground]
-    : ['rgb(145, 25, 66)', 'rgb(210, 45, 105)']
+  const gradientColors = ['rgb(145, 25, 66)', 'rgb(210, 45, 105)']
   const gradient = transparent ? ['transparent', 'transparent'] : gradientColors
 
   return (
@@ -69,10 +70,33 @@ export const JolocomButton: React.FC<Props> = props => {
         testID={testID}
         style={styles.gradientWrapper}
       >
-        <Text style={[disabled ? styles.disabledText : styles.text, textStyle]}>
+        <Text style={[styles.text, textStyle, disabled && styles.disabledText]}>
           {text}
         </Text>
       </TouchableOpacity>
     </LinearGradient>
+  )
+}
+
+/***
+ * A wrapper around JolocomButton which becomes disabled after pressed if there
+ * is no connection. When the connection is resumed, the button becomes enabled again.
+ * @param props: same as JolocomButton props
+ */
+export const OnlineJolocomButton: React.FC<Props> = props => {
+  const isOnline = useNetInfo().isConnected
+  const [wasPressed, setPressed] = useState(false)
+
+  const modOnPress = () => {
+    setPressed(true)
+    props.onPress()
+  }
+
+  return (
+    <JolocomButton
+      {...props}
+      onPress={modOnPress}
+      disabled={wasPressed && !isOnline}
+    />
   )
 }

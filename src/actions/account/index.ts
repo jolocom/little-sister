@@ -17,6 +17,11 @@ import { Not } from 'typeorm'
 import { HAS_EXTERNAL_CREDENTIALS } from './actionTypes'
 import { BackendError } from 'src/backendMiddleware'
 import { checkRecoverySetup } from '../notifications/checkRecoverySetup'
+import { scheduleNotification } from '../notifications'
+import {
+  createInfoNotification,
+  Notification,
+} from '../../lib/notifications'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -126,8 +131,24 @@ export const saveExternalCredentials: ThunkAction = async (
   await storageLib.delete.verifiableCredential(cred.id)
   await storageLib.store.verifiableCredential(cred)
   await dispatch(checkRecoverySetup)
+  await dispatch(setClaimsForDid)
 
-  return dispatch(cancelReceiving)
+  const notification: Notification = createInfoNotification({
+    title: 'Great success!',
+    message: 'You can find your new credential at the documents',
+    interact: {
+      label: 'Open',
+      onInteract: () => {
+        dispatch(navigationActions.navigate({ routeName: routeList.Documents }))
+      },
+    },
+  })
+
+  dispatch(scheduleNotification(notification))
+
+  return dispatch(
+    navigationActions.navigate({ routeName: routeList.InteractionScreen }),
+  )
 }
 
 export const toggleLoading = (value: boolean) => ({

@@ -158,6 +158,7 @@ export class ClaimDetailsComponent extends React.Component<Props, State> {
                 onPress={() => this.onSubmit()}
                 text={I18n.t(strings.ADD_CLAIM)}
                 disabled={!!this.confirmationEligibilityCheck()}
+                containerStyle={{ height: 48 }}
               />
             ) : null}
           </View>

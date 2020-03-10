@@ -82,12 +82,38 @@ const notifications = {
   CONFIRMATION_IS_NOT_COMPLETE: 'Confirmation is not complete',
   YOUR_DATA_MAY_BE_LOST_BECAUSE_YOU_DID_NOT_CONFIRM_THE_SEED_PHRASE_WE_ADVISE_YOU_TO_COMPLETE_THE_REGISTRATION:
     'Your data may be lost because you did not confirm the seed phrase. We advise you to complete the registration.',
+  GREAT_SUCCESS: 'Great success!',
+  UH_OH_YOURE_NOT_CONNECTED: 'Uh oh… you’re not connected!',
+  WE_CANT_REGISTER_YOU_IF_YOU_DONT_HAVE_INTERNET_PLEASE_CHECK_YOUR_CONNECTION_AND_TRY_AGAIN:
+    'We can’t register you if you don’t have internet. Please check your connection and try again.',
+  WHOOPS: 'Whoops...',
+  ITS_NOT_YOU_ITS_US_PLEASE_LET_US_KNOW_IF_YOURE_EXPERIENCING_THIS_ERROR_BY_FILING_A_REPORT:
+    "It's not you, it's us. Please, let us know if you're experiencing this error by filing a report",
+  REPORT: 'Report',
+  YIKES: 'Yikes!',
+  LOOKS_LIKE_YOU_HAVE_THE_WRONG_SEED_PHRASE_PLEASE_GO_BACK_AND_TRY_AGAIN:
+    'Looks like you have the wrong seed phrase. Please go back and try again.',
+  HMM_LOOKS_LIKE_YOURE_MISSING_SOMETHING:
+    "Hmm... looks like you're missing something",
+  YOU_DO_NOT_HAVE_THE_FOLLOWING_RECORDS_TO_SEND:
+    'You do not have the following record(s) to send: \n',
+  ADD_INFO: 'Add info',
+  YOU_HAVE_SECURELY_SHARED_YOUR_SELECTED_RECORDS:
+    'You have securely shared your selected record(s)',
 }
 
 const errorTitle = {
   DAMN: 'Damn',
   OH_NO: 'Oh no',
   UH_OH: 'Uh oh',
+}
+
+const errorScreen = {
+  DID_YOU_FORGET_YOUR_SEED_PHRASE: 'Did you forget your seed phrase?',
+  BECAUSE_WEVE_NEVER_SEEN_THAT_ONE_BEFORE_PLEASE_TRY_AGAIN_WITH_A_DIFFERENT_SEED_PHRASE:
+    "Because we've never seen that one before! Please try again with a different seed phrase.",
+  START_OVER: 'Start over',
+  CREATE_NEW_PROFILE: 'Create new profile',
 }
 
 const errorReporting = {
@@ -143,6 +169,7 @@ export default {
   ...settings,
   ...backup,
   ...errorTitle,
+  ...errorScreen,
   ...errorCodes,
   ...errorReporting,
   ...notifications,

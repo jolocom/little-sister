@@ -17,13 +17,13 @@ import strings from '../../../locales/strings'
 import { SectionWrapper } from '../components/sectionWrapper'
 import { NavigationSection } from '../components/navigationSection'
 
-interface PaymentNavigationParams {
+interface NavigationParams {
   error?: AppError | Error
   previousScreen: routeList
 }
 
 interface Props extends ReturnType<typeof mapDispatchToProps> {
-  navigation: NavigationScreenProp<NavigationState, PaymentNavigationParams>
+  navigation: NavigationScreenProp<NavigationState, NavigationParams>
 }
 
 export enum Inputs {
@@ -122,7 +122,6 @@ const ErrorReportingContainer = (props: Props) => {
             marginTop: 45,
             marginBottom: 66,
             marginHorizontal: 20,
-            height: 56,
           }}
           text={I18n.t(strings.SUBMIT_REPORT)}
         />

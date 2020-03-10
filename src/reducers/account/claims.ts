@@ -1,15 +1,16 @@
 import { AnyAction } from 'redux'
 import {
-  ClaimsState,
   CategorizedClaims,
+  ClaimsState,
   DecoratedClaims,
 } from 'src/reducers/account'
 import { HAS_EXTERNAL_CREDENTIALS } from '../../actions/account/actionTypes'
+import { CredentialTypes } from '../../lib/categories'
 
 const categorizedClaims: CategorizedClaims = {
   Personal: [
     {
-      credentialType: 'Name',
+      credentialType: CredentialTypes.Name,
       claimData: {
         givenName: '',
         familyName: '',
@@ -23,7 +24,7 @@ const categorizedClaims: CategorizedClaims = {
   ],
   Contact: [
     {
-      credentialType: 'Email',
+      credentialType: CredentialTypes.Email,
       claimData: {
         email: '',
       },
@@ -35,7 +36,7 @@ const categorizedClaims: CategorizedClaims = {
       keyboardType: 'email-address',
     },
     {
-      credentialType: 'Mobile Phone',
+      credentialType: CredentialTypes.MobilePhone,
       claimData: {
         telephone: '',
       },
@@ -47,7 +48,7 @@ const categorizedClaims: CategorizedClaims = {
       keyboardType: 'phone-pad',
     },
     {
-      credentialType: 'Postal Address',
+      credentialType: CredentialTypes.PostalAddress,
       claimData: {
         addressLine1: '',
         addressLine2: '',

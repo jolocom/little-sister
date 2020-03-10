@@ -1,13 +1,21 @@
 import { Colors, Typography, Spacing } from 'src/styles'
-import { textSM } from './typography'
+import { BP } from './breakpoints'
 
 export const buttonStandardContainer = {
-  height: 48,
+  height: BP({
+    small: 45,
+    medium: 56,
+    large: 56,
+  }),
   borderRadius: 8,
 }
 
 export const buttonStandardText = {
-  fontSize: textSM,
+  fontSize: BP({
+    small: 18,
+    medium: 20,
+    large: 20,
+  }),
   // React Material Button uses a default weight, 500, that isn't supported by
   // our font on Android, so we must manually define it here
   // 2019-08-07: currently different fontWeights have no effect

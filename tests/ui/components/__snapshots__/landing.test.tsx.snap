@@ -79,10 +79,9 @@ exports[`landing component matches the snapshot on render 1`] = `
       }
     }
   >
-    <JolocomButton
+    <OnlineJolocomButton
       containerStyle={
         Object {
-          "height": 56,
           "width": "100%",
         }
       }
@@ -90,7 +89,113 @@ exports[`landing component matches the snapshot on render 1`] = `
       testID="getStarted"
       text="Get started"
     />
-    <JolocomButton
+    <OnlineJolocomButton
+      containerStyle={
+        Object {
+          "height": 48,
+          "marginTop": 12,
+          "width": "100%",
+        }
+      }
+      onPress={[MockFunction]}
+      testID="recoverIdentity"
+      text="Recover identity"
+      transparent={true}
+    />
+  </View>
+</Wrapper>
+`;
+
+exports[`landing component renders with disabled buttons when there is no connection 1`] = `
+<Wrapper
+  style={
+    Object {
+      "backgroundColor": "rgb(5, 5, 13)",
+    }
+  }
+>
+  <Carousel
+    activeAnimationOptions={null}
+    activeAnimationType="timing"
+    activeSlideAlignment="center"
+    activeSlideOffset={20}
+    apparitionDelay={0}
+    autoplay={true}
+    autoplayDelay={5000}
+    autoplayInterval={5000}
+    callbackOffsetMargin={5}
+    containerCustomStyle={Object {}}
+    contentContainerCustomStyle={Object {}}
+    data={
+      Array [
+        Object {
+          "bgImage": <Landing00 />,
+          "infoText": "Take back control of your digital self and protect your private data against unfair usage.",
+          "title": "Your Jolocom Wallet",
+        },
+        Object {
+          "bgImage": <Landing01 />,
+          "infoText": "Forget about long forms and registrations. Instantly access services without using your social media profiles.",
+          "title": "It's easy",
+        },
+        Object {
+          "bgImage": <Landing03 />,
+          "infoText": "Share only the information a service really needs. Protect your digital self against fraud.",
+          "title": "Enhanced privacy",
+        },
+        Object {
+          "bgImage": <Landing02 />,
+          "infoText": "Keep all your data with you in one place, available at any time. Track where you sign in to services.",
+          "title": "Greater control",
+        },
+      ]
+    }
+    enableMomentum={false}
+    enableSnap={true}
+    firstItem={0}
+    hasParallaxImages={false}
+    inactiveSlideOpacity={0.7}
+    inactiveSlideScale={0.9}
+    inactiveSlideShift={0}
+    itemWidth={750}
+    layout="default"
+    lockScrollTimeoutDuration={1000}
+    lockScrollWhileSnapping={true}
+    loop={true}
+    loopClonesPerSide={3}
+    renderItem={[Function]}
+    scrollEnabled={true}
+    scrollInterpolator={[Function]}
+    shouldOptimizeUpdates={true}
+    slideInterpolatedStyle={[Function]}
+    slideStyle={Object {}}
+    sliderWidth={750}
+    swipeThreshold={20}
+    testID="landingCarousel"
+    useScrollView={false}
+    vertical={false}
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "bottom": "5%",
+        "position": "absolute",
+        "width": "85%",
+      }
+    }
+  >
+    <OnlineJolocomButton
+      containerStyle={
+        Object {
+          "width": "100%",
+        }
+      }
+      onPress={[MockFunction]}
+      testID="getStarted"
+      text="Get started"
+    />
+    <OnlineJolocomButton
       containerStyle={
         Object {
           "height": 48,

@@ -91,6 +91,7 @@
 		<string>Zocial.ttf</string>
 		<string>TTCommons-Light.otf</string>
 		<string>TTCommons-Medium.otf</string>
+		<string>TTCommons-Bold.otf</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>Launch Screen</string>

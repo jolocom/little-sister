@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Text, TextInput, View, Platform } from 'react-native'
-import { Wrapper } from '../../structure'
+import { JolocomButton, OnlineJolocomButton, Wrapper } from '../../structure'
 import { Button } from 'react-native-material-ui'
 import { Colors, Spacing, Typography, Buttons } from 'src/styles'
 import {
@@ -11,11 +11,11 @@ import {
 } from 'src/resources'
 import { WordState } from '../container/inputSeedPhrase'
 import Rotation from '../../animation/Rotation'
-import { TransparentButton } from '../../structure/transparentButton'
 // @ts-ignore
 import { RippleLoader } from 'react-native-indicator'
 import strings from '../../../locales/strings'
 import I18n from 'i18n-js'
+import { sandLight } from '../../../styles/colors'
 
 const styles = StyleSheet.create({
   container: {
@@ -256,25 +256,26 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
           <View style={{ flex: 2 }} />
           <View style={styles.buttonSection}>
             {isMnemonicValid && (
-              <Button
+              <OnlineJolocomButton
                 testID="restoreAccount"
-                disabled={!isMnemonicValid}
-                onPress={isMnemonicValid ? handleButtonPress : undefined}
-                raised
-                upperCase={false}
+                onPress={handleButtonPress}
                 text={I18n.t(strings.RESTORE_ACCOUNT)}
-                style={{
-                  container: {
-                    marginHorizontal: 30,
-                    ...Buttons.buttonStandardContainer,
-                  },
-                  text: Buttons.buttonStandardText,
+                containerStyle={{
+                  marginHorizontal: 30,
+                  ...Buttons.buttonStandardContainer,
                 }}
+                textStyle={Buttons.buttonStandardText}
               />
             )}
-            <TransparentButton
+            <JolocomButton
               onPress={handleBackButton}
-              style={{ marginHorizontal: 30, paddingVertical: 10 }}
+              transparent
+              containerStyle={{
+                marginTop: 12,
+                marginHorizontal: 30,
+                borderColor: sandLight,
+                ...(!isMnemonicValid && { borderWidth: 1 }),
+              }}
               text={I18n.t(strings.BACK_TO_SIGNUP)}
             />
           </View>

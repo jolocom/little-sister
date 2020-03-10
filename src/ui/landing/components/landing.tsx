@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Dimensions, View, Text, Animated } from 'react-native'
-import { JolocomButton, Wrapper } from 'src/ui/structure'
+import { Wrapper, OnlineJolocomButton } from 'src/ui/structure'
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
 import { landingSlides, Slide } from './landingSlides'
@@ -135,13 +135,13 @@ export class LandingComponent extends React.Component<Props> {
           slideInterpolatedStyle={this.animatedStyles}
         />
         <View style={styles.bottomSection}>
-          <JolocomButton
+          <OnlineJolocomButton
             testID="getStarted"
-            containerStyle={{ width: '100%', height: 56 }}
+            containerStyle={{ width: '100%' }}
             onPress={this.props.handleGetStarted}
             text={I18n.t(strings.GET_STARTED)}
           />
-          <JolocomButton
+          <OnlineJolocomButton
             testID="recoverIdentity"
             containerStyle={{
               width: '100%',

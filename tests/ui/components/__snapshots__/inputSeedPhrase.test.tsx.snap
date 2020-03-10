@@ -190,15 +190,18 @@ exports[`inputSeedPhrase component matches the snapshot at start 1`] = `
       }
     }
   >
-    <TransparentButton
-      onPress={[MockFunction]}
-      style={
+    <JolocomButton
+      containerStyle={
         Object {
+          "borderColor": "rgb(255, 239, 223)",
+          "borderWidth": 1,
           "marginHorizontal": 30,
-          "paddingVertical": 10,
+          "marginTop": 12,
         }
       }
+      onPress={[MockFunction]}
       text="Back to signup"
+      transparent={true}
     />
   </View>
 </Wrapper>
@@ -520,15 +523,18 @@ exports[`inputSeedPhrase component matches the snapshot while inputting 1`] = `
       }
     }
   >
-    <TransparentButton
-      onPress={[MockFunction]}
-      style={
+    <JolocomButton
+      containerStyle={
         Object {
+          "borderColor": "rgb(255, 239, 223)",
+          "borderWidth": 1,
           "marginHorizontal": 30,
-          "paddingVertical": 10,
+          "marginTop": 12,
         }
       }
+      onPress={[MockFunction]}
       text="Back to signup"
+      transparent={true}
     />
   </View>
 </Wrapper>

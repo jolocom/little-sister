@@ -4,7 +4,7 @@ import { shallow } from 'enzyme'
 
 describe('landing container', () => {
   it('mounts correctly and matches snapshot', () => {
-    const props: LandingContainer['props'] = {
+    const props = {
       getStarted: jest.fn(),
       recoverIdentity: jest.fn(),
     }

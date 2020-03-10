@@ -149,6 +149,7 @@
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.6.2",
+    "@react-native-community/netinfo": "3.2.1",
     "@react-navigation/core": "^3.4.2",
     "@sentry/react-native": "^1.0.6",
     "@types/react-native-modal-dropdown": "^0.6.1",

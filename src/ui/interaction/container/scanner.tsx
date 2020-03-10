@@ -52,7 +52,9 @@ export const ScannerContainer = (props: Props) => {
     if (navigation) {
       focusListener = navigation.addListener('willFocus', () => {
         // NOTE: the re-render and the re-mount should only fire during the willFocus event
-        setRenderKey(Date.now())
+        setTimeout(() => {
+          setRenderKey(Date.now())
+        }, 1000)
       })
     }
 

@@ -2,8 +2,8 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { ThunkDispatch } from '../../../store'
 import InputSeedPhraseComponent from '../components/inputSeedPhrase'
-import { validateMnemonic, wordlists } from 'bip39'
-import { withErrorScreen } from '../../../actions/modifiers'
+import { wordlists } from 'bip39'
+import { withErrorScreen, withInternet } from '../../../actions/modifiers'
 import { recoverIdentity } from '../../../actions/registration'
 import { routeList } from '../../../routeList'
 import { StatusBar, TextInput } from 'react-native'
@@ -83,16 +83,16 @@ export class InputSeedPhraseContainer extends React.Component<Props, State> {
     const { mnemonic, markedWord } = this.state
     const isLastWord = markedWord === mnemonic.length
     mnemonic[markedWord] = word
-    const mnemonicValid =
-      mnemonic.length === 12 && validateMnemonic(mnemonic.join(' '))
-    if (mnemonicValid && this.textInput) {
+    const mnemonicFilled = mnemonic.length === 12
+    if (mnemonicFilled && this.textInput) {
       this.textInput.blur()
     }
+
     this.setState({
       inputValue: isLastWord ? '' : word,
       mnemonic,
       markedWord: isLastWord ? mnemonic.length : markedWord,
-      isMnemonicValid: mnemonicValid,
+      isMnemonicValid: mnemonicFilled,
       suggestions: [],
       inputState: WordState.editing,
     })
@@ -167,7 +167,7 @@ const mapStateToProps = (state: RootState) => ({
 })
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   recoverIdentity: (seedPhrase: string) =>
-    dispatch(withErrorScreen(recoverIdentity(seedPhrase))),
+    dispatch(withInternet(withErrorScreen(recoverIdentity(seedPhrase)))),
   goBack: () =>
     dispatch(navigationActions.navigate({ routeName: routeList.Landing })),
 })

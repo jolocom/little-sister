@@ -236,11 +236,6 @@ exports[`repeatSeedPhrase component matches the snapshot with sorting 1`] = `
       }
     >
       <JolocomButton
-        containerStyle={
-          Object {
-            "height": 56,
-          }
-        }
         onPress={[MockFunction]}
         text="[missing \\"en.Confirm and check\\" translation]"
       />
@@ -469,11 +464,6 @@ exports[`repeatSeedPhrase component matches the snapshot without sorting 1`] = `
       }
     >
       <JolocomButton
-        containerStyle={
-          Object {
-            "height": 56,
-          }
-        }
         onPress={[MockFunction]}
         text="[missing \\"en.Show my phrase again\\" translation]"
       />

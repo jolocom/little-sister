@@ -8,7 +8,11 @@ import { ThunkDispatch } from '../../../store'
 import { showErrorScreen } from '../../../actions/generic'
 import { AppError, ErrorCode } from '../../../lib/errors'
 import { interactionHandlers } from '../../../lib/storage/interactionTokens'
-import { withErrorScreen, withLoading } from '../../../actions/modifiers'
+import {
+  withErrorScreen,
+  withInternet,
+  withLoading,
+} from '../../../actions/modifiers'
 import { connect } from 'react-redux'
 import { CloseIcon } from '../../../resources'
 import { fontMain, textXXS } from '../../../styles/typography'
@@ -104,7 +108,9 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
     const handler = interactionHandlers[interactionToken.interactionType]
 
     return handler
-      ? dispatch(withLoading(withErrorScreen(handler(interactionToken))))
+      ? dispatch(
+          withInternet(withLoading(withErrorScreen(handler(interactionToken)))),
+        )
       : dispatch(
           showErrorScreen(
             new AppError(ErrorCode.Unknown, new Error('No handler found')),
