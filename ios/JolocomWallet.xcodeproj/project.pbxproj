@@ -17,6 +17,7 @@
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2DCD954D1E0B4F2C00145EB5 /* JolocomWalletTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* JolocomWalletTests.m */; };
+		4D1FC8046A23495D94061A40 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 13B34D408D864C7EA5D2DCB1 /* libz.tbd */; };
 		A431D390F7F5781EEA4C8E86 /* libPods-JolocomWallet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 217C7D710BCA6E6CAF6E8416 /* libPods-JolocomWallet.a */; };
 		B465E65822CE17D100F87457 /* assets in Resources */ = {isa = PBXBuildFile; fileRef = B465E65722CE17D000F87457 /* assets */; };
 		B4A807E322C62D0C008E672A /* TTCommons.otf in Resources */ = {isa = PBXBuildFile; fileRef = B4A807E222C62D0C008E672A /* TTCommons.otf */; };
@@ -54,6 +55,7 @@
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = JolocomWallet/AppDelegate.m; sourceTree = "<group>"; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = JolocomWallet/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = JolocomWallet/main.m; sourceTree = "<group>"; };
+		13B34D408D864C7EA5D2DCB1 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		1ED7C9604F652709287C1F2C /* Pods-JolocomWallet-tvOSTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JolocomWallet-tvOSTests.release.xcconfig"; path = "Target Support Files/Pods-JolocomWallet-tvOSTests/Pods-JolocomWallet-tvOSTests.release.xcconfig"; sourceTree = "<group>"; };
 		217C7D710BCA6E6CAF6E8416 /* libPods-JolocomWallet.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-JolocomWallet.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E47B1E0B4A5D006451C7 /* JolocomWallet-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "JolocomWallet-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +97,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A431D390F7F5781EEA4C8E86 /* libPods-JolocomWallet.a in Frameworks */,
+				4D1FC8046A23495D94061A40 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -156,6 +159,7 @@
 				5B7319EA24D5D75638B45686 /* libPods-JolocomWallet-tvOS.a */,
 				3F5698155A4598FF33970A7C /* libPods-JolocomWallet-tvOSTests.a */,
 				E78EDDFA25C3CCEF0CEB04C9 /* libPods-JolocomWalletTests.a */,
+				13B34D408D864C7EA5D2DCB1 /* libz.tbd */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -255,7 +259,7 @@
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				C0DE913E6CB66E8BBC249096 /* [CP] Copy Pods Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				42978E94DFBA42B7A85B79FF /* Upload Debug Symbols to Sentry */,
+				4524589174EE40BCAA8C688A /* Upload Debug Symbols to Sentry */,
 			);
 			buildRules = (
 			);
@@ -468,7 +472,7 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		42978E94DFBA42B7A85B79FF /* Upload Debug Symbols to Sentry */ = {
+		4524589174EE40BCAA8C688A /* Upload Debug Symbols to Sentry */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -480,7 +484,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export SENTRY_PROPERTIES=sentry.properties\n../node_modules/@sentry/cli/bin/sentry-cli upload-dsym";
+			shellScript = "export SENTRY_PROPERTIES=sentry.properties\nif [ $CONFIGURATION != \"Debug\" ]; then\n  ../node_modules/@sentry/cli/bin/sentry-cli upload-dsym\nfi\n";
 		};
 		79835C3C23F594F500C351B0 /* Start Packager */ = {
 			isa = PBXShellScriptBuildPhase;
