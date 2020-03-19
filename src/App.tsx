@@ -2,9 +2,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { initStore, ThunkDispatch } from './store'
 import { navigationActions } from 'src/actions'
-import { StatusBar, View, StyleSheet } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { RoutesContainer } from './routes'
-import { AppLoadingAndNotifications } from './ui/generic/appLoadingAndNotifications'
 import { enableScreens } from 'react-native-screens'
 import { isNil } from 'ramda'
 import {
@@ -14,6 +13,7 @@ import {
 } from 'react-navigation'
 import { setActiveNotificationFilter } from './actions/notifications'
 import { backgroundDarkMain } from './styles/colors'
+import { RealWrapper } from './ui/structure/wrapper'
 
 enableScreens()
 
@@ -35,10 +35,7 @@ const styles = StyleSheet.create({
   }
 })
 
-export default class App extends React.PureComponent<
-  {},
-  { showStatusBar: boolean }
-> {
+export default class App extends React.PureComponent<{},{}> {
   private navigator!: NavigationContainerComponent
 
   public constructor(props: {}) {
@@ -51,9 +48,6 @@ export default class App extends React.PureComponent<
     // have not been excuted yet (while files are being imported) and initStore
     // triggers creation of BackendMiddleware which needs those
     if (!store) store = initStore()
-    this.state = {
-      showStatusBar: true,
-    }
   }
 
   public handleNavigationChange(
@@ -82,16 +76,12 @@ export default class App extends React.PureComponent<
       navigation = childNav
     }
 
-    const { notifications, statusBar } = navigationOptions
+    const { notifications } = navigationOptions
 
     if (!isNil(notifications)) {
       const thunkDispatch: ThunkDispatch = store.dispatch
       thunkDispatch(setActiveNotificationFilter(notifications))
     }
-
-    const showStatusBar = isNil(statusBar) ? true : statusBar
-    if (this.state.showStatusBar != showStatusBar)
-      this.setState({ showStatusBar })
   }
 
   private setNavigator(nav: NavigationContainerComponent | null) {
@@ -101,23 +91,15 @@ export default class App extends React.PureComponent<
   }
 
   public render() {
-    const { showStatusBar } = this.state
     return (
       <View style={styles.appWrapper}>
-        <StatusBar
-          hidden={!showStatusBar}
-          backgroundColor={'transparent'}
-          translucent
-          animated
-        />
         <Provider store={store}>
-          <>
+          <RealWrapper>
             <RoutesContainer
               onNavigationStateChange={this.handleNavigationChange.bind(this)}
               ref={nav => this.setNavigator(nav)}
             />
-            <AppLoadingAndNotifications />
-          </>
+          </RealWrapper>
         </Provider>
       </View>
     )

@@ -1,20 +1,24 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   LayoutChangeEvent,
-  SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
+  Animated,
+  PanResponderGestureState,
 } from 'react-native'
 import { fontMain } from '../../../styles/typography'
 import { black, white, yellowError } from '../../../styles/colors'
 import { Notification, NotificationType } from '../../../lib/notifications'
 import { AnyAction } from 'redux'
 import { BP } from '../../../styles/breakpoints'
+import { Wrapper } from 'src/ui/structure'
+import { SwipeUpWrapper } from 'src/ui/structure/swipeUpWrapper'
+import { debug } from 'src/styles/presets'
 
 const styles = StyleSheet.create({
-  safeArea: {
+  wrapper: {
     backgroundColor: 'rgba(0,0,0,0.9)',
   },
   bottomPadding: {
@@ -98,71 +102,155 @@ interface Props {
   onPressDismiss: () => void | boolean | AnyAction | Promise<void | AnyAction>
   onPressInteract: () => void | boolean | AnyAction | Promise<void | AnyAction>
   isSticky: boolean | undefined
-  onButtonLayout?: (event: LayoutChangeEvent) => void
+  ref?: any
+  onSwipe?: () => void
 }
 
 export const NotificationComponent: React.FC<Props> = ({
-  notification,
+  notification: activeNotification,
   onPressInteract,
   isSticky,
-  onButtonLayout,
+  ref,
+  onSwipe
 }) => {
-  const isWarning = notification.type === NotificationType.warning
+  const isWarning = notification?.type === NotificationType.warning
+  const hasButton = notification?.interact
+  const [buttonWidth, setButtonWidth] = useState(0)
+  const [notificationDimensions, setNotificationDimensions] = useState({
+    width: 300,
+    height: 100,
+  })
+  const [animatedValue] = useState<Animated.Value>(
+    new Animated.Value(-notificationDimensions.height),
+  )
+
+  const onLayout = (e: LayoutChangeEvent) => {
+    const { height, width } = e.nativeEvent.layout
+    setNotificationDimensions({ width, height })
+  }
+
+  const onButtonLayout = (e: LayoutChangeEvent) => {
+    const { width } = e.nativeEvent.layout
+    setButtonWidth(width)
+  }
+
+  const onSwipeUp = (state: PanResponderGestureState) => {
+    // NOTE: disables swiping on the side of the interaction button.
+    const buttonMargin = notificationDimensions.width - buttonWidth
+    const isButtonAreaSwipe = state.x0 > buttonMargin
+    if (hasButton && !isButtonAreaSwipe && onSwipe) onSwipe()
+  }
+
+  const [notification, setNotification] = useState(activeNotification)
+
+  const showNotification = () =>
+    Animated.timing(animatedValue, {
+      toValue: 0,
+      duration: 300,
+      useNativeDriver: true,
+    })
+  const hideNotification = () =>
+    Animated.timing(animatedValue, {
+      toValue: -notificationDimensions.height,
+      duration: 300,
+      useNativeDriver: true,
+    })
+
+  useEffect(() => {
+    if (!notification && activeNotification) {
+      setNotification(activeNotification)
+      showNotification().start()
+    } else if (notification && !activeNotification) {
+      hideNotification().start(() => {
+        setNotification(undefined)
+      })
+    } else if (
+      activeNotification &&
+      notification &&
+      activeNotification.id !== notification.id
+    ) {
+      //check this
+      hideNotification().start(() => {
+        setNotification(activeNotification)
+
+        /** NOTE @mnzaki
+         * this should be triggered from the (!notif && active) case
+         * normally if the active notification is nulled first, but
+         * it is not because of animation flicker. If this causes issues
+         * later, add an animation queue and only trigger new ones after
+         * previous ones are over in general and not for this specific case
+         */
+        showNotification().start()
+      })
+    }
+  }, [activeNotification, notification])
+
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <TouchableOpacity
-        activeOpacity={isSticky ? 0.7 : 1}
-        {...((isSticky || !notification.interact) && {
-          style: styles.bottomPadding,
-        })}
-        {...(isSticky && { onPress: onPressInteract })}
+    <Wrapper heightless overlay >
+      <Animated.View
+        onLayout={onLayout}
+        style={[
+          debug,
+          styles.wrapper,
+          { transform: [{ translateY: animatedValue }] },
+        ]}
       >
-        <Text
-          style={{
-            ...styles.title,
-            ...(!notification.interact && styles.centeredText),
-            color: isSticky ? yellowError : white,
-          }}
-        >
-          {notification.title}
-        </Text>
-        <Text
-          style={{
-            ...styles.message,
-            ...(!notification.interact && styles.centeredText),
-          }}
-        >
-          {notification.message}
-        </Text>
-        {!isSticky && notification.interact && (
-          <View style={styles.buttonSection}>
-            {notification.interact && (
-              <TouchableOpacity
-                onLayout={onButtonLayout}
-                style={styles.buttonWrapper}
-                onPress={onPressInteract}
-              >
-                <View
-                  style={{
-                    ...styles.button,
-                    ...(isWarning ? styles.warningButton : styles.infoButton),
-                  }}
-                >
-                  <Text
-                    style={{
-                      ...styles.buttonText,
-                      color: isWarning ? black : white,
-                    }}
+        <SwipeUpWrapper onSwipeUp={onSwipeUp}>
+          <TouchableOpacity
+            activeOpacity={isSticky ? 0.7 : 1}
+            {...((isSticky || !hasButton) && {
+              style: styles.bottomPadding,
+            })}
+            {...(isSticky && { onPress: onPressInteract })}
+          >
+            <Text
+              style={{
+                ...styles.title,
+                ...(!hasButton && styles.centeredText),
+                color: isSticky ? yellowError : white,
+              }}
+            >
+              {notification.title}
+            </Text>
+            <Text
+              style={{
+                ...styles.message,
+                ...(!hasButton && styles.centeredText),
+              }}
+            >
+              {notification.message}
+            </Text>
+            {!isSticky && hasButton && (
+              <View style={styles.buttonSection}>
+                {hasButton && (
+                  <TouchableOpacity
+                    onLayout={onButtonLayout}
+                    style={styles.buttonWrapper}
+                    onPress={onPressInteract}
                   >
-                    {notification.interact.label}
-                  </Text>
-                </View>
-              </TouchableOpacity>
+                    <View
+                      style={{
+                        ...styles.button,
+                        ...(isWarning ? styles.warningButton : styles.infoButton),
+                      }}
+                    >
+                      <Text
+                        style={{
+                          ...styles.buttonText,
+                          color: isWarning ? black : white,
+                        }}
+                      >
+                        {notification?.interact?.label}
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                )}
+              </View>
             )}
-          </View>
-        )}
-      </TouchableOpacity>
-    </SafeAreaView>
+          </TouchableOpacity>
+        </SwipeUpWrapper>
+      </Animated.View>
+    </Wrapper>
   )
 }

@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import {
   StyleSheet,
   SafeAreaView,
@@ -9,6 +9,22 @@ import {
 } from 'react-native'
 
 import { backgroundDarkMain, backgroundLightMain } from 'src/styles/colors'
+import { AppWrapState } from 'src/reducers/generic'
+import { AppLoadingAndNotifications } from '../generic/appLoadingAndNotifications'
+import { connect } from 'react-redux'
+import { ThunkDispatch } from 'src/store'
+import { registerAppWrapState, unregisterAppWrapState } from 'src/actions/generic'
+
+interface Props extends Partial<AppWrapState>, ReturnType<typeof mapDispatchToProps> {
+  testID?: string
+  children: ReactNode
+}
+
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  registerAppWrapState: (aws: AppWrapState) => dispatch(registerAppWrapState(aws))
+  unregisterAppWrapState: (aws: AppWrapState) => dispatch(unregisterAppWrapState(aws))
+})
+
 
 /**
  * Wrapper
@@ -28,31 +44,45 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%',
     backgroundColor: backgroundLightMain,
+    //...debug
   },
 })
 
-interface Props {
-  testID?: string
-  children: ReactNode
-  withoutSafeArea?: boolean
-  withoutStatusBar?: boolean
-  dark?: boolean
-  breathy?: boolean
-  centered?: boolean
-  overlay?: boolean
-}
 
-export const Wrapper: React.FC<Props> = props => {
+let statusBarHidden = 0
+const WrapperContainer: React.FC<Props> = React.memo(props => {
   const WrapperView = !props.withoutSafeArea ? SafeAreaView : View
 
   const {
+    loading,
     withoutSafeArea,
     dark,
     breathy,
     centered,
     overlay,
     withoutStatusBar,
+    heightless
   } = props
+
+  useEffect(() => {
+    if (withoutStatusBar) {
+      statusBarHidden += 1
+      console.log('HIDING!')
+      //StatusBar.setHidden(true)
+      return () => {
+        statusBarHidden -= 1
+        setTimeout(() => {
+          if (statusBarHidden === 0) {
+            StatusBar.setHidden(false)
+            console.log('UNHIDING!')
+          }
+        })
+      }
+    }
+
+    return
+  })
+
   const extraStyle: StyleProp<ViewStyle> = {
     // Note: StatusBar.currentHeight is not available on iOS
     paddingTop: withoutSafeArea ? 0 : StatusBar.currentHeight
@@ -60,6 +90,11 @@ export const Wrapper: React.FC<Props> = props => {
   if (dark) extraStyle.backgroundColor = backgroundDarkMain
   if (breathy) extraStyle.justifyContent = 'space-around'
   if (centered) extraStyle.alignItems = 'center'
+  if (heightless) {
+    extraStyle.height = 50
+    extraStyle.backgroundColor = '#0f0'
+  }
+
   if (overlay) {
     extraStyle.position = 'absolute'
     extraStyle.zIndex = 12 // good number
@@ -70,6 +105,7 @@ export const Wrapper: React.FC<Props> = props => {
       )
     }
   }
+
   // @ts-ignore
   if (__DEV__ && props.style) {
     throw new Error(
@@ -78,20 +114,27 @@ export const Wrapper: React.FC<Props> = props => {
     )
   }
 
-  const statusBar = !overlay ? (
-    <StatusBar
-      hidden={!!withoutStatusBar}
-      barStyle={dark ? 'light-content' : 'dark-content'}
-      backgroundColor={'transparent'}
-      animated
-      translucent
-    />
-  ) : null
-
-  return (
+  return (<>
+    <AppLoadingAndNotifications loading={!!loading} />
     <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
-      {statusBar}
+      <StatusBar
+        hidden={statusBarHidden > 0}
+        barStyle={dark ? 'light-content' : 'dark-content'}
+        backgroundColor={'transparent'}
+        animated
+        translucent
+      />
       {props.children}
     </WrapperView>
-  )
+  </>)
+})
+
+export const RealWrapper = WrapperContainer //connect(null, mapDispatchToProps)(WrapperContainer)
+
+export const Wrapper = connect(null, mapDispatchToProps)((props: Props) => {
+  useEffect(() => {
+    const ref = props.registerWrapperState(props)
+    return () => props.unregisterWrapperState(ref)
+  })
+  return props.children
 }

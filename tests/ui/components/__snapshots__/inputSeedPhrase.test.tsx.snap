@@ -2,16 +2,9 @@
 
 exports[`inputSeedPhrase component matches the snapshot at start 1`] = `
 <Wrapper
-  style={
-    Array [
-      Object {
-        "backgroundColor": "rgb(5, 5, 13)",
-        "flex": 1,
-        "justifyContent": "flex-start",
-      },
-      false,
-    ]
-  }
+  breathy={false}
+  centered={true}
+  dark={true}
 >
   <Text
     style={
@@ -99,12 +92,14 @@ exports[`inputSeedPhrase component matches the snapshot at start 1`] = `
             "paddingVertical": 7,
           },
           Object {
+            "textAlign": "center",
+          },
+          Object {
             "color": "white",
           },
         ]
       }
       testID="seedWordFld"
-      textAlign="center"
       underlineColorAndroid="transparent"
       value=""
     />
@@ -206,18 +201,9 @@ exports[`inputSeedPhrase component matches the snapshot at start 1`] = `
 
 exports[`inputSeedPhrase component matches the snapshot when loading 1`] = `
 <Wrapper
-  style={
-    Array [
-      Object {
-        "backgroundColor": "rgb(5, 5, 13)",
-        "flex": 1,
-        "justifyContent": "flex-start",
-      },
-      Object {
-        "justifyContent": "space-around",
-      },
-    ]
-  }
+  breathy={true}
+  centered={true}
+  dark={true}
 >
   <Text
     style={
@@ -262,6 +248,7 @@ exports[`inputSeedPhrase component matches the snapshot when loading 1`] = `
   </View>
   <RippleLoader
     color="rgb(89, 167, 145)"
+    frequency={1600}
     size={120}
     strokeWidth={4}
   />
@@ -277,16 +264,9 @@ exports[`inputSeedPhrase component matches the snapshot when loading 1`] = `
 
 exports[`inputSeedPhrase component matches the snapshot while inputting 1`] = `
 <Wrapper
-  style={
-    Array [
-      Object {
-        "backgroundColor": "rgb(5, 5, 13)",
-        "flex": 1,
-        "justifyContent": "flex-start",
-      },
-      false,
-    ]
-  }
+  breathy={false}
+  centered={true}
+  dark={true}
 >
   <Text
     style={
@@ -378,12 +358,14 @@ exports[`inputSeedPhrase component matches the snapshot while inputting 1`] = `
             "paddingVertical": 7,
           },
           Object {
+            "textAlign": "center",
+          },
+          Object {
             "color": "white",
           },
         ]
       }
       testID="seedWordFld"
-      textAlign="center"
       underlineColorAndroid="transparent"
       value="in"
     />

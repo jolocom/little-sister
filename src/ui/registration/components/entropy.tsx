@@ -39,14 +39,16 @@ export const EntropyComponent: React.FC<Props> = props => {
   const textStyle = progress === 0 ? styles.text : [styles.text, styles.bigFont]
 
   return (
-    <Wrapper dark centered>
-      <Text testID="entropyMsg" style={textStyle}>
-        {msg}
-      </Text>
-      {progress === 0 && <HandAnimationComponent />}
-      <Wrapper breathy overlay>
+    <>
+      <Wrapper breathy overlay withoutSafeArea>
         <MaskedImageComponent disabled={progress === 1} addPoint={addPoint} />
       </Wrapper>
-    </Wrapper>
+      <Wrapper dark centered withoutSafeArea withoutStatusBar>
+        <Text testID="entropyMsg" style={textStyle}>
+          {msg}
+        </Text>
+        {progress === 0 && <HandAnimationComponent />}
+      </Wrapper>
+    </>
   )
 }

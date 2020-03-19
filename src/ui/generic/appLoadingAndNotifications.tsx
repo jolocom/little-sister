@@ -1,13 +1,13 @@
 import * as React from 'react'
-import { connect } from 'react-redux'
-import { RootState } from 'src/reducers'
 
 import { LoadingSpinner } from './loadingSpinner'
 import { Notifications } from '../notifications/containers/notifications'
 import { Animated, StyleSheet } from 'react-native'
 import { Colors } from 'src/styles'
 
-interface Props extends ReturnType<typeof mapStateToProps> {}
+interface Props {
+  loading: boolean
+}
 
 const LOADING_SPINNER_FADE_DURATION = 150
 
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 })
 
-const AppLoadingAndNotificationsContainer: React.FunctionComponent<
+export const AppLoadingAndNotifications: React.FunctionComponent<
   Props
 > = props => {
   const [loadingOpacity] = React.useState(new Animated.Value(0))
@@ -57,11 +57,3 @@ const AppLoadingAndNotificationsContainer: React.FunctionComponent<
     <Notifications />
   )
 }
-
-const mapStateToProps = (state: RootState) => ({
-  loading: state.generic.loading,
-})
-
-export const AppLoadingAndNotifications = connect(mapStateToProps)(
-  AppLoadingAndNotificationsContainer,
-)

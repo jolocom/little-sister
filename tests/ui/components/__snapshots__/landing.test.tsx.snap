@@ -2,11 +2,9 @@
 
 exports[`landing component matches the snapshot on render 1`] = `
 <Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
+  centered={true}
+  dark={true}
+  withoutSafeArea={true}
 >
   <Carousel
     activeAnimationOptions={null}

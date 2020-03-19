@@ -7,7 +7,7 @@ import { navigationActions, accountActions } from 'src/actions'
 import { ThunkAction } from 'src/store'
 import settingKeys from 'src/ui/settings/settingKeys'
 import { withLoading, withErrorScreen } from '../modifiers'
-import { AppWrapState, APPWRAP_UPDATE_STATE, APPWRAP_SHOW_LOADER } from 'src/reducers/generic'
+import { AppWrapState, APPWRAP_UPDATE_STATE, APPWRAP_SHOW_LOADER, APPWRAP_REGISTER_STATE, APPWRAP_UNREGISTER_STATE } from 'src/reducers/generic'
 import { AnyAction } from 'redux'
 
 // Default delay on the loading state value before it can switch back to 'false'
@@ -104,6 +104,14 @@ const setLoading = (value: boolean) => ({
 
 export const updateAppWrapState = (value: AppWrapState) => ({
   type: APPWRAP_UPDATE_STATE,
+  value,
+})
+export const registerAppWrapState = (value: AppWrapState) => ({
+  type: APPWRAP_REGISTER_STATE,
+  value,
+})
+export const unregisterAppWrapState = (value: AppWrapState) => ({
+  type: APPWRAP_UNREGISTER_STATE,
   value,
 })
 

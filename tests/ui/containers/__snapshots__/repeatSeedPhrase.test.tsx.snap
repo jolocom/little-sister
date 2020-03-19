@@ -5,7 +5,7 @@ exports[`repeatedPhrase container mounts correctly and matches snapshot 1`] = `
   back={[Function]}
   checkMnemonic={[Function]}
   mnemonicSorting={Object {}}
-  note="If you have noted down your phrase, put the six given words on their right places"
+  note="[missing \\"en.If you have noted down your phrase, put the six given words on their right places\\" translation]"
   randomWords={
     Array [
       "mock",

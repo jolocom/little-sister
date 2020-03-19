@@ -13,7 +13,30 @@ exports[`Account action creators should correctly handle stored encrypted seed 1
 Array [
   Object {
     "type": "DID_SET",
-    "value": "did:jolo:first",
+    "value": "did:jolo:mockdid",
+  },
+  Object {
+    "claims": Object {
+      "Contact": Array [
+        Object {
+          "claimData": Object {
+            "email": "test@jolocom.com",
+          },
+          "credentialType": "Email",
+          "expires": 2019-10-15T19:59:38.406Z,
+          "id": "claimId:61adc6e7b1448",
+          "issuer": Object {
+            "did": "did:jolo:b310d293aeac8a5ca680232b96901fe85988fde2860a1a5db69b49762923cc88",
+          },
+          "subject": "did:jolo:b310d293aeac8a5ca680232b96901fe85988fde2860a1a5db69b49762923cc88",
+        },
+      ],
+    },
+    "type": "SET_CLAIMS_FOR_DID",
+  },
+  Object {
+    "type": "HAS_EXTERNAL_CREDENTIALS",
+    "value": true,
   },
   Object {
     "routeName": "Home",

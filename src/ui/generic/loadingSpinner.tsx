@@ -27,7 +27,7 @@ export class LoadingSpinner extends React.PureComponent {
     // FIXME the key={Date.now()} bit is part of the HACK from above,
     // see componentDidMount
     return (
-      <Wrapper centered overlay>
+      <Wrapper centered overlay withoutStatusBar>
         <loaders.RippleLoader
           key={Date.now()}
           size={120}

@@ -18,4 +18,9 @@ jest.mock('src/lib/storage/storage', () => ({
   Storage: jest.fn(),
 }))
 
-jest.mock('deprecated-react-native-listview')
+jest.mock('react-native', () => {
+  const lol = jest.requireActual('react-native')
+  console.log('native mods', lol.NativeModules)
+  lol.NativeModules.RNPermissions = {}
+  return lol
+})

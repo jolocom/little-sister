@@ -6,6 +6,7 @@ import {
   AppStateStatus,
   Platform,
   View,
+  InteractionManager,
 } from 'react-native'
 import {
   NavigationEventSubscription,
@@ -22,6 +23,7 @@ import {
   JWTEncodable,
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { Colors } from 'src/styles'
+import { Wrapper } from 'src/ui/structure'
 
 interface Props extends NavigationInjectedProps {
   onScannerSuccess: (interactionToken: JSONWebToken<JWTEncodable>) => void
@@ -59,8 +61,7 @@ export const ScannerContainer: React.FC<Props> = (props) => {
     let listener: NavigationEventSubscription | undefined
     if (navigation) {
       listener = navigation.addListener('didFocus', () => {
-        rerender()
-        checkCameraPermissions()
+        reactivate()
       })
     }
     checkCameraPermissions()
@@ -69,11 +70,13 @@ export const ScannerContainer: React.FC<Props> = (props) => {
   }, [])
 
   const checkCameraPermissions = async () => {
-    return check(CAMERA_PERMISSION).then(perm => {
-      setPermission(perm)
-      if (perm !== RESULTS.GRANTED && perm !== RESULTS.BLOCKED) {
-        requestCameraPermission()
-      }
+    InteractionManager.runAfterInteractions(() => {
+      check(CAMERA_PERMISSION).then(perm => {
+        setPermission(perm)
+        if (perm !== RESULTS.GRANTED && perm !== RESULTS.BLOCKED) {
+          requestCameraPermission()
+        }
+      })
     })
   }
 
@@ -146,8 +149,9 @@ export const ScannerContainer: React.FC<Props> = (props) => {
     }
   }
 
+  let ret
   if (permission === RESULTS.GRANTED) {
-    return (
+    ret = (
       <ScannerComponent
         reRenderKey={reRenderKey}
         onScan={onScan}
@@ -161,7 +165,7 @@ export const ScannerContainer: React.FC<Props> = (props) => {
     )
   } else if (permission === RESULTS.UNAVAILABLE) {
     // TODO: maybe add a message here like "do you even camera?"
-    return (
+    ret = (
       <View
         style={{
           width: '100%',
@@ -171,6 +175,8 @@ export const ScannerContainer: React.FC<Props> = (props) => {
       />
     )
   } else {
-    return <NoPermissionComponent onPressEnable={onEnablePermission} />
+    ret = <NoPermissionComponent onPressEnable={onEnablePermission} />
   }
+
+  return <Wrapper dark withoutSafeArea withoutStatusBar>{ret}</Wrapper>
 }

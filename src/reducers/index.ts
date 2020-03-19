@@ -7,7 +7,7 @@ import {
 } from 'src/reducers/registration/'
 import { documentsReducer, DocumentsState } from './documents'
 import { notificationsReducer, NotificationsState } from './notifications'
-import { GenericState, genericReducer } from './generic'
+import { AppWrapState, appWrapReducer } from './generic'
 
 export const rootReducer = combineReducers<RootState>({
   settings: settingsReducer,
@@ -15,7 +15,7 @@ export const rootReducer = combineReducers<RootState>({
   registration: registrationReducer,
   documents: documentsReducer,
   notifications: notificationsReducer,
-  generic: genericReducer
+  generic: appWrapReducer
 })
 
 export interface RootState {
@@ -24,5 +24,5 @@ export interface RootState {
   readonly registration: RegistrationState
   readonly documents: DocumentsState
   readonly notifications: NotificationsState
-  readonly generic: GenericState
+  readonly generic: AppWrapState
 }

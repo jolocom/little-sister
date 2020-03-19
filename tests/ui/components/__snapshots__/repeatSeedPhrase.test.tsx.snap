@@ -2,11 +2,8 @@
 
 exports[`repeatSeedPhrase component matches the snapshot with sorting 1`] = `
 <Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
+  centered={true}
+  dark={true}
 >
   <View
     style={
@@ -251,11 +248,8 @@ exports[`repeatSeedPhrase component matches the snapshot with sorting 1`] = `
 
 exports[`repeatSeedPhrase component matches the snapshot without sorting 1`] = `
 <Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
+  centered={true}
+  dark={true}
 >
   <View
     style={

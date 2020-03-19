@@ -1,15 +1,8 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`landing container mounts correctly and matches snapshot 1`] = `
-<Fragment>
-  <StatusBar
-    animated={false}
-    barStyle="light-content"
-    showHideTransition="fade"
-  />
-  <LandingComponent
-    handleGetStarted={[MockFunction]}
-    handleRecover={[MockFunction]}
-  />
-</Fragment>
+<LandingComponent
+  handleGetStarted={[MockFunction]}
+  handleRecover={[MockFunction]}
+/>
 `;

@@ -30,7 +30,8 @@
     "storybook": "start-storybook -p 6006",
     "xcode": "xed ios/JolocomWallet.xcworkspace",
     "repl": "REPL=1 ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/repl.ts",
-    "typeorm": "ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/repl.ts node_modules/.bin/typeorm"
+    "typeorm": "ts-node -O '{\"module\": \"commonjs\"}' -r ./bin/repl.ts node_modules/.bin/typeorm",
+    "depdraw": "ts-depdraw"
   },
   "private": true,
   "devDependencies": {
@@ -88,6 +89,7 @@
     "react-dom": "^16.3.0",
     "react-test-renderer": "16.9.0",
     "redux-mock-store": "^1.5.1",
+    "ts-depdraw": "^0.1.12",
     "ts-jest": "^24.0.2",
     "ts-loader": "3.5.0",
     "tsconfig-paths": "^3.8.0",
