@@ -7,6 +7,8 @@ import { navigationActions, accountActions } from 'src/actions'
 import { ThunkAction } from 'src/store'
 import settingKeys from 'src/ui/settings/settingKeys'
 import { withLoading, withErrorScreen } from '../modifiers'
+import { AppWrapState, APPWRAP_UPDATE_STATE, APPWRAP_SHOW_LOADER } from 'src/reducers/generic'
+import { AnyAction } from 'redux'
 
 // Default delay on the loading state value before it can switch back to 'false'
 const DEFAULT_LOADING_LATCH_DELAY_MS = 300
@@ -96,35 +98,35 @@ export const setLocale = (locale: string): ThunkAction => async (
 }
 
 const setLoading = (value: boolean) => ({
-  type: 'SET_LOADING',
+  type: APPWRAP_SHOW_LOADER,
   value,
 })
 
-let curLoadingState = false
+export const updateAppWrapState = (value: AppWrapState) => ({
+  type: APPWRAP_UPDATE_STATE,
+  value,
+})
+
 export const showAppLoading = (
   shouldShow: boolean,
   latchDelay = DEFAULT_LOADING_LATCH_DELAY_MS,
-): ThunkAction => (dispatch, getState) => {
-  const wasShowing = curLoadingState
+): ThunkAction => async (dispatch, getState) => {
+  const wasShowing = getState().generic.loading
   if (shouldShow && !wasShowing) {
     // for setting to "true" we do it immediately and set current state
-    curLoadingState = shouldShow
-    return new Promise(resolve => {
-      const ret = dispatch(setLoading(shouldShow))
+    const ret = dispatch(setLoading(shouldShow))
+    return new Promise<AnyAction>(resolve => {
       setTimeout(() => resolve(ret), latchDelay)
     })
   }
 
   if (wasShowing && !shouldShow) {
-    // for setting to 'false', we delay by the latchDelay amounr
-    dispatch(delayedSetLoading(shouldShow, latchDelay))
+    // for setting to 'false', we delay by the latchDelay amount
+    return dispatch(delayedSetLoading(shouldShow, latchDelay))
   }
-
-  // in all cases we return set to the "current" state again
-  return dispatch(setLoading(curLoadingState))
 }
 
-let nextLoadingState = curLoadingState
+let nextLoadingState = false
 let timeout: number | undefined
 const delayedSetLoading = (
   value: boolean,
@@ -133,8 +135,7 @@ const delayedSetLoading = (
   nextLoadingState = value
   if (timeout !== undefined) clearTimeout(timeout)
   timeout = setTimeout(() => {
-    curLoadingState = nextLoadingState
-    dispatch(setLoading(curLoadingState))
+    dispatch(setLoading(nextLoadingState))
     timeout = undefined
   }, latchDelay)
 }

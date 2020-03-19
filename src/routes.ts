@@ -186,8 +186,6 @@ const MainStack = createStackNavigator(
         ...noHeaderNavOpts,
         // @ts-ignore
         notifications: NotificationFilter.onlyDismissible,
-        // @ts-ignore
-        statusBar: false,
       },
     },
 
