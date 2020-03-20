@@ -7,7 +7,7 @@ import { navigationActions, accountActions } from 'src/actions'
 import { ThunkAction } from 'src/store'
 import settingKeys from 'src/ui/settings/settingKeys'
 import { withLoading, withErrorScreen } from '../modifiers'
-import { AppWrapState, APPWRAP_UPDATE_STATE, APPWRAP_SHOW_LOADER, APPWRAP_REGISTER_STATE, APPWRAP_UNREGISTER_STATE } from 'src/reducers/generic'
+import { AppWrapConfig, APPWRAP_UPDATE_CONFIG, APPWRAP_SHOW_LOADER, APPWRAP_REGISTER_CONFIG, APPWRAP_UNREGISTER_CONFIG } from 'src/reducers/generic'
 import { AnyAction } from 'redux'
 
 // Default delay on the loading state value before it can switch back to 'false'
@@ -102,16 +102,16 @@ const setLoading = (value: boolean) => ({
   value,
 })
 
-export const updateAppWrapState = (value: AppWrapState) => ({
-  type: APPWRAP_UPDATE_STATE,
+export const updateAppWrapConfig = (value: AppWrapConfig) => ({
+  type: APPWRAP_UPDATE_CONFIG,
   value,
 })
-export const registerAppWrapState = (value: AppWrapState) => ({
-  type: APPWRAP_REGISTER_STATE,
+export const registerAppWrapConfig = (value: AppWrapConfig & {}) => ({
+  type: APPWRAP_REGISTER_CONFIG,
   value,
 })
-export const unregisterAppWrapState = (value: AppWrapState) => ({
-  type: APPWRAP_UNREGISTER_STATE,
+export const unregisterAppWrapConfig = (value: AppWrapConfig) => ({
+  type: APPWRAP_UNREGISTER_CONFIG,
   value,
 })
 
@@ -119,7 +119,7 @@ export const showAppLoading = (
   shouldShow: boolean,
   latchDelay = DEFAULT_LOADING_LATCH_DELAY_MS,
 ): ThunkAction => async (dispatch, getState) => {
-  const wasShowing = getState().generic.loading
+  const wasShowing = getState().generic.appWrapConfig.loading
   if (shouldShow && !wasShowing) {
     // for setting to "true" we do it immediately and set current state
     const ret = dispatch(setLoading(shouldShow))

@@ -9,22 +9,37 @@ import {
 } from 'react-native'
 
 import { backgroundDarkMain, backgroundLightMain } from 'src/styles/colors'
-import { AppWrapState } from 'src/reducers/generic'
+import { AppWrapConfig, pickAppWrapConfigAttrs } from 'src/reducers/generic'
 import { AppLoadingAndNotifications } from '../generic/appLoadingAndNotifications'
 import { connect } from 'react-redux'
 import { ThunkDispatch } from 'src/store'
-import { registerAppWrapState, unregisterAppWrapState } from 'src/actions/generic'
+import { registerAppWrapConfig, unregisterAppWrapConfig } from 'src/actions/generic'
+import { RootState } from 'src/reducers'
 
-interface Props extends Partial<AppWrapState>, ReturnType<typeof mapDispatchToProps> {
-  testID?: string
+const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  registerProps: (props: Props) =>
+    dispatch(registerAppWrapConfig(pickAppWrapConfigAttrs(props))),
+  unregisterPropsByRef: (ref: ReturnType<typeof registerAppWrapConfig>) =>
+    dispatch(unregisterAppWrapConfig(ref.value))
+})
+
+const mapStateToProps = (state: RootState) => state.generic.appWrapConfig
+
+interface Props extends Partial<AppWrapConfig>, ReturnType<typeof mapDispatchToProps> {
+  readonly withoutSafeArea: boolean
+  readonly uninterruptible: boolean
+  readonly dark: boolean
+  readonly breathy: boolean
+  readonly centered: boolean
+  readonly overlay: boolean
+  readonly heightless: boolean
+  readonly testID: string
   children: ReactNode
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-  registerAppWrapState: (aws: AppWrapState) => dispatch(registerAppWrapState(aws))
-  unregisterAppWrapState: (aws: AppWrapState) => dispatch(unregisterAppWrapState(aws))
-})
-
+interface AppWrapProps extends AppWrapConfig, ReturnType<typeof mapStateToProps> {
+  children: ReactNode
+}
 
 /**
  * Wrapper
@@ -50,38 +65,62 @@ const styles = StyleSheet.create({
 
 
 let statusBarHidden = 0
-const WrapperContainer: React.FC<Props> = React.memo(props => {
-  const WrapperView = !props.withoutSafeArea ? SafeAreaView : View
-
+const AppWrapContainer: React.FC<AppWrapProps> = props => {
   const {
-    loading,
-    withoutSafeArea,
     dark,
-    breathy,
-    centered,
-    overlay,
+    loading,
     withoutStatusBar,
-    heightless
   } = props
 
   useEffect(() => {
     if (withoutStatusBar) {
       statusBarHidden += 1
       console.log('HIDING!')
-      //StatusBar.setHidden(true)
+      StatusBar.setHidden(true)
       return () => {
         statusBarHidden -= 1
-        setTimeout(() => {
-          if (statusBarHidden === 0) {
-            StatusBar.setHidden(false)
-            console.log('UNHIDING!')
-          }
-        })
+        if (statusBarHidden === 0) {
+          StatusBar.setHidden(false)
+          console.log('UNHIDING!')
+        }
       }
     }
 
     return
-  })
+  }, [withoutStatusBar])
+
+  console.log('RERENDER', statusBarHidden)
+  return (<>
+    <AppLoadingAndNotifications loading={!!loading} />
+    <StatusBar
+      hidden={statusBarHidden > 0}
+      barStyle={dark ? 'light-content' : 'dark-content'}
+      backgroundColor={'transparent'}
+      animated
+      translucent
+    />
+    {props.children}
+  </>)
+}
+
+export const AppWrap = connect(mapStateToProps)(AppWrapContainer)
+
+export const Wrapper = React.memo(connect(null, mapDispatchToProps)((props: Props) => {
+  useEffect(() => {
+    const ref = props.registerProps(props)
+    return () => { props.unregisterPropsByRef(ref) }
+  }, [])
+
+  const WrapperView = !props.withoutSafeArea ? SafeAreaView : View
+
+  const {
+    withoutSafeArea,
+    dark,
+    breathy,
+    centered,
+    overlay,
+    heightless
+  } = props
 
   const extraStyle: StyleProp<ViewStyle> = {
     // Note: StatusBar.currentHeight is not available on iOS
@@ -115,26 +154,8 @@ const WrapperContainer: React.FC<Props> = React.memo(props => {
   }
 
   return (<>
-    <AppLoadingAndNotifications loading={!!loading} />
     <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
-      <StatusBar
-        hidden={statusBarHidden > 0}
-        barStyle={dark ? 'light-content' : 'dark-content'}
-        backgroundColor={'transparent'}
-        animated
-        translucent
-      />
       {props.children}
     </WrapperView>
   </>)
-})
-
-export const RealWrapper = WrapperContainer //connect(null, mapDispatchToProps)(WrapperContainer)
-
-export const Wrapper = connect(null, mapDispatchToProps)((props: Props) => {
-  useEffect(() => {
-    const ref = props.registerWrapperState(props)
-    return () => props.unregisterWrapperState(ref)
-  })
-  return props.children
-}
+}))

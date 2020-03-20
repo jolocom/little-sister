@@ -13,7 +13,7 @@ import {
 } from 'react-navigation'
 import { setActiveNotificationFilter } from './actions/notifications'
 import { backgroundDarkMain } from './styles/colors'
-import { RealWrapper } from './ui/structure/wrapper'
+import { AppWrap } from './ui/structure/wrapper'
 
 enableScreens()
 
@@ -94,12 +94,12 @@ export default class App extends React.PureComponent<{},{}> {
     return (
       <View style={styles.appWrapper}>
         <Provider store={store}>
-          <RealWrapper>
+          <AppWrap>
             <RoutesContainer
               onNavigationStateChange={this.handleNavigationChange.bind(this)}
               ref={nav => this.setNavigator(nav)}
             />
-          </RealWrapper>
+          </AppWrap>
         </Provider>
       </View>
     )
