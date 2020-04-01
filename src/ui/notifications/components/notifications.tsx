@@ -13,7 +13,6 @@ import { black, white, yellowError } from '../../../styles/colors'
 import { Notification, NotificationType } from '../../../lib/notifications'
 import { AnyAction } from 'redux'
 import { BP } from '../../../styles/breakpoints'
-import { Wrapper } from 'src/ui/structure'
 import { SwipeUpWrapper } from 'src/ui/structure/swipeUpWrapper'
 import { debug } from 'src/styles/presets'
 
@@ -187,7 +186,6 @@ export const NotificationComponent: React.FC<Props> = ({
 
 
   return (
-    <Wrapper heightless overlay >
       <Animated.View
         onLayout={onLayout}
         style={[
@@ -251,6 +249,5 @@ export const NotificationComponent: React.FC<Props> = ({
           </TouchableOpacity>
         </SwipeUpWrapper>
       </Animated.View>
-    </Wrapper>
   )
 }

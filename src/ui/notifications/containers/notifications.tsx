@@ -1,10 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react'
-import { NotificationComponent } from '../components/notifications'
 import { connect } from 'react-redux'
-import { Notification } from '../../../lib/notifications'
-import { ThunkDispatch } from '../../../store'
-import { invokeDismiss, invokeInteract } from '../../../actions/notifications'
-import { RootState } from '../../../reducers'
+
+import { ThunkDispatch } from 'src/store'
+import { Notification } from 'src/lib/notifications'
+import { invokeDismiss, invokeInteract } from 'src/actions/notifications'
+import { RootState } from 'src/reducers'
+import { Wrapper } from 'src/ui/structure'
+import { NotificationComponent } from '../components/notifications'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -17,15 +19,19 @@ export const NotificationContainer = (props: Props) => {
   const [notification, setNotification] = useState<Notification>()
   const isSticky = notification && !notification.dismiss
 
-  return notification ? (
-    <NotificationComponent
-      notification={activeNotification}
-      onSwipe={() => !isSticky && onDismiss(notification)}
-      onPressDismiss={() => onDismiss(notification)}
-      onPressInteract={() => onInteract(notification)}
-      isSticky={isSticky}
-    />
-  ) : null
+  return (
+    <Wrapper heightless overlay>
+      {notification &&
+        <NotificationComponent
+          notification={activeNotification}
+          onSwipe={() => !isSticky && onDismiss(notification)}
+          onPressDismiss={() => onDismiss(notification)}
+          onPressInteract={() => onInteract(notification)}
+          isSticky={isSticky}
+        />
+      }
+    </Wrapper>
+  )
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
