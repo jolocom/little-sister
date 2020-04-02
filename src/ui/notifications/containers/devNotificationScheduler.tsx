@@ -15,8 +15,7 @@ import { NavigationInjectedProps } from 'react-navigation'
 import { debug } from '../../../styles/presets'
 import { RootState } from '../../../reducers'
 import { fontMain } from '../../../styles/typography'
-import { blackMain, iBackgroundWhite } from '../../../styles/colors'
-import { NotificationComponent } from '../components/notifications'
+import { blackMain } from '../../../styles/colors'
 import { ToggleSwitch } from '../../structure/toggleSwitch'
 
 const styles = StyleSheet.create({
@@ -176,14 +175,6 @@ const DevNotificationScheduler = (props: Props) => {
             />
             <Text style={styles.configText}>{'Warning'}</Text>
           </View>
-        </View>
-        <View style={styles.notification}>
-          <NotificationComponent
-            notification={assembledNotification}
-            onPressDismiss={() => false}
-            onPressInteract={() => false}
-            isSticky={!assembledNotification.dismiss}
-          />
         </View>
         <View
           style={{ width: '100%', paddingVertical: 50, alignItems: 'center' }}>
