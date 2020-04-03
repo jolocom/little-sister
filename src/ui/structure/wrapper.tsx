@@ -13,19 +13,25 @@ import { AppWrapConfig, pickAppWrapConfigAttrs } from 'src/reducers/generic'
 import { AppLoadingAndNotifications } from '../generic/appLoadingAndNotifications'
 import { connect } from 'react-redux'
 import { ThunkDispatch } from 'src/store'
-import { registerAppWrapConfig, unregisterAppWrapConfig } from 'src/actions/generic'
+import {
+  registerAppWrapConfig,
+  unregisterAppWrapConfig,
+} from 'src/actions/generic'
 import { RootState } from 'src/reducers'
+import { debug } from 'src/styles/presets'
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   registerProps: (props: Props) =>
     dispatch(registerAppWrapConfig(pickAppWrapConfigAttrs(props))),
   unregisterPropsByRef: (ref: ReturnType<typeof registerAppWrapConfig>) =>
-    dispatch(unregisterAppWrapConfig(ref.value))
+    dispatch(unregisterAppWrapConfig(ref.value)),
 })
 
 const mapStateToProps = (state: RootState) => state.generic.appWrapConfig
 
-interface Props extends Partial<AppWrapConfig>, ReturnType<typeof mapDispatchToProps> {
+interface Props
+  extends Partial<AppWrapConfig>,
+    ReturnType<typeof mapDispatchToProps> {
   readonly withoutSafeArea: boolean
   readonly uninterruptible: boolean
   readonly dark: boolean
@@ -37,7 +43,9 @@ interface Props extends Partial<AppWrapConfig>, ReturnType<typeof mapDispatchToP
   children: ReactNode
 }
 
-interface AppWrapProps extends AppWrapConfig, ReturnType<typeof mapStateToProps> {
+interface AppWrapProps
+  extends AppWrapConfig,
+    ReturnType<typeof mapStateToProps> {
   children: ReactNode
 }
 
@@ -90,72 +98,84 @@ const AppWrapContainer: React.FC<AppWrapProps> = props => {
   }, [withoutStatusBar])
 
   console.log('RERENDER', statusBarHidden)
-  return (<>
-    <AppLoadingAndNotifications loading={!!loading} />
-    <StatusBar
-      hidden={statusBarHidden > 0}
-      barStyle={dark ? 'light-content' : 'dark-content'}
-      backgroundColor={'transparent'}
-      animated
-      translucent
-    />
-    {props.children}
-  </>)
+  return (
+    <>
+      <AppLoadingAndNotifications loading={!!loading} />
+      <StatusBar
+        //hidden={statusBarHidden > 0}
+        barStyle={dark ? 'light-content' : 'dark-content'}
+        backgroundColor={'transparent'}
+        animated
+        translucent
+      />
+      {props.children}
+    </>
+  )
 }
 
 export const AppWrap = connect(mapStateToProps)(AppWrapContainer)
 
-export const Wrapper = React.memo(connect(null, mapDispatchToProps)((props: Props) => {
-  useEffect(() => {
-    const ref = props.registerProps(props)
-    return () => { props.unregisterPropsByRef(ref) }
-  }, [])
+export const Wrapper = React.memo(
+  connect(
+    null,
+    mapDispatchToProps,
+  )((props: Props) => {
+    useEffect(() => {
+      const ref = props.registerProps(props)
+      return () => {
+        props.unregisterPropsByRef(ref)
+      }
+    }, [])
 
-  const WrapperView = !props.withoutSafeArea ? SafeAreaView : View
+    const WrapperView = !props.withoutSafeArea ? SafeAreaView : View
 
-  const {
-    withoutSafeArea,
-    dark,
-    breathy,
-    centered,
-    overlay,
-    heightless
-  } = props
+    const {
+      withoutSafeArea,
+      dark,
+      breathy,
+      centered,
+      overlay,
+      heightless,
+    } = props
 
-  const extraStyle: StyleProp<ViewStyle> = {
-    // Note: StatusBar.currentHeight is not available on iOS
-    paddingTop: withoutSafeArea ? 0 : StatusBar.currentHeight
-  }
-  if (dark) extraStyle.backgroundColor = backgroundDarkMain
-  if (breathy) extraStyle.justifyContent = 'space-around'
-  if (centered) extraStyle.alignItems = 'center'
-  if (heightless) {
-    extraStyle.height = 50
-    extraStyle.backgroundColor = '#0f0'
-  }
+    const extraStyle: StyleProp<ViewStyle> = {
+      // Note: StatusBar.currentHeight is not available on iOS
+      paddingTop: withoutSafeArea ? 0 : StatusBar.currentHeight,
+    }
+    console.log(extraStyle)
+    if (dark) extraStyle.backgroundColor = backgroundDarkMain
+    if (breathy) extraStyle.justifyContent = 'space-around'
+    if (centered) extraStyle.alignItems = 'center'
+    if (heightless) {
+      extraStyle.height = 'auto'
+      extraStyle.backgroundColor = '#0f0'
+    }
 
-  if (overlay) {
-    extraStyle.position = 'absolute'
-    extraStyle.zIndex = 12 // good number
-    extraStyle.backgroundColor = 'transparent'
-    if (__DEV__ && dark) {
+    if (overlay) {
+      extraStyle.position = 'absolute'
+      extraStyle.zIndex = 12 // good number
+      extraStyle.backgroundColor = 'transparent'
+      if (__DEV__ && dark) {
+        throw new Error(
+          "<Wrapper> can't be 'dark' and 'overlay' since overlays are transparent",
+        )
+      }
+    }
+
+    // @ts-ignore
+    if (__DEV__ && props.style) {
       throw new Error(
-        "<Wrapper> can't be 'dark' and 'overlay' since overlays are transparent",
+        '<Wrapper> dont care bout yo style. ' +
+          'Look at src/ui/structure/wrapper.tsx',
       )
     }
-  }
 
-  // @ts-ignore
-  if (__DEV__ && props.style) {
-    throw new Error(
-      '<Wrapper> dont care bout yo style. ' +
-      'Look at src/ui/structure/wrapper.tsx',
+    return (
+      <>
+        <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
+          {props.children}
+        </WrapperView>
+      </>
     )
-  }
-
-  return (<>
-    <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
-      {props.children}
-    </WrapperView>
-  </>)
-}))
+  }),
+)

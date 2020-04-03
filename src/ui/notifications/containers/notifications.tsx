@@ -5,11 +5,11 @@ import { ThunkDispatch } from 'src/store'
 import { Notification } from 'src/lib/notifications'
 import { invokeDismiss, invokeInteract } from 'src/actions/notifications'
 import { RootState } from 'src/reducers'
-import { Wrapper } from 'src/ui/structure'
 import {
   NotificationComponent,
   NotificationAnimationRef,
 } from '../components/notifications'
+import { Wrapper } from 'src/ui/structure'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -36,24 +36,21 @@ export const NotificationContainer = (props: Props) => {
       notification &&
       activeNotification.id !== notification.id
     ) {
-      //check this
       animationRef.current?.hideNotification().start(() => {
         setNotification(activeNotification)
 
-        /** NOTE @mnzaki
-         * this should be triggered from the (!notif && active) case
-         * normally if the active notification is nulled first, but
-         * it is not because of animation flicker. If this causes issues
-         * later, add an animation queue and only trigger new ones after
-         * previous ones are over in general and not for this specific case
-         */
+        /** NOTE @mnzaki * this should be triggered from the (!notif && active)
+        case * normally if the active notification is nulled first, but * it is
+        not because of animation flicker. If this causes issues * later, add an
+        animation queue and only trigger new ones after * previous ones are over
+        in general and not for this specific case */
         animationRef.current?.showNotification().start()
       })
     }
-  }, [activeNotification])
+  }, [notification, activeNotification, animationRef])
 
-  return (
-    <Wrapper heightless overlay>
+  return activeNotification || notification ? (
+    <Wrapper heightless overlay withoutSafeArea>
       <NotificationComponent
         ref={animationRef}
         notification={notification}
@@ -63,7 +60,7 @@ export const NotificationContainer = (props: Props) => {
         isSticky={isSticky}
       />
     </Wrapper>
-  )
+  ) : null
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
