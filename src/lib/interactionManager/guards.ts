@@ -1,5 +1,6 @@
 import { JWTEncodable } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRequest'
+import { Generic } from 'jolocom-lib/js/interactionTokens/genericToken'
 import { CredentialResponse } from 'jolocom-lib/js/interactionTokens/credentialResponse'
 import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { CredentialOfferRequest } from 'jolocom-lib/js/interactionTokens/credentialOfferRequest'
@@ -37,3 +38,9 @@ export const isCredentialReceive = (
   token: JWTEncodable,
 ): token is CredentialsReceive =>
   !!(token as CredentialsReceive).signedCredentials
+
+export const isGenericRequest = (
+  token: JWTEncodable,
+): token is Generic =>
+  !!(token as Generic).body
+

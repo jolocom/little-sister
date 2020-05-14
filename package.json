@@ -151,7 +151,7 @@
     "ethereumjs-wallet": "^0.6.0",
     "events": "^3.0.0",
     "i18n-js": "^3.1.0",
-    "jolocom-lib": "^4.1.0",
+    "jolocom-lib": "../../jolocom-lib/jolocom-lib-4.1.0.tgz",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
     "ramda": "^0.26.1",
