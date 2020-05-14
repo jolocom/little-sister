@@ -127,7 +127,7 @@ export const handleDeepLink = (url: string): ThunkAction => (
     }
   }
 
-  const supportedRoutes = ['consent', 'payment', 'authenticate']
+  const supportedRoutes = ['consent', 'payment', 'authenticate', 'generic']
   if (supportedRoutes.includes(routeName)) {
     const interactionToken = JolocomLib.parse.interactionToken.fromJWT(params)
     const handler = interactionHandlers[interactionToken.interactionType]

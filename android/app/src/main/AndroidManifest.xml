@@ -31,7 +31,12 @@
           <category android:name="android.intent.category.DEFAULT" />
           <category android:name="android.intent.category.BROWSABLE" />
         </intent-filter>
-
+        <intent-filter android:label="Jolocom SmartWallet">
+          <data android:scheme="jolocomwallet" android:host="generic" />
+          <action android:name="android.intent.action.VIEW" />
+          <category android:name="android.intent.category.DEFAULT" />
+          <category android:name="android.intent.category.BROWSABLE" />
+        </intent-filter>
         <intent-filter android:label="Jolocom SmartWallet">
           <data android:scheme="jolocomwallet" android:host="consent" />
           <action android:name="android.intent.action.VIEW" />

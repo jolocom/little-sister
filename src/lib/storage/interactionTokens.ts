@@ -6,6 +6,7 @@ import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRe
 import { PaymentRequest } from 'jolocom-lib/js/interactionTokens/paymentRequest'
 import { InteractionChannel } from '../interactionManager/types'
 import { ssoActions } from 'src/actions'
+import { Generic } from 'jolocom-lib/js/interactionTokens/genericToken'
 /**
  * @param Metadata should not need to be passed to credential receive because it comes from cred Offer
  * Furthermore, this only needs to be defined for requests
@@ -34,4 +35,8 @@ export const interactionHandlers = {
     isDeepLinkInteraction: boolean,
   ) =>
     ssoActions.consumePaymentRequest(interactionToken, isDeepLinkInteraction),
+    [InteractionType.Generic]: <T extends JSONWebToken<Generic>>(
+      interactionToken: T,
+      channel: InteractionChannel
+    ) => ssoActions.consumeGenericRequest(interactionToken, channel)
 }

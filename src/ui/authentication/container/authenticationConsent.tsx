@@ -40,6 +40,21 @@ export const AuthenticationConsentContainer = (props: Props) => {
   )
 }
 
+// TODO The callbackURL and body are currently not set, can be done when integrating
+const mapDispatchToPropsGeneric = (dispatch: ThunkDispatch) => ({
+  confirmAuthenticationRequest: (interactionId: string) =>
+  dispatch(withErrorScreen(ssoActions.sendGenericResponse({
+    callbackURL: "",
+    body: ""
+  }, interactionId))),
+  cancelAuthenticationRequest: () => dispatch(ssoActions.cancelSSO),
+})
+
+export const GenericConsent = connect(
+  null,
+  mapDispatchToPropsGeneric,
+)(AuthenticationConsentContainer)
+
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   confirmAuthenticationRequest: (interactionId: string) =>
     dispatch(
@@ -47,6 +62,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
     ),
   cancelAuthenticationRequest: () => dispatch(ssoActions.cancelSSO),
 })
+
 
 export const AuthenticationConsent = connect(
   null,

@@ -43,6 +43,7 @@ import { NotificationScheduler } from './ui/notifications/containers/devNotifica
 
 import { NotificationFilter } from './lib/notifications'
 import { CredentialReceiveNegotiate } from './ui/sso/containers/credentialReceiveNegotiate'
+import { GenericConsent } from './ui/authentication/container/authenticationConsent'
 
 // only used on android
 const headerBackImage = createElement(Image, {
@@ -208,6 +209,13 @@ const MainStack = createStackNavigator(
     },
     [routeList.AuthenticationConsent]: {
       screen: AuthenticationConsent,
+      navigationOptions: () => ({
+        ...navOptScreenWCancel,
+        headerTitle: I18n.t(strings.AUTHORIZATION_REQUEST),
+      }),
+    },
+    [routeList.GenericConsent]: {
+      screen: GenericConsent,
       navigationOptions: () => ({
         ...navOptScreenWCancel,
         headerTitle: I18n.t(strings.AUTHORIZATION_REQUEST),

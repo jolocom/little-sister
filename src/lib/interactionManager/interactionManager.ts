@@ -37,7 +37,6 @@ export class InteractionManager {
       token.interactionType
     )
 
-    console.log(JSON.stringify(token))
     this.interactions[token.nonce] = interaction
     await interaction.processInteractionToken(token)
 
