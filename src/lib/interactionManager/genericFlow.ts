@@ -3,7 +3,7 @@ import { Generic } from 'jolocom-lib/js/interactionTokens/genericToken'
 import { InteractionType } from 'jolocom-lib/js/interactionTokens/types'
 import { Interaction } from './interaction'
 import { Flow } from './flow'
-import { isGenericRequest } from './guards'
+import { isGeneric } from './guards'
 
 export class GenericFlow<T> extends Flow {
   public state: { body?: T } = {}
@@ -19,7 +19,7 @@ export class GenericFlow<T> extends Flow {
   ): Promise<boolean> {
     switch (interactionType) {
       case InteractionType.Generic:
-        if (isGenericRequest(token))
+        if (isGeneric(token))
           return this.consumeGenericRequest(token as Generic<T>) // TODO reasses
       default:
         throw new Error('Interaction type not found')

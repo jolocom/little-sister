@@ -31,6 +31,7 @@ import { RPCRequest } from './rpc'
 import { GenericFlow } from './genericFlow'
 import { Generic } from 'jolocom-lib/js/interactionTokens/genericToken'
 import { IGenericAttrs } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
+import { CallType, EncryptionRequest } from './rpc'
 
 /***
  * - initiated by InteractionManager when an interaction starts
@@ -142,22 +143,61 @@ export class Interaction {
     )
   }
 
-  public async createGenericResponse<T, R>(body: IGenericAttrs<T>) {
-    const genericRequest = this.findMessageByType(
+  public async createEncResponseToken() {
+    const encRequest = this.findMessageByType(
       InteractionType.Generic,
-    ) as JSONWebToken<Generic<R>>
-
-    const genericResponse = {
-      callbackURL: genericRequest.interactionToken.callbackURL,
-      body,
-    }
+    ) as JSONWebToken<EncryptionRequest>
 
     return this.ctx.identityWallet.create.interactionTokens.response.generic(
-      genericResponse,
+      {
+        callbackURL: encRequest.payload.interactionToken!.callbackURL,
+        body: {
+          result: JSON.stringify(
+            // @ts-ignore
+            await this.ctx.identityWallet._vaultedKeyProvider.encryptHybrid(
+              encRequest.payload.interactionToken!.body.request,
+              {
+                derivationPath: JolocomLib.KeyTypes.jolocomIdentityKey,
+                encryptionPass: await this.ctx.keyChainLib.getPassword(),
+              },
+            ),
+          ),
+          rpc: CallType.AsymEncrypt,
+        },
+      },
       await this.ctx.keyChainLib.getPassword(),
       genericRequest,
     )
   }
+
+  // public async createDecResponseToken() {
+  //   const encRequest = this.findMessageByType(
+  //     InteractionType.Generic,
+  //   ) as JSONWebToken<EncryptionRequest>
+
+  //   return this.ctx.identityWallet.create.interactionTokens.response.generic<
+  //     EncryptionResponse
+  //   >(
+  //     {
+  //       callbackURL: encRequest.payload.interactionToken!.callbackURL,
+  //       // @ts-ignore
+  //       body: {
+  //         result: JSON.stringify(
+  //           await this.ctx.identityWallet._vaultedKeyProvider.encryptHybrid(
+  //             encRequest.payload.interactionToken!.body.request,
+  //             {
+  //               derivationPath: JolocomLib.KeyTypes.jolocomIdentityKey,
+  //               encryptionPass: await this.ctx.keyChainLib.getPassword(),
+  //             },
+  //           ),
+  //         ),
+  //         rpc: CallType.AsymEncrypt,
+  //       },
+  //     },
+  //     await this.ctx.keyChainLib.getPassword(),
+  //     encRequest,
+  //   )
+  // }
 
   public async createGenericResponse<T, R>(body: IGenericAttrs<T>) {
     const genericRequest = this.findMessageByType(
