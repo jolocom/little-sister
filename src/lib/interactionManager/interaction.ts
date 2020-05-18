@@ -26,6 +26,8 @@ import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { Identity } from 'jolocom-lib/js/identity/identity'
 import { generateIdentitySummary } from 'src/actions/sso/utils'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import { EncryptionFlow } from './encryptionFlow'
+import { RPCRequest } from './rpc'
 import { GenericFlow } from './genericFlow'
 import { Generic } from 'jolocom-lib/js/interactionTokens/genericToken'
 import { IGenericAttrs } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
@@ -142,18 +144,35 @@ export class Interaction {
 
   public async createGenericResponse<T, R>(body: IGenericAttrs<T>) {
     const genericRequest = this.findMessageByType(
-      InteractionType.Generic
+      InteractionType.Generic,
     ) as JSONWebToken<Generic<R>>
 
     const genericResponse = {
       callbackURL: genericRequest.interactionToken.callbackURL,
-      body
+      body,
     }
 
     return this.ctx.identityWallet.create.interactionTokens.response.generic(
       genericResponse,
       await this.ctx.keyChainLib.getPassword(),
-      genericRequest
+      genericRequest,
+    )
+  }
+
+  public async createGenericResponse<T, R>(body: IGenericAttrs<T>) {
+    const genericRequest = this.findMessageByType(
+      InteractionType.Generic,
+    ) as JSONWebToken<Generic<R>>
+
+    const genericResponse = {
+      callbackURL: genericRequest.interactionToken.callbackURL,
+      body,
+    }
+
+    return this.ctx.identityWallet.create.interactionTokens.response.generic(
+      genericResponse,
+      await this.ctx.keyChainLib.getPassword(),
+      genericRequest,
     )
   }
 

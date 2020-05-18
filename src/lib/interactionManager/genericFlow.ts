@@ -6,7 +6,7 @@ import { Flow } from './flow'
 import { isGenericRequest } from './guards'
 
 export class GenericFlow<T> extends Flow {
-  public state : {body?: T}= {}
+  public state: { body?: T } = {}
 
   public constructor(ctx: Interaction) {
     super(ctx)
@@ -16,7 +16,7 @@ export class GenericFlow<T> extends Flow {
   public handleInteractionToken(
     token: JWTEncodable,
     interactionType: InteractionType,
-  ) {
+  ): Promise<boolean> {
     switch (interactionType) {
       case InteractionType.Generic:
         if (isGenericRequest(token))
@@ -28,5 +28,6 @@ export class GenericFlow<T> extends Flow {
 
   public async consumeGenericRequest(token: Generic<T>) {
     this.state.body = token.body
+    return true
   }
 }

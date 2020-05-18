@@ -39,8 +39,10 @@ export const isCredentialReceive = (
 ): token is CredentialsReceive =>
   !!(token as CredentialsReceive).signedCredentials
 
-export const isGenericRequest = (
-  token: JWTEncodable,
-): token is Generic =>
+export const isGenericRequest = (token: JWTEncodable): token is Generic =>
   !!(token as Generic).body
 
+export const isRPCResponse = (token: JWTEncodable): token is RPCResponse => {
+  const t: RPCResponse = token as RPCResponse
+  return t.response && !!t.response.response
+}
