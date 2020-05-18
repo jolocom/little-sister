@@ -18,7 +18,7 @@ import { InteractionChannel } from './types'
 export class InteractionManager {
   public interactions: {
     [NONCE: string]: Interaction
-  }  = {}
+  } = {}
 
   public readonly backendMiddleware: BackendMiddleware
 
@@ -30,17 +30,15 @@ export class InteractionManager {
     channel: InteractionChannel,
     token: JSONWebToken<JWTEncodable>,
   ) {
-    const interaction = new Interaction(
-      this.backendMiddleware, // TODO Lift
+    console.log(JSON.stringify(token))
+
+    const interaction = await Interaction.start(
+      this.backendMiddleware,
       channel,
-      token.nonce,
-      token.interactionType
+      token,
     )
 
-    console.log(JSON.stringify(token))
     this.interactions[token.nonce] = interaction
-    await interaction.processInteractionToken(token)
-
     return interaction
   }
 

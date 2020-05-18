@@ -21,6 +21,7 @@ import { CredentialOfferRequest } from 'jolocom-lib/js/interactionTokens/credent
 import { AuthenticationFlow } from './authenticationFlow'
 import { CredentialRequest } from 'jolocom-lib/js/interactionTokens/credentialRequest'
 import { Linking } from 'react-native'
+import { CredentialsReceive } from 'jolocom-lib/js/interactionTokens/credentialsReceive'
 import { AppError, ErrorCode } from '../errors'
 import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { Identity } from 'jolocom-lib/js/identity/identity'
@@ -63,8 +64,8 @@ export class Interaction {
   public channel: InteractionChannel
 
   public participants!: {
-    us: Identity
-    them: Identity
+    requester: Identity
+    responder?: Identity
   }
 
   public constructor(
@@ -76,7 +77,33 @@ export class Interaction {
     this.ctx = ctx
     this.channel = channel
     this.id = id
+
     this.flow = new interactionFlowForMessage[interactionType](this)
+  }
+
+  public static async start(
+    ctx: BackendMiddleware,
+    channel: InteractionChannel,
+    token: JSONWebToken<JWTEncodable>,
+  ): Promise<Interaction> {
+    const interaction = new Interaction(
+      ctx,
+      channel,
+      token.nonce,
+      token.interactionType,
+    )
+
+    if (token.interactionType === InteractionType.Generic) {
+      if (isEncryptionRequest(token.payload.interactionToken!)) {
+        interaction.flow = new EncryptionFlow(interaction)
+      } else if (isDecryptionRequest(token.payload.interactionToken!)) {
+        interaction.flow = new DecryptionFlow(interaction)
+      }
+    }
+
+    await interaction.processInteractionToken(token)
+
+    return interaction
   }
 
   public getMessages() {
@@ -175,7 +202,7 @@ export class Interaction {
         },
       },
       await this.ctx.keyChainLib.getPassword(),
-      genericRequest,
+      encRequest,
     )
   }
 
@@ -227,10 +254,18 @@ export class Interaction {
 
   public async processInteractionToken(token: JSONWebToken<JWTEncodable>) {
     if (!this.participants) {
+      // TODO what happens if the signer isnt resolvable
+      const requester = await this.ctx.registry.resolve(token.signer.did)
       this.participants = {
-        us: this.ctx.identityWallet.identity,
-        them: await this.ctx.registry.resolve(token.signer.did),
+        requester,
       }
+      if (requester.did !== this.ctx.identityWallet.did) {
+        this.participants.responder = this.ctx.identityWallet.identity
+      }
+    } else if (!this.participants.responder) {
+      this.participants.responder = await this.ctx.registry.resolve(
+        token.signer.did,
+      )
     }
 
     if (token.signer.did !== this.ctx.identityWallet.did) {
@@ -241,16 +276,25 @@ export class Interaction {
       )
     }
 
+    if (token.interactionType === InteractionType.CredentialsReceive) {
+      await JolocomLib.util.validateDigestables(
+        (token as JSONWebToken<CredentialsReceive>).interactionToken
+          .signedCredentials,
+      )
+    }
+
     return this.flow
       .handleInteractionToken(token.interactionToken, token.interactionType)
-      .then(() => {
+      .then(res => {
         this.interactionMessages.push(token)
+        // this.ctx.storageLib.store.interactionToken(token)
+        return res
       })
   }
 
   public getSummary(): InteractionSummary {
     return {
-      issuer: generateIdentitySummary(this.participants.them),
+      initiator: generateIdentitySummary(this.participants.requester),
       state: this.flow.getState(),
     }
   }
@@ -269,19 +313,6 @@ export class Interaction {
     return this.ctx.storageLib.get.verifiableCredential(query)
   }
 
-  public validateDigestables(signedCredentials: SignedCredential[]) {
-    return JolocomLib.util.validateDigestables(
-      signedCredentials,
-      this.ctx.registry,
-    )
-  }
-
-  public validateDigestable(signedCredentials: SignedCredential) {
-    return JolocomLib.util.validateDigestable(
-      signedCredentials,
-      this.ctx.registry,
-    )
-  }
   /**
    * @dev This will crash with a credential receive because it doesn't contain a callbackURL
    * @todo This should probably come from the transport / channel handler
@@ -345,6 +376,6 @@ export class Interaction {
 
   public storeIssuerProfile = () =>
     this.ctx.storageLib.store.issuerProfile(
-      generateIdentitySummary(this.participants.them),
+      generateIdentitySummary(this.participants.requester),
     )
 }
