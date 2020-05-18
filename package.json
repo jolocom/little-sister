@@ -154,6 +154,7 @@
     "jolocom-lib": "../../jolocom-lib/jolocom-lib-4.1.0.tgz",
     "material-colors": "^1.2.5",
     "object.assign": "^4.1.0",
+    "jolocom-lib": "^4.2.9",
     "ramda": "^0.26.1",
     "react": "16.8.3",
     "react-native": "0.59.9",

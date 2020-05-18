@@ -7782,9 +7782,16 @@ jest@^24.8.0:
     import-local "^2.0.0"
     jest-cli "^24.8.0"
 
+<<<<<<< HEAD
 jolocom-lib@../../jolocom-lib/jolocom-lib-4.1.0.tgz:
   version "4.1.0"
   resolved "../../jolocom-lib/jolocom-lib-4.1.0.tgz#fd685ad64aa143cc4f8118a747fdaa506280f078"
+=======
+jolocom-lib@^4.2.9:
+  version "4.2.9"
+  resolved "https://registry.yarnpkg.com/jolocom-lib/-/jolocom-lib-4.2.9.tgz#9a008d7c72184ce192982d5c826722b16fcba1e3"
+  integrity sha512-XEyd6KLM/vFSWwRhcd9oKe1Q97EWnewCxOu18qC9et5SNv3VuwCior4PvllI4gtf57Tan0XTgtjrnBIJnieygw==
+>>>>>>> 89df614c... fix(lib): update lib, fix type
   dependencies:
     base64url "^3.0.1"
     bip32 "^1.0.2"
