@@ -233,8 +233,9 @@ export const sendCredentialResponse = (
   dispatch(cancelSSO)
 }
 
-export const cancelSSO: ThunkAction = dispatch =>
-  dispatch(navigationActions.navigatorResetHome())
+export const cancelSSO: ThunkAction = dispatch => {
+  return dispatch(navigationActions.navigateBackHome())
+}
 
 export const cancelReceiving: ThunkAction = dispatch => {
   dispatch(resetSelected())

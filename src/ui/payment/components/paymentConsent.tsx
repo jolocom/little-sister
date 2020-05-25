@@ -20,10 +20,6 @@ interface Props {
 interface State {}
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'stretch',
-    backgroundColor: Colors.backgroundLightMain,
-  },
   priceContainer: {
     flex: 0.3,
     flexDirection: 'row',
@@ -76,7 +72,7 @@ export class PaymentConsentComponent extends React.Component<Props, State> {
     const { formattedAmount, unit } = formatEth(amount)
 
     return (
-      <Wrapper style={styles.container}>
+      <Wrapper>
         <View style={styles.priceContainer}>
           <Text style={styles.priceAmount}>{formattedAmount}</Text>
           <Text style={styles.priceUnit}>{unit}</Text>

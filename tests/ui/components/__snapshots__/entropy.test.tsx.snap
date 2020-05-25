@@ -1,112 +1,68 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Entropy component matches the snapshot when drawn upon and insufficient entropy 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
->
-  <Text
-    style={
-      Array [
-        Object {
-          "color": "rgb(255, 239, 223)",
-          "fontFamily": "TT Commons",
-          "fontSize": 20,
-          "paddingHorizontal": "5%",
-          "position": "absolute",
-          "textAlign": "center",
-          "top": "20%",
-        },
-        Object {
-          "fontSize": 42,
-        },
-      ]
-    }
-    testID="entropyMsg"
-  >
-    50 %
-  </Text>
-  <Wrapper
-    style={
-      Object {
-        "flex": 1,
-        "flexDirection": "column",
-      }
-    }
-    testID="scratchArea"
+<Fragment>
+  <Memo(Connect(Component))
+    breathy={true}
+    overlay={true}
+    withoutSafeArea={true}
   >
     <MaskedImageComponent
       addPoint={[Function]}
       disabled={false}
     />
-  </Wrapper>
-</Wrapper>
+  </Memo(Connect(Component))>
+  <Memo(Connect(Component))
+    centered={true}
+    dark={true}
+    withoutSafeArea={true}
+    withoutStatusBar={true}
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgb(255, 239, 223)",
+            "fontFamily": "TT Commons",
+            "fontSize": 20,
+            "paddingHorizontal": "5%",
+            "position": "absolute",
+            "textAlign": "center",
+            "top": "20%",
+          },
+          Object {
+            "fontSize": 42,
+          },
+        ]
+      }
+      testID="entropyMsg"
+    >
+      50 %
+    </Text>
+  </Memo(Connect(Component))>
+</Fragment>
 `;
 
 exports[`Entropy component matches the snapshot when not drawn upon and insufficient entropy 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
->
-  <Text
-    style={
-      Object {
-        "color": "rgb(255, 239, 223)",
-        "fontFamily": "TT Commons",
-        "fontSize": 20,
-        "paddingHorizontal": "5%",
-        "position": "absolute",
-        "textAlign": "center",
-        "top": "20%",
-      }
-    }
-    testID="entropyMsg"
+<Fragment>
+  <Memo(Connect(Component))
+    breathy={true}
+    overlay={true}
+    withoutSafeArea={true}
   >
-    For security purposes, we need some randomness. Please tap the screen and draw on it randomly
-  </Text>
-  <Wrapper
-    style={
-      Object {
-        "flex": 1,
-        "flexDirection": "column",
-      }
-    }
-    testID="scratchArea"
-  >
-    <View
-      style={
-        Object {
-          "position": "absolute",
-        }
-      }
-    >
-      <HandAnimationComponent />
-    </View>
     <MaskedImageComponent
       addPoint={[Function]}
       disabled={false}
     />
-  </Wrapper>
-</Wrapper>
-`;
-
-exports[`Entropy component matches the snapshot with when drawn upon and sufficient entropy 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
->
-  <Text
-    style={
-      Array [
+  </Memo(Connect(Component))>
+  <Memo(Connect(Component))
+    centered={true}
+    dark={true}
+    withoutSafeArea={true}
+    withoutStatusBar={true}
+  >
+    <Text
+      style={
         Object {
           "color": "rgb(255, 239, 223)",
           "fontFamily": "TT Commons",
@@ -115,29 +71,56 @@ exports[`Entropy component matches the snapshot with when drawn upon and suffici
           "position": "absolute",
           "textAlign": "center",
           "top": "20%",
-        },
-        Object {
-          "fontSize": 42,
-        },
-      ]
-    }
-    testID="entropyMsg"
-  >
-    100 %
-  </Text>
-  <Wrapper
-    style={
-      Object {
-        "flex": 1,
-        "flexDirection": "column",
+        }
       }
-    }
-    testID="scratchArea"
+      testID="entropyMsg"
+    >
+      For security purposes, we need some randomness. Please tap the screen and draw on it randomly
+    </Text>
+    <HandAnimationComponent />
+  </Memo(Connect(Component))>
+</Fragment>
+`;
+
+exports[`Entropy component matches the snapshot with when drawn upon and sufficient entropy 1`] = `
+<Fragment>
+  <Memo(Connect(Component))
+    breathy={true}
+    overlay={true}
+    withoutSafeArea={true}
   >
     <MaskedImageComponent
       addPoint={[Function]}
       disabled={true}
     />
-  </Wrapper>
-</Wrapper>
+  </Memo(Connect(Component))>
+  <Memo(Connect(Component))
+    centered={true}
+    dark={true}
+    withoutSafeArea={true}
+    withoutStatusBar={true}
+  >
+    <Text
+      style={
+        Array [
+          Object {
+            "color": "rgb(255, 239, 223)",
+            "fontFamily": "TT Commons",
+            "fontSize": 20,
+            "paddingHorizontal": "5%",
+            "position": "absolute",
+            "textAlign": "center",
+            "top": "20%",
+          },
+          Object {
+            "fontSize": 42,
+          },
+        ]
+      }
+      testID="entropyMsg"
+    >
+      100 %
+    </Text>
+  </Memo(Connect(Component))>
+</Fragment>
 `;

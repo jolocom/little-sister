@@ -1,40 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`generic container component matches the snapshot with no extra props 1`] = `
-<SafeAreaView
+<ForwardRef(_SafeAreaView)
   style={
     Array [
       Object {
-        "alignItems": "center",
+        "backgroundColor": "rgb(245, 245, 245)",
+        "flex": 1,
         "height": "100%",
         "justifyContent": "center",
         "width": "100%",
       },
-      undefined,
+      Object {
+        "paddingTop": 42,
+      },
     ]
   }
 >
+  <StatusBar
+    animated={true}
+    backgroundColor="transparent"
+    barStyle="dark-content"
+    hidden={false}
+    showHideTransition="fade"
+    translucent={true}
+  />
    null 
-</SafeAreaView>
-`;
-
-exports[`generic container component matches the snapshot with style prop 1`] = `
-<SafeAreaView
-  style={
-    Array [
-      Object {
-        "alignItems": "center",
-        "height": "100%",
-        "justifyContent": "center",
-        "width": "100%",
-      },
-      Object {
-        "backgroundColor": "blue",
-        "width": "30%",
-      },
-    ]
-  }
->
-  null
-</SafeAreaView>
+</ForwardRef(_SafeAreaView)>
 `;

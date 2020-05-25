@@ -1,12 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`seedPhrase component matches the snapshot with checkbox unchecked 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
+<Memo(Connect(Component))
+  centered={true}
+  dark={true}
 >
   <View
     style={
@@ -78,5 +75,5 @@ exports[`seedPhrase component matches the snapshot with checkbox unchecked 1`] =
       />
     </View>
   </View>
-</Wrapper>
+</Memo(Connect(Component))>
 `;

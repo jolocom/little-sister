@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, Text } from 'react-native'
 import { Wrapper } from 'src/ui/structure/'
 import { MaskedImageComponent } from 'src/ui/registration/components/maskedImage'
 import I18n from 'src/locales/i18n'
@@ -13,9 +13,6 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: Colors.blackMain,
-  },
   text: {
     ...Typography.subMainText,
     textAlign: 'center',
@@ -26,10 +23,6 @@ const styles = StyleSheet.create({
   },
   bigFont: {
     fontSize: Typography.text4XL,
-  },
-  contentContainer: {
-    flex: 1,
-    flexDirection: 'column',
   },
 })
 
@@ -46,18 +39,16 @@ export const EntropyComponent: React.FC<Props> = props => {
   const textStyle = progress === 0 ? styles.text : [styles.text, styles.bigFont]
 
   return (
-    <Wrapper style={styles.mainContainer}>
-      <Text testID="entropyMsg" style={textStyle}>
-        {msg}
-      </Text>
-      <Wrapper testID="scratchArea" style={styles.contentContainer}>
-        {progress === 0 ? (
-          <View style={{ position: 'absolute' }}>
-            <HandAnimationComponent />
-          </View>
-        ) : null}
+    <>
+      <Wrapper breathy overlay withoutSafeArea>
         <MaskedImageComponent disabled={progress === 1} addPoint={addPoint} />
       </Wrapper>
-    </Wrapper>
+      <Wrapper dark centered withoutSafeArea withoutStatusBar>
+        <Text testID="entropyMsg" style={textStyle}>
+          {msg}
+        </Text>
+        {progress === 0 && <HandAnimationComponent />}
+      </Wrapper>
+    </>
   )
 }

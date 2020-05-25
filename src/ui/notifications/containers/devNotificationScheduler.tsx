@@ -11,12 +11,11 @@ import {
 import { scheduleNotification } from '../../../actions/notifications'
 import { connect } from 'react-redux'
 import { Wrapper, JolocomButton } from '../../structure'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { debug } from '../../../styles/presets'
 import { RootState } from '../../../reducers'
 import { fontMain } from '../../../styles/typography'
-import { blackMain, iBackgroundWhite } from '../../../styles/colors'
-import { NotificationComponent } from '../components/notifications'
+import { blackMain } from '../../../styles/colors'
 import { ToggleSwitch } from '../../structure/toggleSwitch'
 
 const styles = StyleSheet.create({
@@ -50,7 +49,7 @@ const styles = StyleSheet.create({
 })
 
 interface Props
-  extends NavigationScreenProps,
+  extends NavigationInjectedProps,
     ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps> {}
 
@@ -102,7 +101,7 @@ const DevNotificationScheduler = (props: Props) => {
   }
 
   return (
-    <Wrapper style={{ backgroundColor: iBackgroundWhite }}>
+    <Wrapper>
       <View style={styles.topSection}>
         <View style={styles.inputs}>
           <TextInput
@@ -157,8 +156,7 @@ const DevNotificationScheduler = (props: Props) => {
             paddingVertical: 10,
             flexDirection: 'row',
             justifyContent: 'space-around',
-          }}
-        >
+          }}>
           <View style={styles.config}>
             <ToggleSwitch
               value={interact}
@@ -178,17 +176,8 @@ const DevNotificationScheduler = (props: Props) => {
             <Text style={styles.configText}>{'Warning'}</Text>
           </View>
         </View>
-        <View style={styles.notification}>
-          <NotificationComponent
-            notification={assembledNotification}
-            onPressDismiss={() => false}
-            onPressInteract={() => false}
-            isSticky={!assembledNotification.dismiss}
-          />
-        </View>
         <View
-          style={{ width: '100%', paddingVertical: 50, alignItems: 'center' }}
-        >
+          style={{ width: '100%', paddingVertical: 50, alignItems: 'center' }}>
           <Text style={[styles.configText, { fontSize: 30 }]}>Queue</Text>
           <Text style={[styles.configText, { fontSize: 30 }]}>
             {notificationQueue.length}

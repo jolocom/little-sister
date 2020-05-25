@@ -19,6 +19,9 @@ describe('Navigation action creators', () => {
             did: mockDid,
           },
         },
+        generic: {
+          appWrapConfig: {},
+        },
       },
       {
         storageLib: {

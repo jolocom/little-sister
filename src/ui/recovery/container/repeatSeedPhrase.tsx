@@ -6,12 +6,12 @@ import { connect } from 'react-redux'
 import { withLoading } from '../../../actions/modifiers'
 import strings from '../../../locales/strings'
 import * as I18n from 'i18n-js'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { routeList } from '../../../routeList'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
-    NavigationScreenProps {}
+    NavigationInjectedProps {}
 
 interface State {
   note: string

@@ -27,34 +27,12 @@ interface State {
   showingValid: boolean
 }
 
-/*
-const APPBAR_HEIGHT = Platform.select({
-  ios: 44,
-  android: 56,
-  default: 64,
-})
-*/
-
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: Colors.lightGreyLighter,
-  },
-  topContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: Spacing.MD,
-  },
-  emptyDocumentsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.MD,
-  },
   emptyDocumentsText: {
     ...Typography.mainText,
     ...Typography.centeredText,
     color: Colors.greyLight,
+    paddingHorizontal: '5%',
   },
 })
 
@@ -95,8 +73,18 @@ export class DocumentsContainer extends React.Component<Props, State> {
     const isEmpty = displayedDocs.length === 0
     const otherIsEmpty = displayedDocs.length === documents.length
 
+    if (isEmpty) {
+      return (
+        <Wrapper centered>
+          <Text style={styles.emptyDocumentsText}>
+            {I18n.t(strings.NO_DOCUMENTS_TO_SEE_HERE) + '...'}
+          </Text>
+        </Wrapper>
+      )
+    }
+
     return (
-      <Wrapper style={styles.mainContainer}>
+      <Wrapper>
         <Animated.View style={{ flex: 1 }}>
           {!otherIsEmpty && (
             <DocumentViewToggle
@@ -105,14 +93,6 @@ export class DocumentsContainer extends React.Component<Props, State> {
             />
           )}
           <ScrollView
-            // scrollEventThrottle={16}
-            // onScroll={Animated.event([
-            //   {
-            //     nativeEvent: {
-            //       contentOffset: { y: this.state.headerHeight },
-            //     },
-            //   },
-            // ])}
             // to scroll to top upon changing card
             ref={ref => (this.ScrollViewRef = ref)}
             contentContainerStyle={
@@ -120,13 +100,7 @@ export class DocumentsContainer extends React.Component<Props, State> {
             }
             scrollEnabled={!isEmpty}
           >
-            {isEmpty ? (
-              <View style={styles.emptyDocumentsContainer}>
-                <Text style={styles.emptyDocumentsText}>
-                  {I18n.t(strings.NO_DOCUMENTS_TO_SEE_HERE) + '...'}
-                </Text>
-              </View>
-            ) : this.state.showingValid ? (
+            {this.state.showingValid ? (
               <DocumentsCarousel
                 documents={displayedDocs}
                 activeIndex={this.state.activeDocumentIndex}

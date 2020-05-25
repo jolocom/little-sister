@@ -1,13 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`ClaimDetails component matches the snapshot on render 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(245, 245, 245)",
-    }
-  }
->
+<Memo(Connect(Component))>
   <ScrollViewMock
     keyboardShouldPersistTaps="handled"
     style={
@@ -60,17 +54,11 @@ exports[`ClaimDetails component matches the snapshot on render 1`] = `
       />
     </View>
   </ScrollViewMock>
-</Wrapper>
+</Memo(Connect(Component))>
 `;
 
 exports[`ClaimDetails component matches the snapshot on render with multi-line claim 1`] = `
-<Wrapper
-  style={
-    Object {
-      "backgroundColor": "rgb(245, 245, 245)",
-    }
-  }
->
+<Memo(Connect(Component))>
   <ScrollViewMock
     keyboardShouldPersistTaps="handled"
     style={
@@ -130,5 +118,5 @@ exports[`ClaimDetails component matches the snapshot on render with multi-line c
       />
     </View>
   </ScrollViewMock>
-</Wrapper>
+</Memo(Connect(Component))>
 `;

@@ -14,7 +14,7 @@ import { errorTitleMessages, AppError } from 'src/lib/errors'
 import { getRandomStringFromArray } from 'src/utils/getRandomStringFromArray'
 import strings from 'src/locales/strings'
 import { ThunkDispatch } from '../../store'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { Colors, Spacing, Typography } from 'src/styles'
 import { JolocomButton } from '../structure'
 import { routeList } from '../../routeList'
@@ -23,7 +23,7 @@ const errorImage = require('src/resources/img/error_image.png')
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps>,
-    NavigationScreenProps {
+    NavigationInjectedProps {
   errorTitle?: string
 }
 
@@ -90,17 +90,13 @@ export class ExceptionComponent extends React.Component<Props, State> {
     const { navigation } = this.props
     if (navigation) {
       this.props.navigateBack(
-        navigation.state.params && navigation.state.params.returnTo,
+        navigation?.state?.params?.returnTo,
       )
     }
   }
 
   private getError = (): AppError | Error | undefined => {
-    const stateParams =
-      this.props.navigation &&
-      this.props.navigation.state &&
-      this.props.navigation.state.params
-    return stateParams && stateParams.error
+    return this.props.navigation?.state?.params?.error
   }
 
   public render(): JSX.Element | null {

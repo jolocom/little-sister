@@ -21,8 +21,6 @@ exports[`MaskedImage component matches the snapshot with empty current path stri
   <Rect
     height="100%"
     opacity="0.1"
-    rx={0}
-    ry={0}
     width="100%"
     x={0}
     y={0}

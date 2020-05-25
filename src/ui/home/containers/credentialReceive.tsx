@@ -9,6 +9,7 @@ import { cancelReceiving } from 'src/actions/sso'
 import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
 import { View } from 'react-native'
 import { ThunkDispatch } from '../../../store'
+import { Wrapper } from 'src/ui/structure'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -21,23 +22,25 @@ interface State {
 export class CredentialsReceiveContainer extends React.Component<Props, State> {
   public render() {
     return (
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 0.9 }}>
-          <CredentialDialogComponent
-            requester={this.props.offeror}
-            credentialToRender={this.props.offer}
-          />
+      <Wrapper>
+        <View style={{ flex: 1 }}>
+          <View style={{ flex: 0.9 }}>
+            <CredentialDialogComponent
+              requester={this.props.offeror}
+              credentialToRender={this.props.offer}
+            />
+          </View>
+          <View style={{ flex: 0.1 }}>
+            <ButtonSection
+              confirmText={'Accept'}
+              denyText={'Deny'}
+              handleConfirm={this.props.saveExternalCredentials}
+              handleDeny={this.props.goBack}
+              disabled={false}
+            />
+          </View>
         </View>
-        <View style={{ flex: 0.1 }}>
-          <ButtonSection
-            confirmText={'Accept'}
-            denyText={'Deny'}
-            handleConfirm={this.props.saveExternalCredentials}
-            handleDeny={this.props.goBack}
-            disabled={false}
-          />
-        </View>
-      </View>
+      </Wrapper>
     )
   }
 }

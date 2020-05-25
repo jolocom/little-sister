@@ -2,10 +2,9 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { initStore, ThunkDispatch } from './store'
 import { navigationActions } from 'src/actions'
-import { StatusBar, View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { RoutesContainer } from './routes'
-import { AppLoadingAndNotifications } from './ui/generic/appLoadingAndNotifications'
-import { useScreens } from 'react-native-screens'
+import { enableScreens } from 'react-native-screens'
 import { isNil } from 'ramda'
 import {
   NavigationContainerComponent,
@@ -13,9 +12,10 @@ import {
   NavigationState,
 } from 'react-navigation'
 import { setActiveNotificationFilter } from './actions/notifications'
-import { black } from './styles/colors'
+import { backgroundDarkMain } from './styles/colors'
+import { AppWrap } from './ui/structure/wrapper'
 
-useScreens()
+enableScreens()
 
 /**
  * NOTE: this is *not* exported on purpose
@@ -27,10 +27,15 @@ useScreens()
  */
 let store: ReturnType<typeof initStore>
 
-export default class App extends React.PureComponent<
-  {},
-  { showStatusBar: boolean }
-> {
+const styles = StyleSheet.create({
+  appWrapper: {
+    width: '100%',
+    height: '100%',
+    backgroundColor: backgroundDarkMain
+  }
+})
+
+export default class App extends React.PureComponent<{},{}> {
   private navigator!: NavigationContainerComponent
 
   public constructor(props: {}) {
@@ -43,9 +48,6 @@ export default class App extends React.PureComponent<
     // have not been excuted yet (while files are being imported) and initStore
     // triggers creation of BackendMiddleware which needs those
     if (!store) store = initStore()
-    this.state = {
-      showStatusBar: true,
-    }
   }
 
   public handleNavigationChange(
@@ -58,23 +60,27 @@ export default class App extends React.PureComponent<
       navigationOptions
 
     while (curState.routes) {
-      curState = curState.routes[curState.index]
-      const childNav = navigation.getChildNavigation(curState.key)
-      navigationOptions = navigation.router.getScreenOptions(childNav)
+      const nextState: NavigationRoute = curState.routes[curState.index]
+      const childNav = navigation.getChildNavigation(nextState.key)
+      try {
+        // NOTE
+        // this throws for mysterious reasons sometimes
+        // specifically, when using navigateBackHome(), so
+        navigationOptions = navigation.router.getScreenOptions(childNav)
+      } catch {
+        // we just assume it means dead end
+        break
+      }
+
+      curState = nextState
       navigation = childNav
     }
 
-    const { notifications, statusBar } = navigationOptions
+    const { notifications } = navigationOptions
 
     if (!isNil(notifications)) {
       const thunkDispatch: ThunkDispatch = store.dispatch
       thunkDispatch(setActiveNotificationFilter(notifications))
-    }
-
-    if (!isNil(statusBar)) {
-      this.setState({ showStatusBar: statusBar })
-    } else {
-      this.setState({ showStatusBar: true })
     }
   }
 
@@ -85,29 +91,17 @@ export default class App extends React.PureComponent<
   }
 
   public render() {
-    const { showStatusBar } = this.state
     return (
-      <React.Fragment>
-        <StatusBar hidden={!showStatusBar} translucent />
-        {showStatusBar && (
-          <View
-            style={{
-              width: '100%',
-              height: StatusBar.currentHeight,
-              backgroundColor: black,
-            }}
-          />
-        )}
+      <View style={styles.appWrapper}>
         <Provider store={store}>
-          <View style={{ flex: 1 }}>
+          <AppWrap>
             <RoutesContainer
               onNavigationStateChange={this.handleNavigationChange.bind(this)}
               ref={nav => this.setNavigator(nav)}
             />
-            <AppLoadingAndNotifications />
-          </View>
+          </AppWrap>
         </Provider>
-      </React.Fragment>
+      </View>
     )
   }
 }

@@ -3,7 +3,7 @@ import { StyleSheet, View, Text } from 'react-native'
 import { Wrapper, JolocomButton } from 'src/ui/structure'
 import I18n from 'src/locales/i18n'
 import strings from '../../../locales/strings'
-import { Colors, Typography, Spacing } from 'src/styles'
+import { Typography, Spacing } from 'src/styles'
 
 interface Props {
   seedPhrase: string
@@ -11,9 +11,6 @@ interface Props {
 }
 
 const styles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Colors.blackMain,
-  },
   container: {
     paddingHorizontal: '5%',
   },
@@ -43,7 +40,7 @@ export const SeedPhrase: React.SFC<Props> = ({
   seedPhrase,
   handleButtonTap,
 }: Props) => (
-  <Wrapper style={styles.wrapper}>
+  <Wrapper dark centered>
     <View style={styles.container}>
       <View style={styles.noteSection}>
         <Text style={styles.note}>

@@ -47,6 +47,8 @@ export const checkIdentityExists: ThunkAction = async (
     const identityWallet = await backendMiddleware.prepareIdentityWallet()
     const userDid = identityWallet.identity.did
     dispatch(setDid(userDid))
+    await dispatch(setClaimsForDid)
+    await dispatch(checkRecoverySetup)
     return dispatch(navigationActions.navigate({ routeName: routeList.Home }))
   } catch (err) {
     if (!(err instanceof BackendError)) throw err
@@ -108,7 +110,7 @@ export const saveClaim: ThunkAction = async (
   return dispatch(navigationActions.navigatorResetHome())
 }
 
-// TODO Currently only rendering  / adding one
+// TODO Currently only rendering / adding one
 export const saveExternalCredentials: ThunkAction = async (
   dispatch,
   getState,
@@ -130,17 +132,15 @@ export const saveExternalCredentials: ThunkAction = async (
   return dispatch(cancelReceiving)
 }
 
-export const toggleLoading = (value: boolean) => ({
-  type: 'SET_LOADING',
-  value,
-})
-
 export const hasExternalCredentials: ThunkAction = async (
   dispatch,
   getState,
   backendMiddleware,
 ) => {
   const { storageLib, identityWallet } = backendMiddleware
+  // TODO FIXME
+  // we only need a count, no need to actually load and deserialize
+  // all of them
   const externalCredentials = await storageLib.get.verifiableCredential({
     issuer: Not(identityWallet.did),
   })

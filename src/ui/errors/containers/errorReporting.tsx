@@ -7,7 +7,6 @@ import { routeList } from '../../../routeList'
 import { navigationActions } from '../../../actions'
 import { Emoji, EmojiSection } from '../components/emojiSection'
 import { JolocomButton, Wrapper } from '../../structure'
-import { styles } from '../styles'
 import { ScrollView } from 'react-native'
 import { ChooseIssueSection } from '../components/chooseIssueSection'
 import { DescriptionSection } from '../components/descriptionSection'
@@ -53,7 +52,7 @@ const ErrorReportingContainer = (props: Props) => {
   // NOTE error reports can show up without an error,
   // hence a navigation prop (navigateTo) would be better than in the error object
   const navigateBack = () => {
-    const { error } = props.navigation.state.params
+    const error = props.navigation?.state?.params?.error
     if (error instanceof AppError) {
       navigateToScreen(error.navigateTo)
     } else {
@@ -62,7 +61,7 @@ const ErrorReportingContainer = (props: Props) => {
   }
 
   const onSubmitReport = () => {
-    const { error } = props.navigation.state.params
+    const error = props.navigation?.state?.params?.error
 
     const userReport = {
       userError: pickedIssue,
@@ -78,7 +77,7 @@ const ErrorReportingContainer = (props: Props) => {
   }
 
   return (
-    <Wrapper style={styles.wrapper}>
+    <Wrapper>
       <NavigationSection
         onNavigation={navigateBack}
         isBackButton={isBackButton}

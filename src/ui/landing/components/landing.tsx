@@ -18,9 +18,6 @@ interface Props {
 const viewWidth = Dimensions.get('window').width
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    backgroundColor: Colors.blackMain,
-  },
   carouselSlide: {
     width: '100%',
     height: '100%',
@@ -115,7 +112,7 @@ export class LandingComponent extends React.Component<Props> {
 
   public render() {
     return (
-      <Wrapper style={styles.mainContainer}>
+      <Wrapper dark centered withoutSafeArea>
         <Carousel
           testID="landingCarousel"
           data={landingSlides}

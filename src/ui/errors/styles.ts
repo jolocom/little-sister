@@ -16,10 +16,6 @@ const defaultText = {
 }
 
 const finalStyles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Colors.baseBlack,
-    justifyContent: 'flex-start',
-  },
   sectionWrapper: {
     width: '100%',
     height: 'auto',
@@ -221,9 +217,6 @@ const finalStyles = StyleSheet.create({
 })
 
 const intermediateStyles = StyleSheet.create({
-  wrapper: {
-    backgroundColor: Colors.iBackgroundWhite,
-  },
   sectionTitle: {
     color: Colors.baseBlack,
     fontSize: BP({

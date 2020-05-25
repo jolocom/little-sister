@@ -1,58 +1,79 @@
+import QRScanner from 'react-native-qrcode-scanner'
 import React, { useEffect, useState } from 'react'
-import { AppState, AppStateStatus, Platform, View } from 'react-native'
-import { NavigationScreenProps } from 'react-navigation'
-/* TODO: When using the latest react-native-permissions version, remove this dependency,
- since there is already a cross-platform openSettings method */
-import { appDetailsSettings } from 'react-native-android-open-settings'
-// TODO: using v1.2.1. When upgrading to RN60, use the latest version.
-import Permissions, { Status } from 'react-native-permissions'
+import {
+  AppState,
+  AppStateStatus,
+  Platform,
+  View,
+  InteractionManager,
+} from 'react-native'
+import {
+  NavigationInjectedProps, NavigationEventSubscription
+} from 'react-navigation'
+
+import { PERMISSIONS, RESULTS, request, openSettings, check, Permission } from 'react-native-permissions'
 
 import { ScannerComponent } from '../component/scanner'
 import { NoPermissionComponent } from '../component/noPermission'
-import { Colors } from '../../../styles'
+import { Colors } from 'src/styles'
+import { Wrapper } from 'src/ui/structure'
 
-interface Props extends NavigationScreenProps {
+interface Props extends NavigationInjectedProps {
   consumeToken: (jwt: string) => Promise<any>
 }
 
-const CAMERA_PERMISSION = 'camera'
+const CAMERA_PERMISSION = Platform.select({
+  android: PERMISSIONS.ANDROID.CAMERA,
+  ios: PERMISSIONS.IOS.CAMERA
+}) as Permission
 
-enum RESULTS {
-  AUTHORIZED = 'authorized',
-  RESTRICTED = 'restricted',
-}
-
-const IS_IOS = Platform.OS === 'ios'
-
-export const ScannerContainer = (props: Props) => {
+export const ScannerContainer: React.FC<Props> = (props) => {
   const { consumeToken, navigation } = props
-
   const [reRenderKey, setRenderKey] = useState(Date.now())
-  const [permission, setPermission] = useState<Status>(RESULTS.RESTRICTED)
-  const [isCameraReady, setCameraReady] = useState(false)
+  const [permission, setPermission] = useState<string>(RESULTS.UNAVAILABLE)
+  const [scannerRef, setScannerRef] = useState<QRScanner|null>(null)
+  const reactivate = () => scannerRef && scannerRef.reactivate()
+
+  // NOTE: this is needed because QRScanner behaves weirdly when the screen is
+  // remounted.... but we don't have error state here because rebase
+  // FIXME TODO @mnzaki
+  //if (!isError) reactivate()
+
+  const rerender = () => {
+    setRenderKey(Date.now())
+    reactivate()
+  }
 
   useEffect(() => {
-    let focusListener
+    let listener: NavigationEventSubscription | undefined
     if (navigation) {
-      focusListener = navigation.addListener('willFocus', () => {
-        // NOTE: the re-render and the re-mount should only fire during the willFocus event
-        setRenderKey(Date.now())
+      listener = navigation.addListener('didFocus', () => {
+        rerender()
+        checkCameraPermissions()
       })
     }
+    checkCameraPermissions()
 
-    requestCameraPermission().then(() => {
-      setTimeout(() => setCameraReady(true), 200)
-    })
-
-    return focusListener && focusListener.remove
+    return () => listener && listener.remove()
   }, [])
 
+  const checkCameraPermissions = async () => {
+    InteractionManager.runAfterInteractions(() => {
+      check(CAMERA_PERMISSION).then(perm => {
+        setPermission(perm)
+        if (perm !== RESULTS.GRANTED && perm !== RESULTS.BLOCKED) {
+          requestCameraPermission()
+        }
+      })
+    })
+  }
+
   const requestCameraPermission = async () => {
-    const permission = await Permissions.request(CAMERA_PERMISSION)
+    const permission = await request(CAMERA_PERMISSION)
     setPermission(permission)
   }
 
-  const openSettings = () => {
+  const tryOpenSettings = () => {
     const listener = async (state: AppStateStatus) => {
       if (state === 'active') {
         AppState.removeEventListener('change', listener)
@@ -63,32 +84,32 @@ export const ScannerContainer = (props: Props) => {
     AppState.addEventListener('change', listener)
 
     try {
-      const openPlatformSettings = Platform.select({
-        ios: Permissions.openSettings,
-        android: appDetailsSettings,
-      })
-      openPlatformSettings()
+      openSettings()
     } catch (e) {
       AppState.removeEventListener('change', listener)
     }
   }
 
   const onEnablePermission = async () => {
-    if (IS_IOS) {
-      openSettings()
+    if (permission === RESULTS.BLOCKED) {
+      tryOpenSettings()
     } else {
-      if (permission === RESULTS.RESTRICTED) {
-        openSettings()
-      } else {
-        await requestCameraPermission()
-      }
+      await requestCameraPermission()
     }
   }
 
-  return permission === RESULTS.AUTHORIZED ? (
-    isCameraReady ? (
-      <ScannerComponent reRenderKey={reRenderKey} onScan={consumeToken} />
-    ) : (
+  let ret
+  if (permission === RESULTS.GRANTED) {
+    ret = (
+      <ScannerComponent
+        reRenderKey={reRenderKey}
+        onScan={consumeToken}
+        onScannerRef={r => setScannerRef(r)}
+      />
+    )
+  } else if (permission === RESULTS.UNAVAILABLE) {
+    // TODO: maybe add a message here like "do you even camera?"
+    ret = (
       <View
         style={{
           width: '100%',
@@ -97,9 +118,11 @@ export const ScannerContainer = (props: Props) => {
         }}
       />
     )
-  ) : (
-    <NoPermissionComponent onPressEnable={onEnablePermission} />
-  )
+  } else {
+    ret = <NoPermissionComponent onPressEnable={onEnablePermission} />
+  }
+
+  return <Wrapper dark withoutSafeArea withoutStatusBar>{ret}</Wrapper>
 }
 
 export const Scanner = ScannerContainer

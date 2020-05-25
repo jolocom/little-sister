@@ -18,11 +18,6 @@ import strings from '../../../locales/strings'
 import I18n from 'i18n-js'
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    backgroundColor: Colors.backgroundDarkMain,
-  },
   header: {
     ...Typography.largeText,
     color: Colors.sandLight,
@@ -138,12 +133,7 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
     headerText = mnemonic.length + '/12 ' + I18n.t(strings.COMPLETED)
   }
   return (
-    <Wrapper
-      style={[
-        styles.container,
-        isLoading && { justifyContent: 'space-around' },
-      ]}
-    >
+    <Wrapper dark centered breathy={isLoading}>
       <Text style={styles.header}>{headerText}</Text>
       <View testID="seedPhraseMsg" style={styles.mnemonicSection}>
         {mnemonic.length === 0 ? (
@@ -158,8 +148,7 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
               style={[
                 styles.mnemonicWord,
                 markedWord === i && { color: Colors.purpleMain },
-              ]}
-            >
+              ]}>
               {word}
             </Text>
           ))
@@ -179,12 +168,12 @@ const InputSeedPhraseComponent: React.FC<InputSeedPhraseProps> = ({
               //@ts-ignore textAlign is missing in the typings of TextInput
               <TextInput
                 testID="seedWordFld"
-                textAlign={'center'}
                 ref={inputRef}
                 autoCapitalize={'none'}
                 autoCorrect={false}
                 style={[
                   styles.textInput,
+                  { textAlign: 'center' },
                   inputState === WordState.wrong
                     ? styles.error
                     : styles.correct,

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { View, StyleSheet, StatusBar, Text } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import * as loading from 'src/actions/registration/loadingStages'
 import { RootState } from 'src/reducers/'
 import { Wrapper } from 'src/ui/structure/'
@@ -16,10 +16,6 @@ interface Props
     ReturnType<typeof mapStateToProps> {}
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: Colors.blackMain,
-    justifyContent: 'space-around',
-  },
   messageArea: {},
   loadingArea: {},
   progressArea: {
@@ -54,8 +50,7 @@ const styles = StyleSheet.create({
 export const RegistrationProgressContainer: React.FunctionComponent<
   Props
 > = props => (
-  <Wrapper style={styles.container}>
-    <StatusBar barStyle="light-content" />
+  <Wrapper dark centered breathy>
     <View style={styles.messageArea}>
       <Text style={styles.text}>{I18n.t(strings.GIVE_US_A_FEW_MOMENTS)}</Text>
       <Text style={styles.text}>{I18n.t(strings.TO_SET_UP_YOUR_IDENTITY)}</Text>
