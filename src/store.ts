@@ -10,7 +10,9 @@ import {
   JolocomSDK,
   JolocomTypeormStorage,
   JolocomKeychainPasswordStore,
+  JolocomWebSockets,
 } from 'react-native-jolocom'
+
 import { createConnection, getConnection } from 'typeorm'
 import typeormConfig from '../ormconfig'
 import { IStorage } from '@jolocom/sdk/js/src/lib/storage'
@@ -40,6 +42,7 @@ let sdk: JolocomSDK
 export function initStore(storage: IStorage) {
   const passwordStore = new JolocomKeychainPasswordStore()
   sdk = new JolocomSDK({ storage, passwordStore })
+  sdk.usePlugins(new JolocomWebSockets())
 
   /*
    * The {} as RootState type assertion:
