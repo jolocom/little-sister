@@ -1054,10 +1054,10 @@
     class-transformer "^0.2.3"
     reflect-metadata "^0.1.13"
 
-"@jolocom/sdk@0.12.0":
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/@jolocom/sdk/-/sdk-0.12.0.tgz#631ecdf3bac02d8b372856c0a3009fdc8b48a37e"
-  integrity sha512-8DFJDDhVnVipQ+w8eFNpKfA3Lg4p/tno73SSJbp3IfjC/VVIG3mIJZQbxehUJYSOsvJM2syqOUohOZSMD0n/Aw==
+"@jolocom/sdk@^0.13.0":
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/@jolocom/sdk/-/sdk-0.13.0.tgz#05d4217fbb6f2be595129364d77cbd7441bb6417"
+  integrity sha512-eQUhHomjMRQngk0RBE8Y8OyryZm+2UfBEP7hyWWAI2LmGqyhAk7DpsuU+dp3S7FTLmUbe3bFd1Qpt622jaHvow==
   dependencies:
     form-data "^3.0.0"
     ramda "^0.26.1"
@@ -10016,11 +10016,12 @@ react-native-interactable@^1.0.0:
   resolved "https://registry.yarnpkg.com/react-native-interactable/-/react-native-interactable-1.0.0.tgz#b6dcdff9ec61dfae9233e46e1d673ce8480a4f64"
   integrity sha512-e/GyydV3nFWVL36frdM8H+wGxy5pJu0WjlN6dgtBIRCaGz7nLbCRWFINs7SRwIaI9LPXVAqEXQTOc2d5LJN4HA==
 
-react-native-jolocom@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/react-native-jolocom/-/react-native-jolocom-1.0.1.tgz#e55c423d0eb29fe30366f55a422b1e2aaee459d0"
-  integrity sha512-2oRanhrTOe/65AGo5PN5EFVlacbGtXirju0yeJ5HagcVhhOoSfcwAJQBpzTKFJtGSShiwGHIVu4+rpkcX/IToA==
+react-native-jolocom@^1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/react-native-jolocom/-/react-native-jolocom-1.1.3.tgz#acc2bfbed24e9358c523d2e0a4621d03a6329639"
+  integrity sha512-g6VbGRCwlOCkuHmWwnG3ZYBHC+Tfpc4ztJEZQ4CXzrEhJACiBe9bEUhJkXkg56SMkoLaFVrJwNDo+obdACMmjQ==
   dependencies:
+    "@jolocom/sdk" "^0.13.0"
     "@jolocom/sdk-storage-typeorm" "^1.2.1"
     crypto-browserify "^3.12.0"
     object.assign "^4.1.0"
