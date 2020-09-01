@@ -7,7 +7,7 @@ import {
 } from '@jolocom/sdk/js/src/lib/errors/types'
 export { ErrorCode }
 
-import { reportErrorToSentry, initSentry } from 'src/lib/errors/sentry'
+import { reportToSentry, initSentry } from 'src/lib/errors/sentry'
 
 export class AppError extends Error implements IAppError {
   // private code: ErrorCode
@@ -40,7 +40,7 @@ export function reportError(report: ErrorReport) {
     }
     report.error = report.error.origError
   }
-  return reportErrorToSentry(report, extraData)
+  return reportToSentry(report, extraData)
 }
 
 export const initErrorReporting = initSentry

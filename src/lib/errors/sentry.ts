@@ -3,10 +3,11 @@ import VersionNumber from 'react-native-version-number'
 import { sentryDSN } from 'src/config'
 import { ErrorReport } from '@jolocom/sdk/js/src/lib/errors/types'
 
-export function reportErrorToSentry(report: ErrorReport, extraData?: object) {
+export function reportToSentry(errorReport: ErrorReport) {
   Sentry.withScope(scope => {
-    if (extraData) scope.setExtras(extraData)
-    Sentry.captureException(report.error)
+    const { error, ...report } = errorReport
+    if (report) scope.setExtras(report)
+    Sentry.captureException(error)
   })
 }
 
@@ -35,6 +36,7 @@ export function initSentry() {
 
         delete extra.sendPrivateData
       }
+      console.log({ extra, contexts })
 
       return { ...event, contexts, extra }
     },

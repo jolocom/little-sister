@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { NavigationScreenProp, NavigationState } from 'react-navigation'
-import { AppError, reportError } from '@jolocom/sdk/js/src/lib/errors'
+import { AppError } from '@jolocom/sdk/js/src/lib/errors'
 import { ThunkDispatch } from '../../../store'
 import { routeList } from '../../../routeList'
 import { navigationActions } from '../../../actions'
@@ -15,6 +15,8 @@ import I18n from '../../../locales/i18n'
 import strings from '../../../locales/strings'
 import { SectionWrapper } from '../components/sectionWrapper'
 import { NavigationSection } from '../components/navigationSection'
+import { reportToSentry } from 'src/lib/errors/sentry'
+import { withLoading } from 'src/actions/modifiers'
 
 interface PaymentNavigationParams {
   error?: AppError | Error
@@ -33,7 +35,7 @@ export enum Inputs {
 }
 
 const ErrorReportingContainer = (props: Props) => {
-  const { navigateToScreen, navigation } = props
+  const { navigateToScreen, navigation, resetHome } = props
 
   const [pickedIssue, setIssue] = useState('')
   const [description, setDescription] = useState('')
@@ -52,12 +54,16 @@ const ErrorReportingContainer = (props: Props) => {
   // NOTE error reports can show up without an error,
   // hence a navigation prop (navigateTo) would be better than in the error object
   const navigateBack = () => {
-    const error = props.navigation?.state?.params?.error
-    if (error instanceof AppError) {
-      navigateToScreen(error.navigateTo)
-    } else {
-      navigateToScreen(routeList.AppInit)
-    }
+    const previousScreen = navigation.state.params?.previousScreen
+    if (previousScreen) navigateToScreen(previousScreen)
+    else resetHome()
+
+    /* const error = props.navigation?.state?.params?.error
+     * if (error instanceof AppError) {
+     *   navigateToScreen(error.navigateTo)
+     * } else {
+     *   navigateToScreen(routeList.AppInit)
+     * } */
   }
 
   const onSubmitReport = () => {
@@ -70,14 +76,12 @@ const ErrorReportingContainer = (props: Props) => {
       sendPrivateData: toggleState,
     }
 
-    if (navigation && error) {
-      reportError({ ...userReport, error })
-      navigateBack()
-    }
+    reportToSentry({ ...userReport, error })
+    navigateBack()
   }
 
   return (
-    <Wrapper>
+    <Wrapper dark>
       <NavigationSection
         onNavigation={navigateBack}
         isBackButton={isBackButton}
@@ -85,8 +89,7 @@ const ErrorReportingContainer = (props: Props) => {
       <ScrollView>
         <SectionWrapper
           title={I18n.t(strings.TELL_US_THE_PROBLEM)}
-          style={{ marginTop: 14 }}
-        >
+          style={{ marginTop: 14 }}>
           <ChooseIssueSection
             currentInput={currentInput}
             pickedIssue={pickedIssue}
@@ -133,6 +136,8 @@ const ErrorReportingContainer = (props: Props) => {
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   navigateToScreen: (screen: routeList) =>
     dispatch(navigationActions.navigate({ routeName: screen })),
+  resetHome: () =>
+    dispatch(withLoading(navigationActions.navigatorResetHome())),
 })
 
 export const ErrorReporting = connect(

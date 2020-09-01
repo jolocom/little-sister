@@ -1,8 +1,8 @@
 // disable react-native warning boxes
 console.disableYellowBox = true
 
-import { initErrorReporting } from './src/lib/errors'
-initErrorReporting()
+import { initSentry } from './src/lib/errors/sentry'
+initSentry()
 
 // This import needs to remain here due to tremendous amounts of unpaid
 // Tech Debt between react-native and react-navigation and react-native-screens

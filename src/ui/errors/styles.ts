@@ -297,6 +297,4 @@ const intermediateStyles = StyleSheet.create({
   },
 })
 
-export const styles = isFinalStyle
-  ? finalStyles
-  : mergeDeepLeft(intermediateStyles, finalStyles)
+export const styles = finalStyles

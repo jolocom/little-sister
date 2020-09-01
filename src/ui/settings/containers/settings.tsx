@@ -115,6 +115,16 @@ export const SettingsContainer: React.FC<Props> = props => {
             iconName={'book-minus'}
             onPress={() => navigate(routeList.Impressum)}
           />
+          <SettingItem
+            title={'Contact us'}
+            iconName={'contacts'}
+            onPress={() =>
+              navigate(routeList.ErrorReporting, {
+                error: new Error('Contact us'),
+                previousScreen: routeList.Settings,
+              })
+            }
+          />
         </SettingSection>
         <Text style={styles.versionNumber}>
           Jolocom SmartWallet {I18n.t(strings.VERSION)} {version}
@@ -132,10 +142,11 @@ const mapStateToProps = (state: RootState) => ({
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   setLocale: (locale: string) =>
     dispatch(withLoading(genericActions.setLocale(locale))),
-  navigate: (route: routeList) =>
+  navigate: (route: routeList, params?: any) =>
     dispatch(
       navigationActions.navigate({
         routeName: route,
+        params,
       }),
     ),
   setupBackup: () => dispatch(withErrorScreen(showSeedPhrase())),
