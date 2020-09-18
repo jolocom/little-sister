@@ -298,21 +298,21 @@ const MainStack = createStackNavigator(
       screen: TermsOfService,
       navigationOptions: {
         // @ts-ignore
-        notifications: NotificationFilter.all,
+        notifications: NotificationFilter.onlyDismissible,
       },
     },
     [routeList.PrivacyPolicy]: {
       screen: PrivacyPolicy,
       navigationOptions: {
         // @ts-ignore
-        notifications: NotificationFilter.all,
+        notifications: NotificationFilter.onlyDismissible,
       },
     },
     [routeList.Impressum]: {
       screen: Impressum,
       navigationOptions: {
         // @ts-ignore
-        notifications: NotificationFilter.all,
+        notifications: NotificationFilter.onlyDismissible,
       },
     },
     [routeList.Exception]: {

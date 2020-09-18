@@ -102,6 +102,11 @@ const notifications = {
     "We can't do this, some of the documents are not yours",
   IT_SEEMS_LIKE_WE_CANT_DO_THIS: "It seems like we can't do this",
   SOMETHING_WENT_WRONG_CHOOSE_AGAIN: 'Something went wrong. Choose again!',
+  INTERACTION_WITH_THE_SERVICE_COMPLETED:
+    'Interaction with the service completed. Your service page should be updated now',
+  ACTION_SUCCEEDED: 'Action succeeded',
+  YOUR_DATA_WAS_ENCRYPTED: 'Your data was encrypted',
+  YOUR_DATA_WAS_DECRYPTED: 'Your data was decrypted',
 }
 
 const errorTitle = {

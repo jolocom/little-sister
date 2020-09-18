@@ -7,7 +7,11 @@ import {
   EstablishChannelRequest,
   FlowType,
 } from '@jolocom/sdk/js/src/lib/interactionManager/types'
-import { navigatorResetHome } from 'src/actions/navigation'
+import { cancelSSO, scheduleSuccessNotification } from '.'
+import { scheduleNotification } from '../notifications'
+import { createInfoNotification } from '../../lib/notifications'
+import I18n from 'src/locales/i18n'
+import strings from '../../locales/strings'
 
 export const consumeEstablishChannelRequest = (
   establishChannelRequest: JSONWebToken<EstablishChannelRequest>,
@@ -42,9 +46,19 @@ export const startChannel = (interactionId: string): ThunkAction => async (
   await interaction.processInteractionToken(response)
   const channel = await sdk.channels.create(interaction)
 
+  const successNotification = (message: string) => {
+    dispatch(
+      scheduleNotification(
+        createInfoNotification({
+          title: I18n.t(strings.ACTION_SUCCEEDED),
+          message: I18n.t(message),
+        }),
+      ),
+    )
+  }
+
   channel.send(response.encode())
-  channel.start(async (interxn) => {
-    console.log('handing interxn', interxn.id, interxn.flow.type)
+  channel.start(async interxn => {
     let resp
     switch (interxn.flow.type) {
       case FlowType.Resolution:
@@ -52,20 +66,37 @@ export const startChannel = (interactionId: string): ThunkAction => async (
         break
       case FlowType.Encrypt:
         resp = await interxn.createEncResponseToken()
+        // Action Succeeded!
+        // your data was encrypted
+        successNotification(strings.YOUR_DATA_WAS_ENCRYPTED)
         break
       case FlowType.Decrypt:
+        // Action succeeded!
+        // the data was decrypted
         resp = await interxn.createDecResponseToken()
+        successNotification(strings.YOUR_DATA_WAS_DECRYPTED)
         break
     }
 
     if (resp) {
-      console.log('Channel', channel.id, 'responded to', interxn.flow.type, `(${interxn.id})`, 'with', resp.interactionToken)
       channel.send(resp.encode())
     } else {
-      console.warn('received illegal interxn request on channel', channel.id, interxn.flow.type)
-      // TODO: notify user that we got some weird thing on the channel
+      console.warn(
+        'received illegal interxn request on channel',
+        channel.id,
+        interxn.flow.type,
+      )
+      dispatch(
+        scheduleNotification(
+          createInfoNotification({
+            title: I18n.t(strings.AWKWARD),
+            message: I18n.t(strings.SOMETHING_DOESNT_SEEM_RIGHT),
+          }),
+        ),
+      )
     }
   })
 
-  return dispatch(navigatorResetHome())
+  dispatch(cancelSSO)
+  dispatch(scheduleSuccessNotification)
 }

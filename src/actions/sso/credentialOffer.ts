@@ -16,6 +16,7 @@ import {
 } from '@jolocom/sdk/js/src/lib/interactionManager/types'
 import { isEmpty } from 'ramda'
 import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import { cancelSSO } from './index'
 
 export const consumeCredentialOfferRequest = (
   credentialOfferRequest: JSONWebToken<CredentialOfferRequest>,
@@ -254,8 +255,6 @@ const endReceiving = (interactionId: string): ThunkAction => (
   ) {
     return dispatch(navigationActions.navigatorResetHome())
   } else {
-    return dispatch(
-      navigationActions.navigate({ routeName: routeList.InteractionScreen }),
-    )
+    return dispatch(cancelSSO)
   }
 }

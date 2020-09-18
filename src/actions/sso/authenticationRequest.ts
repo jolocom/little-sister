@@ -4,16 +4,16 @@ import { Authentication } from 'jolocom-lib/js/interactionTokens/authentication'
 import { routeList } from 'src/routeList'
 import { ThunkAction } from '../../store'
 import { InteractionTransportType } from '@jolocom/sdk/js/src/lib/interactionManager/types'
-import { cancelSSO } from '.'
+import { cancelSSO, scheduleSuccessNotification } from '.'
 
 export const consumeAuthenticationRequest = (
   authenticationRequest: JSONWebToken<Authentication>,
-  channel: InteractionTransportType
+  channel: InteractionTransportType,
 ): ThunkAction => async (dispatch, getState, backendMiddleware) => {
   const { interactionManager } = backendMiddleware
   const interaction = await interactionManager.start(
     channel,
-    authenticationRequest
+    authenticationRequest,
   )
 
   return dispatch(
@@ -21,7 +21,7 @@ export const consumeAuthenticationRequest = (
       routeName: routeList.AuthenticationConsent,
       params: {
         interactionId: interaction.id,
-        interactionSummary: interaction.getSummary()
+        interactionSummary: interaction.getSummary(),
       },
       key: 'authenticationRequest',
     }),
@@ -29,8 +29,13 @@ export const consumeAuthenticationRequest = (
 }
 
 export const sendAuthenticationResponse = (
-  interactionId: string
+  interactionId: string,
 ): ThunkAction => async (dispatch, getState, backendMiddleware) => {
-  const interaction = backendMiddleware.interactionManager.getInteraction(interactionId)
-  return interaction.send(await interaction.createAuthenticationResponse()).then(() => dispatch(cancelSSO))
+  const interaction = backendMiddleware.interactionManager.getInteraction(
+    interactionId,
+  )
+  return interaction
+    .send(await interaction.createAuthenticationResponse())
+    .then(() => dispatch(cancelSSO))
+    .then(() => dispatch(scheduleSuccessNotification))
 }
