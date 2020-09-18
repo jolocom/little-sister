@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.black065,
     width: '100%',
     height: BP({
-      small: 165,
+      small: 120,
       medium: 175,
       large: 185,
     }),
