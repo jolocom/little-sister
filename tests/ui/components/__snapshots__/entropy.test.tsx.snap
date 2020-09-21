@@ -75,7 +75,7 @@ exports[`Entropy component matches the snapshot when not drawn upon and insuffic
       }
       testID="entropyMsg"
     >
-      For security purposes, we need some randomness. Please tap the screen and draw on it randomly
+      . 
     </Text>
     <HandAnimationComponent />
   </Memo(Connect(Component))>

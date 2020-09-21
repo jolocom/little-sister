@@ -25,10 +25,6 @@ const registration = {
   TRACK_WHERE_YOU_SIGN_IN_TO_SERVICES: 'Track where you sign in to services',
   GET_STARTED: 'Get started',
   RECOVER_IDENTITY: 'Recover identity',
-  FOR_SECURITY_PURPOSES_WE_NEED_SOME_RANDOMNESS:
-    'For security purposes, we need some randomness',
-  PLEASE_TAP_THE_SCREEN_AND_DRAW_ON_IT_RANDOMLY:
-    'Please tap the screen and draw on it randomly',
   GIVE_US_A_FEW_MOMENTS: 'Give us a few moments',
   TO_SET_UP_YOUR_IDENTITY: 'to set up your identity',
   CREATE_NEW_ACCOUNT: 'create\nnew account',
@@ -215,8 +211,8 @@ export default {
   ...deviceAuth,
   ...termsOfService,
   NO_SERVICE_NAME: "Service shared no public profile",
-  SHOWING_VALID: "Showing valid",
-  SHOWING_EXPIRED: "Showing expired",
+  SHOWING_VALID: "Valid documents",
+  SHOWING_EXPIRED: "Expired documents",
   ISSUED_BY: "Issued by",
   IDENTITY: 'Identity',
   DOCUMENTS: 'Documents',

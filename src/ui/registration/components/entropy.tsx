@@ -3,7 +3,6 @@ import { StyleSheet, Text } from 'react-native'
 import { Wrapper } from 'src/ui/structure/'
 import { MaskedImageComponent } from 'src/ui/registration/components/maskedImage'
 import I18n from 'src/locales/i18n'
-import strings from '../../../locales/strings'
 import { Typography, Colors } from 'src/styles'
 import { HandAnimationComponent } from './handAnimation'
 
@@ -31,9 +30,9 @@ export const EntropyComponent: React.FC<Props> = props => {
 
   const msg =
     progress === 0
-      ? I18n.t(strings.FOR_SECURITY_PURPOSES_WE_NEED_SOME_RANDOMNESS) +
+      ? I18n.t("") +
         '. ' +
-        I18n.t(strings.PLEASE_TAP_THE_SCREEN_AND_DRAW_ON_IT_RANDOMLY)
+        I18n.t("")
       : `${Math.trunc(progress * 100)} %`
 
   const textStyle = progress === 0 ? styles.text : [styles.text, styles.bigFont]
