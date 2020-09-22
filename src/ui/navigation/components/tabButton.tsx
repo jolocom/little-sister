@@ -10,6 +10,7 @@ import {
 } from 'react-native'
 import { fontLight } from '../../../styles/typography'
 import { BP } from '../../../styles/breakpoints'
+import I18n from 'src/locales/i18n'
 
 const styles = StyleSheet.create({
   label: {
@@ -96,7 +97,7 @@ export const TabButton = (props: Props) => {
         ]}
         allowFontScaling={true}
       >
-        {label}
+        {I18n.t(label)}
       </Text>
     </TouchableOpacity>
   )

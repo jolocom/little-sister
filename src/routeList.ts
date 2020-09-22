@@ -21,9 +21,9 @@ export enum routeList {
 
   // Bottom Nav Screens
   Home = 'Home',
-  Claims = 'Claims',
+  Identity = 'Identity',
   Documents = 'Documents',
-  Records = 'Records',
+  History = 'History',
   Settings = 'Settings',
   InteractionScreen = 'InteractionScreen',
 

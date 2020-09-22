@@ -108,54 +108,6 @@ const BottomBarContainer = (props: Props) => {
   const { routes, index } = navigation.state
   const colors = { activeTintColor, inactiveTintColor }
 
-  const [AnimatedHiding] = useState(new Animated.Value(0))
-
-  useEffect(() => {
-    AnimatedHiding.setValue(0)
-
-    if (navigation) {
-      const keyboardShowListener = Keyboard.addListener(
-        Platform.select({
-          ios: 'keyboardWillShow',
-          android: 'keyboardDidShow',
-        }),
-        animateHiding,
-      )
-
-      const keyboardHideListener = Keyboard.addListener(
-        Platform.select({
-          ios: 'keyboardWillHide',
-          android: 'keyboardDidHide',
-        }),
-        animateAppear,
-      )
-
-      return () => {
-        keyboardShowListener.remove()
-        keyboardHideListener.remove()
-      }
-    }
-
-    return
-  }, [])
-
-  const animateHiding = () => {
-    Animated.timing(AnimatedHiding, {
-      // NOTE: to account for screens that use SafeAreaView
-      toValue: BAR_HEIGHT - 2 * VERTICAL_OFFSET,
-      duration: 400,
-      useNativeDriver: true,
-    }).start()
-  }
-
-  const animateAppear = () => {
-    Animated.timing(AnimatedHiding, {
-      toValue: 0,
-      duration: 100,
-      useNativeDriver: true,
-    }).start()
-  }
-
   return (
     <SafeAreaView
       style={styles.wrapper}

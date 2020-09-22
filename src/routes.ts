@@ -97,11 +97,11 @@ const navOptScreenWCancel = {
 }
 
 export const BottomTabBarRoutes = {
-  [routeList.Claims]: {
+  [routeList.Identity]: {
     screen: Claims,
-    title: strings.IDENTITY,
     navigationOptions: {
       ...commonNavigationOptions,
+      tabBarLabel: strings.IDENTITY,
       tabBarIcon: IdentityIcon,
       // @ts-ignore
       notifications: NotificationFilter.all,
@@ -109,19 +109,19 @@ export const BottomTabBarRoutes = {
   },
   [routeList.Documents]: {
     screen: Documents,
-    title: strings.DOCUMENTS,
     navigationOptions: {
       ...commonNavigationOptions,
       tabBarIcon: DocsIcon,
+      tabBarLabel: strings.DOCUMENTS,
       // @ts-ignore
       notifications: NotificationFilter.all,
     },
   },
-  [routeList.Records]: {
+  [routeList.History]: {
     screen: Records,
-    title: strings.HISTORY,
     navigationOptions: {
       ...commonNavigationOptions,
+      tabBarLabel: strings.HISTORY,
       tabBarIcon: HistoryIcon,
       // @ts-ignore
       notifications: NotificationFilter.onlyDismissible,
@@ -129,9 +129,9 @@ export const BottomTabBarRoutes = {
   },
   [routeList.Settings]: {
     screen: Settings,
-    title: strings.SETTINGS,
     navigationOptions: {
       ...commonNavigationOptions,
+      tabBarLabel: strings.SETTINGS,
       tabBarIcon: SettingsIcon,
       // @ts-ignore
       notifications: NotificationFilter.onlyDismissible,
@@ -143,18 +143,6 @@ const BottomTabNavigator = createBottomTabNavigator(BottomTabBarRoutes, {
   tabBarOptions: {
     activeTintColor: Colors.white,
     inactiveTintColor: Colors.gray151,
-  },
-  navigationOptions: ({
-    navigation,
-  }: {
-    navigation: NavigationScreenProp<NavigationRoute>
-  }) => {
-    // proxy the route title as the headerTitle for this screen
-    const nestedRouteName =
-      navigation.state.routes[navigation.state.index].routeName
-    return {
-      headerTitle: I18n.t(BottomTabBarRoutes[nestedRouteName].title),
-    }
   },
   tabBarComponent: BottomBar,
 })
