@@ -102,7 +102,7 @@ const TermsOfServiceConsentContainer: React.FC<Props> = ({
       </View>
       <View style={styles.termsWrapper}>
         <ScrollView
-          contentContainerStyle={{ paddingBottom: '50%' }}
+          contentContainerStyle={{ paddingBottom: '80%' }}
           showsVerticalScrollIndicator={false}
           overScrollMode={'never'}>
           <Text style={styles.description}>
