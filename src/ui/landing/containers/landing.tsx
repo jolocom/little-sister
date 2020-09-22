@@ -5,7 +5,7 @@ import { ThunkDispatch } from 'src/store'
 import { routeList } from '../../../routeList'
 import { checkTermsOfService } from 'src/actions/generic'
 import { withErrorScreen } from 'src/actions/modifiers'
-import { registrationActions } from 'src/actions/'
+import { navigationActions, registrationActions } from 'src/actions/'
 import { AppError, ErrorCode } from 'src/lib/errors'
 
 interface Props extends ReturnType<typeof mapDispatchToProps> {}
@@ -25,7 +25,12 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   getStarted: () => {
     dispatch(
       withErrorScreen(
-        checkTermsOfService(routeList.RegistrationProgress, () => {
+        checkTermsOfService(() => {
+          dispatch(
+            navigationActions.navigate({
+              routeName: routeList.RegistrationProgress,
+            }),
+          )
           dispatch(
             withErrorScreen(
               registrationActions.createIdentity(''),
@@ -44,7 +49,13 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   recoverIdentity: () => {
     dispatch(
       withErrorScreen(
-        checkTermsOfService(routeList.InputSeedPhrase),
+        checkTermsOfService(() => {
+          dispatch(
+            navigationActions.navigate({
+              routeName: routeList.InputSeedPhrase,
+            }),
+          )
+        }),
         err =>
           new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
       ),

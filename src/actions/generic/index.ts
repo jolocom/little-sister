@@ -56,29 +56,24 @@ const hashString = (text: string) => {
 
 const TERMS_OF_CONDITIONS_KEY = 'TERMS_OF_CONDITIONS'
 export const checkTermsOfService = (
-  route: routeList,
   onSubmit?: () => void,
 ): ThunkAction => async dispatch => {
   const storageHash = await AsyncStorage.getItem(TERMS_OF_CONDITIONS_KEY)
   const currentHash = hashString(termsOfServiceDE)
   const shouldShowTerms = storageHash !== currentHash
 
-  if (!shouldShowTerms && onSubmit) onSubmit()
+  if (!shouldShowTerms && onSubmit) return onSubmit()
   return dispatch(
     navigationActions.navigate({
-      routeName: shouldShowTerms ? routeList.TermsOfServiceConsent : route,
-      params: { nextRoute: route, onSubmit },
+      routeName: routeList.TermsOfServiceConsent,
+      params: { onSubmit },
     }),
   )
 }
 
-export const storeTermsOfService = (
-  route: routeList,
-): ThunkAction => async dispatch => {
+export const storeTermsOfService = (): ThunkAction => async () => {
   const termsHash = hashString(termsOfServiceDE)
-  await AsyncStorage.setItem(TERMS_OF_CONDITIONS_KEY, termsHash)
-
-  dispatch(navigationActions.navigate({ routeName: route }))
+  return AsyncStorage.setItem(TERMS_OF_CONDITIONS_KEY, termsHash)
 }
 
 export const setLocale = (locale: string): ThunkAction => async (

@@ -95,8 +95,9 @@ export const checkIdentityExists: ThunkAction = async (
     await dispatch(setClaimsForDid)
     //await dispatch(checkLocalDeviceAuthSet)
     await dispatch(checkRecoverySetup)
-    await dispatch(checkTermsOfService(routeList.Home))
-    return dispatch(genericActions.lockApp())
+    return dispatch(
+      checkTermsOfService(() => dispatch(genericActions.lockApp())),
+    )
   } catch (err) {
     if (
       err.message === BackendError.codes.NoEntropy ||

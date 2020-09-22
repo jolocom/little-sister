@@ -26,7 +26,6 @@ import { BP } from 'src/styles/breakpoints'
 import { ActionSheet } from '../structure/actionSheet'
 
 interface NavigationProps {
-  nextRoute: routeList
   onSubmit: () => void
 }
 
@@ -70,7 +69,7 @@ const TermsOfServiceConsentContainer: React.FC<Props> = ({
 }) => {
   const {
     state: {
-      params: { nextRoute, onSubmit },
+      params: { onSubmit },
     },
   } = navigation
   const [accepted, setAccepted] = useState(false)
@@ -163,7 +162,7 @@ const TermsOfServiceConsentContainer: React.FC<Props> = ({
           text={I18n.t(strings.ACCEPT_NEW_TERMS)}
           containerStyle={{ width: '100%' }}
           onPress={async () => {
-            await storeTermsConsent(nextRoute)
+            await storeTermsConsent()
             onSubmit()
           }}
           disabled={!accepted}
@@ -174,8 +173,7 @@ const TermsOfServiceConsentContainer: React.FC<Props> = ({
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-  storeTermsConsent: (nextRoute: routeList) =>
-    dispatch(storeTermsOfService(nextRoute)),
+  storeTermsConsent: () => dispatch(storeTermsOfService()),
 })
 
 const styles = StyleSheet.create({
