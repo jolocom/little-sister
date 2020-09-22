@@ -19,6 +19,7 @@ const styles = StyleSheet.create({
   text: {
     ...Buttons.buttonStandardText,
     fontFamily: fontMain,
+    textAlign: 'center',
     ...Platform.select({
       ios: {
         marginTop: 3,
@@ -30,10 +31,13 @@ const styles = StyleSheet.create({
   },
   gradientWrapper: {
     flex: 1,
+  },
+  buttonWrapper: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 26,
-  },
+  }
 })
 
 interface Props {
@@ -91,7 +95,8 @@ export const JolocomButton: React.FC<Props> = props => {
         onPress={onButtonPress}
         testID={testID}
         style={styles.gradientWrapper}>
-        <Animated.View style={{ opacity: opacityValue }}>
+        <Animated.View
+          style={[styles.buttonWrapper, { opacity: opacityValue }]}>
           <Text style={[styles.text, textStyle]}>{text}</Text>
         </Animated.View>
       </TouchableOpacity>
