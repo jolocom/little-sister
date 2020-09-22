@@ -22,8 +22,8 @@ export const text3XL = 34
 export const text4XL = 42
 
 export const textHeader = isSmallViewportWidth ? textXL : textXXL
-export const textSubheader = isSmallViewportWidth ? textSM : textMD
-export const textSubheaderLineHeight = isSmallViewportWidth ? 20 : 24
+export const textSubheader = isSmallViewportWidth ? textXS : textSM
+export const textSubheaderLineHeight = isSmallViewportWidth ? 18 : 22
 
 export const centeredText = {
   textAlign: 'center' as 'center',
