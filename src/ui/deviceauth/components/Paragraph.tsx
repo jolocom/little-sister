@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   medium: {
     ...getStyle(
       BP({ large: 20, medium: 18, small: 16 }),
-      BP({ large: 22, medium: 20, small: 18 }),
+      BP({ large: 24, medium: 22, small: 18 }),
       0.14,
     ),
   },

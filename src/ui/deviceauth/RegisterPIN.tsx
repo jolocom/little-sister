@@ -79,7 +79,7 @@ const RegisterPIN: React.FC<PropsI> = ({ unlockApplication, navigation }) => {
 
   return (
     <Wrapper secondaryDark>
-      <PasscodeWrapper customStyles={{ paddingTop: 38 }}>
+      <PasscodeWrapper customStyles={{ paddingTop: BP({medium: 38, large: 38, small: 24}) }}>
         <View>
           <Header color={Colors.white90}>
             {isCreating
@@ -89,7 +89,7 @@ const RegisterPIN: React.FC<PropsI> = ({ unlockApplication, navigation }) => {
           <Paragraph
             color={Colors.white70}
             size={ParagraphSizes.medium}
-            customStyles={{ opacity: 0.8, marginHorizontal: 15, marginTop: 8 }}>
+            customStyles={{ opacity: 0.8, marginHorizontal: 15, marginTop: 0 }}>
             {I18n.t(strings.ADDING_AN_EXTRA_LAYER_OF_SECURITY)}
           </Paragraph>
         </View>
@@ -131,8 +131,8 @@ const styles = StyleSheet.create({
   passcodeContainer: {
     marginTop: BP({
       large: '30%',
-      medium: '30%',
-      small: '10%',
+      medium: '16%',
+      small: '8%',
     }),
     position: 'relative',
   },
