@@ -221,7 +221,7 @@ export default {
   ALL_CLAIMS: 'All claims',
   RECEIVING_NEW_CREDENTIAL: 'Receiving new credential',
   CHOOSE_ONE_OR_MORE_DOCUMENTS_PROVIDED_BY_THIS_SERVICE_AND_WE_WILL_GENERATE_THEM_FOR_YOU:
-    'Choose one or more documents provided by this service and we will generate them for you',
+    'The service sent your wallet the following document(s)',
   RECEIVE: 'Receive',
   SHARE_CLAIMS: 'Share claims',
   CONFIRM_PAYMENT: 'Confirm payment',
