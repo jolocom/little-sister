@@ -49,6 +49,7 @@ interface Props
   readonly centered?: boolean
   readonly overlay?: boolean
   readonly heightless?: boolean
+  readonly style?: ViewStyle
   readonly testID?: string
   readonly hideKeyboard?: boolean
   children: ReactNode
@@ -181,6 +182,7 @@ export const Wrapper = React.memo(
       withoutStatusBar,
       secondaryDark,
       hideKeyboard,
+      style
     } = props
 
     const extraStyle: StyleProp<ViewStyle> = {
@@ -202,6 +204,8 @@ export const Wrapper = React.memo(
       extraStyle.zIndex = 12 // good number
       extraStyle.backgroundColor = 'transparent'
     }
+
+    if (style) Object.assign(extraStyle, style)
 
     let KeyboardDismissWrapper: any = React.Fragment
     const touchableProps: TouchableWithoutFeedbackProps = {}
