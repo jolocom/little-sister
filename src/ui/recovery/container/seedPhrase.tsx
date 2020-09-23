@@ -19,6 +19,7 @@ export class SeedPhraseContainer extends React.Component<Props> {
       <SeedPhraseComponent
         seedPhrase={mnemonic}
         handleButtonTap={() => this.props.repeatSeedPhrase(mnemonic)}
+        onBack={this.props.goBack}
       />
     )
   }
@@ -33,6 +34,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
         params: { mnemonic },
       }),
     ),
+  goBack: () => dispatch(navigationActions.navigateBack()),
 })
 
 export const SeedPhrase = connect(
