@@ -42,7 +42,6 @@ const mapDispatchToAppWrapProps = (dispatch: ThunkDispatch) => ({
 interface Props
   extends Partial<AppWrapConfig>,
     ReturnType<typeof mapDispatchToProps> {
-  readonly style?: ViewStyle
   readonly withoutSafeArea?: boolean
   readonly dark?: boolean
   readonly secondaryDark?: boolean
@@ -82,6 +81,9 @@ interface AppWrapProps
  * heightless         set height to 0 instead of default 100%
  * style              custom styles for the wrapping view
  * testID             ID/label for use in tests
+ * hideKeyboard       allows hiding the Keyboard when tapping outside the input
+ *                    ...WARNING: Do not use with a child ScrollView, otherwise the
+ *                                Touchable will steal the scroll touch events.
  */
 
 const styles = StyleSheet.create({
@@ -177,7 +179,6 @@ export const Wrapper = React.memo(
       overlay,
       heightless,
       withoutStatusBar,
-      style,
       secondaryDark,
       hideKeyboard,
     } = props
@@ -202,19 +203,19 @@ export const Wrapper = React.memo(
       extraStyle.backgroundColor = 'transparent'
     }
 
-    if (style) Object.assign(extraStyle, style)
-
+    let KeyboardDismissWrapper: any = React.Fragment
     const touchableProps: TouchableWithoutFeedbackProps = {}
     if (hideKeyboard) {
       touchableProps.onPress = Keyboard.dismiss
+      KeyboardDismissWrapper = TouchableWithoutFeedback
     }
 
     return (
-      <TouchableWithoutFeedback {...touchableProps}>
+      <KeyboardDismissWrapper {...touchableProps}>
         <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
           {props.children}
         </WrapperView>
-      </TouchableWithoutFeedback>
+      </KeyboardDismissWrapper>
     )
   }),
 )
