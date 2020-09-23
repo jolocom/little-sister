@@ -7,7 +7,7 @@ import {
   StyleProp,
   ViewStyle,
   AppStateStatus,
-  Platform,
+  Platform, Keyboard, TouchableWithoutFeedback, TouchableWithoutFeedbackProps,
 } from 'react-native'
 
 import { backgroundDarkMain, backgroundLightMain } from 'src/styles/colors'
@@ -48,6 +48,7 @@ interface Props
   readonly overlay?: boolean
   readonly heightless?: boolean
   readonly testID?: string
+  readonly hideKeyboard?: boolean
   children: ReactNode
 }
 
@@ -175,6 +176,7 @@ export const Wrapper = React.memo(
       withoutStatusBar,
       style,
       secondaryDark,
+      hideKeyboard,
     } = props
 
     const extraStyle: StyleProp<ViewStyle> = {
@@ -199,14 +201,17 @@ export const Wrapper = React.memo(
 
     if (style) Object.assign(extraStyle, style)
 
+    const touchableProps: TouchableWithoutFeedbackProps = {}
+    if (hideKeyboard && Platform.OS === 'ios') {
+      touchableProps.onPress = Keyboard.dismiss
+    }
+
     return (
-      <>
-        <WrapperView
-          testID={props.testID}
-          style={[styles.wrapper, extraStyle]}>
+      <TouchableWithoutFeedback {...touchableProps}>
+        <WrapperView testID={props.testID} style={[styles.wrapper, extraStyle]}>
           {props.children}
         </WrapperView>
-      </>
+      </TouchableWithoutFeedback>
     )
   }),
 )

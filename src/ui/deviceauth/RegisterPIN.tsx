@@ -78,7 +78,7 @@ const RegisterPIN: React.FC<PropsI> = ({ unlockApplication, navigation }) => {
   }, [verifiedPasscode])
 
   return (
-    <Wrapper secondaryDark>
+    <Wrapper secondaryDark hideKeyboard>
       <PasscodeWrapper customStyles={{ paddingTop: BP({medium: 38, large: 38, small: 24}) }}>
         <View>
           <Header color={Colors.white90}>

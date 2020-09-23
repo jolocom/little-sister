@@ -80,7 +80,7 @@ const ChangePin: React.FC<PropsI> = ({
   }
 
   return (
-    <Wrapper secondaryDark>
+    <Wrapper secondaryDark hideKeyboard>
       <NavigationSection
         isBackButton={false}
         onNavigation={() => navigation.goBack()}

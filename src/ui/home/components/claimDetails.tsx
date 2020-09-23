@@ -157,7 +157,7 @@ export class ClaimDetailsComponent extends React.Component<Props, State> {
       !this.state.keyboardDrawn || Object.keys(claimData).length < 3
 
     return (
-      <Wrapper>
+      <Wrapper hideKeyboard>
         {Platform.OS === 'ios' ? (
           <NavigationSection
             isBackButton
