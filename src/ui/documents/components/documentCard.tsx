@@ -30,18 +30,20 @@ interface DocumentCardProps {
   shadow?: boolean
 }
 
+const CARD_BORDER_RADIUS = 12
 const styles = StyleSheet.create({
   card: {
     height: DOCUMENT_CARD_HEIGHT,
     width: DOCUMENT_CARD_WIDTH,
     backgroundColor: Colors.white,
-    borderRadius: 12,
+    borderRadius: CARD_BORDER_RADIUS,
     overflow: 'hidden',
   },
   cardBack: {
     position: 'absolute',
     width: '100%',
     height: '100%',
+    borderRadius: CARD_BORDER_RADIUS,
   },
   cardContent: {
     flex: 1,

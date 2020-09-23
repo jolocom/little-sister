@@ -11,7 +11,7 @@ import {
   DOCUMENT_CARD_WIDTH,
   DocumentCard,
 } from '../../documents/components/documentCard'
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import Interactable, { IDragEvent, ISnapEvent } from 'react-native-interactable'
 import { Colors, Typefaces } from '../../../styles'
 import { SignedCredentialWithMetadata } from '@jolocom/sdk/js/src/lib/interactionManager/types'
@@ -70,6 +70,13 @@ export const DocumentReceiveCard = (props: Props) => {
   const [scaleValue] = useState(new Animated.Value(initScale))
   const [translationX] = useState(new Animated.Value(leftSnap))
   const viewRef = useRef(null)
+
+  // NOTE: Snapping to the initial position on mount due to some devices (Samsung S6 ??)
+  // snapping incorrectly to the center
+  useEffect(() => {
+    // @ts-ignore
+    viewRef.current.snapTo({ index: 0 })
+  }, [])
 
   const onUnselect = () => {
     // @ts-ignore
