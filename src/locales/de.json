@@ -141,7 +141,7 @@
   "You can provide further details about the issue here": "Du kannst hier weitere Informationen zu diesem Problem hinterlassen",
   "Is this the right QR code? Try again.": "Ist das der richtige QR-Code? Versuche es noch einmal.",
   "#awkward": "#peinlich",
-  "Choose one or more documents provided by this service and we will generate them for you": "%{service-name} hat Dir die folgenden Dokumente gesendet:",
+  "The service sent your wallet the following document(s)": "Dieser Dienst hat Dir die folgenden Dokumente gesendet:",
   "Déjà vu": "Déjà-vu",
   "Great success!": "Erfolg!",
   "It seems like we can't do this": "Etwas ist schief gelaufen",
