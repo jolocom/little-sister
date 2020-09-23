@@ -7,7 +7,10 @@ import {
   StyleProp,
   ViewStyle,
   AppStateStatus,
-  Platform, Keyboard, TouchableWithoutFeedback, TouchableWithoutFeedbackProps,
+  Platform,
+  Keyboard,
+  TouchableWithoutFeedback,
+  TouchableWithoutFeedbackProps,
 } from 'react-native'
 
 import { backgroundDarkMain, backgroundLightMain } from 'src/styles/colors'
@@ -202,7 +205,7 @@ export const Wrapper = React.memo(
     if (style) Object.assign(extraStyle, style)
 
     const touchableProps: TouchableWithoutFeedbackProps = {}
-    if (hideKeyboard && Platform.OS === 'ios') {
+    if (hideKeyboard) {
       touchableProps.onPress = Keyboard.dismiss
     }
 

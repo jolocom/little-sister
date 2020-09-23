@@ -13,7 +13,7 @@ const PasscodeWrapper: React.FC<Props> = ({ children, customStyles = {} }) => {
         flex: 1,
         paddingTop: BP({
           small: '20%',
-          medium: '35%',
+          medium: '25%',
           large: '35%',
         }),
         justifyContent: 'flex-start',
