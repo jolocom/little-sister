@@ -10,6 +10,7 @@ import {
 } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
 import { ErrorCodes as LibErrorCode } from 'jolocom-lib/js/errors'
 import { InteractionTransportType } from '@jolocom/sdk/js/src/lib/interactionManager/types'
+import { setInteracting } from '../account'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const callHandler = (handler: () => ThunkAction) => {
@@ -28,34 +29,49 @@ const callHandler = (handler: () => ThunkAction) => {
   }
 }
 
-export const consumeInteractionToken = (
-  jwt: string,
-): ThunkAction => async dispatch => {
-  let interactionToken: JSONWebToken<JWTEncodable>
+export const consumeInteractionToken = (jwt: string): ThunkAction => async (
+  dispatch,
+  getState,
+) => {
+  const { loading, interacting } = getState().account
 
-  try {
-    interactionToken = JolocomLib.parse.interactionToken.fromJWT(jwt)
-  } catch (e) {
-    if (e instanceof SyntaxError) {
-      throw new AppError(ErrorCode.ParseJWTFailed, e)
-    } else if (e.message === 'Token expired') {
-      throw new AppError(ErrorCode.TokenExpired, e)
-    } else {
-      throw new AppError(ErrorCode.Unknown, e)
+  if (!loading && !interacting) {
+    let interactionToken: JSONWebToken<JWTEncodable>
+    try {
+      interactionToken = JolocomLib.parse.interactionToken.fromJWT(jwt)
+    } catch (e) {
+      console.log({ e })
+      if (e instanceof SyntaxError) {
+        throw new AppError(ErrorCode.ParseJWTFailed, e)
+      } else if (e.message === 'Token expired') {
+        throw new AppError(ErrorCode.TokenExpired, e)
+      } else {
+        throw new AppError(ErrorCode.Unknown, e)
+      }
     }
-  }
 
-  const handler = interactionHandlers[interactionToken.interactionType]
+    const handler = interactionHandlers[interactionToken.interactionType]
 
-  return handler
-    ? dispatch(
+    if (handler) {
+      dispatch(setInteracting(true))
+      return dispatch(
         withLoading(
-          withErrorScreen(callHandler(() => handler(interactionToken, InteractionTransportType.HTTP))),
+          withErrorScreen(
+            callHandler(() =>
+              handler(interactionToken, InteractionTransportType.HTTP),
+            ),
+          ),
         ),
       )
-    : dispatch(
-        showErrorScreen(
-          new AppError(ErrorCode.Unknown, new Error('No handler found for ' + interactionToken.interactionType)),
+    }
+
+    return dispatch(
+      showErrorScreen(
+        new AppError(
+          ErrorCode.Unknown,
+          new Error('No handler found for ' + interactionToken.interactionType),
         ),
-      )
+      ),
+    )
+  }
 }

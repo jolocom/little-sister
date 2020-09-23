@@ -15,6 +15,7 @@ import { AppError, ErrorCode } from '../../lib/errors'
 import { withErrorScreen, withLoading } from 'src/actions/modifiers'
 import { ThunkAction } from 'src/store'
 import { InteractionTransportType } from '@jolocom/sdk/js/src/lib/interactionManager/types'
+import { setInteracting } from '../account'
 
 const deferredNavActions: NavigationAction[] = []
 let dispatchNavigationAction = (action: NavigationAction) => {
@@ -144,6 +145,7 @@ export const handleDeepLink = (url: string): ThunkAction => (
     const handler = interactionHandlers[interactionToken.interactionType]
 
     if (handler) {
+      dispatch(setInteracting(true))
       return dispatch(
         withLoading(
           withErrorScreen(

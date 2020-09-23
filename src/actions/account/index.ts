@@ -49,6 +49,11 @@ export const setPopup = (value: boolean) => ({
   payload: value,
 })
 
+export const setInteracting = (value: boolean) => ({
+  type: 'SET_INTERACTING',
+  payload: value,
+})
+
 export const lockApp = () => ({
   type: 'LOCK_APP',
 })

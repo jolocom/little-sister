@@ -15,6 +15,7 @@ import {
 } from '@jolocom/sdk/js/src/lib/interactionManager/types'
 import { ButtonSheet } from 'src/ui/structure/buttonSheet'
 import strings from 'src/locales/strings'
+import { cancelSSO } from '../../../actions/sso'
 
 export interface CredentialOfferNavigationParams {
   interactionId: string
@@ -90,10 +91,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
         ),
       ),
     ),
-  goBack: () =>
-    dispatch(
-      navigationActions.navigate({ routeName: routeList.InteractionScreen }),
-    ),
+  goBack: () => dispatch(cancelSSO),
 })
 
 export const CredentialReceive = connect(

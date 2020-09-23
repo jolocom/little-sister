@@ -4,6 +4,7 @@ import { claims } from 'src/reducers/account/claims'
 
 import { loading } from 'src/reducers/account/loading'
 import { appState } from 'src/reducers/account/appState'
+import { InteractingState, interacting } from './interaction'
 
 import {
   CredentialOfferMetadata,
@@ -61,6 +62,7 @@ export interface AccountState {
   did: DidState
   claims: ClaimsState
   loading: LoadingState
+  interacting: InteractingState
   appState: AppState
 }
 
@@ -68,5 +70,6 @@ export const accountReducer = combineReducers({
   did,
   claims,
   loading,
+  interacting,
   appState,
 })
