@@ -7,7 +7,8 @@ import {
   Platform,
 } from 'react-native'
 import { sandLight } from '../../styles/colors'
-import { textLG, baseFontStyles } from '../../styles/typography'
+import { textLG, baseFontStyles, textSM } from '../../styles/typography'
+import { BP } from '../../styles/breakpoints'
 
 const styles = StyleSheet.create({
   container: {
@@ -22,8 +23,12 @@ const styles = StyleSheet.create({
   text: {
     color: sandLight,
     ...baseFontStyles,
-    fontSize: textLG,
-    paddingTop: Platform.OS === 'ios' ? 5 : 0,
+    fontSize: BP({
+      small: textSM,
+      medium: textLG,
+      large: textLG,
+    }),
+    paddingTop: Platform.OS === 'ios' ? 3 : 0,
   },
 })
 

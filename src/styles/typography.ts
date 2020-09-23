@@ -1,5 +1,6 @@
 import { Dimensions, Platform } from 'react-native'
 import { Colors } from '.'
+import { BP } from './breakpoints'
 
 const initialViewportWidth = Dimensions.get('window').width
 // const initialViewportHeight = Dimensions.get('window').height
@@ -87,14 +88,27 @@ export const sectionHeader = {
 
 export const noteText = {
   ...baseFontStyles,
-  fontSize: textMD,
+  fontSize: BP({
+    large: textMD,
+    medium: textMD,
+    small: textXS,
+  }),
   color: Colors.sandLight,
   lineHeight: 23,
 }
 
 export const largeText = {
   ...baseFontStyles,
-  fontSize: textXXL,
+  fontSize: BP({
+    large: textXXL,
+    medium: textXXL,
+    small: textXL,
+  }),
   color: Colors.white,
-  lineHeight: text3XL + 4,
+  lineHeight:
+    BP({
+      large: textXXL,
+      medium: textXXL,
+      small: textXL,
+    }) + 4,
 }

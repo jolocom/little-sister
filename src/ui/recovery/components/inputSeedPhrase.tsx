@@ -16,6 +16,7 @@ import { TransparentButton } from '../../structure/transparentButton'
 import { RippleLoader } from 'react-native-indicator'
 import strings from '../../../locales/strings'
 import I18n from 'i18n-js'
+import { BP } from '../../../styles/breakpoints'
 
 const styles = StyleSheet.create({
   header: {
@@ -25,7 +26,11 @@ const styles = StyleSheet.create({
   },
   mnemonicSection: {
     flexDirection: 'row',
-    height: 130,
+    height: BP({
+      large: 130,
+      medium: 130,
+      small: 100,
+    }),
     flexWrap: 'wrap',
     marginTop: Spacing.XS,
     justifyContent: 'center',
@@ -37,9 +42,14 @@ const styles = StyleSheet.create({
     lineHeight: 26,
   },
   mnemonicWord: {
-    ...Typography.noteText,
+    ...Typography.baseFontStyles,
     margin: 2,
-    fontSize: 24,
+    fontSize: BP({
+      large: 24,
+      medium: 24,
+      small: 20,
+    }),
+    color: Colors.sandLight,
   },
   inputSection: {
     marginHorizontal: Spacing.XL,
