@@ -1,12 +1,14 @@
 import React from 'react'
-import { StyleSheet, Image, View, Text } from 'react-native'
-import { IdentitySummary } from '../../../actions/sso/types'
+import { StyleSheet, Image, View, Text, ViewStyle } from 'react-native'
 import { Colors, Spacing, Typography } from 'src/styles'
 import { CardWrapper } from 'src/ui/structure'
-import isEmpty from 'ramda/es/isEmpty'
+import strings from 'src/locales/strings'
+import I18n from 'src/locales/i18n'
+import { IdentitySummary } from '@jolocom/sdk'
 
 interface Props {
   issuer: IdentitySummary
+  style?: ViewStyle
 }
 
 const styles = StyleSheet.create({
@@ -34,25 +36,20 @@ const styles = StyleSheet.create({
 
 export const IssuerCard: React.FC<Props> = props => {
   const {
-    issuer,
-    issuer: { publicProfile },
+    style: propsStyle,
+    issuer: { publicProfile: issuerPublicProfile, did: issuerDid },
   } = props
-  // set up defaults
-  let name = 'Service Name',
-    // Description was included before, but we aren't using it
-    // description = 'No description provided',
-    image = undefined,
-    url = issuer.did as string | undefined
 
-  if (publicProfile && !isEmpty(publicProfile)) {
-    name = publicProfile.name
-    // description = publicProfile.description
-    image = publicProfile.image
-    url = publicProfile.url
+  const publicProfile = issuerPublicProfile || {
+    name: I18n.t(strings.NO_SERVICE_NAME),
+    url: issuerDid,
+    description: '',
   }
 
+  const { name, image, url } = publicProfile
+
   return (
-    <CardWrapper style={styles.container}>
+    <CardWrapper style={[styles.container, propsStyle]}>
       {image && <Image source={{ uri: image }} style={styles.icon} />}
       <View style={styles.issuerTextContainer}>
         <Text style={styles.nameText} numberOfLines={1}>

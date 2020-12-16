@@ -1,15 +1,20 @@
 import React from 'react'
-import { ButtonSection } from 'src/ui/structure/buttonSectionBottom'
 import { Text, StyleSheet, View } from 'react-native'
 import I18n from 'src/locales/i18n'
-import { StateAuthenticationRequestSummary } from 'src/reducers/sso'
 import strings from '../../../locales/strings'
 import { Colors, Typography, Spacing } from 'src/styles'
+import { IssuerCard } from '../../documents/components/issuerCard'
+import {
+  InteractionSummary,
+  AuthenticationFlowState,
+} from '@jolocom/sdk/js/interactionManager/types'
+import { ButtonSheet } from 'src/ui/structure/buttonSheet'
+import { Wrapper } from '../../structure'
 
 interface Props {
-  activeAuthenticationRequest: StateAuthenticationRequestSummary
-  confirmAuthenticationRequest: Function
-  cancelAuthenticationRequest: Function
+  interactionSummary: InteractionSummary
+  confirmAuthenticationRequest: () => void
+  cancelAuthenticationRequest: () => void
 }
 
 interface State {}
@@ -22,20 +27,8 @@ const styles = StyleSheet.create({
   topSection: {
     flex: 0.9,
   },
-  requesterContainer: {
-    flexDirection: 'row',
-    backgroundColor: Colors.white,
-    padding: Spacing.MD,
+  issuerCard: {
     marginTop: Spacing.LG,
-  },
-  requesterIcon: {
-    backgroundColor: Colors.lightGrey,
-    width: 40,
-    height: 40,
-  },
-  requesterTextContainer: {
-    flex: -1,
-    marginLeft: Spacing.MD,
   },
   authRequestContainer: {
     flex: 1,
@@ -68,40 +61,22 @@ export class AuthenticationConsentComponent extends React.Component<
     return this.props.confirmAuthenticationRequest()
   }
 
-  /** @TODO replace this with the issuerCard, pass in an IdentitySummary and parse it */
-  private renderRequesterCard(requester: string, callbackURL: string) {
-    return (
-      <View style={styles.requesterContainer}>
-        <View style={styles.requesterIcon} />
-        <View style={styles.requesterTextContainer}>
-          <Text style={Typography.cardMainText} numberOfLines={1}>
-            {requester}
-          </Text>
-          <Text style={Typography.cardSecondaryText} numberOfLines={1}>
-            {callbackURL}
-          </Text>
-        </View>
-      </View>
-    )
-  }
-
   public render() {
-    const {
-      requester,
-      callbackURL,
-      description,
-    } = this.props.activeAuthenticationRequest
+    const { initiator: issuer, state } = this.props.interactionSummary
+    const { description } = state as AuthenticationFlowState
     return (
-      <View style={styles.container}>
+      <Wrapper>
         <View style={styles.topSection}>
-          {this.renderRequesterCard(requester, callbackURL)}
+          <IssuerCard issuer={issuer} style={styles.issuerCard} />
           <View style={styles.authRequestContainer}>
             <Text style={styles.authRequestText}>
               {I18n.t(strings.WOULD_YOU_LIKE_TO)}
             </Text>
             <Text
-              style={[styles.authRequestText, { fontSize: Typography.text4XL }]}
-            >
+              style={[
+                styles.authRequestText,
+                { fontSize: Typography.text4XL },
+              ]}>
               {description}
             </Text>
             <Text style={styles.authRequestText}>
@@ -110,16 +85,15 @@ export class AuthenticationConsentComponent extends React.Component<
           </View>
         </View>
         <View style={styles.buttonSection}>
-          <ButtonSection
-            disabled={this.state.pending}
-            denyDisabled={this.state.pending}
-            confirmText={I18n.t(strings.AUTHORIZE)}
-            denyText={I18n.t(strings.DENY)}
-            handleConfirm={this.handleConfirm}
-            handleDeny={() => this.props.cancelAuthenticationRequest()}
+          <ButtonSheet
+            disabledConfirm={this.state.pending}
+            confirmText={strings.AUTHORIZE}
+            cancelText={strings.DENY}
+            onCancel={this.props.cancelAuthenticationRequest}
+            onConfirm={this.handleConfirm}
           />
         </View>
-      </View>
+      </Wrapper>
     )
   }
 }

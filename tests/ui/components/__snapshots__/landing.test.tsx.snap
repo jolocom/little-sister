@@ -1,12 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`landing component matches the snapshot on render 1`] = `
-<Container
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-    }
-  }
+<Memo(Connect(Component))
+  centered={true}
+  dark={true}
+  withoutSafeArea={true}
 >
   <Carousel
     activeAnimationOptions={null}
@@ -65,6 +63,7 @@ exports[`landing component matches the snapshot on render 1`] = `
     slideStyle={Object {}}
     sliderWidth={750}
     swipeThreshold={20}
+    testID="landingCarousel"
     useScrollView={false}
     vertical={false}
   />
@@ -78,53 +77,30 @@ exports[`landing component matches the snapshot on render 1`] = `
       }
     }
   >
-    <ThemedComponent
-      onPress={[MockFunction]}
-      style={
+    <JolocomButton
+      containerStyle={
         Object {
-          "container": Object {
-            "alignSelf": "stretch",
-            "backgroundColor": "rgb(148, 47, 81)",
-            "borderRadius": 4,
-            "height": 48,
-            "minWidth": 164,
-          },
-          "text": Object {
-            "color": "white",
-            "fontFamily": "TT Commons",
-            "fontSize": 22,
-            "fontWeight": "normal",
-            "paddingVertical": 16,
-          },
+          "height": 56,
+          "width": "100%",
         }
       }
+      onPress={[MockFunction]}
+      testID="getStarted"
       text="Get started"
-      upperCase={false}
     />
-    <ThemedComponent
-      onPress={[MockFunction]}
-      style={
+    <JolocomButton
+      containerStyle={
         Object {
-          "container": Object {
-            "alignSelf": "stretch",
-            "backgroundColor": "transparent",
-            "borderRadius": 4,
-            "height": 48,
-            "marginTop": 8,
-            "minWidth": 164,
-          },
-          "text": Object {
-            "color": "white",
-            "fontFamily": "TT Commons",
-            "fontSize": 18,
-            "fontWeight": "normal",
-            "paddingVertical": 16,
-          },
+          "height": 48,
+          "marginTop": 12,
+          "width": "100%",
         }
       }
+      onPress={[MockFunction]}
+      testID="recoverIdentity"
       text="Recover identity"
-      upperCase={false}
+      transparent={true}
     />
   </View>
-</Container>
+</Memo(Connect(Component))>
 `;

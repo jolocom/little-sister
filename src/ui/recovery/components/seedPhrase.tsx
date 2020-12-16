@@ -1,9 +1,9 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
-import { Container, JolocomButton } from 'src/ui/structure'
+import { Wrapper, JolocomButton } from 'src/ui/structure'
 import I18n from 'src/locales/i18n'
 import strings from '../../../locales/strings'
-import { Colors, Typography, Spacing } from 'src/styles'
+import { Typography, Spacing } from 'src/styles'
 
 interface Props {
   seedPhrase: string
@@ -12,8 +12,7 @@ interface Props {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.blackMain,
-    padding: '5%',
+    paddingHorizontal: '5%',
   },
   noteSection: {
     marginTop: Spacing.LG,
@@ -33,6 +32,7 @@ const styles = StyleSheet.create({
   },
   buttonSection: {
     marginTop: 'auto',
+    marginBottom: 30,
   },
 })
 
@@ -40,27 +40,30 @@ export const SeedPhrase: React.SFC<Props> = ({
   seedPhrase,
   handleButtonTap,
 }: Props) => (
-  <Container style={styles.container}>
-    <View style={styles.noteSection}>
-      <Text style={styles.note}>
-        {I18n.t(strings.WRITE_THESE_WORDS_DOWN_ON_AN_ANALOG_AND_SECURE_PLACE) +
-          '. ' +
-          I18n.t(
-            strings.WITHOUT_THESE_WORDS_YOU_CANNOT_ACCESS_YOUR_WALLET_AGAIN,
+  <Wrapper dark centered>
+    <View style={styles.container}>
+      <View style={styles.noteSection}>
+        <Text style={styles.note}>
+          {I18n.t(
+            strings.WRITE_THESE_WORDS_DOWN_ON_AN_ANALOG_AND_SECURE_PLACE,
           ) +
-          '.'}
-      </Text>
+            '. ' +
+            I18n.t(
+              strings.WITHOUT_THESE_WORDS_YOU_CANNOT_ACCESS_YOUR_WALLET_AGAIN,
+            ) +
+            '.'}
+        </Text>
+      </View>
+      <View style={styles.phraseSection}>
+        <Text style={styles.seedPhrase}>{seedPhrase}</Text>
+      </View>
+      <View style={styles.buttonSection}>
+        <JolocomButton
+          onPress={handleButtonTap}
+          text={I18n.t(strings.YES_I_WROTE_IT_DOWN)}
+          containerStyle={{ height: 56 }}
+        />
+      </View>
     </View>
-    <View style={styles.phraseSection}>
-      <Text style={styles.seedPhrase}>{seedPhrase}</Text>
-    </View>
-    <View style={styles.buttonSection}>
-      <JolocomButton
-        onPress={handleButtonTap}
-        raised
-        upperCase={false}
-        text={I18n.t(strings.YES_I_WROTE_IT_DOWN)}
-      />
-    </View>
-  </Container>
+  </Wrapper>
 )

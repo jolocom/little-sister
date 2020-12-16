@@ -1,21 +1,37 @@
 import { accountActions } from 'src/actions/'
-import data from '../registration/data/mockRegistrationData'
+import data from './mockRegistrationData'
 import { JolocomLib } from 'jolocom-lib'
 import { RootState } from 'src/reducers'
-import { createMockStore } from 'tests/utils'
-import { BackendError } from 'src/backendMiddleware'
-import { withErrorScreen } from 'src/actions/modifiers';
+import { createMockStore, RecursivePartial } from 'tests/utils'
+import { withErrorScreen } from 'src/actions/modifiers'
+import { SDKError } from '@jolocom/sdk'
 
 describe('Account action creators', () => {
-  const initialState: Partial<RootState> = {
+  const initialState: RecursivePartial<RootState> = {
+    generic: {
+      locked: false,
+      disableLock: false
+    },
     registration: {
       loading: {
         loadingMsg: '',
         isRegistering: false,
       },
     },
+    settings: {
+      locale: 'en',
+      seedPhraseSaved: false,
+    },
     account: {
       loading: false,
+      appState: {
+        isLocalAuthSet: false,
+        isLocalAuthVisible: false,
+        isPopup: false,
+        isAppLocked: false,
+        isLockVisible: false,
+        isPINInstructionVisible: false
+      },
       claims: {
         selected: {
           credentialType: 'Email',
@@ -28,55 +44,64 @@ describe('Account action creators', () => {
           },
           subject: 'did:jolo:test',
         },
-        pendingExternal: {
-          offer: [],
-          offeror: {
-            did: '',
-          },
-        },
         decoratedCredentials: {},
         hasExternalCredentials: false,
       },
       did: {
-        did: '',
+        did: 'some did',
       },
     },
   }
 
-  const mockIdentityWallet = {
-    identity: { did: 'did:jolo:first', didDocument: {} },
-    didDocument: {},
+  const { identityWallet, testSignedCredentialDefault } = data
+
+  const agent = {
+    loadIdentity: jest.fn().mockResolvedValue(identityWallet),
+    storage: {
+      get: {
+        verifiableCredential: jest
+          .fn()
+          .mockResolvedValue([
+            JolocomLib.parse.signedCredential(testSignedCredentialDefault),
+          ]),
+        credentialMetadata: jest.fn().mockResolvedValue({}),
+        publicProfile: jest.fn().mockResolvedValue({}),
+      },
+    },
+    identityWallet,
   }
 
-  const mockMiddleware = {
-    prepareIdentityWallet: jest.fn().mockResolvedValue(mockIdentityWallet),
-  }
-
-  const mockStore = createMockStore(initialState, mockMiddleware)
+  const mockStore = createMockStore(initialState, agent)
 
   beforeEach(mockStore.reset)
 
   it('should correctly handle stored encrypted seed', async () => {
+    const getGenericPassword = require('react-native-keychain')
+      .getGenericPassword
+    getGenericPassword.mockReturnValueOnce('MOCK PIN')
+
+    const asyncStorageGetItem: jest.Mock =
+      require('@react-native-community/async-storage').default.getItem
+
     await mockStore.dispatch(accountActions.checkIdentityExists)
+    expect(asyncStorageGetItem).toHaveBeenCalledTimes(1)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
   it('should correctly handle an empty encrypted seed table', async () => {
-    mockMiddleware.prepareIdentityWallet.mockRejectedValue(
-      new BackendError(BackendError.codes.NoEntropy),
+    agent.loadIdentity.mockRejectedValue(
+      new SDKError(SDKError.codes.NoEntropy),
     )
     await mockStore.dispatch(accountActions.checkIdentityExists)
     expect(mockStore.getActions()).toMatchSnapshot()
   })
 
   it('should display exception screen in case of error', async () => {
-    mockMiddleware.prepareIdentityWallet.mockRejectedValue(
-      new Error('everything is WRONG')
+    agent.loadIdentity.mockRejectedValue(
+      new Error('everything is WRONG'),
     )
     await mockStore.dispatch(
-      withErrorScreen(
-        accountActions.checkIdentityExists,
-      ),
+      withErrorScreen(accountActions.checkIdentityExists),
     )
     expect(mockStore.getActions()).toMatchSnapshot()
   })
@@ -84,8 +109,8 @@ describe('Account action creators', () => {
   it('should correctly retrieve claims from device storage db on setClaimForDid', async () => {
     const { identityWallet, testSignedCredentialDefault } = data
 
-    const backendMiddleware = {
-      storageLib: {
+    const agent = {
+      storage: {
         get: {
           verifiableCredential: jest
             .fn()
@@ -99,7 +124,7 @@ describe('Account action creators', () => {
       identityWallet,
     }
 
-    const altMockStore = createMockStore(initialState, backendMiddleware)
+    const altMockStore = createMockStore(initialState, agent)
 
     await altMockStore.dispatch(accountActions.setClaimsForDid)
     expect(altMockStore.getActions()).toMatchSnapshot()
@@ -108,11 +133,11 @@ describe('Account action creators', () => {
   it('should correctly save claim', async () => {
     const { identityWallet } = data
 
-    const backendMiddleware = {
-      keyChainLib: {
+    const agent = {
+      passwordStore: {
         getPassword: jest.fn().mockResolvedValue('sekrit'),
       },
-      storageLib: {
+      storage: {
         store: {
           verifiableCredential: jest.fn().mockResolvedValue([]),
         },
@@ -124,7 +149,7 @@ describe('Account action creators', () => {
       identityWallet,
     }
 
-    const altMockStore = createMockStore(initialState, backendMiddleware)
+    const altMockStore = createMockStore(initialState, agent)
 
     await altMockStore.dispatch(accountActions.saveClaim)
     expect(altMockStore.getActions()).toMatchSnapshot()

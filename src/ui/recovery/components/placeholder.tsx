@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import { Platform, StyleSheet, Text, TouchableOpacity } from 'react-native'
 import { Colors, Typography } from 'src/styles'
 const styles = StyleSheet.create({
   selector: {
@@ -19,6 +19,11 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     color: Colors.sandLight,
     fontSize: Typography.textMD,
+    ...Platform.select({
+      ios: {
+        paddingTop: 3,
+      },
+    }),
   },
 })
 

@@ -1,0 +1,249 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ToggleSwitch Component matches the snapshot on initial render 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+  style={
+    Object {
+      "backgroundColor": "rgb(55, 53, 55)",
+      "borderRadius": 45,
+      "height": 30,
+      "justifyContent": "center",
+      "width": 45,
+    }
+  }
+>
+  <AnimatedComponent
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 13,
+        "height": 26,
+        "justifyContent": "center",
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateX": 2,
+          },
+        ],
+        "width": 26,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "rgb(12, 12, 12)",
+          "rgb(12, 12, 12)",
+        ]
+      }
+      end={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      start={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 13,
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </AnimatedComponent>
+</TouchableOpacity>
+`;
+
+exports[`ToggleSwitch Component renders the switched on toggle 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+  style={
+    Object {
+      "backgroundColor": "rgb(55, 53, 55)",
+      "borderRadius": 45,
+      "height": 30,
+      "justifyContent": "center",
+      "width": 45,
+    }
+  }
+>
+  <AnimatedComponent
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 13,
+        "height": 26,
+        "justifyContent": "center",
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateX": 17,
+          },
+        ],
+        "width": 26,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "rgb(145, 25, 66)",
+          "rgb(210, 45, 105)",
+        ]
+      }
+      end={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      start={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 13,
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </AnimatedComponent>
+</TouchableOpacity>
+`;
+
+exports[`ToggleSwitch Component renders the toggle with custom gradients 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+  style={
+    Object {
+      "backgroundColor": "rgb(55, 53, 55)",
+      "borderRadius": 45,
+      "height": 30,
+      "justifyContent": "center",
+      "width": 45,
+    }
+  }
+>
+  <AnimatedComponent
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 13,
+        "height": 26,
+        "justifyContent": "center",
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateX": 2,
+          },
+        ],
+        "width": 26,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "rgb(53, 39, 126)",
+          "rgb(65, 24, 24)",
+        ]
+      }
+      end={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      start={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 13,
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </AnimatedComponent>
+</TouchableOpacity>
+`;
+
+exports[`ToggleSwitch Component renders the toggle with custom track color 1`] = `
+<TouchableOpacity
+  activeOpacity={0.8}
+  onPress={[Function]}
+  style={
+    Object {
+      "backgroundColor": "rgb(0, 0, 0)",
+      "borderRadius": 45,
+      "height": 30,
+      "justifyContent": "center",
+      "width": 45,
+    }
+  }
+>
+  <AnimatedComponent
+    style={
+      Object {
+        "alignItems": "center",
+        "borderRadius": 13,
+        "height": 26,
+        "justifyContent": "center",
+        "position": "absolute",
+        "transform": Array [
+          Object {
+            "translateX": 2,
+          },
+        ],
+        "width": 26,
+      }
+    }
+  >
+    <LinearGradient
+      colors={
+        Array [
+          "rgb(12, 12, 12)",
+          "rgb(12, 12, 12)",
+        ]
+      }
+      end={
+        Object {
+          "x": 1,
+          "y": 0,
+        }
+      }
+      start={
+        Object {
+          "x": 0,
+          "y": 0,
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 13,
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    />
+  </AnimatedComponent>
+</TouchableOpacity>
+`;

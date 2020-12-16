@@ -8,17 +8,20 @@ const constants = {
   CaptureTarget: {},
   CaptureQuality: {},
   Orientation: {},
-  FlashMode: {},
+  FlashMode: {
+    off: 'off',
+    torch: 'torch',
+    flash: 'flash',
+  },
   TorchMode: {},
 }
 
 class Camera extends React.Component {
-  static constants = constants
+  static Constants = constants
   render() {
     return null
   }
 }
 
-Camera.constants = constants
-
+export const RNCamera = Camera
 export default Camera

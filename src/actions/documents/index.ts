@@ -1,4 +1,4 @@
-import { navigationActions } from '..'
+import * as navigationActions from 'src/actions/navigation'
 import { routeList } from 'src/routeList'
 import { DecoratedClaims } from 'src/reducers/account'
 import { ThunkAction } from 'src/store'

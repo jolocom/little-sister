@@ -1,0 +1,4 @@
+# .bundle/config
+# Note the single '.'
+---
+BUNDLE_PATH: "./vendor/bundle"

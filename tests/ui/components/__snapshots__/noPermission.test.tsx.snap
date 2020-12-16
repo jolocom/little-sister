@@ -1,0 +1,67 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`No scanner permission component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "justifyContent": "flex-start",
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgb(255, 239, 223)",
+          "fontFamily": "TT Commons",
+          "fontSize": 28,
+          "textAlign": "center",
+        }
+      }
+    >
+      Scan QR
+    </Text>
+    <Text
+      style={
+        Object {
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "TTCommons-Light",
+          "fontSize": 18,
+          "lineHeight": 24,
+          "marginTop": 8,
+          "textAlign": "center",
+          "width": 260,
+        }
+      }
+    >
+      Enable access so you can start taking photos and videos
+    </Text>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[MockFunction]}
+      style={
+        Object {
+          "marginTop": 48,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(10, 132, 255)",
+            "fontFamily": "TT Commons",
+            "fontSize": 16,
+            "lineHeight": 20,
+            "textAlign": "center",
+            "textDecorationLine": "none",
+          }
+        }
+      >
+        Request permission
+      </Text>
+    </TouchableOpacity>
+  </View>
+</Fragment>
+`;

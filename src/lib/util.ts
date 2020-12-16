@@ -4,17 +4,11 @@ import {
   Categories,
   uiCredentialTypeByType,
 } from './categories'
-import { BaseMetadata } from 'cred-types-jolocom-core'
 
-import { NativeModules } from 'react-native'
-import { DecoratedClaims } from '../reducers/account'
 import { equals } from 'ramda'
-// this comes from 'react-native-randombytes'
-const { RNRandomBytes } = NativeModules
+import { DecoratedClaims } from 'src/reducers/account'
 
-export const getClaimMetadataByCredentialType = (
-  type: string,
-): BaseMetadata => {
+export const getClaimMetadataByCredentialType = (type: string) => {
   const uiType = Object.keys(uiCredentialTypeByType).find(
     item => uiCredentialTypeByType[item] === type,
   )
@@ -58,12 +52,3 @@ export const compareDates = (date1: Date, date2: Date): number =>
       Date.UTC(date1.getFullYear(), date1.getMonth(), date1.getDate())) /
       (1000 * 60 * 60 * 24),
   )
-
-export function generateSecureRandomBytes(length: number): Promise<Buffer> {
-  return new Promise((resolve, reject) => {
-    RNRandomBytes.randomBytes(length, (err: string, bytesAsBase64: string) => {
-      if (err) reject(err)
-      else resolve(Buffer.from(bytesAsBase64, 'base64'))
-    })
-  })
-}

@@ -62,12 +62,6 @@ Object {
       ],
     },
     "hasExternalCredentials": false,
-    "pendingExternal": Object {
-      "offer": Array [],
-      "offeror": Object {
-        "did": "",
-      },
-    },
     "selected": Object {
       "claimData": Object {},
       "credentialType": "",
@@ -147,12 +141,6 @@ Object {
       ],
     },
     "hasExternalCredentials": false,
-    "pendingExternal": Object {
-      "offer": Array [],
-      "offeror": Object {
-        "did": "",
-      },
-    },
     "selected": Object {
       "claimData": Object {},
       "credentialType": "",

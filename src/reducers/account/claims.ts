@@ -76,12 +76,6 @@ export const initialState: ClaimsState = {
     },
     subject: '',
   },
-  pendingExternal: {
-    offeror: {
-      did: '',
-    },
-    offer: [],
-  },
   decoratedCredentials: categorizedClaims,
   hasExternalCredentials: false,
 }
@@ -95,10 +89,6 @@ export const claims = (
       return { ...state, decoratedCredentials: addDefaultValues(action.claims) }
     case HAS_EXTERNAL_CREDENTIALS:
       return { ...state, hasExternalCredentials: action.value }
-    case 'SET_EXTERNAL':
-      return { ...state, pendingExternal: action.value }
-    case 'RESET_EXTERNAL':
-      return { ...state, pendingExternal: initialState.pendingExternal } // TODO Remove in favor of calling set external with empty array
     case 'SET_SELECTED':
       return { ...state, selected: action.selected }
     case 'RESET_SELECTED':

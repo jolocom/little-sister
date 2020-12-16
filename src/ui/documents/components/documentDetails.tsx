@@ -50,7 +50,7 @@ export const DocumentDetailsComponent: React.FC<Props> = ({ document }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.sectionHeader}>Issued by</Text>
+      <Text style={styles.sectionHeader}>{I18n.t(strings.ISSUED_BY)}</Text>
       <IssuerCard issuer={document.issuer} />
       <Text style={styles.sectionHeader}>
         {I18n.t(strings.DOCUMENT_DETAILS_CLAIMS)}

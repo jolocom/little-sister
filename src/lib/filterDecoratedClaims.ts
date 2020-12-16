@@ -1,6 +1,6 @@
 import { buildTransform, Filter } from './filter'
-import { DecoratedClaims } from 'src/reducers/account'
 import { complement } from 'ramda'
+import { DecoratedClaims } from 'src/reducers/account'
 
 const expiredFilter: Filter<DecoratedClaims> = cred =>
   cred.expires ? cred.expires.valueOf() < new Date().valueOf() : true

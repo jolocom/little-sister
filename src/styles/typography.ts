@@ -7,6 +7,8 @@ const initialViewportWidth = Dimensions.get('window').width
 const isSmallViewportWidth = initialViewportWidth < 360
 
 export const fontMain = Platform.OS === 'android' ? 'TTCommons' : 'TT Commons'
+export const fontLight = 'TTCommons-Light'
+export const fontMedium = 'TTCommons-Medium'
 
 export const text3XS = 12
 export const textXXS = 14
@@ -21,6 +23,7 @@ export const text4XL = 42
 
 export const textHeader = isSmallViewportWidth ? textXL : textXXL
 export const textSubheader = isSmallViewportWidth ? textSM : textMD
+export const textSubheaderLineHeight = isSmallViewportWidth ? 20 : 24
 
 export const centeredText = {
   textAlign: 'center' as 'center',

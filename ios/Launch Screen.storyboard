@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,24 +19,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="MUG-0M-NCt">
-                                <rect key="frame" x="162.5" y="164" width="89" height="96"/>
+                            <imageView userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="MUG-0M-NCt">
+                                <rect key="frame" x="162.66666666666666" y="400" width="89" height="96"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="89" id="3du-pz-6c6"/>
                                     <constraint firstAttribute="height" relation="lessThanOrEqual" constant="96" id="WTI-kl-CZ4"/>
+                                    <constraint firstAttribute="height" constant="96" id="cDd-u5-sL6"/>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="89" id="cTp-CO-APv"/>
                                 </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.019607843137254902" green="0.019607843137254902" blue="0.050980392156862744" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="MUG-0M-NCt" firstAttribute="top" secondItem="F2e-i9-Zm9" secondAttribute="bottom" constant="120" id="g9E-J3-Tja"/>
+                            <constraint firstItem="MUG-0M-NCt" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="0qa-rw-WNr"/>
+                            <constraint firstItem="MUG-0M-NCt" firstAttribute="top" secondItem="F2e-i9-Zm9" secondAttribute="bottom" id="g9E-J3-Tja"/>
                             <constraint firstItem="MUG-0M-NCt" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="xFE-ng-nyR"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="g9E-J3-Tja"/>
+                            </mask>
+                        </variation>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="50.724637681159422" y="374.33035714285711"/>
+            <point key="canvasLocation" x="50.399999999999999" y="373.89162561576359"/>
         </scene>
     </scenes>
     <resources>

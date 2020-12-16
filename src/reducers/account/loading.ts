@@ -1,6 +1,6 @@
 import { AnyAction } from 'redux'
-import { LoadingState } from 'src/reducers/account/'
 
+export type LoadingState = boolean
 const initialState: LoadingState = false
 
 export const loading = (

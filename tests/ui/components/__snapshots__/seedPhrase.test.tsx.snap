@@ -1,71 +1,79 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`seedPhrase component matches the snapshot with checkbox unchecked 1`] = `
-<Container
-  style={
-    Object {
-      "backgroundColor": "rgb(5, 5, 13)",
-      "padding": "5%",
-    }
-  }
+<Memo(Connect(Component))
+  centered={true}
+  dark={true}
 >
   <View
     style={
       Object {
-        "flex": 0.8,
-        "justifyContent": "center",
-        "marginTop": 24,
+        "paddingHorizontal": "5%",
       }
     }
   >
-    <Text
+    <View
       style={
         Object {
-          "color": "rgb(255, 239, 223)",
-          "fontFamily": "TT Commons",
-          "fontSize": 20,
-          "lineHeight": 23,
-          "textAlign": "center",
+          "flex": 0.8,
+          "justifyContent": "center",
+          "marginTop": 24,
         }
       }
     >
-      Write these words down on an analog and secure place. Without these words, you cannot access your wallet again.
-    </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "flex": 1,
-      }
-    }
-  >
-    <Text
+      <Text
+        style={
+          Object {
+            "color": "rgb(255, 239, 223)",
+            "fontFamily": "TT Commons",
+            "fontSize": 20,
+            "lineHeight": 23,
+            "textAlign": "center",
+          }
+        }
+      >
+        Write these words down on an analog and secure place. Without these words, you cannot access your wallet again.
+      </Text>
+    </View>
+    <View
       style={
         Object {
-          "color": "white",
-          "fontFamily": "TT Commons",
-          "fontSize": 30,
-          "lineHeight": 38,
-          "textAlign": "center",
+          "flex": 1,
         }
       }
     >
-      mock seedPhrase
-    </Text>
-  </View>
-  <View
-    style={
-      Object {
-        "marginTop": "auto",
+      <Text
+        style={
+          Object {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "TT Commons",
+            "fontSize": 30,
+            "lineHeight": 38,
+            "textAlign": "center",
+          }
+        }
+      >
+        mock seedPhrase
+      </Text>
+    </View>
+    <View
+      style={
+        Object {
+          "marginBottom": 30,
+          "marginTop": "auto",
+        }
       }
-    }
-  >
-    <JolocomButton
-      onPress={[MockFunction]}
-      raised={true}
-      text="Yes, I wrote it down"
-      upperCase={false}
-    />
+    >
+      <JolocomButton
+        containerStyle={
+          Object {
+            "height": 56,
+          }
+        }
+        onPress={[MockFunction]}
+        text="Yes, I wrote it down"
+      />
+    </View>
   </View>
-</Container>
+</Memo(Connect(Component))>
 `;

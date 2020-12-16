@@ -6,6 +6,7 @@ describe('ClaimDetails component', () => {
   const COMMON_PROPS = {
     handleClaimInput: () => {},
     saveClaim: () => {},
+    onBackPress: () => {},
   }
 
   it('matches the snapshot on render', () => {

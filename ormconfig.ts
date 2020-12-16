@@ -1,17 +1,25 @@
-import { entityList } from './src/lib/storage/entities'
-import { Initial1565886000404 } from './src/lib/storage/migration/1565886000404-initial'
-import { ReencryptSeed1567674609659 } from './src/lib/storage/migration/1567674609659-reencrypt-seed'
+/**
+ * NOTE: This config is used by the Storage class (src/lib/storage/storage) but
+ * `migrations` and `entities` are replaced with lists of actual migration and
+ * entity classes.
+ *
+ * New migrations and entities should be added to `migration/index.ts` and
+ * `entities/index.ts` respectively
+ *
+ */
+import { entityList } from '@jolocom/sdk-storage-typeorm'
+import { ConnectionOptions } from 'typeorm'
 
 export default {
   type: 'react-native',
-  database: 'LocalSmartWalletData',
+  database: 'LocalSmartWallet_1.11.1_Data',
   location: 'default',
-  logging: ['error', 'query', 'schema'],
+  logging: ['error', 'warn', 'schema'],
   entities: entityList,
-  migrations: [Initial1565886000404, ReencryptSeed1567674609659],
+  migrationsDir: 'src/lib/storage/migration',
   migrationsRun: true,
   synchronize: false,
   cli: {
     migrationsDir: 'src/lib/storage/migration',
   },
-}
+} as ConnectionOptions

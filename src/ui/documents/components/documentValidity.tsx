@@ -3,6 +3,8 @@ import { compareDates } from 'src/lib/util'
 import { Text, Image, View, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 import { Spacing, Typography } from 'src/styles'
+import strings from 'src/locales/strings'
+import I18n from 'src/locales/i18n'
 const expiredIcon = require('src/resources/img/expired.png')
 
 interface Props {
@@ -30,14 +32,14 @@ export const DocumentValiditySummary: React.FC<Props> = (
     <View style={styles.validityContainer}>
       <Icon size={17} name="check-all" color={props.color} />
       <Text style={[styles.validityText, { color: props.color }]}>
-        {`Valid until ${props.expires.toLocaleDateString('en-gb')}`}
+        {`${I18n.t(strings.VALID_UNTIL)} ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>
   ) : (
     <View style={styles.validityContainer}>
       <Image source={expiredIcon} style={{ width: 17, height: 17 }} />
       <Text style={[styles.validityText, { color: props.color }]}>
-        {`Expired on ${props.expires.toLocaleDateString('en-gb')}`}
+        {`${I18n.t(strings.EXPIRES_ON)} ${props.expires.toLocaleDateString('en-gb')}`}
       </Text>
     </View>
   )

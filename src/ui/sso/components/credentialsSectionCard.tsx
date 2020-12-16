@@ -3,10 +3,13 @@ import { CardWrapper } from 'src/ui/structure'
 import { getCredentialIconByType } from 'src/resources/util'
 import { StyleSheet, View, Text } from 'react-native'
 import { Spacing, Typography } from 'src/styles'
-import { StateTypeSummary, StateVerificationSummary } from 'src/reducers/sso'
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
 import { CheckboxCredential } from './checkboxCredential'
+import {
+  CredentialTypeSummary,
+  CredentialVerificationSummary,
+} from '@jolocom/sdk/js/interactionManager/types'
 
 const styles = StyleSheet.create({
   card: {
@@ -29,9 +32,9 @@ const styles = StyleSheet.create({
 interface CredentialSectionProps {
   did: string
   sectionType: string
-  credentials: StateTypeSummary[]
-  selectedCredential: StateVerificationSummary | undefined
-  onPress: (type: string, newSelected: StateVerificationSummary) => void
+  credentials: CredentialTypeSummary[]
+  selectedCredential: CredentialVerificationSummary | undefined
+  onPress: (type: string, newSelected: CredentialVerificationSummary) => void
 }
 
 /**
@@ -39,9 +42,7 @@ interface CredentialSectionProps {
  * render the credentials wrapped in a card. The card displays an icon and title
  * for the group.
  */
-export const CredentialSectionCard: React.FC<
-  CredentialSectionProps
-> = props => {
+export const CredentialSectionCard: React.FC<CredentialSectionProps> = props => {
   const { sectionType, did, credentials, selectedCredential, onPress } = props
   return (
     <CardWrapper style={styles.card}>
@@ -50,7 +51,7 @@ export const CredentialSectionCard: React.FC<
       </View>
       <View style={styles.credentialsArea}>
         {/* Title for the section */}
-        <Text style={Typography.cardSecondaryTextBlack}>{sectionType}:</Text>
+        <Text style={Typography.cardSecondaryTextBlack}>{I18n.t(sectionType)}:</Text>
 
         {/* Credentials in each section */}
         {credentials.map(credential => {

@@ -1,21 +1,23 @@
+import { groupBy, map, mergeRight, omit, uniq, zipWith } from 'ramda'
+import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
+import { IdentitySummary, CredentialMetadataSummary } from '@jolocom/sdk'
+
 import { navigationActions } from 'src/actions/'
+
 import { routeList } from 'src/routeList'
 import { CategorizedClaims, DecoratedClaims } from 'src/reducers/account'
-import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
 import {
   getClaimMetadataByCredentialType,
   getCredentialUiCategory,
   getUiCredentialTypeByType,
-} from '../../lib/util'
-import { cancelReceiving } from '../sso'
+} from 'src/lib/util'
 import { ThunkAction } from 'src/store'
-import { groupBy, map, mergeRight, omit, uniq, zipWith } from 'ramda'
 import { compose } from 'redux'
-import { CredentialMetadataSummary } from '../../lib/storage/storage'
-import { IdentitySummary } from '../sso/types'
 import { Not } from 'typeorm'
 import { HAS_EXTERNAL_CREDENTIALS } from './actionTypes'
-import { BackendError } from 'src/backendMiddleware'
+import { SDKError } from '@jolocom/sdk'
+import { checkTermsOfService } from '../generic'
+import { checkRecoverySetup } from '../notifications/checkRecoverySetup'
 
 export const setDid = (did: string) => ({
   type: 'DID_SET',
@@ -40,17 +42,20 @@ export const handleClaimInput = (fieldValue: string, fieldName: string) => ({
 export const checkIdentityExists: ThunkAction = async (
   dispatch,
   getState,
-  backendMiddleware,
+  agent,
 ) => {
   try {
-    const identityWallet = await backendMiddleware.prepareIdentityWallet()
+    const identityWallet = await agent.loadIdentity()
     const userDid = identityWallet.identity.did
     dispatch(setDid(userDid))
-    return dispatch(navigationActions.navigate({ routeName: routeList.Home }))
+    await dispatch(setClaimsForDid)
+    await dispatch(checkRecoverySetup)
+    return dispatch(checkTermsOfService(routeList.Home))
   } catch (err) {
-    if (!(err instanceof BackendError)) throw err
-
-    if (err.message === BackendError.codes.NoEntropy) {
+    if (
+      err.message === SDKError.codes.NoEntropy ||
+      err.message === SDKError.codes.NoWallet
+    ) {
       // No seed in database, user must register
       // But check if a registration was already in progress
       const isRegistering = getState().registration.loading.isRegistering
@@ -61,6 +66,8 @@ export const checkIdentityExists: ThunkAction = async (
 
       return dispatch(navigationActions.navigate({ routeName }))
     }
+
+    throw err
   }
 }
 
@@ -78,13 +85,13 @@ export const openClaimDetails = (
 export const saveClaim: ThunkAction = async (
   dispatch,
   getState,
-  backendMiddleware,
+  agent,
 ) => {
-  const { identityWallet, storageLib, keyChainLib } = backendMiddleware
+  const { identityWallet, storage, passwordStore } = agent
 
   const did = getState().account.did.did
   const claimsItem = getState().account.claims.selected
-  const password = await keyChainLib.getPassword()
+  const password = await passwordStore.getPassword()
 
   const verifiableCredential = await identityWallet.create.signedCredential(
     {
@@ -97,49 +104,26 @@ export const saveClaim: ThunkAction = async (
   )
 
   if (claimsItem.id) {
-    await storageLib.delete.verifiableCredential(claimsItem.id)
+    await storage.delete.verifiableCredential(claimsItem.id)
   }
 
-  await storageLib.store.verifiableCredential(verifiableCredential)
+  await storage.store.verifiableCredential(verifiableCredential)
 
   await dispatch(setClaimsForDid)
 
   return dispatch(navigationActions.navigatorResetHome())
 }
 
-// TODO Currently only rendering  / adding one
-export const saveExternalCredentials: ThunkAction = async (
-  dispatch,
-  getState,
-  backendMiddleware,
-) => {
-  const { storageLib } = backendMiddleware
-  const externalCredentials = getState().account.claims.pendingExternal
-
-  if (!externalCredentials.offer.length) {
-    return dispatch(cancelReceiving)
-  }
-
-  const cred: SignedCredential = externalCredentials.offer[0].credential
-
-  await storageLib.delete.verifiableCredential(cred.id)
-  await storageLib.store.verifiableCredential(cred)
-
-  return dispatch(cancelReceiving)
-}
-
-export const toggleLoading = (value: boolean) => ({
-  type: 'SET_LOADING',
-  value,
-})
-
 export const hasExternalCredentials: ThunkAction = async (
   dispatch,
   getState,
   backendMiddleware,
 ) => {
-  const { storageLib, identityWallet } = backendMiddleware
-  const externalCredentials = await storageLib.get.verifiableCredential({
+  const { storage, identityWallet } = backendMiddleware
+  // TODO FIXME
+  // we only need a count, no need to actually load and deserialize
+  // all of them
+  const externalCredentials = await storage.get.verifiableCredential({
     issuer: Not(identityWallet.did),
   })
 
@@ -153,18 +137,18 @@ export const setClaimsForDid: ThunkAction = async (
   getState,
   backendMiddleware,
 ) => {
-  const { storageLib } = backendMiddleware
+  const { storage } = backendMiddleware
 
-  const verifiableCredentials: SignedCredential[] = await storageLib.get.verifiableCredential()
+  const verifiableCredentials: SignedCredential[] = await storage.get.verifiableCredential()
 
   const metadata = await Promise.all(
-    verifiableCredentials.map(el => storageLib.get.credentialMetadata(el)),
+    verifiableCredentials.map(el => storage.get.credentialMetadata(el)),
   )
 
   const issuers = uniq(verifiableCredentials.map(cred => cred.issuer))
 
   const issuerMetadata = await Promise.all(
-    issuers.map(storageLib.get.publicProfile),
+    issuers.map(storage.get.publicProfile),
   )
 
   const claims = prepareClaimsForState(
@@ -182,7 +166,7 @@ export const setClaimsForDid: ThunkAction = async (
 export const prepareClaimsForState = (
   credentials: SignedCredential[],
   credentialMetadata: Array<CredentialMetadataSummary | {}>,
-  issuerMetadata: Array<IdentitySummary | { did: string }>,
+  issuerMetadata: IdentitySummary[],
 ) =>
   compose(
     groupBy(getCredentialUiCategory),
@@ -191,9 +175,9 @@ export const prepareClaimsForState = (
     map(convertToDecoratedClaim),
   )(credentials)
 
-export const addIssuerInfo = (
-  issuerProfiles: Array<{ did: string } | IdentitySummary> | [],
-) => (claim: DecoratedClaims) => {
+export const addIssuerInfo = (issuerProfiles: IdentitySummary[]) => (
+  claim: DecoratedClaims,
+) => {
   if (!issuerProfiles || !issuerProfiles.length) {
     return claim
   }
@@ -212,13 +196,13 @@ export const addIssuerInfo = (
 export const convertToDecoratedClaim = ({
   claim,
   type,
-  issuer,
+  issuer: issuerDid,
   id,
   expires,
 }: SignedCredential): DecoratedClaims => ({
   credentialType: getUiCredentialTypeByType(type),
   issuer: {
-    did: issuer,
+    did: issuerDid,
   },
   claimData: omit(['id'], claim),
   id,

@@ -1,0 +1,213 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ChooseIssueSection Component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "100%",
+          "justifyContent": "center",
+          "position": "absolute",
+          "right": 20,
+          "zIndex": 2,
+        }
+      }
+    >
+      <DropdownIcon
+        style={
+          Object {
+            "transform": Array [],
+          }
+        }
+      />
+    </View>
+    <ModalDropdown
+      adjustFrame={[Function]}
+      animated={true}
+      defaultIndex={-1}
+      defaultValue="Select an option"
+      disabled={false}
+      dropdownStyle={
+        Object {
+          "backgroundColor": "black",
+          "borderColor": "rgba(255, 255, 255, 0.21)",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "paddingVertical": 10,
+        }
+      }
+      dropdownTextHighlightStyle={
+        Object {
+          "color": "rgb(197, 41, 105)",
+        }
+      }
+      dropdownTextStyle={
+        Object {
+          "backgroundColor": "transparent",
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "TT Commons",
+          "fontSize": 20,
+          "height": 46,
+          "padding": 10,
+          "paddingLeft": 20,
+          "paddingTop": 14,
+        }
+      }
+      keyboardShouldPersistTaps="never"
+      onDropdownWillHide={[Function]}
+      onDropdownWillShow={[Function]}
+      onSelect={[Function]}
+      options={
+        Array [
+          "No internet connection",
+          "The app keeps crashing",
+          "Can't login",
+          "Backup is empty",
+          "Problems with the interface",
+          "Something doesn't seem right",
+          "Other",
+        ]
+      }
+      renderSeparator={[Function]}
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={true}
+      style={
+        Object {
+          "backgroundColor": "rgb(16, 15, 17)",
+          "borderColor": "rgba(255, 255, 255, 0.21)",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "height": 50,
+          "justifyContent": "flex-end",
+          "paddingLeft": 10,
+          "width": "100%",
+        }
+      }
+      textStyle={
+        Object {
+          "color": "rgba(255, 255, 255, 0.5)",
+          "fontFamily": "TT Commons",
+          "fontSize": 20,
+          "padding": 10,
+        }
+      }
+    />
+  </View>
+</Fragment>
+`;
+
+exports[`ChooseIssueSection Component renders the dropdown with selected border 1`] = `
+<Fragment>
+  <View
+    style={
+      Object {
+        "marginTop": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "height": "100%",
+          "justifyContent": "center",
+          "position": "absolute",
+          "right": 20,
+          "zIndex": 2,
+        }
+      }
+    >
+      <DropdownIcon
+        style={
+          Object {
+            "transform": Array [
+              Object {
+                "rotate": "180deg",
+              },
+            ],
+          }
+        }
+      />
+    </View>
+    <ModalDropdown
+      adjustFrame={[Function]}
+      animated={true}
+      defaultIndex={-1}
+      defaultValue="Select an option"
+      disabled={false}
+      dropdownStyle={
+        Object {
+          "backgroundColor": "black",
+          "borderColor": "rgba(255, 255, 255, 0.21)",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "paddingVertical": 10,
+        }
+      }
+      dropdownTextHighlightStyle={
+        Object {
+          "color": "rgb(197, 41, 105)",
+        }
+      }
+      dropdownTextStyle={
+        Object {
+          "backgroundColor": "transparent",
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "TT Commons",
+          "fontSize": 20,
+          "height": 46,
+          "padding": 10,
+          "paddingLeft": 20,
+          "paddingTop": 14,
+        }
+      }
+      keyboardShouldPersistTaps="never"
+      onDropdownWillHide={[Function]}
+      onDropdownWillShow={[Function]}
+      onSelect={[Function]}
+      options={
+        Array [
+          "No internet connection",
+          "The app keeps crashing",
+          "Can't login",
+          "Backup is empty",
+          "Problems with the interface",
+          "Something doesn't seem right",
+          "Other",
+        ]
+      }
+      renderSeparator={[Function]}
+      scrollEnabled={true}
+      showsVerticalScrollIndicator={true}
+      style={
+        Object {
+          "backgroundColor": "rgb(16, 15, 17)",
+          "borderColor": "rgb(197, 41, 105)",
+          "borderRadius": 8,
+          "borderWidth": 1,
+          "height": 50,
+          "justifyContent": "flex-end",
+          "paddingLeft": 10,
+          "width": "100%",
+        }
+      }
+      textStyle={
+        Object {
+          "color": "rgba(255, 255, 255, 0.5)",
+          "fontFamily": "TT Commons",
+          "fontSize": 20,
+          "padding": 10,
+        }
+      }
+    />
+  </View>
+</Fragment>
+`;

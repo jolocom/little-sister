@@ -22,7 +22,7 @@ exports[`TextInputField component matches the snapshot on render 1`] = `
     errorColor="rgb(213, 0, 0)"
     fontSize={16}
     inputContainerPadding={8}
-    label=""
+    label=" Email"
     labelFontSize={12}
     labelHeight={32}
     labelPadding={4}
@@ -32,10 +32,9 @@ exports[`TextInputField component matches the snapshot on render 1`] = `
         "fontFamily": "TT Commons",
       }
     }
+    lineType="solid"
     lineWidth={0.5}
-    onBlur={[Function]}
     onChangeText={[Function]}
-    onFocus={[Function]}
     style={
       Object {
         "fontFamily": "TT Commons",

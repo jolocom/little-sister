@@ -11,9 +11,17 @@ interface DocumentsCarouselProps {
   onActiveIndexChange: (index: number) => void
 }
 
-const renderItem = ({ item }: { item: DecoratedClaims }): JSX.Element => (
-  <DocumentCard document={item} />
-)
+const renderItem = ({ item }: { item: DecoratedClaims }): JSX.Element => {
+  const { renderInfo, claimData, expires, credentialType } = item
+  return (
+    <DocumentCard
+      renderInfo={renderInfo}
+      claimData={claimData}
+      expires={expires}
+      credentialType={credentialType}
+    />
+  )
+}
 
 export const DocumentsCarousel: React.FC<DocumentsCarouselProps> = (
   props,

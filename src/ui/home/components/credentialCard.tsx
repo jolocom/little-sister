@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, View, Text } from 'react-native'
+import { StyleSheet, View, Text, TouchableOpacity } from 'react-native'
 import { DecoratedClaims } from 'src/reducers/account'
 import I18n from 'src/locales/i18n'
 import { CardWrapper } from 'src/ui/structure'
@@ -48,15 +48,17 @@ export const CredentialCard: React.FC<Props> = props => {
       <View style={credentialStyles.claimsArea}>
         {Object.keys(claimData).map(key => (
           <React.Fragment key={key}>
-            <Text style={styles.claimLabel}>{prepareLabel(I18n.t(key))}</Text>
-            <Text style={styles.claimText}>{I18n.t(claimData[key])}</Text>
+            <Text style={styles.claimLabel}>{I18n.t(prepareLabel(key))}</Text>
+            <Text style={styles.claimText}>{claimData[key]}</Text>
           </React.Fragment>
         ))}
       </View>
       {selfSigned && (
-        <View style={credentialStyles.rightIconArea} onTouchEnd={onPress}>
+        <TouchableOpacity
+          style={credentialStyles.rightIconArea}
+          onPress={onPress}>
           <MoreIcon />
-        </View>
+        </TouchableOpacity>
       )}
     </CardWrapper>
   )

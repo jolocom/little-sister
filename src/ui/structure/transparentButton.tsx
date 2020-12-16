@@ -4,9 +4,10 @@ import {
   Text,
   TouchableHighlight,
   TouchableHighlightProps,
+  Platform,
 } from 'react-native'
 import { sandLight } from '../../styles/colors'
-import { baseFontStyles, textLG } from '../../styles/typography'
+import { textLG, baseFontStyles } from '../../styles/typography'
 
 const styles = StyleSheet.create({
   container: {
@@ -16,10 +17,14 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
     paddingHorizontal: 30,
-    paddingVertical: 5,
     margin: 10,
   },
-  text: { color: sandLight, ...baseFontStyles, fontSize: textLG },
+  text: {
+    color: sandLight,
+    ...baseFontStyles,
+    fontSize: textLG,
+    paddingTop: Platform.OS === 'ios' ? 5 : 0,
+  },
 })
 
 interface Props extends TouchableHighlightProps {

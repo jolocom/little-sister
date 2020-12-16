@@ -2,19 +2,22 @@
 
 buildscript {
     ext {
-        buildToolsVersion = "28.0.3"
-        minSdkVersion = 16
-        compileSdkVersion = 28
-        targetSdkVersion = 28
-        supportLibVersion = "28.0.0"
+        buildToolsVersion = "29.0.3"
+        // detox requires at least version 18
+        minSdkVersion = 21
+        compileSdkVersion = 29
+        targetSdkVersion = 29
+        // detox instrumentation app uses kotlin
+        kotlinVersion = "1.3.10"
     }
     repositories {
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.1'
-
+        classpath 'com.android.tools.build:gradle:3.4.2'
+        // detox instrumentation app uses kotlin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -27,11 +30,20 @@ plugins {
 allprojects {
     repositories {
         mavenLocal()
-        google()
-        jcenter()
         maven {
             // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
-            url "$rootDir/../node_modules/react-native/android"
+            url("$rootDir/../node_modules/react-native/android")
         }
+        maven {
+            // Android JSC is installed from npm
+            url("$rootDir/../node_modules/jsc-android/dist")
+        }
+        maven {
+            // All of Detox' artifacts are provided via the npm module
+            url "$rootDir/../node_modules/detox/Detox-android"
+        }
+        google()
+        jcenter()
+        maven { url 'https://jitpack.io' }
     }
 }

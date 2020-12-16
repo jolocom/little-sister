@@ -1,43 +1,61 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { LandingComponent } from 'src/ui/landing/components/landing'
-import { navigationActions } from 'src/actions/'
 import { ThunkDispatch } from 'src/store'
-import { StatusBar } from 'react-native'
 import { routeList } from '../../../routeList'
+import { checkTermsOfService } from 'src/actions/generic'
+import { withErrorScreen } from 'src/actions/modifiers'
+import { registrationActions } from 'src/actions/'
+import { AppError, ErrorCode } from 'src/lib/errors'
+import useDisableBackButton from 'src/ui/deviceauth/hooks/useDisableBackButton'
+import { NavigationInjectedProps } from 'react-navigation'
 
-interface Props extends ReturnType<typeof mapDispatchToProps> {}
+interface Props extends ReturnType<typeof mapDispatchToProps>,
+  NavigationInjectedProps {}
 
-export class LandingContainer extends React.Component<Props> {
-  public render(): JSX.Element {
-    return (
-      <React.Fragment>
-        <StatusBar barStyle="light-content" />
-        <LandingComponent
-          handleGetStarted={this.props.getStarted}
-          handleRecover={this.props.recoverIdentity}
-        />
-      </React.Fragment>
-    )
-  }
+export const LandingContainer = (props: Props) => {
+  useDisableBackButton(() => {
+    // return true (disable back button) if we are focused
+    return props.navigation?.isFocused()
+  })
+
+  return (
+    <LandingComponent
+      handleGetStarted={props.getStarted}
+      handleRecover={props.recoverIdentity}
+    />
+  )
 }
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-  getStarted: () =>
+  getStarted: () => {
     dispatch(
-      navigationActions.navigate({
-        routeName: routeList.Entropy,
-      }),
-    ),
-  recoverIdentity: () =>
+      withErrorScreen(
+        checkTermsOfService(routeList.RegistrationProgress, () => {
+          dispatch(
+            withErrorScreen(
+              registrationActions.createIdentity(''),
+              err =>
+                new AppError(
+                  ErrorCode.RegistrationFailed,
+                  err,
+                  routeList.Landing,
+                ),
+            ),
+          )
+        }),
+      ),
+    )
+  },
+  recoverIdentity: () => {
     dispatch(
-      navigationActions.navigate({
-        routeName: routeList.InputSeedPhrase,
-      }),
-    ),
+      withErrorScreen(
+        checkTermsOfService(routeList.InputSeedPhrase),
+        err =>
+          new AppError(ErrorCode.RegistrationFailed, err, routeList.Landing),
+      ),
+    )
+  },
 })
 
-export const Landing = connect(
-  null,
-  mapDispatchToProps,
-)(LandingContainer)
+export const Landing = connect(null, mapDispatchToProps)(LandingContainer)

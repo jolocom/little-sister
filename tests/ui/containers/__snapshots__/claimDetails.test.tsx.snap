@@ -3,6 +3,7 @@
 exports[`ClaimDetails container mounts correctly and matches the snapshot 1`] = `
 <ClaimDetailsComponent
   handleClaimInput={[MockFunction]}
+  onBackPress={[MockFunction]}
   saveClaim={[MockFunction]}
   selectedClaim={
     Object {

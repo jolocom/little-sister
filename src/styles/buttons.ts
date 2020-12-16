@@ -1,14 +1,14 @@
 import { Colors, Typography, Spacing } from 'src/styles'
+import { textSM } from './typography'
 
 export const buttonStandardContainer = {
-  minWidth: 164,
   height: 48,
-  borderRadius: 4,
-  backgroundColor: Colors.purpleMain,
+  borderRadius: 8,
 }
 
 export const buttonStandardText = {
-  ...Typography.standardText,
+  textAlign: 'center',
+  fontSize: textSM,
   // React Material Button uses a default weight, 500, that isn't supported by
   // our font on Android, so we must manually define it here
   // 2019-08-07: currently different fontWeights have no effect
@@ -18,7 +18,7 @@ export const buttonStandardText = {
   // centered vertically within the button
   // the 'as' is also a hack to get around a ts-jest issue with enums
   // https://github.com/kulshekhar/ts-jest/issues/281
-  paddingVertical: 16 as Spacing.MD,
+  //paddingVertical: 16 as Spacing.MD,
 }
 
 export const buttonDisabledStandardContainer = {

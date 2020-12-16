@@ -1,36 +1,38 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { View } from 'react-native'
+
 import { CredentialOverview } from '../components/credentialOverview'
 import { accountActions } from 'src/actions'
 import { DecoratedClaims } from 'src/reducers/account/'
 import { RootState } from '../../../reducers'
-import { withLoading } from '../../../actions/modifiers'
 import { ThunkDispatch } from '../../../store'
-import { BackupWarning } from '../../recovery/components/backupWarning'
+import { Wrapper } from 'src/ui/structure'
+import useDisableBackButton from 'src/ui/deviceauth/hooks/useDisableBackButton'
+import { NavigationInjectedProps } from 'react-navigation'
 
-interface Props
+export interface ClaimsContainerProps
   extends ReturnType<typeof mapDispatchToProps>,
-    ReturnType<typeof mapStateToProps> {}
+    ReturnType<typeof mapStateToProps>,
+    NavigationInjectedProps {}
 
-export class ClaimsContainer extends React.Component<Props> {
-  public componentWillMount(): void {
-    this.props.setClaimsForDid()
-  }
+export const ClaimsContainer = (props: ClaimsContainerProps) => {
+  const { did, claimsState, openClaimDetails } = props
 
-  public render(): JSX.Element {
-    const { did, claimsState, openClaimDetails } = this.props
-    return (
-      <View style={{ flex: 1 }}>
-        <BackupWarning />
-        <CredentialOverview
-          did={did}
-          claimsToRender={claimsState.decoratedCredentials}
-          onEdit={openClaimDetails}
-        />
-      </View>
-    )
-  }
+  useDisableBackButton(() => {
+    // return true (disable back button) if we are focused
+    return props.navigation?.isFocused()
+  })
+
+
+  return (
+    <Wrapper testID="claimsScreen">
+      <CredentialOverview
+        did={did}
+        claimsToRender={claimsState.decoratedCredentials}
+        onEdit={openClaimDetails}
+      />
+    </Wrapper>
+  )
 }
 
 const mapStateToProps = ({
@@ -43,7 +45,6 @@ const mapStateToProps = ({
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
   openClaimDetails: (claim: DecoratedClaims) =>
     dispatch(accountActions.openClaimDetails(claim)),
-  setClaimsForDid: () => dispatch(withLoading(accountActions.setClaimsForDid)),
 })
 
 export const Claims = connect(

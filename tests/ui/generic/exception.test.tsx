@@ -10,6 +10,7 @@ describe('Exception screen component', () => {
   it('Renders correctly', () => {
     const props = {
       navigateBack: jest.fn(),
+      navigateReporting: jest.fn(),
       navigation: createMockNavigationScreenProp({
         state: {
           params: {
@@ -29,6 +30,7 @@ describe('Exception screen component', () => {
   it('Renders correctly when no error object is provided', () => {
     const props = {
       navigateBack: jest.fn(),
+      navigateReporting: jest.fn(),
       navigation: createMockNavigationScreenProp({
         state: {
           params: {
@@ -45,9 +47,10 @@ describe('Exception screen component', () => {
   })
 
   it('Goes back to the screen described in returnTo', () => {
-    const returnTo = routeList.QRCodeScanner
+    const returnTo = routeList.InteractionScreen
     const props = {
       navigateBack: jest.fn(),
+      navigateReporting: jest.fn(),
       navigation: createMockNavigationScreenProp({
         state: {
           params: {

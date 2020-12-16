@@ -1,0 +1,84 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+
+  before_all do |lane, options|
+    ensure_bundle_exec
+  end
+
+  lane :build do |options|
+    matchType = case options[:type]
+      when 'ad-hoc'
+        'adhoc'
+      when 'app-store'
+        'appstore'
+      else
+        raise "build(type: '#{options[:type]}') invalid type, must be one of: 'ad-hoc' or 'app-store'"
+    end
+
+    match(type: matchType) # instead of :get_secrets
+
+    begin
+      sh("git clone git@infra.jolocom.io:sentry-auth")
+    rescue
+      puts "sentry auth already present"
+    end
+
+    sh("cp ./sentry-auth/sentry.properties ../sentry.properties")
+    build_ios_app(
+      scheme: "JolocomWallet",
+      export_method: options[:type],
+      include_bitcode: false,
+      # export_xcargs: "-allowProvisioningUpdates",
+    )
+  end
+
+  lane :upload do |options|
+    case options[:target]
+    when "release"
+      upload_to_app_store
+    when "beta"
+      upload_to_testflight
+    end
+  end
+
+  desc "Install a release build on an iOS device"
+  lane :staging do
+    build(type: "ad-hoc")
+    install_on_device(
+      skip_wifi: true
+    )
+  end
+
+  desc "Submit a new beta build to TestFlight"
+  lane :beta do
+    ensure_git_status_clean
+    increment_build_number(xcodeproj: "JolocomWallet.xcodeproj")
+    build(type: "app-store")
+    upload(target: "beta")
+  end
+
+  desc "Submit a new release build to the App Store"
+  lane :release do
+    ensure_git_branch(branch: 'master')
+    ensure_git_status_clean
+    increment_build_number(xcodeproj: "JolocomWallet.xcodeproj")
+    build
+    upload(target: "release")
+  end
+end

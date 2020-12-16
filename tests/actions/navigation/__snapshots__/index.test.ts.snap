@@ -3,15 +3,7 @@
 exports[`Navigation action creators handleDeepLink should extract the route name and param from the URL 1`] = `
 Array [
   Object {
-    "type": "SET_LOADING",
-    "value": true,
-  },
-  Object {
-    "type": "MOCK_credentialRequest_INTERACTION_TOKEN_HANDLER",
-  },
-  Object {
-    "type": "SET_LOADING",
-    "value": false,
+    "type": "MOCK_CredentialShare_INTERACTION_TOKEN_HANDLER",
   },
 ]
 `;

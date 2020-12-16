@@ -24,16 +24,26 @@ export const DocumentsList: React.SFC<DocumentsListProps> = (
   props,
 ): JSX.Element => (
   <React.Fragment>
-    {props.documents.map((document, idx) => (
-      <TouchableOpacity
-        key={idx}
-        delayPressIn={5}
-        style={styles.documentContainer}
-        onPress={() => props.onDocumentPress && props.onDocumentPress(document)}
-      >
-        <DocumentCard document={document} />
-        {/* <Icon size={20} name="chevron-right" color="rgb(209, 209, 214)" /> */}
-      </TouchableOpacity>
-    ))}
+    {props.documents.map((document, idx) => {
+      const { credentialType, renderInfo, claimData, expires } = document
+      return (
+        <TouchableOpacity
+          key={idx}
+          delayPressIn={5}
+          style={styles.documentContainer}
+          onPress={() =>
+            props.onDocumentPress && props.onDocumentPress(document)
+          }
+        >
+          <DocumentCard
+            credentialType={credentialType}
+            renderInfo={renderInfo}
+            claimData={claimData}
+            expires={expires}
+          />
+          {/* <Icon size={20} name="chevron-right" color="rgb(209, 209, 214)" /> */}
+        </TouchableOpacity>
+      )
+    })}
   </React.Fragment>
 )

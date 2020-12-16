@@ -7,12 +7,11 @@ import {
   EntropyGeneratorInterface,
   EntropyGenerator,
 } from 'src/lib/entropyGenerator'
-import { generateSecureRandomBytes } from 'src/lib/util'
+import { generateSecureRandomBytes } from '@jolocom/sdk/js/util'
 import { withErrorScreen } from 'src/actions/modifiers'
 import { ThunkDispatch } from 'src/store'
-import { AppError, ErrorCode } from '../../../lib/errors'
+import { AppError, ErrorCode } from 'src/lib/errors'
 import { routeList } from 'src/routeList'
-import { StatusBar } from 'react-native'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -85,13 +84,10 @@ export class EntropyContainer extends React.Component<Props, State> {
 
   public render(): JSX.Element {
     return (
-      <React.Fragment>
-        <StatusBar barStyle="light-content" />
-        <EntropyComponent
-          addPoint={this.addPoint}
-          progress={this.state.entropyProgress}
-        />
-      </React.Fragment>
+      <EntropyComponent
+        addPoint={this.addPoint}
+        progress={this.state.entropyProgress}
+      />
     )
   }
 }

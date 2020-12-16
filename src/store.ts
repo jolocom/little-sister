@@ -1,34 +1,57 @@
-import { createStore, applyMiddleware, AnyAction, Store } from 'redux'
+import { createStore, applyMiddleware, AnyAction } from 'redux'
 
 import thunk, {
   ThunkDispatch as OriginalThunkDispatch,
   ThunkAction as OriginalThunkAction,
 } from 'redux-thunk'
 import { RootState, rootReducer } from 'src/reducers'
-import config from 'src/config'
 
-import { BackendMiddleware } from './backendMiddleware'
+import { JolocomTypeormStorage, Agent } from 'react-native-jolocom'
 
-export function initStore() {
-  const backendMiddleware = new BackendMiddleware(config)
+import { createConnection, getConnection } from 'typeorm'
+import typeormConfig from '../ormconfig'
 
+const initConnection = async () => {
+  let connection
+  try {
+    // *** this will clear the database
+    // *** used for resetting the did
+    // await getConnection().synchronize(true)
+    // console.log('DB was cleaned')
+
+    connection = getConnection()
+  } catch (e) {
+    connection = await createConnection(typeormConfig)
+  }
+  return connection
+}
+
+export async function initTypeorm() {
+  const connection = await initConnection()
+  await connection.synchronize()
+  return new JolocomTypeormStorage(connection)
+}
+
+export function initStore(agent: Agent) {
+  /*
+   * The {} as RootState type assertion:
+   * The second argument, "preloadedState" is mandatory, and typed as RootState.
+   * We provide an empty object. The store will have the correct default state
+   * after all reducers initialise.
+   */
+  const backendMiddleware = agent
   return createStore(
     rootReducer,
-    {},
+    {} as RootState,
     applyMiddleware(thunk.withExtraArgument(backendMiddleware)),
-  ) as StoreWithThunkDispatch
+  )
 }
 
-interface StoreWithThunkDispatch extends Store<RootState> {
-  dispatch: ThunkDispatch
-}
-
-export type AnyAction = AnyAction
 export type ThunkDispatch = OriginalThunkDispatch<
   RootState,
-  BackendMiddleware,
+  Agent,
   AnyAction
 >
 export type ThunkAction<
   R = AnyAction | Promise<AnyAction | void>
-> = OriginalThunkAction<R, RootState, BackendMiddleware, AnyAction>
+> = OriginalThunkAction<R, RootState, Agent, AnyAction>

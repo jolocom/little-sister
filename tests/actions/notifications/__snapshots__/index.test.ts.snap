@@ -1,0 +1,1611 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notifications Actions invokeDismiss should call onDismiss callback and replace the notification with the next one from queue 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction],
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction],
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeDismiss should call onDismiss callback and replace the notification with the next one from queue 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 4500,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeDismiss should call onDismiss callback and replace the notification with the next one from queue 3`] = `
+Object {
+  "active": Object {
+    "dismiss": Object {
+      "timeout": 3000,
+    },
+    "id": "2",
+    "message": "sup",
+    "title": "hello",
+    "type": "info",
+  },
+  "activeExpiryTs": 4500,
+  "activeFilter": 1,
+  "queue": Array [
+    Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions invokeDismiss should call the onDismiss callback and remove the notification 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction],
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction],
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeDismiss should call the onDismiss callback and remove the notification 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "onDismiss": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should call onInteract callback and replace the notification with the next one from queue 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "interact": Object {
+        "label": "CLICK",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "interact": Object {
+        "label": "CLICK",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should call onInteract callback and replace the notification with the next one from queue 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "interact": Object {
+        "label": "CLICK",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "interact": Object {
+        "label": "CLICK",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "interact": Object {
+        "label": "CLICK",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 4500,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should call onInteract callback and replace the notification with the next one from queue 3`] = `
+Object {
+  "active": Object {
+    "dismiss": Object {
+      "timeout": 3000,
+    },
+    "id": "2",
+    "message": "sup",
+    "title": "hello",
+    "type": "info",
+  },
+  "activeExpiryTs": 4500,
+  "activeFilter": 1,
+  "queue": Array [
+    Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions invokeInteract should call the onInteract callback and remove the notification 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should call the onInteract callback and remove the notification 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should keep the notification if onInteract returns true 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction],
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should keep the notification if onInteract returns true 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": true,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": true,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions invokeInteract should keep the notification if onInteract returns true 3`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": true,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "interact": Object {
+        "label": "DO IT",
+        "onInteract": [MockFunction] {
+          "calls": Array [
+            Array [],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": true,
+            },
+          ],
+        },
+      },
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue 3`] = `
+Object {
+  "active": Object {
+    "dismiss": Object {
+      "timeout": 3000,
+    },
+    "id": "1",
+    "message": "sup",
+    "title": "hello",
+    "type": "info",
+  },
+  "activeExpiryTs": 3000,
+  "activeFilter": 1,
+  "queue": Array [
+    Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue, and unset it if it was active 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue, and unset it if it was active 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions removeNotification should remove the notification from the queue, and unset it if it was active 3`] = `
+Object {
+  "active": null,
+  "activeExpiryTs": 0,
+  "activeFilter": 1,
+  "queue": Array [],
+}
+`;
+
+exports[`Notifications Actions scheduleNotification should change to the next notification immediately if active is non-dismissible 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should change to the next notification immediately if active is non-dismissible 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should change to the next notification when active expires 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should change to the next notification when active expires 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 6100,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not change the active notification if it is not expired 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not change the active notification if it is not expired 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not change to a new non-dismissible if active is dismissible 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not change to a new non-dismissible if active is dismissible 2`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "2",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "REMOVE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not timeout the active notification after it was filtered 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "type": "SET_ACTIVE_FILTER",
+    "value": 0,
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not timeout the active notification after it was filtered 2`] = `
+Object {
+  "active": null,
+  "activeExpiryTs": 0,
+  "activeFilter": 0,
+  "queue": Array [
+    Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions scheduleNotification should not timeout the active notification after it was filtered 3`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "type": "SET_ACTIVE_FILTER",
+    "value": 0,
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "type": "SET_ACTIVE_FILTER",
+    "value": 1,
+  },
+  Object {
+    "expiry": 6200,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should not timeout the active notification after it was filtered 4`] = `
+Object {
+  "active": Object {
+    "dismiss": Object {
+      "timeout": 3000,
+    },
+    "id": "1",
+    "message": "sup",
+    "title": "hello",
+    "type": "info",
+  },
+  "activeExpiryTs": 6200,
+  "activeFilter": 1,
+  "queue": Array [
+    Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions scheduleNotification should null the active notification when it is filtered out from the queue 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": undefined,
+    "notification": Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+  Object {
+    "type": "SET_ACTIVE_FILTER",
+    "value": 2,
+  },
+  Object {
+    "expiry": 0,
+    "notification": null,
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;
+
+exports[`Notifications Actions scheduleNotification should null the active notification when it is filtered out from the queue 2`] = `
+Object {
+  "active": null,
+  "activeExpiryTs": 0,
+  "activeFilter": 2,
+  "queue": Array [
+    Object {
+      "dismiss": false,
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+  ],
+}
+`;
+
+exports[`Notifications Actions scheduleNotification should set an active notification if there are none in queue 1`] = `
+Array [
+  Object {
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SCHEDULE_NOTIFICATION",
+  },
+  Object {
+    "expiry": 3000,
+    "notification": Object {
+      "dismiss": Object {
+        "timeout": 3000,
+      },
+      "id": "1",
+      "message": "sup",
+      "title": "hello",
+      "type": "info",
+    },
+    "type": "SET_ACTIVE_NOTIFICATION",
+  },
+]
+`;

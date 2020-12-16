@@ -3,24 +3,27 @@
 // see
 // https://github.com/react-native-community/react-native-localize/blob/master/example/src/AsyncExample.js
 
-import * as RNLocalize from 'react-native-localize'
 import I18n from 'i18n-js'
+import * as RNLocalize from 'react-native-localize'
 
 const de = require('./de.json')
-const nl = require('./nl.json')
+const en = require('./en.json')
 
-I18n.defaultLocale = 'en'
-I18n.fallbacks = true
+export const locales = ['en', 'de']
+const fallback = { languageTag: 'en', isRTL: false };
+
+const { languageTag } = RNLocalize.findBestAvailableLanguage(locales) || fallback
+
+I18n.defaultLocale = fallback.languageTag
+I18n.defaultSeparator = '|' // Defaults to ".", which prevents us from using sentences with fullstops
+I18n.fallbacks = false
 I18n.missingTranslation = scope => scope
+
 I18n.translations = {
   de,
-  nl,
+  en
 }
-export const locales = ['en', 'de', 'nl']
 
-const fallback = { languageTag: 'en', isRTL: false }
-const { languageTag } =
-  RNLocalize.findBestAvailableLanguage(locales) || fallback
 I18n.locale = languageTag
 
 const localeSpecificImages = {

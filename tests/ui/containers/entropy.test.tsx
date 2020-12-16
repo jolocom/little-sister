@@ -2,7 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import { EntropyContainer } from 'src/ui/registration/containers/entropy'
 import { EntropyGenerator } from 'src/lib/entropyGenerator'
-import * as util from 'src/lib/util'
+import * as util from '@jolocom/sdk/js/util'
 import { stub, reveal } from 'tests/utils'
 
 describe('Entropy container', () => {

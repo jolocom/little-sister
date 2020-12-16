@@ -16,6 +16,7 @@ describe('ClaimDetails container', () => {
     }),
     handleClaimInput: jest.fn(),
     saveClaim: jest.fn(),
+    onBackPress: jest.fn(),
   }
 
   it('mounts correctly and matches the snapshot', () => {

@@ -6,12 +6,13 @@ import { connect } from 'react-redux'
 import { withLoading } from '../../../actions/modifiers'
 import strings from '../../../locales/strings'
 import * as I18n from 'i18n-js'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { routeList } from '../../../routeList'
+import { Vibration } from 'react-native'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
-    NavigationScreenProps {}
+    NavigationInjectedProps {}
 
 interface State {
   note: string
@@ -59,6 +60,7 @@ export class RepeatSeedPhraseContainer extends React.Component<Props, State> {
     if (isCorrect) {
       this.props.setSeedPhraseSaved()
     } else {
+      Vibration.vibrate(400)
       this.setState({
         sorting: {},
         randomWords: Object.keys(sorting).map(key => sorting[key]),
@@ -69,21 +71,23 @@ export class RepeatSeedPhraseContainer extends React.Component<Props, State> {
     }
   }
 
-  public getRandomWords(): string[] {
-    const mnemonic = this.props.navigation.getParam('mnemonic')
-    const randomWords = []
-    const mnemonicArray = mnemonic.split(' ')
-    while (mnemonicArray.length > 6 && randomWords.length < 6) {
-      const random = Math.floor(Math.random() * mnemonicArray.length)
-      if (randomWords.indexOf(mnemonicArray[random]) === -1) {
-        randomWords.push(mnemonicArray[random])
+  public getRandomWords(n: number): string[] {
+    const shuffle = (a: string[]) => {
+      for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
       }
+      return a;
     }
-    return randomWords
+
+    const mnemonic = this.props.navigation.getParam('mnemonic')
+    const mnemonicArray = mnemonic.split(' ')
+
+    return shuffle(mnemonicArray).slice(n)
   }
 
   public componentDidMount(): void {
-    const randomWords = this.getRandomWords()
+    const randomWords = this.getRandomWords(6)
     this.setState({ randomWords })
   }
 

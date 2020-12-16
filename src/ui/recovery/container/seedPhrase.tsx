@@ -2,32 +2,24 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { SeedPhrase as SeedPhraseComponent } from 'src/ui/recovery/components/seedPhrase'
 import { ThunkDispatch } from '../../../store'
-import { NavigationScreenProps } from 'react-navigation'
+import { NavigationInjectedProps } from 'react-navigation'
 import { navigationActions } from '../../../actions'
 import { routeList } from '../../../routeList'
-import { StatusBar } from 'react-native'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
     ReturnType<typeof mapStateToProps>,
-    NavigationScreenProps {}
+    NavigationInjectedProps {}
 
 export class SeedPhraseContainer extends React.Component<Props> {
   public render() {
     const mnemonic =
       this.props.navigation && this.props.navigation.getParam('mnemonic')
     return (
-      <React.Fragment>
-        <StatusBar
-          animated={false}
-          barStyle="light-content"
-          showHideTransition="fade"
-        />
-        <SeedPhraseComponent
-          seedPhrase={mnemonic}
-          handleButtonTap={() => this.props.repeatSeedPhrase(mnemonic)}
-        />
-      </React.Fragment>
+      <SeedPhraseComponent
+        seedPhrase={mnemonic}
+        handleButtonTap={() => this.props.repeatSeedPhrase(mnemonic)}
+      />
     )
   }
 }

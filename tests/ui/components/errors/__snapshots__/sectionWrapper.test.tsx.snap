@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SectionWrapper Component matches the snapshot on initial render 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "height": "auto",
+        "marginTop": 50,
+        "paddingHorizontal": 20,
+        "width": "100%",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "rgba(255, 239, 223, 0.8)",
+        "fontFamily": "TT Commons",
+        "fontSize": 28,
+      }
+    }
+  >
+    Test
+  </Text>
+</View>
+`;

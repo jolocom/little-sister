@@ -7,7 +7,10 @@ export const credentialStyles = StyleSheet.create({
     marginLeft: Spacing.MD,
   },
   rightIconArea: {
+    position: 'absolute',
+    right: 0,
+    top: 0,
     alignItems: 'center',
-    width: Spacing.MD,
+    padding: Spacing.MD,
   },
 })

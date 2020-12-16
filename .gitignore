@@ -7,6 +7,8 @@ coverage/
 .watchmanconfig
 dist/
 db.sqlite3
+*/sentry.properties
+local_identity.password.txt
 
 #### Below is the default react native .gitignore ###
 ############### DO NOT EDIT BELOW ###################
@@ -34,7 +36,6 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
-project.xcworkspace
 
 # Android/IntelliJ
 #
@@ -58,6 +59,7 @@ yarn-error.log
 buck-out/
 \.buckd/
 *.keystore
+!debug.keystore
 
 # fastlane
 #
@@ -69,7 +71,12 @@ buck-out/
 */fastlane/report.xml
 */fastlane/Preview.html
 */fastlane/screenshots
+*/fastlane/metadata
+vendor/
 
 # Bundle artifact
 *.jsbundle
 /LocalSmartWalletData
+
+# CocoaPods
+/ios/Pods/

@@ -47,7 +47,7 @@ export const CredentialCategory: React.FC<Props> = props => {
     <React.Fragment>
       <Text style={styles.sectionHeader}>{I18n.t(category)}</Text>
 
-      {credentialsSortedByType.map(credential => {
+      {credentialsSortedByType.map((credential, i) => {
         const { claimData, credentialType } = credential
         const isBlank = all(isEmpty, values(claimData))
 
@@ -60,6 +60,7 @@ export const CredentialCategory: React.FC<Props> = props => {
         if (isBlank) {
           return (
             <PlaceholderCredentialCard
+              key={i}
               credential={credential}
               onPress={() => onEdit(credential)}
               leftIcon={leftIcon}
@@ -73,6 +74,7 @@ export const CredentialCategory: React.FC<Props> = props => {
 
         return (
           <CredentialCardToRender
+            key={i}
             did={did}
             credential={credential}
             onPress={() => onEdit(credential)}

@@ -11,42 +11,46 @@
  *
  */
 
-const CryptoJS = {
+export const CryptoJS = {
   AES: {
     decrypt: AESDecrypt,
   },
   algo: {
     AES: {
-      keySize: 256/32,
-      ivSize: 128/32
-    }
+      keySize: 256 / 32,
+      ivSize: 128 / 32,
+    },
   },
   kdf: {
     OpenSSL: {
-      execute: OpenSSLKdfExecute
-    }
+      execute: OpenSSLKdfExecute,
+    },
   },
   format: {
     OpenSSL: {
-      parse: OpenSSLFormatterParse
-    }
-  }
+      parse: OpenSSLFormatterParse,
+    },
+  },
 }
 
 export default CryptoJS
 
 import { randomBytes, createDecipheriv, createHash } from 'crypto'
-import { JolocomLib } from 'jolocom-lib';
+import { JolocomLib } from 'jolocom-lib'
 
 /**
  * This function emulates CryptoJS.format.OpenSSL.parse (cipher-core.js)
  * It parses a base64 cipher text and separates the salt bytes if any
  */
 function OpenSSLFormatterParse(cipherTextBase64: string) {
-  let salt, cipherText = Buffer.from(cipherTextBase64, 'base64')
+  let salt,
+    cipherText = Buffer.from(cipherTextBase64, 'base64')
   // Test for salt.
   // If the first 8 bytes are the ASCII "Salted__", then cipherText is salted.
-  if (cipherText.readUInt32BE(0*4) == 0x53616c74 && cipherText.readUInt32BE(1*4) == 0x65645f5f) {
+  if (
+    cipherText.readUInt32BE(0 * 4) == 0x53616c74 &&
+    cipherText.readUInt32BE(1 * 4) == 0x65645f5f
+  ) {
     // Extract salt, 8 bytes, third and fourth words
     // NOTE: slice is byte addressed
     salt = cipherText.slice(2 * 4, 4 * 4)
@@ -62,17 +66,22 @@ function OpenSSLFormatterParse(cipherTextBase64: string) {
  * This function emulates CryptoJS.kdf.OpenSSL.execute (cipher-core.js)
  * It extracts a key and IV for the AES algorithm
  */
-function OpenSSLKdfExecute(password: string, keySize: number, ivSize: number, salt: Buffer | undefined) {
+function OpenSSLKdfExecute(
+  password: string,
+  keySize: number,
+  ivSize: number,
+  salt: Buffer | undefined,
+) {
   // Generate random salt
   if (!salt) {
-    salt = randomBytes(64/8)
+    salt = randomBytes(64 / 8)
   }
 
   // Derive key and IV
-  var key = EvpKDFCompute(password, salt, { keySize: keySize + ivSize });
+  let key = EvpKDFCompute(password, salt, { keySize: keySize + ivSize })
 
   // Separate key and IV
-  var iv = key.slice(keySize * 4)
+  const iv = key.slice(keySize * 4)
   key = key.slice(0, keySize * 4)
 
   return { key, iv }
@@ -81,11 +90,15 @@ function OpenSSLKdfExecute(password: string, keySize: number, ivSize: number, sa
 /**
  * This function emulates CryptoJS.algo.EvpKDF.compute
  */
-function EvpKDFCompute(password: string, salt: Buffer, cfg: { keySize: number }) {
+function EvpKDFCompute(
+  password: string,
+  salt: Buffer,
+  cfg: { keySize: number },
+) {
   // Init hasher
   const newHasher = () => createHash('md5')
 
-  var keySize = cfg.keySize;
+  const keySize = cfg.keySize
   // skipped
   // var iterations = cfg.iterations;
 
@@ -96,7 +109,10 @@ function EvpKDFCompute(password: string, salt: Buffer, cfg: { keySize: number })
   for (let k = 0; k < keySize; k++) {
     const hasher = newHasher()
     if (block) hasher.update(block)
-    block = hasher.update(password).update(salt).digest()
+    block = hasher
+      .update(password)
+      .update(salt)
+      .digest()
 
     // This code is from crypto-js, but iterations is always 1 in our use case
     //// Iterations
@@ -104,10 +120,7 @@ function EvpKDFCompute(password: string, salt: Buffer, cfg: { keySize: number })
     //  block = newHasher().update(block).digest();
     //}
 
-    derivedKey =
-      derivedKey
-      ? Buffer.concat([derivedKey, block])
-      : block
+    derivedKey = derivedKey ? Buffer.concat([derivedKey, block]) : block
   }
 
   return derivedKey.slice(0, keySize * 4)
@@ -126,7 +139,9 @@ function EvpKDFCompute(password: string, salt: Buffer, cfg: { keySize: number })
  */
 export function AESDecrypt(cipherText: string, pass: string) {
   // first it runs format.parse(cipherText), which is OpenSSLFormatter.parse
-  const { salt, ciphertext: cipherTextBuffer } = CryptoJS.format.OpenSSL.parse(cipherText)
+  const { salt, ciphertext: cipherTextBuffer } = CryptoJS.format.OpenSSL.parse(
+    cipherText,
+  )
 
   // then the decryptor generates a key and IV using the default KDF (Key
   // Derivation Function) OpenSSLKdf.execute (cipher-core.js)
@@ -141,10 +156,16 @@ export function AESDecrypt(cipherText: string, pass: string) {
   return Buffer.concat([decipher.update(cipherTextBuffer), decipher.final()])
 }
 
-export function reencryptWithJolocomLib(cipherTextBase64: string, password: string) {
+export function reencryptWithJolocomLib(
+  cipherTextBase64: string,
+  password: string,
+) {
   // NOTE: seed is encrypted as a hex representation, so we convert toString
   // (ascii) and then parse as hex
-  const encodedSeed = CryptoJS.AES.decrypt(cipherTextBase64, password).toString()
+  const encodedSeed = CryptoJS.AES.decrypt(
+    cipherTextBase64,
+    password,
+  ).toString()
   const seed = Buffer.from(encodedSeed, 'hex')
   const keyProvider = JolocomLib.KeyProvider.fromSeed(seed, password)
   // TODO remove this ts-ignore once encryptedSeed is public

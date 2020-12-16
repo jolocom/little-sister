@@ -8,7 +8,7 @@
 module.exports = {
   resolver: {
     extraNodeModules: {
-      // Polyfills for node libraries
+      // Polyfills for node packages
       crypto: require.resolve('react-native-crypto'),
       'crypto-browserify': require.resolve('react-native-crypto'),
       stream: require.resolve('stream-browserify'),

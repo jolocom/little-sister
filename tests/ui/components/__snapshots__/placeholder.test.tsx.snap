@@ -25,6 +25,7 @@ exports[`placeholder component matches the snapshot with sorting with being used
         "fontFamily": "TT Commons",
         "fontSize": 20,
         "lineHeight": 26,
+        "paddingTop": 3,
         "textAlign": "center",
       }
     }
@@ -59,6 +60,7 @@ exports[`placeholder component matches the snapshot with sorting without being u
         "fontFamily": "TT Commons",
         "fontSize": 20,
         "lineHeight": 26,
+        "paddingTop": 3,
         "textAlign": "center",
       }
     }
@@ -93,6 +95,7 @@ exports[`placeholder component matches the snapshot without sorting 1`] = `
         "fontFamily": "TT Commons",
         "fontSize": 20,
         "lineHeight": 26,
+        "paddingTop": 3,
         "textAlign": "center",
       }
     }

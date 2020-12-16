@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`NavigationSection Component matches the initial snapshot on render 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "transparent",
+      "flexDirection": "row",
+      "height": 50,
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <View />
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[MockFunction]}
+    style={
+      Object {
+        "height": 40,
+        "justifyContent": "center",
+        "paddingHorizontal": 20,
+      }
+    }
+  >
+    <SvgCrossIcon />
+  </TouchableOpacity>
+</View>
+`;
+
+exports[`NavigationSection Component renders the section with a back button 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "transparent",
+      "flexDirection": "row",
+      "height": 50,
+      "justifyContent": "space-between",
+      "width": "100%",
+    }
+  }
+>
+  <TouchableOpacity
+    activeOpacity={0.8}
+    onPress={[MockFunction]}
+    style={
+      Object {
+        "height": 40,
+        "justifyContent": "center",
+        "paddingHorizontal": 20,
+      }
+    }
+  >
+    <SvgBackIcon />
+  </TouchableOpacity>
+  <View />
+</View>
+`;

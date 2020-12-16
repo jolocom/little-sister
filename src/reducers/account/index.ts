@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux'
 import { did } from 'src/reducers/account/did'
 import { claims } from 'src/reducers/account/claims'
+
 import { loading } from 'src/reducers/account/loading'
+
 import {
   CredentialOfferMetadata,
   CredentialOfferRenderInfo,
 } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
-import { SignedCredential } from 'jolocom-lib/js/credentials/signedCredential/signedCredential'
-import { IdentitySummary } from '../../actions/sso/types'
+import { IdentitySummary } from '@jolocom/sdk'
 
 export interface DecoratedClaims {
   credentialType: string
@@ -36,13 +37,6 @@ export interface CategorizedClaims {
 export interface ClaimsState {
   readonly selected: DecoratedClaims
   readonly decoratedCredentials: CategorizedClaims
-  readonly pendingExternal: {
-    offeror: IdentitySummary
-    offer: Array<{
-      credential: SignedCredential
-      decoratedClaim: DecoratedClaims
-    }>
-  }
   readonly hasExternalCredentials: boolean
 }
 

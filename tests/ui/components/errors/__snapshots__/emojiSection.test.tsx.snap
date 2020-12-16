@@ -1,0 +1,149 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EmojiSection Component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "height": "auto",
+        "justifyContent": "space-between",
+        "marginTop": 27,
+        "maxWidth": "100%",
+      }
+    }
+  >
+    <EmojiButton
+      areAnySelected={true}
+      emoji="💩"
+      isSelected={false}
+      key="0"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="😘"
+      isSelected={false}
+      key="1"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="🤦‍♀"
+      isSelected={false}
+      key="2"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="👿"
+      isSelected={false}
+      key="3"
+      onPress={[Function]}
+    />
+  </View>
+</Fragment>
+`;
+
+exports[`EmojiSection Component matches the snapshot to initial EmojiButton render 1`] = `
+<View
+  onTouchEnd={[MockFunction]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      "borderColor": "rgb(62, 62, 62)",
+      "borderRadius": 50,
+      "borderWidth": 1,
+      "height": 66,
+      "justifyContent": "center",
+      "width": 66,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 31,
+      }
+    }
+  >
+    💩
+  </Text>
+</View>
+`;
+
+exports[`EmojiSection Component renders selected emoji button 1`] = `
+<View
+  onTouchEnd={[MockFunction]}
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "rgba(0, 0, 0, 0.5)",
+      "borderColor": "rgb(197, 41, 105)",
+      "borderRadius": 50,
+      "borderWidth": 1,
+      "height": 66,
+      "justifyContent": "center",
+      "width": 66,
+    }
+  }
+>
+  <Text
+    style={
+      Object {
+        "color": "black",
+        "fontSize": 31,
+      }
+    }
+  >
+    💩
+  </Text>
+</View>
+`;
+
+exports[`EmojiSection Component renders the emojis when one is selected 1`] = `
+<Fragment>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "height": "auto",
+        "justifyContent": "space-between",
+        "marginTop": 27,
+        "maxWidth": "100%",
+      }
+    }
+  >
+    <EmojiButton
+      areAnySelected={true}
+      emoji="💩"
+      isSelected={true}
+      key="0"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="😘"
+      isSelected={false}
+      key="1"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="🤦‍♀"
+      isSelected={false}
+      key="2"
+      onPress={[Function]}
+    />
+    <EmojiButton
+      areAnySelected={true}
+      emoji="👿"
+      isSelected={false}
+      key="3"
+      onPress={[Function]}
+    />
+  </View>
+</Fragment>
+`;

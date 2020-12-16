@@ -1,0 +1,25 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+
+# fastlane specific
+fastlane/report.xml
+
+# deliver temporary files
+fastlane/Preview.html
+
+# snapshot generated screenshots
+fastlane/screenshots
+
+# scan temporary files
+fastlane/test_output
+
+# Fastlane builds
+builds/*
+
+# secrets
+fastlane/android-secrets*
+fastlane/key.json
+fastlane/secrets.json

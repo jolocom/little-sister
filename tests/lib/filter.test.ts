@@ -1,4 +1,4 @@
-import { filters } from './../../src/lib/filterCreds'
+import { filters } from 'src/lib/filterCreds'
 import {
   testCreds,
   issuers,

@@ -10,6 +10,11 @@ enum HttpMethods {
   HEAD = 'HEAD',
 }
 
+/** 
+ * @todo is this used anywhere?
+ * @todo the res.json() prevents us from using these methods
+ * Also
+ */
 export const httpAgent: HttpAgent = {
   getRequest: <T>(endpoint: string): Promise<T> =>
     fetch(endpoint, {

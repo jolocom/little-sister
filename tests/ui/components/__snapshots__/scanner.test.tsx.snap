@@ -1,0 +1,361 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scanner component matches snapshot when the torch button is pressed 1`] = `
+<Fragment>
+  <QRCodeScanner
+    buttonPositive="OK"
+    cameraProps={
+      Object {
+        "captureAudio": false,
+        "flashMode": "torch",
+      }
+    }
+    cameraStyle={
+      Object {
+        "height": 1334,
+      }
+    }
+    cameraType="back"
+    checkAndroid6Permissions={false}
+    containerStyle={
+      Object {
+        "position": "absolute",
+      }
+    }
+    fadeIn={false}
+    notAuthorizedView={
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          Camera not authorized
+        </Text>
+      </View>
+    }
+    onRead={[Function]}
+    pendingAuthorizationView={
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          ...
+        </Text>
+      </View>
+    }
+    permissionDialogMessage="Need camera permission"
+    permissionDialogTitle="Info"
+    reactivate={true}
+    reactivateTimeout={3000}
+    showMarker={false}
+    vibrate={true}
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(0, 0, 0, 0.65)",
+        "height": 185,
+        "width": "100%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "stretch",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.65)",
+          "height": 562.5,
+          "width": 93.75,
+        }
+      }
+    />
+    <AnimatedComponent
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "borderRadius": 2,
+            "borderWidth": 2,
+            "height": 562.5,
+            "justifyContent": "center",
+            "width": 562.5,
+          },
+          Object {
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "borderColor": "rgb(255, 255, 255)",
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.65)",
+          "height": 562.5,
+          "width": 93.75,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0, 0, 0, 0.65)",
+        "flex": 1,
+        "height": "100%",
+        "justifyContent": "space-between",
+        "width": "100%",
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "TTCommons-Light",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginTop": 16,
+          "textAlign": "center",
+          "width": 562.5,
+        }
+      }
+    >
+      It's all automatic, just place your phone above the code
+    </Text>
+    <TouchableHighlight
+      activeOpacity={1}
+      delayPressOut={100}
+      onPressIn={[Function]}
+      onPressOut={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 69,
+          "justifyContent": "center",
+          "marginBottom": 60,
+          "width": 69,
+        }
+      }
+      underlayColor="transparent"
+    >
+      <SvgTorchOnIcon />
+    </TouchableHighlight>
+  </View>
+</Fragment>
+`;
+
+exports[`Scanner component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <QRCodeScanner
+    buttonPositive="OK"
+    cameraProps={
+      Object {
+        "captureAudio": false,
+        "flashMode": "off",
+      }
+    }
+    cameraStyle={
+      Object {
+        "height": 1334,
+      }
+    }
+    cameraType="back"
+    checkAndroid6Permissions={false}
+    containerStyle={
+      Object {
+        "position": "absolute",
+      }
+    }
+    fadeIn={false}
+    notAuthorizedView={
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          Camera not authorized
+        </Text>
+      </View>
+    }
+    onRead={[Function]}
+    pendingAuthorizationView={
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <Text
+          style={
+            Object {
+              "fontSize": 16,
+              "textAlign": "center",
+            }
+          }
+        >
+          ...
+        </Text>
+      </View>
+    }
+    permissionDialogMessage="Need camera permission"
+    permissionDialogTitle="Info"
+    reactivate={true}
+    reactivateTimeout={3000}
+    showMarker={false}
+    vibrate={true}
+  />
+  <View
+    style={
+      Object {
+        "backgroundColor": "rgba(0, 0, 0, 0.65)",
+        "height": 185,
+        "width": "100%",
+      }
+    }
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "stretch",
+        "flexDirection": "row",
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.65)",
+          "height": 562.5,
+          "width": 93.75,
+        }
+      }
+    />
+    <AnimatedComponent
+      style={
+        Array [
+          Object {
+            "alignItems": "center",
+            "backgroundColor": "transparent",
+            "borderRadius": 2,
+            "borderWidth": 2,
+            "height": 562.5,
+            "justifyContent": "center",
+            "width": 562.5,
+          },
+          Object {
+            "backgroundColor": "rgba(0, 0, 0, 0)",
+            "borderColor": "rgb(255, 255, 255)",
+          },
+        ]
+      }
+    />
+    <View
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.65)",
+          "height": 562.5,
+          "width": 93.75,
+        }
+      }
+    />
+  </View>
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "rgba(0, 0, 0, 0.65)",
+        "flex": 1,
+        "height": "100%",
+        "justifyContent": "space-between",
+        "width": "100%",
+        "zIndex": 1,
+      }
+    }
+  >
+    <Text
+      style={
+        Object {
+          "color": "rgb(255, 255, 255)",
+          "fontFamily": "TTCommons-Light",
+          "fontSize": 20,
+          "lineHeight": 24,
+          "marginTop": 16,
+          "textAlign": "center",
+          "width": 562.5,
+        }
+      }
+    >
+      It's all automatic, just place your phone above the code
+    </Text>
+    <TouchableHighlight
+      activeOpacity={1}
+      delayPressOut={100}
+      onPressIn={[Function]}
+      onPressOut={[Function]}
+      style={
+        Object {
+          "alignItems": "center",
+          "height": 69,
+          "justifyContent": "center",
+          "marginBottom": 60,
+          "width": 69,
+        }
+      }
+      underlayColor="transparent"
+    >
+      <SvgTorchOffIcon />
+    </TouchableHighlight>
+  </View>
+</Fragment>
+`;

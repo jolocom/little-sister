@@ -2,7 +2,7 @@ import React from 'react'
 import { ClaimDetailsComponent } from 'src/ui/home/components/claimDetails'
 import { connect } from 'react-redux'
 import { RootState } from 'src/reducers/'
-import { accountActions } from 'src/actions'
+import { accountActions, navigationActions } from 'src/actions'
 import { ThunkDispatch } from 'src/store'
 import { withLoading, withErrorScreen } from 'src/actions/modifiers'
 
@@ -16,6 +16,7 @@ export class ClaimDetailsContainer extends React.Component<Props, State> {
   render() {
     return (
       <ClaimDetailsComponent
+        onBackPress={this.props.onBackPress}
         saveClaim={this.props.saveClaim}
         handleClaimInput={this.props.handleClaimInput}
         selectedClaim={this.props.claims.selected}
@@ -29,6 +30,7 @@ const mapStateToProps = ({ account: { claims } }: RootState) => ({
 })
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
+  onBackPress: () => dispatch(navigationActions.navigateBack()),
   saveClaim: () =>
     dispatch(withLoading(withErrorScreen(accountActions.saveClaim))),
   handleClaimInput: (fieldValue: string, fieldName: string) => {

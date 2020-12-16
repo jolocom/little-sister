@@ -1,10 +1,8 @@
-import { navigationActions } from '../../../src/actions'
+import { navigationActions, interactionHandlers } from '../../../src/actions'
 import { JolocomLib } from 'jolocom-lib'
-import { JSONWebToken } from 'jolocom-lib/js/interactionTokens/JSONWebToken'
-import { InteractionType } from 'jolocom-lib/js/interactionTokens/types'
-import { interactionHandlers } from 'src/lib/storage/interactionTokens'
 import { createMockStore } from 'tests/utils'
 import { AppError } from 'src/lib/errors'
+import { FlowType } from '@jolocom/sdk'
 
 describe('Navigation action creators', () => {
   describe('handleDeepLink', () => {
@@ -19,20 +17,19 @@ describe('Navigation action creators', () => {
             did: mockDid,
           },
         },
+        generic: {
+          appWrapConfig: {},
+        },
       },
       {
-        storageLib: {
-          get: {
-            persona: jest.fn().mockResolvedValue([{ did: mockDid }]),
-            encryptedSeed: jest.fn().mockResolvedValue('johnnycryptoseed'),
-          },
-        },
-        keyChainLib: {
+        passwordStore: {
           getPassword: jest.fn().mockResolvedValue('secret123'),
         },
         identityWallet: {
           validateJWT: jest.fn().mockResolvedValue(true),
         },
+        processJWT: jest.fn(),
+        findInteraction: jest.fn().mockResolvedValue(undefined)
       },
     )
 
@@ -41,15 +38,16 @@ describe('Navigation action creators', () => {
       'fromJWT',
     )
 
-    const interactionHandlersSpies = {}
-    Object.keys(interactionHandlers).forEach(typ => {
-      interactionHandlersSpies[typ] = jest
-        // @ts-ignore bleh
-        .spyOn(interactionHandlers, typ)
-        .mockReturnValue({ type: `MOCK_${typ}_INTERACTION_TOKEN_HANDLER` })
-    })
-
     beforeEach(() => {
+      const interactionHandlersSpies = {}
+      Object.keys(interactionHandlers).forEach(typ => {
+        interactionHandlersSpies[typ] = jest
+          // @ts-ignore bleh
+          .spyOn(interactionHandlers, typ)
+          // @ts-ignore bleh
+          .mockReturnValue({ type: `MOCK_${typ}_INTERACTION_TOKEN_HANDLER` })
+      })
+
       jest.useFakeTimers()
       mockStore.reset()
       parseInteractionTokenSpy.mockClear()
@@ -57,20 +55,22 @@ describe('Navigation action creators', () => {
 
     // TODO: refactor test case to account for identity check when deeplinking
     it('should extract the route name and param from the URL', async () => {
-      parseInteractionTokenSpy.mockImplementation(jwt => {
-        const token = new JSONWebToken()
-        token.payload = { typ: InteractionType.CredentialRequest }
-        return token
-      })
-
       const action = navigationActions.handleDeepLink(
         'jolocomwallet://consent/' + jwt,
       )
 
+      const processJWT = mockStore.backendMiddleware.processJWT as jest.Mock
+      processJWT.mockImplementation(() => {
+        return {
+          flow: {
+            type: FlowType.CredentialShare
+          }
+        }
+      })
       await mockStore.dispatch(action)
       jest.runAllTimers()
       expect(mockStore.getActions()).toMatchSnapshot()
-      expect(parseInteractionTokenSpy).toHaveBeenCalledWith(jwt)
+      expect(processJWT).toHaveBeenCalledWith(jwt)
     })
 
     it('should throw AppError if route was not correct', () => {

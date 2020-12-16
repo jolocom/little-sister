@@ -5,7 +5,7 @@ Array [
   Object {
     "params": Object {
       "error": [Error: Unknown Error],
-      "returnTo": "AppInit",
+      "returnTo": "Home",
     },
     "routeName": "Exception",
     "type": "Navigation/NAVIGATE",

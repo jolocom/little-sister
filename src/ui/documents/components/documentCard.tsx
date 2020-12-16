@@ -1,15 +1,33 @@
 import React from 'react'
-import { View, StyleSheet, Text, Image, ImageBackground } from 'react-native'
+import {
+  View,
+  StyleSheet,
+  Text,
+  Image,
+  ImageBackground,
+  Dimensions,
+} from 'react-native'
 import { DocumentValiditySummary } from './documentValidity'
-import { DecoratedClaims } from 'src/reducers/account'
 import { ClaimInterface } from 'cred-types-jolocom-core'
-import { Colors, Typography, Spacing } from 'src/styles'
+import { Colors, Typography, Spacing, Typefaces } from 'src/styles'
+import { CredentialOfferRenderInfo } from 'jolocom-lib/js/interactionTokens/interactionTokens.types'
+import { fontMedium } from '../../../styles/typography'
+import { InvalidDocumentBackground } from '../../../resources'
 
-export const DOCUMENT_CARD_HEIGHT = 176
-export const DOCUMENT_CARD_WIDTH = 276
+const { width: WIDTH } = Dimensions.get('window')
+// TODO @clauxx rename
+const DOCUMENT_MARGIN = 20
+export const DOCUMENT_CARD_WIDTH = WIDTH - DOCUMENT_MARGIN * 2
+export const DOCUMENT_CARD_HEIGHT = DOCUMENT_CARD_WIDTH * 0.636
 
 interface DocumentCardProps {
-  document: DecoratedClaims
+  credentialType: string
+  renderInfo: CredentialOfferRenderInfo | undefined
+  claimData?: ClaimInterface
+  expires?: Date
+  invalid?: boolean
+  transform?: any
+  shadow?: boolean
 }
 
 const styles = StyleSheet.create({
@@ -17,9 +35,7 @@ const styles = StyleSheet.create({
     height: DOCUMENT_CARD_HEIGHT,
     width: DOCUMENT_CARD_WIDTH,
     backgroundColor: Colors.white,
-    borderColor: Colors.black010,
-    borderWidth: 2,
-    borderRadius: 10,
+    borderRadius: 12,
     overflow: 'hidden',
   },
   cardBack: {
@@ -29,11 +45,13 @@ const styles = StyleSheet.create({
   },
   cardContent: {
     flex: 1,
-    paddingVertical: Spacing.MD,
+    paddingTop: 26,
+    paddingBottom: 12,
   },
   documentType: {
-    ...Typography.baseFontStyles,
-    fontSize: Typography.textXL,
+    // TODO @clauxx add BOLD font here
+    ...Typefaces.subtitle1,
+    fontFamily: fontMedium,
     paddingHorizontal: Spacing.MD,
   },
   documentNumber: {
@@ -57,37 +75,59 @@ const styles = StyleSheet.create({
   },
 })
 
-export const DocumentCard: React.SFC<DocumentCardProps> = ({
-  document,
-}): JSX.Element => {
-  const { renderInfo, expires } = document
+export const DocumentCard: React.FC<DocumentCardProps> = props => {
+  const {
+    renderInfo,
+    claimData,
+    credentialType,
+    expires,
+    invalid,
+    shadow = false,
+  } = props
   const { background = undefined, logo = undefined, text = undefined } =
     renderInfo || {}
-  const claimData = document.claimData as ClaimInterface
+  const cardBackground = invalid
+    ? InvalidDocumentBackground
+    : { uri: background?.url }
 
+  /**
+   * NOTE @clauxx: Using .gif as background images causes inconsistencies with border radius and
+   * scaling. To disable gif animation support, remove the `com.facebook.fresco` lines from `build.gradle`.
+   * Note that when disabled, gifs will be handled as images.
+   */
   return (
-    <View style={[styles.card, !background && { borderColor: Colors.sand }]}>
+    <View
+      style={[
+        styles.card,
+        !background && { borderColor: Colors.sand },
+        shadow && { elevation: 12 },
+      ]}>
       <ImageBackground
+        borderRadius={12}
         style={[
           styles.cardBack,
+
           {
             backgroundColor: (background && background.color) || 'transparent',
           },
         ]}
-        source={{
-          uri: background && background.url,
-        }}
+        resizeMode={'cover'}
+        source={cardBackground}
       />
       <View style={styles.cardContent}>
         <Text
           numberOfLines={2}
-          style={[styles.documentType, { color: text && text.color }]}
-        >
-          {claimData.type || document.credentialType}
+          style={[
+            styles.documentType,
+            { color: invalid ? 'rgb(182, 182, 182)' : text && text.color },
+          ]}>
+          {credentialType || (claimData && claimData.type)}
         </Text>
-        <Text style={[styles.documentNumber, { color: text && text.color }]}>
-          {claimData.documentNumber}
-        </Text>
+        {claimData && (
+          <Text style={[styles.documentNumber, { color: text && text.color }]}>
+            {claimData.documentNumber}
+          </Text>
+        )}
         <View style={styles.validityContainer}>
           {expires && (
             <DocumentValiditySummary
@@ -99,7 +139,7 @@ export const DocumentCard: React.SFC<DocumentCardProps> = ({
             <Image source={{ uri: logo.url }} style={styles.icon} />
           ) : (
             <View
-              style={[styles.icon, { backgroundColor: Colors.lightGrey }]}
+              style={[styles.icon, { backgroundColor: 'transparent' }]}
             />
           )}
         </View>

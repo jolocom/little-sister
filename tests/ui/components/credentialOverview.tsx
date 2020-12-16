@@ -1,11 +1,13 @@
 import React from 'react'
-import { CredentialOverview } from 'src/ui/home/components/credentialOverview'
+import {
+  Props as CredentialOverviewProps,
+  CredentialOverview,
+} from 'src/ui/home/components/credentialOverview'
 import { shallow } from 'enzyme'
 
 // TODO Is this running?
 describe('CredentialsOverview component', () => {
-  const COMMON_PROPS: CredentialOverview['props'] = {
-    loading: false,
+  const COMMON_PROPS: CredentialOverviewProps = {
     onEdit: jest.fn(),
     did: 'did:jolo:test',
     claimsToRender: {

@@ -15,8 +15,8 @@ import { DocumentsCarousel } from '../components/documentsCarousel'
 import { DocumentsList } from '../components/documentsList'
 import { DocumentViewToggle } from '../components/documentViewToggle'
 import strings from '../../../locales/strings'
-import { BackupWarning } from '../../recovery/components/backupWarning'
-import { Typography, Colors, Spacing } from 'src/styles'
+import { Typography, Colors } from 'src/styles'
+import { Wrapper } from '../../structure'
 
 interface Props
   extends ReturnType<typeof mapDispatchToProps>,
@@ -27,34 +27,12 @@ interface State {
   showingValid: boolean
 }
 
-/*
-const APPBAR_HEIGHT = Platform.select({
-  ios: 44,
-  android: 56,
-  default: 64,
-})
-*/
-
 const styles = StyleSheet.create({
-  mainContainer: {
-    flex: 1,
-    backgroundColor: Colors.lightGreyLighter,
-  },
-  topContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: Spacing.MD,
-  },
-  emptyDocumentsContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: Spacing.MD,
-  },
   emptyDocumentsText: {
     ...Typography.mainText,
     ...Typography.centeredText,
     color: Colors.greyLight,
+    paddingHorizontal: '5%',
   },
 })
 
@@ -95,49 +73,48 @@ export class DocumentsContainer extends React.Component<Props, State> {
     const isEmpty = displayedDocs.length === 0
     const otherIsEmpty = displayedDocs.length === documents.length
 
+    if (isEmpty) {
+      return (
+        <Wrapper centered>
+          <Text style={styles.emptyDocumentsText}>
+            {I18n.t(strings.NO_DOCUMENTS_TO_SEE_HERE) + '...'}
+          </Text>
+        </Wrapper>
+      )
+    }
+
     return (
-      <Animated.View style={styles.mainContainer}>
-        <BackupWarning />
-        {!otherIsEmpty && (
-          <DocumentViewToggle
-            showingValid={this.state.showingValid}
-            onTouch={this.handleToggle}
-          />
-        )}
-        <ScrollView
-          // scrollEventThrottle={16}
-          // onScroll={Animated.event([
-          //   {
-          //     nativeEvent: {
-          //       contentOffset: { y: this.state.headerHeight },
-          //     },
-          //   },
-          // ])}
-          // to scroll to top upon changing card
-          ref={ref => (this.ScrollViewRef = ref)}
-          contentContainerStyle={isEmpty && { flex: 1 }}
-          scrollEnabled={!isEmpty}
-        >
-          {isEmpty ? (
-            <View style={styles.emptyDocumentsContainer}>
-              <Text style={styles.emptyDocumentsText}>
-                {I18n.t(strings.NO_DOCUMENTS_TO_SEE_HERE) + '...'}
-              </Text>
-            </View>
-          ) : this.state.showingValid ? (
-            <DocumentsCarousel
-              documents={displayedDocs}
-              activeIndex={this.state.activeDocumentIndex}
-              onActiveIndexChange={this.onActiveIndexChange.bind(this)}
-            />
-          ) : (
-            <DocumentsList
-              documents={displayedDocs}
-              onDocumentPress={openDocumentDetails}
+      <Wrapper>
+        <Animated.View style={{ flex: 1 }}>
+          {!otherIsEmpty && (
+            <DocumentViewToggle
+              showingValid={this.state.showingValid}
+              onTouch={this.handleToggle}
             />
           )}
-        </ScrollView>
-      </Animated.View>
+          <ScrollView
+            // to scroll to top upon changing card
+            ref={ref => (this.ScrollViewRef = ref)}
+            contentContainerStyle={
+              isEmpty ? { flex: 1 } : { paddingBottom: 110 }
+            }
+            scrollEnabled={!isEmpty}
+          >
+            {this.state.showingValid ? (
+              <DocumentsCarousel
+                documents={displayedDocs}
+                activeIndex={this.state.activeDocumentIndex}
+                onActiveIndexChange={this.onActiveIndexChange.bind(this)}
+              />
+            ) : (
+              <DocumentsList
+                documents={displayedDocs}
+                onDocumentPress={openDocumentDetails}
+              />
+            )}
+          </ScrollView>
+        </Animated.View>
+      </Wrapper>
     )
   }
 }

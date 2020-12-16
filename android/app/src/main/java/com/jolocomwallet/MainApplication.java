@@ -1,62 +1,78 @@
 package com.jolocomwallet;
 
 import android.app.Application;
+import android.content.Context;
+import com.facebook.react.PackageList;
 
 import com.facebook.react.ReactApplication;
-import com.oblador.vectoricons.VectorIconsPackage;
-import com.reactcommunity.rnlocalize.RNLocalizePackage;
-import com.swmansion.reanimated.ReanimatedPackage;
-import com.swmansion.rnscreens.RNScreensPackage;
-import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
-import com.apsl.versionnumber.RNVersionNumberPackage;
-import com.horcrux.svg.SvgPackage;
-import org.devio.rn.splashscreen.SplashScreenReactPackage;
-import com.bitgo.randombytes.RandomBytesPackage;
-import com.oblador.keychain.KeychainPackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import org.reactnative.camera.RNCameraPackage;
+import io.jolocom.jolocomCore.JolocomCorePackage;
+import com.wix.interactable.Interactable;
+
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.facebook.soloader.SoLoader;
-import org.pgsqlite.SQLitePluginPackage;
 
 import java.util.Arrays;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
 
-  private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
-    @Override
-    public boolean getUseDeveloperSupport() {
-      return BuildConfig.DEBUG;
-    }
+  private final ReactNativeHost mReactNativeHost =
+    new ReactNativeHost(this) {
+      @Override
+      public boolean getUseDeveloperSupport() {
+        return BuildConfig.DEBUG;
+      }
 
-    @Override
-    protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new VectorIconsPackage(),
-            new RNLocalizePackage(),
-            new ReanimatedPackage(),
-            new RNScreensPackage(),
-            new RNGestureHandlerPackage(),
-            new RNVersionNumberPackage(),
-            new SvgPackage(),
-            new SplashScreenReactPackage(),
-            new RandomBytesPackage(),
-            new KeychainPackage(),
-            new RNFetchBlobPackage(),
-            new RNCameraPackage(),
-            new SQLitePluginPackage()
-      );
-    }
+      @Override
+      protected List<ReactPackage> getPackages() {
+        @SuppressWarnings("UnnecessaryLocalVariable")
+        List<ReactPackage> packages = new PackageList(this).getPackages();
+        // Packages that cannot be autolinked yet can be added manually here, for example:
+        // packages.add(new MyReactNativePackage());
+        packages.add(new Interactable());
 
-    @Override
-    protected String getJSMainModuleName() {
-      return "index";
-    }
-  };
+        // https://github.com/crazycodeboy/react-native-splash-screen
+        // this package looks dead, we should move to https://github.com/zoontek/react-native-bootsplash
+        //packages.add(new SplashScreenReactPackage())
+
+        return packages;
+      }
+
+      @Override
+      protected String getJSMainModuleName() {
+        return "index";
+      }
+/*
+      @Override
+      protected List<ReactPackage> getPackages() {
+        return Arrays.<ReactPackage>asList(
+            new MainReactPackage(),
+            new JolocomCorePackage(),
+              new AndroidOpenSettingsPackage(),
+              new AsyncStoragePackage(),
+              new RNSentryPackage(),
+              new VectorIconsPackage(),
+              new RNLocalizePackage(),
+              new ReanimatedPackage(),
+              new RNScreensPackage(),
+              new RNGestureHandlerPackage(),
+              new RNVersionNumberPackage(),
+              new SvgPackage(),
+              new SplashScreenReactPackage(),
+              new RandomBytesPackage(),
+              new KeychainPackage(),
+              new RNFetchBlobPackage(),
+              new RNCameraPackage(),
+              new SQLitePluginPackage(),
+              new LinearGradientPackage()
+              new Interactable()
+        );
+      }
+*/
+    };
 
   @Override
   public ReactNativeHost getReactNativeHost() {
@@ -67,5 +83,31 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+    initializeFlipper(this); // Remove this line if you don't want Flipper enabled
+  }
+  /**
+   * Loads Flipper in React Native templates.
+   *
+   * @param context
+   */
+  private static void initializeFlipper(Context context) {
+    if (BuildConfig.DEBUG) {
+      try {
+        /*
+         We use reflection here to pick up the class that initializes Flipper,
+        since Flipper library is not available in release mode
+        */
+        Class<?> aClass = Class.forName("com.facebook.flipper.ReactNativeFlipper");
+        aClass.getMethod("initializeFlipper", Context.class).invoke(null, context);
+      } catch (ClassNotFoundException e) {
+        e.printStackTrace();
+      } catch (NoSuchMethodException e) {
+        e.printStackTrace();
+      } catch (IllegalAccessException e) {
+        e.printStackTrace();
+      } catch (InvocationTargetException e) {
+        e.printStackTrace();
+      }
+    }
   }
 }

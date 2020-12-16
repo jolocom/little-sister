@@ -1,0 +1,85 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ContactSection Component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <TextInput
+    allowFontScaling={true}
+    onBlur={[Function]}
+    onChangeText={[MockFunction]}
+    onFocus={[Function]}
+    placeholder="Leave us your email"
+    placeholderTextColor="rgba(255, 255, 255, 0.5)"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "borderBottomColor": "rgba(255, 255, 255, 0.21)",
+        "borderBottomWidth": 1,
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 20,
+        "marginTop": 16,
+        "paddingVertical": 12,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+    value=""
+  />
+  <Text
+    style={
+      Object {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 16,
+        "letterSpacing": 0.11,
+        "lineHeight": 20,
+        "marginTop": 12,
+      }
+    }
+  >
+    We do not store data and do not spam, any user information will be deleted immediately after solving the problem
+  </Text>
+</Fragment>
+`;
+
+exports[`ContactSection Component renders the input with selected border 1`] = `
+<Fragment>
+  <TextInput
+    allowFontScaling={true}
+    onBlur={[Function]}
+    onChangeText={[MockFunction]}
+    onFocus={[Function]}
+    placeholder="Leave us your email"
+    placeholderTextColor="rgba(255, 255, 255, 0.5)"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "borderBottomColor": "rgba(255, 255, 255, 0.21)",
+        "borderBottomWidth": 1,
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 20,
+        "marginTop": 16,
+        "paddingVertical": 12,
+        "width": "100%",
+      }
+    }
+    underlineColorAndroid="transparent"
+    value=""
+  />
+  <Text
+    style={
+      Object {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 16,
+        "letterSpacing": 0.11,
+        "lineHeight": 20,
+        "marginTop": 12,
+      }
+    }
+  >
+    We do not store data and do not spam, any user information will be deleted immediately after solving the problem
+  </Text>
+</Fragment>
+`;

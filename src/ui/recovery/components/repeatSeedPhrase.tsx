@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
-import { Container, JolocomButton } from '../../structure'
+import { Wrapper, JolocomButton } from '../../structure'
 import Placeholder from './placeholder'
 import strings from '../../../locales/strings'
 import * as I18n from 'i18n-js'
@@ -8,7 +8,7 @@ import { Colors, Spacing, Typography } from '../../../styles'
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.backgroundDarkMain,
+    paddingHorizontal: '5%',
   },
   mainSection: {
     justifyContent: 'center',
@@ -73,61 +73,60 @@ const RepeatSeedPhraseComponent: React.FC<RepeatSeedPhraseProps> = ({
   const leftShiftCurrentWord =
     (randomWords && randomWords[0] && randomWords[0].length * 7.5) || 0
   return (
-    <Container style={styles.container}>
-      <View style={styles.mainSection}>
-        <View style={styles.noteSection}>
-          <Text style={styles.note}>{note}</Text>
-        </View>
-        <View style={styles.mnemonicContainer}>
-          <View
-            style={[styles.mnemonicPhrase, { left: -leftShiftCurrentWord }]}
-          >
-            {randomWords.map((key, i) => (
-              <Text
-                key={key}
-                style={[styles.mnemonic, i === 0 && styles.currentWord]}
-              >
-                {key}
-              </Text>
-            ))}
+    <Wrapper dark centered>
+      <View style={styles.container}>
+        <View style={styles.mainSection}>
+          <View style={styles.noteSection}>
+            <Text style={styles.note}>{note}</Text>
+          </View>
+          <View style={styles.mnemonicContainer}>
+            <View
+              style={[styles.mnemonicPhrase, { left: -leftShiftCurrentWord }]}>
+              {randomWords.map((key, i) => (
+                <Text
+                  key={key}
+                  style={[styles.mnemonic, i === 0 && styles.currentWord]}>
+                  {key}
+                </Text>
+              ))}
+            </View>
+          </View>
+          <View style={styles.wordOrderSection}>
+            <View>
+              {new Array(6).fill('').map((e, i) => (
+                <Placeholder
+                  key={i}
+                  i={i}
+                  sorting={mnemonicSorting}
+                  onPress={selectPosition}
+                />
+              ))}
+            </View>
+            <View>
+              {new Array(6).fill('').map((e, i) => (
+                <Placeholder
+                  key={i}
+                  i={i + 6}
+                  sorting={mnemonicSorting}
+                  onPress={selectPosition}
+                />
+              ))}
+            </View>
           </View>
         </View>
-        <View style={styles.wordOrderSection}>
-          <View>
-            {new Array(6).fill('').map((e, i) => (
-              <Placeholder
-                key={i}
-                i={i}
-                sorting={mnemonicSorting}
-                onPress={selectPosition}
-              />
-            ))}
-          </View>
-          <View>
-            {new Array(6).fill('').map((e, i) => (
-              <Placeholder
-                key={i}
-                i={i + 6}
-                sorting={mnemonicSorting}
-                onPress={selectPosition}
-              />
-            ))}
-          </View>
+        <View style={styles.buttonSection}>
+          <JolocomButton
+            onPress={randomWords.length ? back : checkMnemonic}
+            containerStyle={{ height: 56 }}
+            text={
+              randomWords.length
+                ? I18n.t(strings.SHOW_MY_PHRASE_AGAIN)
+                : I18n.t(strings.CONFIRM_AND_CHECK)
+            }
+          />
         </View>
       </View>
-      <View style={styles.buttonSection}>
-        <JolocomButton
-          onPress={randomWords.length ? back : checkMnemonic}
-          raised
-          upperCase={false}
-          text={
-            randomWords.length
-              ? I18n.t(strings.SHOW_MY_PHRASE_AGAIN)
-              : I18n.t(strings.CONFIRM_AND_CHECK)
-          }
-        />
-      </View>
-    </Container>
+    </Wrapper>
   )
 }
 

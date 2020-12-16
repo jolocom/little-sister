@@ -79,15 +79,21 @@ exports[`Exception screen component Renders correctly 1`] = `
   <View
     style={
       Object {
+        "height": 150,
+        "justifyContent": "space-evenly",
         "marginTop": 24,
+        "width": "100%",
       }
     }
   >
     <JolocomButton
       onPress={[Function]}
-      raised={true}
+      text="Send error report"
+    />
+    <JolocomButton
+      onPress={[Function]}
       text="Go back"
-      upperCase={false}
+      transparent={true}
     />
   </View>
 </View>
@@ -172,15 +178,17 @@ exports[`Exception screen component Renders correctly when no error object is pr
   <View
     style={
       Object {
+        "height": 150,
+        "justifyContent": "space-evenly",
         "marginTop": 24,
+        "width": "100%",
       }
     }
   >
     <JolocomButton
       onPress={[Function]}
-      raised={true}
       text="Go back"
-      upperCase={false}
+      transparent={true}
     />
   </View>
 </View>

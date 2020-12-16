@@ -21,6 +21,9 @@ export const usePulseForBoth = () => {
   // We need two changing values to use for the opacity,
   const handPV = useRef(new Animated.Value(0)).current
   const splashPV = useRef(new Animated.Value(0)).current
+  // NOTE: cannot useState(true) because the value will get captured in the
+  // pulse callback closure, so we need the indirection of useRef objects
+  const isPulsingRef = useRef(true)
 
   // here we define how these values change
   // in parallel, they change in sync
@@ -36,14 +39,19 @@ export const usePulseForBoth = () => {
       Animated.sequence(
         [1, 1, 1, 0, 0, 1, 1].map(n => Animated.timing(handPV, { toValue: n })),
       ),
+    ]).start(() => {
       // this must have itself as a callback to loop
-    ]).start(pulse)
+      // but only do that if we are stillPulsing
+      isPulsingRef.current && pulse()
+    })
 
   // this is react hook magic, whatever functional component this is called in
   // will start the loop and clean up when it's lifetime is over
   useEffect(() => {
-    const timeout = setTimeout(pulse, 0)
-    return () => clearTimeout(timeout)
+    pulse()
+    return () => {
+      isPulsingRef.current = false
+    }
   })
 
   // return your shiny new looping animated values

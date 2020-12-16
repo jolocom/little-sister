@@ -1,52 +1,62 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { AuthenticationConsentComponent } from '../components/authenticationConsent'
-import { RootState } from 'src/reducers'
-import { cancelSSO } from 'src/actions/sso'
-import { sendAuthenticationResponse } from 'src/actions/sso/authenticationRequest'
+import { ssoActions } from 'src/actions'
 import { ThunkDispatch } from 'src/store'
-import { withErrorScreen } from 'src/actions/modifiers'
-import { NavigationParams } from 'react-navigation'
+import {
+  withErrorScreen,
+  withLoading,
+  withInternet,
+} from 'src/actions/modifiers'
+import { NavigationScreenProp, NavigationState } from 'react-navigation'
+import { InteractionSummary } from '@jolocom/sdk/js/interactionManager/types'
 
-interface Props
-  extends ReturnType<typeof mapDispatchToProps>,
-    ReturnType<typeof mapStateToProps> {
-  navigation: { state: { params: NavigationParams } }
+interface AuthenticationNavigationParams {
+  interactionId: string
+  interactionSummary: InteractionSummary
 }
 
-interface State {}
-
-export class AuthenticationConsentContainer extends React.Component<
-  Props,
-  State
-> {
-  render() {
-    const { isDeepLinkInteraction } = this.props.navigation.state.params
-    return (
-      <AuthenticationConsentComponent
-        activeAuthenticationRequest={this.props.activeAuthenticationRequest}
-        confirmAuthenticationRequest={() =>
-          this.props.confirmAuthenticationRequest(isDeepLinkInteraction)
-        }
-        cancelAuthenticationRequest={this.props.cancelAuthenticationRequest}
-      />
-    )
-  }
+interface Props extends ReturnType<typeof mapDispatchToProps> {
+  navigation: NavigationScreenProp<
+    NavigationState,
+    AuthenticationNavigationParams
+  >
 }
 
-const mapStateToProps = (state: RootState) => ({
-  activeAuthenticationRequest: state.sso.activeAuthenticationRequest,
-})
+export const AuthenticationConsentContainer = (props: Props) => {
+  const {
+    confirmAuthenticationRequest,
+    cancelAuthenticationRequest,
+    navigation: {
+      state: {
+        params: { interactionId, interactionSummary },
+      },
+    },
+  } = props
+  return (
+    <AuthenticationConsentComponent
+      interactionSummary={interactionSummary}
+      confirmAuthenticationRequest={() =>
+        confirmAuthenticationRequest(interactionId)
+      }
+      cancelAuthenticationRequest={cancelAuthenticationRequest}
+    />
+  )
+}
 
 const mapDispatchToProps = (dispatch: ThunkDispatch) => ({
-  confirmAuthenticationRequest: (isDeepLinkInteraction: boolean) =>
+  confirmAuthenticationRequest: (interactionId: string) =>
     dispatch(
-      withErrorScreen(sendAuthenticationResponse(isDeepLinkInteraction)),
+      withInternet(
+        withLoading(
+          withErrorScreen(ssoActions.sendAuthenticationResponse(interactionId)),
+        ),
+      ),
     ),
-  cancelAuthenticationRequest: () => dispatch(cancelSSO),
+  cancelAuthenticationRequest: () => dispatch(ssoActions.cancelSSO),
 })
 
 export const AuthenticationConsent = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps,
 )(AuthenticationConsentContainer)

@@ -1,0 +1,245 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DescriptionSection Component matches the snapshot on initial render 1`] = `
+<Fragment>
+  <Text
+    style={
+      Object {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 16,
+        "letterSpacing": 0.11,
+        "lineHeight": 20,
+        "marginTop": 16,
+      }
+    }
+  >
+    You can provide further details about the issue here
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    multiline={true}
+    numberOfLines={3}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="Tap to write..."
+    placeholderTextColor="rgba(255, 255, 255, 0.5)"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "rgb(16, 15, 17)",
+        "borderColor": "rgba(255, 255, 255, 0.21)",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "color": "rgb(255, 255, 255)",
+        "flexWrap": "wrap",
+        "fontFamily": "TT Commons",
+        "fontSize": 20,
+        "height": 90,
+        "marginTop": 16,
+        "maxWidth": "100%",
+        "paddingHorizontal": 20,
+        "paddingTop": 13,
+      }
+    }
+    textAlignVertical="top"
+    underlineColorAndroid="transparent"
+    value="Test"
+  />
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "height": "auto",
+          "justifyContent": "center",
+          "width": 70,
+        }
+      }
+    >
+      <ToggleSwitch
+        offGradient={
+          Array [
+            "rgb(12, 12, 12)",
+            "rgb(12, 12, 12)",
+          ]
+        }
+        onGradient={
+          Array [
+            "rgb(145, 25, 66)",
+            "rgb(210, 45, 105)",
+          ]
+        }
+        onToggle={[Function]}
+        trackColor="rgb(55, 53, 55)"
+        value={false}
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "TT Commons",
+            "fontSize": 16,
+            "letterSpacing": 0.11,
+            "lineHeight": 20,
+          }
+        }
+      >
+        Include your logs
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(255, 255, 255, 0.5)",
+            "fontFamily": "TT Commons",
+            "fontSize": 16,
+            "letterSpacing": 0.11,
+            "lineHeight": 20,
+            "marginTop": 4,
+          }
+        }
+      >
+        This includes some private metadata info (file sizes, but not names or contents) but it will help developers fix bugs more quickly.
+      </Text>
+    </View>
+  </View>
+</Fragment>
+`;
+
+exports[`DescriptionSection Component renders the input with selected border 1`] = `
+<Fragment>
+  <Text
+    style={
+      Object {
+        "color": "rgb(255, 255, 255)",
+        "fontFamily": "TT Commons",
+        "fontSize": 16,
+        "letterSpacing": 0.11,
+        "lineHeight": 20,
+        "marginTop": 16,
+      }
+    }
+  >
+    You can provide further details about the issue here
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    multiline={true}
+    numberOfLines={3}
+    onBlur={[Function]}
+    onChangeText={[Function]}
+    onFocus={[Function]}
+    placeholder="Tap to write..."
+    placeholderTextColor="rgba(255, 255, 255, 0.5)"
+    rejectResponderTermination={true}
+    style={
+      Object {
+        "backgroundColor": "rgb(16, 15, 17)",
+        "borderColor": "rgb(197, 41, 105)",
+        "borderRadius": 8,
+        "borderWidth": 1,
+        "color": "rgb(255, 255, 255)",
+        "flexWrap": "wrap",
+        "fontFamily": "TT Commons",
+        "fontSize": 20,
+        "height": 90,
+        "marginTop": 16,
+        "maxWidth": "100%",
+        "paddingHorizontal": 20,
+        "paddingTop": 13,
+      }
+    }
+    textAlignVertical="top"
+    underlineColorAndroid="transparent"
+    value="Test"
+  />
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+      }
+    }
+  >
+    <View
+      style={
+        Object {
+          "alignItems": "flex-start",
+          "height": "auto",
+          "justifyContent": "center",
+          "width": 70,
+        }
+      }
+    >
+      <ToggleSwitch
+        offGradient={
+          Array [
+            "rgb(12, 12, 12)",
+            "rgb(12, 12, 12)",
+          ]
+        }
+        onGradient={
+          Array [
+            "rgb(145, 25, 66)",
+            "rgb(210, 45, 105)",
+          ]
+        }
+        onToggle={[Function]}
+        trackColor="rgb(55, 53, 55)"
+        value={false}
+      />
+    </View>
+    <View
+      style={
+        Object {
+          "flex": 1,
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "rgb(255, 255, 255)",
+            "fontFamily": "TT Commons",
+            "fontSize": 16,
+            "letterSpacing": 0.11,
+            "lineHeight": 20,
+          }
+        }
+      >
+        Include your logs
+      </Text>
+      <Text
+        style={
+          Object {
+            "color": "rgba(255, 255, 255, 0.5)",
+            "fontFamily": "TT Commons",
+            "fontSize": 16,
+            "letterSpacing": 0.11,
+            "lineHeight": 20,
+            "marginTop": 4,
+          }
+        }
+      >
+        This includes some private metadata info (file sizes, but not names or contents) but it will help developers fix bugs more quickly.
+      </Text>
+    </View>
+  </View>
+</Fragment>
+`;
