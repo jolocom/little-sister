@@ -143,7 +143,7 @@
   },
   "dependencies": {
     "@jolocom/native-core-react-native": "^1.3.0",
-    "@jolocom/sdk": "^1.0.1",
+    "@jolocom/sdk": "^1.2.0",
     "@react-native-community/art": "^1.2.0",
     "@react-native-community/async-storage": "~1.7.1",
     "@react-native-community/masked-view": "^0.1.10",
@@ -157,7 +157,7 @@
     "bip39": "^3.0.2",
     "events": "^3.0.0",
     "i18n-js": "^3.1.0",
-    "jolocom-lib": "^5.1.0-rc12",
+    "jolocom-lib": "^5.2.0",
     "material-colors": "^1.2.5",
     "ramda": "^0.26.1",
     "react": "16.9.0",
