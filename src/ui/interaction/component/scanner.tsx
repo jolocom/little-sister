@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   View,
   Animated,
+  TextInput,
 } from 'react-native'
 import I18n from 'src/locales/i18n'
 import strings from 'src/locales/strings'
@@ -72,6 +73,18 @@ const styles = StyleSheet.create({
     lineHeight: textSubheaderLineHeight,
     ...centeredText,
   },
+  inputText: {
+    marginTop: Spacing.MD,
+    color: Colors.white,
+    fontSize: textSubheader,
+    width: MARKER_SIZE,
+    fontFamily: fontLight,
+    lineHeight: textSubheaderLineHeight,
+    borderRadius: 2,
+    borderWidth: 2,
+    borderColor: Colors.white,
+    ...centeredText,
+  },
   torchWrapper: {
     flex: 1,
     alignItems: 'center',
@@ -104,6 +117,7 @@ export const ScannerComponent = (props: Props) => {
   const [isTorchPressed, setTorchPressed] = useState(false)
   const [colorAnimationValue] = useState(new Animated.Value(0))
   const [textAnimationValue] = useState(new Animated.Value(0))
+  const [qrTextValue, setQrTextValue] = useState('')
 
   const animateColor = () =>
     Animated.sequence([
@@ -138,18 +152,18 @@ export const ScannerComponent = (props: Props) => {
 
   const onRead = (event: { data: string }) => {
     return shouldScan && onScan(event.data).catch(err => {
-      // TODO: use different message based on error code
-      //       after fixing up error codes
-      setError(true)
-      if (err.code === ErrorCode.ParseJWTFailed) {
-        setErrorText(strings.IS_THIS_THE_RIGHT_QR_CODE_TRY_AGAIN)
-      } else {
-        setErrorText(strings.LOOKS_LIKE_WE_CANT_PROVIDE_THIS_SERVICE)
-      }
-      Animated.parallel([animateColor(), animateText()]).start(() => {
-        setError(false)
+        // TODO: use different message based on error code
+        //       after fixing up error codes
+        setError(true)
+        if (err.code === ErrorCode.ParseJWTFailed) {
+          setErrorText(strings.IS_THIS_THE_RIGHT_QR_CODE_TRY_AGAIN)
+        } else {
+          setErrorText(strings.LOOKS_LIKE_WE_CANT_PROVIDE_THIS_SERVICE)
+        }
+        Animated.parallel([animateColor(), animateText()]).start(() => {
+          setError(false)
+        })
       })
-    })
   }
 
   const cameraSettings = {
@@ -209,11 +223,27 @@ export const ScannerComponent = (props: Props) => {
             {I18n.t(errorText)}
           </Animated.Text>
         ) : (
-          <Text style={styles.descriptionText}>
-            {I18n.t(
-              strings.ITS_ALL_AUTOMATIC_JUST_PLACE_YOUR_PHONE_ABOVE_THE_CODE,
-            )}
-          </Text>
+          <View>
+            <Text style={styles.descriptionText}>
+              {I18n.t(
+                strings.ITS_ALL_AUTOMATIC_JUST_PLACE_YOUR_PHONE_ABOVE_THE_CODE,
+              )}
+            </Text>
+            <View>
+              <Text style={styles.descriptionText}>
+                {I18n.t(strings.OR_PASTE_JWT_HERE)}
+              </Text>
+              <TextInput
+                onChangeText={async (value: string) => {
+                  if (value) {
+                    await onRead({ data: value.trim() })
+                    setQrTextValue('')
+                  }
+                }}
+                value={qrTextValue}
+                style={styles.inputText}></TextInput>
+            </View>
+          </View>
         )}
         <TouchableHighlight
           onPressIn={() => setTorchPressed(true)}

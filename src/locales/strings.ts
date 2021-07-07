@@ -245,6 +245,8 @@ export default {
   GO_BACK: 'Go back',
   ITS_ALL_AUTOMATIC_JUST_PLACE_YOUR_PHONE_ABOVE_THE_CODE:
     "It's all automatic, just place your phone above the code",
+  OR_PASTE_JWT_HERE: 'Or paste the JWT down here',
+  JWT_HERE: '...[JWT]...',
   SCAN: 'Scan',
   SCAN_QR: 'Scan QR',
   ENABLE_ACCESS_SO_YOU_CAN_START_TAKING_PHOTOS_AND_VIDEOS:
